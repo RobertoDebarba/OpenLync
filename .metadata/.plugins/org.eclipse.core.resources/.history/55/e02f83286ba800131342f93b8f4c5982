@@ -1,0 +1,15 @@
+import java.net.Socket;
+
+
+public class TrataServidor {
+	
+	private Socket servidor;
+	
+	public TrataServidor(Socket servidor) {
+		this.servidor = servidor;
+	}
+	
+	
+
+
+}

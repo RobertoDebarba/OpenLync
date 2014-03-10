@@ -1,0 +1,28 @@
+import java.io.IOException;
+import java.net.Socket;
+import java.util.Scanner;
+
+
+public class TrataServidor implements Runnable {
+	
+	private Socket servidor;
+	
+	public TrataServidor(Socket servidor) { // Cnstrutor
+		this.servidor = servidor;
+	}
+	
+	public void run() {
+		
+		// Cria scanner
+		try {
+			Scanner Sservidor = new Scanner(this.servidor.getInputStream());
+		} catch (IOException e) {
+		}
+		
+		
+		
+	}
+	
+
+
+}
