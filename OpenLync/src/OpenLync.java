@@ -16,7 +16,7 @@ public class OpenLync {
 	
 	public static void main(String[] args) throws IOException {
 	     // inicia o servidor
-	     new OpenLync(7600).executa();
+	     new OpenLync(7609).executa();
 	   }
 	   
 	   private int porta;
@@ -55,11 +55,16 @@ public class OpenLync {
 	       cliente.println(msg);
 	     }
 	   }*/
-	   public static void mandaMensagem(String ipDestino, String msg) throws UnknownHostException, IOException {
-		   Socket Sdestino = new Socket(ipDestino, 7601);  // Cria uma porta acima para nao dar conflito
-		   PrintStream PSdestino = new PrintStream(Sdestino.getOutputStream());
+	   public static void mandaMensagem(String ipDestino, String msg){		   
+		   try {
+			   Socket Sdestino = new Socket(ipDestino, 7606);  // Cria uma porta acima para nao dar conflito
+			   PrintStream PSdestino = new PrintStream(Sdestino.getOutputStream());
+			   PSdestino.println(msg); //Envia a bagaça
+		   } catch (IOException e) {
+			   System.out.println("Não foi possivel estabelecer conexão com destinatario!");
+		   }
 		   
-		   PSdestino.println(msg); //Envia a bagaça
+		   System.out.println(msg); // printa mensagem para teste
 		   
 		   // Até aqui obtive ajuda divina!
 	   }

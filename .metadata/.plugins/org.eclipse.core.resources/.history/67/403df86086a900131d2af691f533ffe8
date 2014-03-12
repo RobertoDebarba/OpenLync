@@ -1,0 +1,71 @@
+//Referencias:
+//	
+//	http://www.guj.com.br/articles/126
+
+import java.io.BufferedReader;
+import java.io.IOException;  
+import java.io.InputStreamReader;
+import java.io.PrintStream;  
+import java.net.Socket;
+import java.util.Scanner;
+
+public class OpenLync_client {
+	
+	private static String ipServidor;
+	private static int portaEntrada;
+	private static int portaSaida;  //TODO alterar demais locais que usam porta de saida
+	private static String ipDestino;
+	
+	public OpenLync_client() {
+		ipServidor = "192.168.152.1"; // Define ip do servidor
+		portaEntrada = 7607;  //Define porta de entrada de dados; Servidor -> Cliente
+		portaSaida = 7606;// Define porta de sáida de dados; Cliente -> Servidor
+		
+		// Define ip destino para comunicação
+		System.out.print("Digite o ip com o qual deseja se comunicar: ");
+		Scanner scan = new Scanner(System.in);
+		ipDestino = scan.nextLine();  
+		scan.close();
+	}
+
+	public static void main(String[] args) {
+		
+		// Instancia objeto que cuidará da entrada de dados e manda para uma thread
+		EntradaDados ed = new EntradaDados(portaEntrada);
+		new Thread(ed).start();
+		
+		// Cria objetos necessarios
+        Socket socketSaida = null;  //TODO tentar enviar e receber pelo mesmo ServerSocket
+        PrintStream PSsaida = null;  
+        Scanner scan = new Scanner(System.in);
+        
+        while (true) {
+        	
+        	try{  
+            	socketSaida = new Socket(ipServidor, portaSaida);  
+                PSsaida = new PrintStream(socketSaida.getOutputStream()); 
+            	
+	            System.out.print("Digite alguma mensagem: ");
+	            String mensagem = scan.nextLine(); 
+	              
+	            //Imprime uma linha para a stream de saída de dados  
+	            PSsaida.println(mensagem);  
+	            
+	        }catch(IOException e){  
+	              
+	            System.out.println("Algum problema ocorreu ao criar ou enviar dados pelo socket.");  
+	          
+	        }finally{  
+	              
+	            try{  
+	                  
+	                //Encerra o socket cliente  
+	                socketSaida.close();  
+	                  
+	            }catch(IOException e){}  
+	          
+	        } 
+        }
+	}
+
+}

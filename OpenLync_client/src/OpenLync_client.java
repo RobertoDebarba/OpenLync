@@ -2,71 +2,44 @@
 //	
 //	http://www.guj.com.br/articles/126
 
-import java.io.BufferedReader;
 import java.io.IOException;  
-import java.io.InputStreamReader;
-import java.io.PrintStream;  
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.util.Scanner;
 
 public class OpenLync_client {
+	
+	private static String ipServidor;
+	private static int portaEntrada;
+	private static int portaSaida; 
+	private static String ipDestino;
+	
+	public OpenLync_client() {
+		
+	}
+	
+	private static void IniciaVariaveis() {
+		ipServidor = "192.168.152.1"; // Define ip do servidor
+		portaEntrada = 7606;  //Define porta de entrada de dados; Servidor -> Cliente
+		portaSaida = 7609;// Define porta de sáida de dados; Cliente -> Servidor
+		
+		// Define ip destino para comunicação
+		System.out.print("Digite o ip com o qual deseja se comunicar: ");
+		Scanner scan = new Scanner(System.in);
+		ipDestino = scan.nextLine();  
+		//scan.close(); FIXME
+	}
 
 	public static void main(String[] args) throws IOException {
 		
-		//Aqui começa as pira --------------------------
-
-		// Abre conexão de entrada com o servidor
-		ServerSocket Sentrada = new ServerSocket(7601);
-	    System.out.println("Porta 7601 aberta!");
-	    //Conecta ao servidor
-	    Socket servidor = Sentrada.accept();
-	    System.out.println("Conectou ao servidor!");
-		// Envia objeto para Thread
-	    TrataServidor ts = new TrataServidor(servidor);
-	    new Thread(ts).start();
-	    
-		//----------------------------------------------
+		IniciaVariaveis();
 		
-		//Declaro o socket cliente  
-        Socket s = null;  
-          
-        //Declaro a Stream de saida de dados  
-        PrintStream ps = null;  
-        
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in)); 
-        
-        while (true) {
-        	
-        	try{  
-        	
-            	//Cria o socket com o recurso desejado na porta especificada  
-            	s = new Socket("192.168.152.1",7600);  
-            
-            	//Cria a Stream de saida de dados  
-                ps = new PrintStream(s.getOutputStream()); 
-            	
-	            System.out.print("Digite alguma mensagem: ");
-	            String mensagem = in.readLine(); 
-	              
-	            //Imprime uma linha para a stream de saída de dados  
-	            ps.println(mensagem);  
-	            
-	        //Trata possíveis exceções  
-	        }catch(IOException e){  
-	              
-	            System.out.println("Algum problema ocorreu ao criar ou enviar dados pelo socket.");  
-	          
-	        }finally{  
-	              
-	            try{  
-	                  
-	                //Encerra o socket cliente  
-	                s.close();  
-	                  
-	            }catch(IOException e){}  
-	          
-	        } 
-        }
+		// Instancia objeto que cuidará da entrada de dados e manda para uma thread
+		EntradaDados ed = new EntradaDados(portaEntrada);
+		new Thread(ed).start();
+		
+		// Instancia objeto que cuidará da saida de dados e manda para uma thered
+		SaidaDados sd = new SaidaDados(ipServidor, portaSaida, ipDestino);
+		new Thread(sd).start();
+		
 	}
 
 }

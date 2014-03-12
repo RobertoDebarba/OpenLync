@@ -34,8 +34,11 @@ public class TrataCliente implements Runnable {
 				 String ipDestino = "";
 				 String mensagem = "";
 				 
-				 for(int i=0;i<(s.nextLine()).length();i++){  
-					   char c = (s.nextLine()).charAt(i);
+				 String sLinha = s.nextLine();  // "nextLine()" só pode ser usado uma vez
+				 System.out.println("com destino = " + sLinha); //FIXME remover
+				 
+				 for(int i=0;i<(sLinha).length();i++){  
+					   char c = (sLinha).charAt(i);
 					   
 					   if (c == '|') {
 						   pParte = false;
@@ -50,14 +53,12 @@ public class TrataCliente implements Runnable {
 				 
 				 String msg = remetente + "|" + mensagem;
 				 
+				 System.out.println("com remetente = " + msg); //FIXME remover
+				 
 				 // Envia mensagem (seja o que Deus quiser) ---
 				 
-				try {
-					OpenLync.mandaMensagem(ipDestino, msg);
-				} catch (IOException e) {
-				}
-				
-				 //System.out.print(s.nextLine());
+				OpenLync.mandaMensagem(ipDestino, msg);
+
 			 }
 			 s.close();
 	   }
