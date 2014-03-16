@@ -56,15 +56,9 @@ public class OpenLync {
 	     }
 	   }*/
 	   public static void mandaMensagem(String ipDestino, String msg){		   
-		   try {
-			   Socket Sdestino = new Socket(ipDestino, 7606);  // Cria uma porta acima para nao dar conflito
-			   PrintStream PSdestino = new PrintStream(Sdestino.getOutputStream());
-			   PSdestino.println(msg); //Envia a bagaça
-		   } catch (IOException e) {
-			   System.out.println("Não foi possivel estabelecer conexão com destinatario!");
-		   }
 		   
-		   System.out.println(msg); // printa mensagem para teste
+		   
+		   
 		   
 		   // Até aqui obtive ajuda divina!
 	   }

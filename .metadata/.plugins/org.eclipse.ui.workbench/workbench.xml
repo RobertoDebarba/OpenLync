@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="11" version="2.0">
+<workbench progressCount="19" version="2.0">
 <workbenchAdvisor/>
 <window height="744" maximized="true" width="1024" x="63" y="24">
 <fastViewData fastViewLocation="1024"/>
@@ -19,6 +19,7 @@
 <coolItem id="group.nav" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.navigate" itemType="typeToolBarContribution" x="232" y="30"/>
 <coolItem id="group.editor" itemType="typeGroupMarker"/>
+<coolItem id="org.eclipse.compare.CompareEditor" itemType="typePlaceholder" x="96" y="30"/>
 <coolItem id="org.eclipse.jdt.ui.CompilationUnitEditor" itemType="typeToolBarContribution" x="-1" y="-1"/>
 <coolItem id="group.help" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.help" itemType="typeToolBarContribution" x="-1" y="-1"/>
@@ -32,37 +33,42 @@
 <part id="0"/>
 <part id="1"/>
 <part id="2"/>
+<part id="3"/>
 </presentation>
 </folder>
 </info>
 </editorArea>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="OpenLync.java" partName="OpenLync.java" path="/home/robertoluiz/Documentos/GitHub/OpenLync.git/OpenLync/src/OpenLync.java" title="OpenLync.java" tooltip="OpenLync/src/OpenLync.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/OpenLync/src/OpenLync.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2036" selectionTopPixel="709"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1102" selectionTopPixel="337"/>
 </editor>
 <editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TrataCliente.java" partName="TrataCliente.java" path="/home/robertoluiz/Documentos/GitHub/OpenLync.git/OpenLync/src/TrataCliente.java" title="TrataCliente.java" tooltip="OpenLync/src/TrataCliente.java" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/OpenLync/src/TrataCliente.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1604" selectionTopPixel="709"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1896" selectionTopPixel="238"/>
 </editor>
-<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="OpenLync_client.java" partName="OpenLync_client.java" path="/home/robertoluiz/Documentos/GitHub/OpenLync.git/OpenLync_client/src/OpenLync_client.java" title="OpenLync_client.java" tooltip="OpenLync_client/src/OpenLync_client.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/OpenLync_client/src/OpenLync_client.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1265" selectionTopPixel="743"/>
+<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="EntradaDados.java" partName="EntradaDados.java" path="/home/robertoluiz/Documentos/GitHub/OpenLync.git/OpenLync_client/src/EntradaDados.java" title="EntradaDados.java" tooltip="OpenLync_client/src/EntradaDados.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/OpenLync_client/src/EntradaDados.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1049" selectionTopPixel="369"/>
+</editor>
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TrataEntrada.java" partName="TrataEntrada.java" path="/home/robertoluiz/Documentos/GitHub/OpenLync.git/OpenLync_client/src/TrataEntrada.java" title="TrataEntrada.java" tooltip="OpenLync_client/src/TrataEntrada.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/OpenLync_client/src/TrataEntrada.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="363" selectionTopPixel="0"/>
 </editor>
 </editors>
 <views>
+<view id="org.eclipse.team.ui.GenericHistoryView" partName="History">
+<viewState/>
+</view>
 <view id="org.eclipse.jdt.ui.TypesView" partName="Types">
 <viewState org.eclipse.jdt.ui.browsing.typestoeditor="1" workingSetName="">
-<customFilters userDefinedPatternsEnabled="false">
-<xmlDefinedFilters>
-<child filterId="org.eclipse.jdt.ui.TypesView.ClassFilter" isEnabled="false"/>
+<customFilters userDefinedPatternsEnabled="false">&#x0A;<xmlDefinedFilters>&#x0A;<child filterId="org.eclipse.jdt.ui.TypesView.ClassFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.TypesView.InterfaceFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.TypesView.EnumFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.TypesView.NonPublicTypeFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.TypesView.AnnotationFilter" isEnabled="false"/>
 </xmlDefinedFilters>
 </customFilters>
-<selectedElements>
-<selectedElement selectedElementPath="=OpenLync_client/src&lt;{OpenLync_client.java[OpenLync_client"/>
+<selectedElements>&#x0A;<selectedElement selectedElementPath="=OpenLync_client/src&lt;{OpenLync_client.java[OpenLync_client"/>
 </selectedElements>
 </viewState>
 </view>
@@ -71,17 +77,14 @@
 </view>
 <view id="org.eclipse.jdt.ui.ProjectsView" partName="Projects">
 <viewState org.eclipse.jdt.ui.browsing.projectstoeditor="1" workingSetName="">
-<customFilters userDefinedPatternsEnabled="false">
-<xmlDefinedFilters>
-<child filterId="org.eclipse.jdt.ui.ProjectsView.LibraryFilter" isEnabled="false"/>
+<customFilters userDefinedPatternsEnabled="false">&#x0A;<xmlDefinedFilters>&#x0A;<child filterId="org.eclipse.jdt.ui.ProjectsView.LibraryFilter" isEnabled="false"/>
 <child filterId="org.eclipse.pde.ui.ExternalPluginLibrariesFilter2" isEnabled="true"/>
 <child filterId="org.eclipse.jdt.ui.ProjectsView.NonSharedProjectsFilter" isEnabled="false"/>
 <child filterId="org.eclipse.pde.ui.BinaryProjectFilter2" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.ProjectsView.ContainedLibraryFilter" isEnabled="false"/>
 </xmlDefinedFilters>
 </customFilters>
-<selectedElements>
-<selectedElement selectedElementPath="=OpenLync/src"/>
+<selectedElements>&#x0A;<selectedElement selectedElementPath="=OpenLync/src"/>
 </selectedElements>
 </viewState>
 </view>
@@ -111,21 +114,17 @@
 </view>
 <view id="org.eclipse.jdt.ui.MembersView" partName="Members">
 <viewState hidefields="false" hidelocaltypes="false" hidenonpublic="false" hidestatic="false" org.eclipse.jdt.ui.browsing.memberstoeditor="1">
-<customFilters userDefinedPatternsEnabled="false">
-<xmlDefinedFilters>
-<child filterId="org.eclipse.jdt.ui.MembersView.SyntheticMembersFilter" isEnabled="true"/>
+<customFilters userDefinedPatternsEnabled="false">&#x0A;<xmlDefinedFilters>&#x0A;<child filterId="org.eclipse.jdt.ui.MembersView.SyntheticMembersFilter" isEnabled="true"/>
 <child filterId="org.eclipse.jdt.ui.MembersView.ImportDeclarationFilter" isEnabled="true"/>
 </xmlDefinedFilters>
 </customFilters>
-<selectedElements>
-<selectedElement selectedElementPath="=OpenLync/src&lt;{TrataCliente.java[TrataCliente~run"/>
+<selectedElements>&#x0A;<selectedElement selectedElementPath="=OpenLync/src&lt;{TrataCliente.java[TrataCliente~run"/>
 </selectedElements>
 </viewState>
 </view>
 <view id="org.eclipse.ui.views.ProblemView" partName="Problems">
 <viewState PRIMARY_SORT_FIELD="org.eclipse.ui.ide.severityAndDescriptionField" categoryGroup="org.eclipse.ui.ide.severity" markerContentGenerator="org.eclipse.ui.ide.problemsGenerator" partName="Problems">
-<expanded>
-<category IMemento.internal.id="Warnings (3 items)"/>
+<expanded>&#x0A;<category IMemento.internal.id="Warnings (3 items)"/>
 </expanded>
 <columnWidths org.eclipse.ui.ide.locationField="105" org.eclipse.ui.ide.markerType="263" org.eclipse.ui.ide.pathField="140" org.eclipse.ui.ide.resourceField="105" org.eclipse.ui.ide.severityAndDescriptionField="350"/>
 <visible IMemento.internal.id="org.eclipse.ui.ide.severityAndDescriptionField"/>
@@ -140,9 +139,7 @@
 </view>
 <view id="org.eclipse.jdt.ui.PackageExplorer" partName="Package Explorer">
 <viewState group_libraries="1" layout="2" linkWithEditor="0" rootMode="1" workingSetName="">
-<customFilters userDefinedPatternsEnabled="false">
-<xmlDefinedFilters>
-<child filterId="org.eclipse.jdt.ui.PackageExplorer.LibraryFilter" isEnabled="false"/>
+<customFilters userDefinedPatternsEnabled="false">&#x0A;<xmlDefinedFilters>&#x0A;<child filterId="org.eclipse.jdt.ui.PackageExplorer.LibraryFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.LocalTypesFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.ui.PackageExplorer.StaticsFilter" isEnabled="false"/>
 <child filterId="org.eclipse.pde.ui.ExternalPluginLibrariesFilter1" isEnabled="true"/>
@@ -171,15 +168,12 @@
 <view id="org.eclipse.jdt.ui.JavadocView" partName="Javadoc"/>
 <view id="org.eclipse.jdt.ui.PackagesView" partName="Packages">
 <viewState org.eclipse.jdt.ui.PackagesView.viewState="0" org.eclipse.jdt.ui.browsing.packagestoeditor="1" workingSetName="">
-<customFilters userDefinedPatternsEnabled="false">
-<xmlDefinedFilters>
-<child filterId="org.eclipse.jdt.internal.ui.PackagesView.EmptyPackageFilter" isEnabled="false"/>
+<customFilters userDefinedPatternsEnabled="false">&#x0A;<xmlDefinedFilters>&#x0A;<child filterId="org.eclipse.jdt.internal.ui.PackagesView.EmptyPackageFilter" isEnabled="false"/>
 <child filterId="org.eclipse.jdt.internal.ui.PackagesView.EmptyInnerPackageFilter" isEnabled="true"/>
 <child filterId="org.eclipse.jdt.internal.ui.PackagesView.NoPackageContainingFolders" isEnabled="true"/>
 </xmlDefinedFilters>
 </customFilters>
-<selectedElements>
-<selectedElement selectedElementPath="=OpenLync/src&lt;"/>
+<selectedElements>&#x0A;<selectedElement selectedElementPath="=OpenLync/src&lt;"/>
 </selectedElements>
 </viewState>
 </view>
@@ -221,6 +215,7 @@
 <view id="org.eclipse.ui.views.TaskList"/>
 <view id="org.eclipse.ui.console.ConsoleView"/>
 <view id="org.eclipse.debug.ui.DebugView"/>
+<view id="org.eclipse.team.ui.GenericHistoryView"/>
 <fastViewBars/>
 <layout>
 <mainWindow>
@@ -249,11 +244,12 @@
 <page content="org.eclipse.ui.views.TaskList" label="Tasks"/>
 <page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
 <page content="org.eclipse.debug.ui.DebugView" label="Debug"/>
-<page content="org.eclipse.team.ui.GenericHistoryView" label="LabelNotFound"/>
+<page content="org.eclipse.team.ui.GenericHistoryView" label="History"/>
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
 <part id="0"/>
 <part id="1"/>
 <part id="2"/>
+<part id="3"/>
 </presentation>
 </folder>
 </info>
@@ -307,58 +303,42 @@
 <view id="org.eclipse.debug.ui.BreakpointView"/>
 <view id="org.eclipse.ui.views.ContentOutline"/>
 <fastViewBars/>
-<layout>
-<mainWindow>
-<info folder="true" part="org.eclipse.debug.internal.ui.NavigatorFolderView">
-<folder activePageID="org.eclipse.debug.ui.DebugView" appearance="2" expanded="2">
-<page content="org.eclipse.debug.ui.DebugView" label="Debug"/>
+<layout>&#x0A;<mainWindow>&#x0A;<info folder="true" part="org.eclipse.debug.internal.ui.NavigatorFolderView">&#x0A;<folder activePageID="org.eclipse.debug.ui.DebugView" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.debug.ui.DebugView" label="Debug"/>
 <page content="org.eclipse.ui.views.ResourceNavigator" label="LabelNotFound"/>
 <page content="org.eclipse.jdt.ui.PackageExplorer" label="LabelNotFound"/>
 <page content="org.eclipse.jdt.ui.TypeHierarchy" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 </presentation>
 </folder>
 </info>
-<info folder="true" part="stickyFolderRight" ratio="0.74980694" ratioLeft="971" ratioRight="324" relationship="2" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">
-<folder appearance="2" expanded="2">
-<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
+<info folder="true" part="stickyFolderRight" ratio="0.74980694" ratioLeft="971" ratioRight="324" relationship="2" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">&#x0A;<folder appearance="2" expanded="2">&#x0A;<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.internal.introview" label="LabelNotFound"/>
 <page content="org.eclipse.ui.cheatsheets.views.CheatSheetView" label="LabelNotFound"/>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.debug.internal.ui.ConsoleFolderView" ratio="0.74922603" ratioLeft="484" ratioRight="162" relationship="4" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">
-<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
-<page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
+<info folder="true" part="org.eclipse.debug.internal.ui.ConsoleFolderView" ratio="0.74922603" ratioLeft="484" ratioRight="162" relationship="4" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">&#x0A;<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
 <page content="org.eclipse.ui.views.TaskList" label="Tasks"/>
 <page content="org.eclipse.ui.views.BookmarkView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.views.PropertySheet" label="LabelNotFound"/>
 <page content="org.eclipse.jdt.debug.ui.DisplayView" label="LabelNotFound"/>
 <page content="org.eclipse.search.SearchResultView" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 <part id="1"/>
 </presentation>
 </folder>
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.44834712" ratioLeft="217" ratioRight="267" relationship="4" relative="org.eclipse.debug.internal.ui.NavigatorFolderView"/>
-<info folder="true" part="org.eclipse.debug.internal.ui.OutlineFolderView" ratio="0.74980694" ratioLeft="971" ratioRight="324" relationship="2" relative="org.eclipse.ui.editorss">
-<folder activePageID="org.eclipse.ui.views.ContentOutline" appearance="2" expanded="2">
-<page content="org.eclipse.ui.views.ContentOutline" label="Outline"/>
+<info folder="true" part="org.eclipse.debug.internal.ui.OutlineFolderView" ratio="0.74980694" ratioLeft="971" ratioRight="324" relationship="2" relative="org.eclipse.ui.editorss">&#x0A;<folder activePageID="org.eclipse.ui.views.ContentOutline" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.ui.views.ContentOutline" label="Outline"/>
 <page content="org.eclipse.ant.ui.views.AntView" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 </presentation>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.debug.internal.ui.ToolsFolderView" ratio="0.4996139" ratioLeft="647" ratioRight="648" relationship="2" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">
-<folder activePageID="org.eclipse.debug.ui.VariableView" appearance="2" expanded="2">
-<page content="org.eclipse.debug.ui.VariableView" label="Variables"/>
+<info folder="true" part="org.eclipse.debug.internal.ui.ToolsFolderView" ratio="0.4996139" ratioLeft="647" ratioRight="648" relationship="2" relative="org.eclipse.debug.internal.ui.NavigatorFolderView">&#x0A;<folder activePageID="org.eclipse.debug.ui.VariableView" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.debug.ui.VariableView" label="Variables"/>
 <page content="org.eclipse.debug.ui.BreakpointView" label="Breakpoints"/>
 <page content="org.eclipse.debug.ui.ExpressionView" label="LabelNotFound"/>
 <page content="org.eclipse.debug.ui.RegisterView" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 <part id="1"/>
 </presentation>
 </folder>
@@ -425,26 +405,17 @@
 <view id="org.eclipse.jdt.ui.TypesView"/>
 <view id="org.eclipse.jdt.ui.MembersView"/>
 <fastViewBars/>
-<layout>
-<mainWindow>
-<info folder="true" part="org.eclipse.ui.internal.ViewStack@557dcaaa">
-<folder activePageID="org.eclipse.jdt.ui.ProjectsView" appearance="2" expanded="2">
-<page content="org.eclipse.jdt.ui.ProjectsView" label="Projects"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<layout>&#x0A;<mainWindow>&#x0A;<info folder="true" part="org.eclipse.ui.internal.ViewStack@557dcaaa">&#x0A;<folder activePageID="org.eclipse.jdt.ui.ProjectsView" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.jdt.ui.ProjectsView" label="Projects"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 </presentation>
 </folder>
 </info>
-<info folder="true" part="stickyFolderRight" ratio="0.74980694" ratioLeft="971" ratioRight="324" relationship="2" relative="org.eclipse.ui.internal.ViewStack@557dcaaa">
-<folder appearance="2" expanded="2">
-<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
+<info folder="true" part="stickyFolderRight" ratio="0.74980694" ratioLeft="971" ratioRight="324" relationship="2" relative="org.eclipse.ui.internal.ViewStack@557dcaaa">&#x0A;<folder appearance="2" expanded="2">&#x0A;<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.internal.introview" label="LabelNotFound"/>
 <page content="org.eclipse.ui.cheatsheets.views.CheatSheetView" label="LabelNotFound"/>
 </folder>
 </info>
-<info folder="true" part="left" ratio="0.249226" ratioLeft="161" ratioRight="485" relationship="4" relative="org.eclipse.ui.internal.ViewStack@557dcaaa">
-<folder appearance="2" expanded="2">
-<page content="org.eclipse.jdt.ui.TypeHierarchy" label="LabelNotFound"/>
+<info folder="true" part="left" ratio="0.249226" ratioLeft="161" ratioRight="485" relationship="4" relative="org.eclipse.ui.internal.ViewStack@557dcaaa">&#x0A;<folder appearance="2" expanded="2">&#x0A;<page content="org.eclipse.jdt.ui.TypeHierarchy" label="LabelNotFound"/>
 <page content="org.eclipse.ui.views.ContentOutline" label="LabelNotFound"/>
 <page content="org.eclipse.jdt.ui.PackageExplorer" label="LabelNotFound"/>
 <page content="org.eclipse.ui.views.ResourceNavigator" label="LabelNotFound"/>
@@ -453,9 +424,7 @@
 </folder>
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.24942085" ratioLeft="323" ratioRight="972" relationship="2" relative="left"/>
-<info folder="true" part="bottom" ratio="0.7484536" ratioLeft="363" ratioRight="122" relationship="4" relative="org.eclipse.ui.editorss">
-<folder appearance="2" expanded="2">
-<page content="org.eclipse.ui.views.ProblemView" label="LabelNotFound"/>
+<info folder="true" part="bottom" ratio="0.7484536" ratioLeft="363" ratioRight="122" relationship="4" relative="org.eclipse.ui.editorss">&#x0A;<folder appearance="2" expanded="2">&#x0A;<page content="org.eclipse.ui.views.ProblemView" label="LabelNotFound"/>
 <page content="org.eclipse.search.ui.views.SearchView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.console.ConsoleView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.views.BookmarkView" label="LabelNotFound"/>
@@ -464,27 +433,18 @@
 <page content="org.eclipse.ui.views.ProgressView" label="LabelNotFound"/>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.ui.internal.ViewStack@35848abf" ratio="0.24942085" ratioLeft="323" ratioRight="972" relationship="2" relative="org.eclipse.ui.internal.ViewStack@557dcaaa">
-<folder activePageID="org.eclipse.jdt.ui.PackagesView" appearance="2" expanded="2">
-<page content="org.eclipse.jdt.ui.PackagesView" label="Packages"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@35848abf" ratio="0.24942085" ratioLeft="323" ratioRight="972" relationship="2" relative="org.eclipse.ui.internal.ViewStack@557dcaaa">&#x0A;<folder activePageID="org.eclipse.jdt.ui.PackagesView" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.jdt.ui.PackagesView" label="Packages"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 </presentation>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.ui.internal.ViewStack@10b11d0c" ratio="0.32921812" ratioLeft="320" ratioRight="652" relationship="2" relative="org.eclipse.ui.internal.ViewStack@35848abf">
-<folder activePageID="org.eclipse.jdt.ui.TypesView" appearance="2" expanded="2">
-<page content="org.eclipse.jdt.ui.TypesView" label="Types"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@10b11d0c" ratio="0.32921812" ratioLeft="320" ratioRight="652" relationship="2" relative="org.eclipse.ui.internal.ViewStack@35848abf">&#x0A;<folder activePageID="org.eclipse.jdt.ui.TypesView" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.jdt.ui.TypesView" label="Types"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 </presentation>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.ui.internal.ViewStack@5bea0763" ratio="0.5" ratioLeft="326" ratioRight="326" relationship="2" relative="org.eclipse.ui.internal.ViewStack@10b11d0c">
-<folder activePageID="org.eclipse.jdt.ui.MembersView" appearance="2" expanded="2">
-<page content="org.eclipse.jdt.ui.MembersView" label="Members"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@5bea0763" ratio="0.5" ratioLeft="326" ratioRight="326" relationship="2" relative="org.eclipse.ui.internal.ViewStack@10b11d0c">&#x0A;<folder activePageID="org.eclipse.jdt.ui.MembersView" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.jdt.ui.MembersView" label="Members"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 </presentation>
 </folder>
 </info>
@@ -547,51 +507,38 @@
 <view id="org.eclipse.jdt.ui.SourceView"/>
 <view id="org.eclipse.ui.views.ContentOutline"/>
 <fastViewBars/>
-<layout>
-<mainWindow>
-<info folder="true" part="left">
-<folder activePageID="org.eclipse.jdt.ui.PackageExplorer" appearance="2" expanded="2">
-<page content="org.eclipse.jdt.ui.PackageExplorer" label="Package Explorer"/>
+<layout>&#x0A;<mainWindow>&#x0A;<info folder="true" part="left">&#x0A;<folder activePageID="org.eclipse.jdt.ui.PackageExplorer" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.jdt.ui.PackageExplorer" label="Package Explorer"/>
 <page content="org.eclipse.jdt.ui.TypeHierarchy" label="LabelNotFound"/>
 <page content="org.eclipse.ui.views.ResourceNavigator" label="LabelNotFound"/>
 <page content="org.eclipse.ui.navigator.ProjectExplorer" label="LabelNotFound"/>
 <page content="org.eclipse.jdt.junit.ResultView" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 </presentation>
 </folder>
 </info>
-<info folder="true" part="stickyFolderRight" ratio="0.74980694" ratioLeft="971" ratioRight="324" relationship="2" relative="left">
-<folder appearance="2" expanded="2">
-<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
+<info folder="true" part="stickyFolderRight" ratio="0.74980694" ratioLeft="971" ratioRight="324" relationship="2" relative="left">&#x0A;<folder appearance="2" expanded="2">&#x0A;<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.internal.introview" label="LabelNotFound"/>
 <page content="org.eclipse.ui.cheatsheets.views.CheatSheetView" label="LabelNotFound"/>
 </folder>
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.24942085" ratioLeft="323" ratioRight="972" relationship="2" relative="left"/>
-<info folder="true" part="bottom" ratio="0.74922603" ratioLeft="484" ratioRight="162" relationship="4" relative="org.eclipse.ui.editorss">
-<folder activePageID="org.eclipse.ui.views.ProblemView" appearance="2" expanded="2">
-<page content="org.eclipse.ui.views.ProblemView" label="Problems"/>
+<info folder="true" part="bottom" ratio="0.74922603" ratioLeft="484" ratioRight="162" relationship="4" relative="org.eclipse.ui.editorss">&#x0A;<folder activePageID="org.eclipse.ui.views.ProblemView" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.ui.views.ProblemView" label="Problems"/>
 <page content="org.eclipse.jdt.ui.JavadocView" label="Javadoc"/>
 <page content="org.eclipse.jdt.ui.SourceView" label="Declaration"/>
 <page content="org.eclipse.search.ui.views.SearchView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.console.ConsoleView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.views.BookmarkView" label="LabelNotFound"/>
 <page content="org.eclipse.ui.views.ProgressView" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 <part id="1"/>
 <part id="2"/>
 </presentation>
 </folder>
 </info>
-<info folder="true" part="right" ratio="0.75" ratioLeft="729" ratioRight="243" relationship="2" relative="org.eclipse.ui.editorss">
-<folder activePageID="org.eclipse.ui.views.ContentOutline" appearance="2" expanded="2">
-<page content="org.eclipse.ui.views.ContentOutline" label="Outline"/>
+<info folder="true" part="right" ratio="0.75" ratioLeft="729" ratioRight="243" relationship="2" relative="org.eclipse.ui.editorss">&#x0A;<folder activePageID="org.eclipse.ui.views.ContentOutline" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.ui.views.ContentOutline" label="Outline"/>
 <page content="org.eclipse.ui.texteditor.TemplatesView" label="LabelNotFound"/>
 <page content="org.eclipse.ant.ui.views.AntView" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
 </presentation>
 </folder>
 </info>
@@ -603,158 +550,161 @@
 <navigationHistory>
 <editors>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OpenLync/src/OpenLync.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OpenLync_client/src/OpenLync_client.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OpenLync/src/TrataCliente.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OpenLync_client/src/SaidaDados.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OpenLync_client/src/TrataSaida.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OpenLync_client/src/EntradaDados.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OpenLync_client/src/TrataEntrada.java"/>
 </editors>
-<item historyLabel="TrataCliente.java" index="2">
-<position info="not_deleted" x="1473" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="2">
-<position/>
-</item>
-<item historyLabel="OpenLync.java" index="0">
-<position info="not_deleted" x="1747" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="2">
-<position info="not_deleted" x="493" y="0"/>
-</item>
-<item historyLabel="OpenLync.java" index="0">
-<position info="not_deleted" x="1747" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="2">
-<position info="not_deleted" x="493" y="0"/>
-</item>
-<item historyLabel="OpenLync.java" index="0">
-<position info="not_deleted" x="1747" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="2">
-<position info="not_deleted" x="493" y="0"/>
-</item>
-<item historyLabel="OpenLync.java" index="0">
-<position/>
-</item>
-<item historyLabel="OpenLync_client.java" index="1">
-<position info="not_deleted" x="1402" y="0"/>
-</item>
-<item historyLabel="OpenLync.java" index="0">
-<position/>
-</item>
-<item historyLabel="TrataCliente.java" index="2">
-<position info="not_deleted" x="493" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="2">
-<position info="not_deleted" x="1561" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="2">
-<position/>
-</item>
-<item historyLabel="OpenLync.java" index="0">
-<position info="not_deleted" x="1742" y="0"/>
-</item>
-<item historyLabel="OpenLync.java" index="0">
-<position/>
-</item>
-<item historyLabel="OpenLync.java" index="0">
-<position info="not_deleted" x="1748" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="2">
-<position info="not_deleted" x="493" y="0"/>
-</item>
-<item historyLabel="OpenLync.java" index="0">
-<position info="not_deleted" x="2102" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="2">
-<position info="not_deleted" x="458" y="25"/>
-</item>
-<item historyLabel="OpenLync.java" index="0">
-<position info="not_deleted" x="2102" y="0"/>
-</item>
-<item historyLabel="OpenLync.java" index="0">
-<position info="not_deleted" x="1698" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="2">
-<position info="not_deleted" x="1420" y="0"/>
-</item>
-<item historyLabel="OpenLync.java" index="0">
-<position info="not_deleted" x="1658" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="2">
-<position info="not_deleted" x="1585" y="0"/>
-</item>
-<item historyLabel="OpenLync.java" index="0">
-<position info="not_deleted" x="1758" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="2">
-<position info="not_deleted" x="1585" y="0"/>
-</item>
-<item historyLabel="OpenLync.java" index="0">
-<position info="not_deleted" x="1809" y="0"/>
-</item>
-<item historyLabel="OpenLync_client.java" index="1">
-<position info="not_deleted" x="1276" y="0"/>
-</item>
-<item historyLabel="OpenLync.java" index="0">
-<position info="not_deleted" x="534" y="0"/>
-</item>
-<item historyLabel="OpenLync_client.java" index="1">
-<position info="not_deleted" x="1276" y="0"/>
-</item>
-<item historyLabel="OpenLync.java" index="0">
-<position info="not_deleted" x="1999" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="2">
-<position info="not_deleted" x="1585" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="2">
-<position info="not_deleted" x="1421" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="2">
-<position info="not_deleted" x="1545" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="2">
-<position info="not_deleted" x="1473" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="2">
-<position info="not_deleted" x="1579" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="2">
-<position info="not_deleted" x="1604" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="2">
-<position info="not_deleted" x="1654" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="2">
-<position info="not_deleted" x="1421" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="2">
-<position info="not_deleted" x="1648" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="2">
-<position info="not_deleted" x="1473" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="2">
-<position info="not_deleted" x="1603" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="2">
-<position info="not_deleted" x="1604" y="0"/>
-</item>
 <item historyLabel="OpenLync.java" index="0">
 <position info="not_deleted" x="1759" y="0"/>
 </item>
-<item historyLabel="OpenLync.java" index="0">
-<position info="not_deleted" x="2068" y="0"/>
+<item historyLabel="TrataCliente.java" index="1">
+<position info="not_deleted" x="1379" y="0"/>
 </item>
 <item historyLabel="OpenLync.java" index="0">
-<position info="not_deleted" x="2036" y="0"/>
+<position info="not_deleted" x="1753" y="0"/>
 </item>
-<item historyLabel="OpenLync_client.java" index="1">
-<position info="not_deleted" x="1276" y="0"/>
+<item historyLabel="TrataCliente.java" index="1">
+<position info="not_deleted" x="365" y="0"/>
 </item>
 <item historyLabel="OpenLync.java" index="0">
-<position info="not_deleted" x="2036" y="0"/>
+<position info="not_deleted" x="1765" y="0"/>
 </item>
-<item active="true" historyLabel="OpenLync_client.java" index="1">
-<position info="not_deleted" x="1276" y="0"/>
+<item historyLabel="TrataCliente.java" index="1">
+<position info="not_deleted" x="365" y="0"/>
+</item>
+<item historyLabel="TrataCliente.java" index="1">
+<position info="not_deleted" x="2222" y="0"/>
+</item>
+<item historyLabel="TrataCliente.java" index="1">
+<position info="not_deleted" x="1519" y="0"/>
+</item>
+<item historyLabel="TrataCliente.java" index="1">
+<position info="not_deleted" x="1765" y="0"/>
+</item>
+<item historyLabel="TrataCliente.java" index="1">
+<position info="not_deleted" x="1794" y="0"/>
+</item>
+<item historyLabel="TrataCliente.java" index="1">
+<position info="not_deleted" x="1846" y="0"/>
+</item>
+<item historyLabel="TrataCliente.java" index="1">
+<position info="not_deleted" x="1941" y="0"/>
+</item>
+<item historyLabel="TrataCliente.java" index="1">
+<position info="not_deleted" x="2006" y="0"/>
+</item>
+<item historyLabel="TrataCliente.java" index="1">
+<position info="not_deleted" x="2055" y="0"/>
+</item>
+<item historyLabel="TrataCliente.java" index="1">
+<position info="not_deleted" x="2200" y="0"/>
+</item>
+<item historyLabel="TrataCliente.java" index="1">
+<position info="not_deleted" x="2223" y="0"/>
+</item>
+<item historyLabel="TrataCliente.java" index="1">
+<position info="not_deleted" x="2247" y="0"/>
+</item>
+<item historyLabel="TrataCliente.java" index="1">
+<position info="not_deleted" x="2372" y="0"/>
+</item>
+<item historyLabel="TrataCliente.java" index="1">
+<position info="not_deleted" x="1519" y="0"/>
+</item>
+<item historyLabel="TrataCliente.java" index="1">
+<position info="not_deleted" x="1765" y="0"/>
+</item>
+<item historyLabel="TrataCliente.java" index="1">
+<position info="not_deleted" x="1794" y="0"/>
+</item>
+<item historyLabel="TrataCliente.java" index="1">
+<position info="not_deleted" x="1846" y="0"/>
+</item>
+<item historyLabel="TrataCliente.java" index="1">
+<position info="not_deleted" x="1941" y="0"/>
+</item>
+<item historyLabel="TrataCliente.java" index="1">
+<position info="not_deleted" x="2006" y="0"/>
+</item>
+<item historyLabel="TrataCliente.java" index="1">
+<position info="not_deleted" x="2055" y="0"/>
+</item>
+<item historyLabel="TrataCliente.java" index="1">
+<position info="not_deleted" x="1896" y="0"/>
+</item>
+<item historyLabel="SaidaDados.java" index="2">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="TrataSaida.java" index="3">
+<position info="not_deleted" x="880" y="0"/>
+</item>
+<item historyLabel="SaidaDados.java" index="2">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="TrataSaida.java" index="3">
+<position info="not_deleted" x="880" y="0"/>
+</item>
+<item historyLabel="EntradaDados.java" index="4">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="TrataEntrada.java" index="5">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="EntradaDados.java" index="4">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="TrataSaida.java" index="3">
+<position info="not_deleted" x="880" y="0"/>
+</item>
+<item historyLabel="SaidaDados.java" index="2">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="TrataSaida.java" index="3">
+<position info="not_deleted" x="880" y="0"/>
+</item>
+<item historyLabel="EntradaDados.java" index="4">
+<position info="not_deleted" x="264" y="0"/>
+</item>
+<item historyLabel="OpenLync.java" index="0">
+<position info="not_deleted" x="1102" y="0"/>
+</item>
+<item historyLabel="EntradaDados.java" index="4">
+<position info="not_deleted" x="862" y="0"/>
+</item>
+<item historyLabel="TrataEntrada.java" index="5">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="EntradaDados.java" index="4">
+<position info="not_deleted" x="862" y="0"/>
+</item>
+<item historyLabel="TrataEntrada.java" index="5">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="EntradaDados.java" index="4">
+<position info="not_deleted" x="1003" y="0"/>
+</item>
+<item historyLabel="TrataEntrada.java" index="5">
+<position info="not_deleted" x="681" y="0"/>
+</item>
+<item historyLabel="EntradaDados.java" index="4">
+<position info="not_deleted" x="997" y="0"/>
+</item>
+<item historyLabel="TrataEntrada.java" index="5">
+<position info="not_deleted" x="837" y="0"/>
+</item>
+<item historyLabel="TrataCliente.java" index="1">
+<position info="not_deleted" x="1896" y="0"/>
+</item>
+<item historyLabel="OpenLync.java" index="0">
+<position info="not_deleted" x="1102" y="0"/>
+</item>
+<item historyLabel="EntradaDados.java" index="4">
+<position info="not_deleted" x="1049" y="0"/>
+</item>
+<item active="true" historyLabel="TrataEntrada.java" index="5">
+<position info="not_deleted" x="837" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -773,14 +723,26 @@
 </trimLayout>
 </window>
 <mruList>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="OpenLync_client.java" tooltip="OpenLync_client/src/OpenLync_client.java">
-<persistable path="/OpenLync_client/src/OpenLync_client.java"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TrataEntrada.java" tooltip="OpenLync_client/src/TrataEntrada.java">
+<persistable path="/OpenLync_client/src/TrataEntrada.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="EntradaDados.java" tooltip="OpenLync_client/src/EntradaDados.java">
+<persistable path="/OpenLync_client/src/EntradaDados.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TrataSaida.java" tooltip="OpenLync_client/src/TrataSaida.java">
+<persistable path="/OpenLync_client/src/TrataSaida.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="SaidaDados.java" tooltip="OpenLync_client/src/SaidaDados.java">
+<persistable path="/OpenLync_client/src/SaidaDados.java"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TrataCliente.java" tooltip="OpenLync/src/TrataCliente.java">
 <persistable path="/OpenLync/src/TrataCliente.java"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="OpenLync.java" tooltip="OpenLync/src/OpenLync.java">
 <persistable path="/OpenLync/src/OpenLync.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="OpenLync_client.java" tooltip="OpenLync_client/src/OpenLync_client.java">
+<persistable path="/OpenLync_client/src/OpenLync_client.java"/>
 </file>
 </mruList>
 </workbench>

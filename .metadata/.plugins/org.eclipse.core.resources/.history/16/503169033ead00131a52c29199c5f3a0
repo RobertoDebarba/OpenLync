@@ -1,0 +1,43 @@
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Scanner;
+
+public class TrataEntrada implements Runnable {
+	
+	private ServerSocket SS;
+	private Socket socketEntrada;
+	
+	public TrataEntrada(ServerSocket SS) { // Construtor
+		this.SS = SS;
+	}
+
+	public void run() {
+		
+		while (true) {
+			
+			try {
+				this.socketEntrada = this.SS.accept();
+			} catch (IOException e1) {
+			}
+			
+			Scanner s = null;
+			// Instancia imout strem
+			try {
+				s = new Scanner(socketEntrada.getInputStream());
+			} catch (IOException e) {
+			}
+			
+			while (s.hasNextLine()) {
+
+				String msg = s.nextLine();
+				
+				System.out.println(msg); // printa mensagem para teste
+
+			 }
+			 s.close();
+		}
+
+	}
+	
+}

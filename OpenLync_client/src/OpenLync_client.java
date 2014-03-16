@@ -23,9 +23,9 @@ public class OpenLync_client {
 		
 		// Define ip destino para comunicação
 		System.out.print("Digite o ip com o qual deseja se comunicar: ");
+		@SuppressWarnings("resource")
 		Scanner scan = new Scanner(System.in);
 		ipDestino = scan.nextLine();  
-		//scan.close(); FIXME
 	}
 
 	public static void main(String[] args) throws IOException {

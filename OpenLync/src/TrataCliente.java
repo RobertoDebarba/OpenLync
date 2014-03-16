@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -11,6 +12,9 @@ public class TrataCliente implements Runnable {
 	   }
 	 
 	   public void run() {
+		   
+		   
+		   
 			// quando chegar uma msg, distribui pra todos
 			 
 			// Inicia Imput Strim
@@ -57,7 +61,32 @@ public class TrataCliente implements Runnable {
 				 
 				 // Envia mensagem (seja o que Deus quiser) ---
 				 
-				OpenLync.mandaMensagem(ipDestino, msg);
+				//OpenLync.mandaMensagem(ipDestino, msg);
+				 
+				 //-------------------------------------------------------
+				 Socket Sdestino = null;
+				 PrintStream PSdestino = null;
+				 
+				 try {
+					   Sdestino = new Socket(ipDestino, 7606);  // Cria uma porta acima para nao dar conflito
+					   PSdestino = new PrintStream(Sdestino.getOutputStream());
+					   PSdestino.println(msg); //Envia a bagaça
+				   } catch (IOException e) {
+					   System.out.println("Não foi possivel estabelecer conexão com destinatario!");
+				   }
+				 
+				 try {
+					Sdestino.close();
+					PSdestino.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				 
+				 
+				 
+				
+				System.out.println(msg); // printa mensagem para teste
 
 			 }
 			 s.close();

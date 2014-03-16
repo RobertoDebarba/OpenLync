@@ -1,8 +1,5 @@
 import java.io.IOException;
-import java.io.PrintStream;
 import java.net.Socket;
-import java.util.Scanner;
-
 
 public class SaidaDados implements Runnable {
 
@@ -19,9 +16,7 @@ public class SaidaDados implements Runnable {
 	public void run() {
 		// Cria objetos necessarios
         Socket socketSaida = null;  //TODO tentar enviar e receber pelo mesmo ServerSocket
-        PrintStream PSsaida = null;  
         
-        // ---------------------------------------------------------------------------------
 		// Conecta ao socket
 		try {
     	socketSaida = new Socket(this.ipServidor, this.portaSaida);  
@@ -30,18 +25,8 @@ public class SaidaDados implements Runnable {
 			System.out.println("Erro ao conectar com o servidor "+this.ipServidor+" pela porta "+this.portaSaida);
 		}
     	
-		// Cria printStream
-    	try {
-			PSsaida = new PrintStream(socketSaida.getOutputStream());
-		} catch (IOException e) {
-			System.out.println("Erro ao criar PrintStream de saída");
-		} 
-    	
-    	// Manda novas mensagens   //TODO separa em classe
-        System.out.print("Digite uma mensagem: ");
-		Scanner scanMsg = new Scanner(System.in);
-        String mensagem = this.ipDestino + "|" + scanMsg.nextLine(); 
-        
-        PSsaida.println(mensagem);  
+		// Cria objeto que ficará enviando mensagens e coloca na Thread
+		TrataSaida ts = new TrataSaida(socketSaida, this.ipDestino);
+		new Thread(ts).start();
 	}
 }
