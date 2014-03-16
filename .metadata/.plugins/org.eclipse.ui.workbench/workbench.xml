@@ -31,28 +31,13 @@
 <folder appearance="1" expanded="2">
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
 <part id="0"/>
-<part id="1"/>
-<part id="2"/>
-<part id="3"/>
 </presentation>
 </folder>
 </info>
 </editorArea>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="OpenLync.java" partName="OpenLync.java" path="/home/robertoluiz/Documentos/GitHub/OpenLync.git/OpenLync/src/OpenLync.java" title="OpenLync.java" tooltip="OpenLync/src/OpenLync.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/OpenLync/src/OpenLync.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1102" selectionTopPixel="337"/>
-</editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TrataCliente.java" partName="TrataCliente.java" path="/home/robertoluiz/Documentos/GitHub/OpenLync.git/OpenLync/src/TrataCliente.java" title="TrataCliente.java" tooltip="OpenLync/src/TrataCliente.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/OpenLync/src/TrataCliente.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1896" selectionTopPixel="238"/>
-</editor>
-<editor id="org.eclipse.jdt.ui.CompilationUnitEditor" name="EntradaDados.java" partName="EntradaDados.java" path="/home/robertoluiz/Documentos/GitHub/OpenLync.git/OpenLync_client/src/EntradaDados.java" title="EntradaDados.java" tooltip="OpenLync_client/src/EntradaDados.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/OpenLync_client/src/EntradaDados.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1049" selectionTopPixel="369"/>
-</editor>
-<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TrataEntrada.java" partName="TrataEntrada.java" path="/home/robertoluiz/Documentos/GitHub/OpenLync.git/OpenLync_client/src/TrataEntrada.java" title="TrataEntrada.java" tooltip="OpenLync_client/src/TrataEntrada.java" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/OpenLync_client/src/TrataEntrada.java"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="363" selectionTopPixel="0"/>
+<editor activePart="true" focus="true" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="OpenLync_client.java" partName="OpenLync_client.java" path="/home/robertoluiz/Documentos/GitHub/OpenLync.git/OpenLync_client/src/OpenLync_client.java" title="OpenLync_client.java" tooltip="OpenLync_client/src/OpenLync_client.java" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/OpenLync_client/src/OpenLync_client.java"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="681" selectionTopPixel="335"/>
 </editor>
 </editors>
 <views>
@@ -134,9 +119,6 @@
 <visible IMemento.internal.id="org.eclipse.ui.ide.markerType"/>
 </viewState>
 </view>
-<view id="org.eclipse.ui.console.ConsoleView" partName="Console">
-<viewState/>
-</view>
 <view id="org.eclipse.jdt.ui.PackageExplorer" partName="Package Explorer">
 <viewState group_libraries="1" layout="2" linkWithEditor="0" rootMode="1" workingSetName="">
 <customFilters userDefinedPatternsEnabled="false">&#x0A;<xmlDefinedFilters>&#x0A;<child filterId="org.eclipse.jdt.ui.PackageExplorer.LibraryFilter" isEnabled="false"/>
@@ -163,6 +145,9 @@
 </xmlDefinedFilters>
 </customFilters>
 </viewState>
+</view>
+<view id="org.eclipse.ui.console.ConsoleView" partName="Console">
+<viewState/>
 </view>
 <view id="org.eclipse.jdt.ui.SourceView" partName="Declaration"/>
 <view id="org.eclipse.jdt.ui.JavadocView" partName="Javadoc"/>
@@ -549,162 +534,164 @@
 <workingSets/>
 <navigationHistory>
 <editors>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OpenLync/src/OpenLync.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OpenLync_client/src/TrataEntrada.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OpenLync_client/src/EntradaDados.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OpenLync/src/TrataCliente.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OpenLync/src/OpenLync.java"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OpenLync_client/src/OpenLync_client.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OpenLync_client/src/SaidaDados.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OpenLync_client/src/TrataSaida.java"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OpenLync_client/src/EntradaDados.java"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" path="/OpenLync_client/src/TrataEntrada.java"/>
 </editors>
-<item historyLabel="OpenLync.java" index="0">
-<position info="not_deleted" x="1759" y="0"/>
+<item historyLabel="TrataEntrada.java" index="0">
+<position/>
 </item>
-<item historyLabel="TrataCliente.java" index="1">
-<position info="not_deleted" x="1379" y="0"/>
+<item historyLabel="TrataEntrada.java" index="0">
+<position/>
 </item>
-<item historyLabel="OpenLync.java" index="0">
-<position info="not_deleted" x="1753" y="0"/>
+<item historyLabel="OpenLync.java" index="3">
+<position info="not_deleted" x="961" y="0"/>
 </item>
-<item historyLabel="TrataCliente.java" index="1">
-<position info="not_deleted" x="365" y="0"/>
+<item historyLabel="TrataEntrada.java" index="0">
+<position/>
 </item>
-<item historyLabel="OpenLync.java" index="0">
-<position info="not_deleted" x="1765" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="1">
-<position info="not_deleted" x="365" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="1">
-<position info="not_deleted" x="2222" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="1">
-<position info="not_deleted" x="1519" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="1">
-<position info="not_deleted" x="1765" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="1">
-<position info="not_deleted" x="1794" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="1">
-<position info="not_deleted" x="1846" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="1">
-<position info="not_deleted" x="1941" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="1">
-<position info="not_deleted" x="2006" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="1">
-<position info="not_deleted" x="2055" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="1">
-<position info="not_deleted" x="2200" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="1">
-<position info="not_deleted" x="2223" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="1">
-<position info="not_deleted" x="2247" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="1">
-<position info="not_deleted" x="2372" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="1">
-<position info="not_deleted" x="1519" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="1">
-<position info="not_deleted" x="1765" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="1">
-<position info="not_deleted" x="1794" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="1">
-<position info="not_deleted" x="1846" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="1">
-<position info="not_deleted" x="1941" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="1">
-<position info="not_deleted" x="2006" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="1">
-<position info="not_deleted" x="2055" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="1">
+<item historyLabel="TrataCliente.java" index="2">
 <position info="not_deleted" x="1896" y="0"/>
 </item>
-<item historyLabel="SaidaDados.java" index="2">
+<item historyLabel="TrataEntrada.java" index="0">
+<position/>
+</item>
+<item historyLabel="TrataCliente.java" index="2">
+<position info="not_deleted" x="390" y="0"/>
+</item>
+<item historyLabel="OpenLync.java" index="3">
+<position info="not_deleted" x="1431" y="0"/>
+</item>
+<item historyLabel="TrataCliente.java" index="2">
+<position info="not_deleted" x="299" y="0"/>
+</item>
+<item historyLabel="TrataEntrada.java" index="0">
+<position/>
+</item>
+<item historyLabel="OpenLync.java" index="3">
+<position info="not_deleted" x="1431" y="0"/>
+</item>
+<item historyLabel="TrataCliente.java" index="2">
+<position info="not_deleted" x="394" y="140"/>
+</item>
+<item historyLabel="TrataEntrada.java" index="0">
+<position/>
+</item>
+<item historyLabel="OpenLync.java" index="3">
+<position info="not_deleted" x="1431" y="0"/>
+</item>
+<item historyLabel="TrataCliente.java" index="2">
+<position info="not_deleted" x="394" y="140"/>
+</item>
+<item historyLabel="TrataEntrada.java" index="0">
+<position/>
+</item>
+<item historyLabel="OpenLync.java" index="3">
+<position info="not_deleted" x="1431" y="0"/>
+</item>
+<item historyLabel="TrataEntrada.java" index="0">
+<position/>
+</item>
+<item historyLabel="TrataCliente.java" index="2">
+<position info="not_deleted" x="394" y="140"/>
+</item>
+<item historyLabel="TrataEntrada.java" index="0">
+<position/>
+</item>
+<item historyLabel="TrataCliente.java" index="2">
+<position info="not_deleted" x="439" y="0"/>
+</item>
+<item historyLabel="TrataEntrada.java" index="0">
+<position/>
+</item>
+<item historyLabel="TrataCliente.java" index="2">
+<position info="not_deleted" x="543" y="1909"/>
+</item>
+<item historyLabel="TrataEntrada.java" index="0">
+<position/>
+</item>
+<item historyLabel="EntradaDados.java" index="1">
+<position info="not_deleted" x="286" y="0"/>
+</item>
+<item historyLabel="TrataEntrada.java" index="0">
+<position/>
+</item>
+<item historyLabel="OpenLync_client.java" index="4">
+<position info="not_deleted" x="499" y="0"/>
+</item>
+<item historyLabel="SaidaDados.java" index="5">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="TrataSaida.java" index="3">
-<position info="not_deleted" x="880" y="0"/>
+<item historyLabel="TrataSaida.java" index="6">
+<position/>
 </item>
-<item historyLabel="SaidaDados.java" index="2">
+<item historyLabel="SaidaDados.java" index="5">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="TrataSaida.java" index="3">
-<position info="not_deleted" x="880" y="0"/>
+<item historyLabel="EntradaDados.java" index="7">
+<position info="not_deleted" x="788" y="0"/>
 </item>
-<item historyLabel="EntradaDados.java" index="4">
+<item historyLabel="TrataEntrada.java" index="0">
+<position info="not_deleted" x="302" y="0"/>
+</item>
+<item historyLabel="SaidaDados.java" index="5">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="TrataEntrada.java" index="5">
+<item historyLabel="TrataEntrada.java" index="0">
+<position info="not_deleted" x="302" y="0"/>
+</item>
+<item historyLabel="TrataSaida.java" index="6">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="EntradaDados.java" index="4">
+<item historyLabel="TrataEntrada.java" index="0">
+<position info="not_deleted" x="302" y="0"/>
+</item>
+<item historyLabel="SaidaDados.java" index="5">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="TrataSaida.java" index="3">
-<position info="not_deleted" x="880" y="0"/>
+<item historyLabel="TrataEntrada.java" index="0">
+<position info="not_deleted" x="302" y="0"/>
 </item>
-<item historyLabel="SaidaDados.java" index="2">
-<position info="not_deleted" x="0" y="0"/>
+<item historyLabel="EntradaDados.java" index="7">
+<position info="not_deleted" x="788" y="0"/>
 </item>
-<item historyLabel="TrataSaida.java" index="3">
-<position info="not_deleted" x="880" y="0"/>
+<item historyLabel="TrataEntrada.java" index="0">
+<position info="not_deleted" x="302" y="0"/>
 </item>
-<item historyLabel="EntradaDados.java" index="4">
-<position info="not_deleted" x="264" y="0"/>
+<item historyLabel="TrataEntrada.java" index="0">
+<position info="not_deleted" x="537" y="0"/>
 </item>
-<item historyLabel="OpenLync.java" index="0">
-<position info="not_deleted" x="1102" y="0"/>
+<item historyLabel="TrataEntrada.java" index="0">
+<position info="not_deleted" x="749" y="0"/>
 </item>
-<item historyLabel="EntradaDados.java" index="4">
-<position info="not_deleted" x="862" y="0"/>
+<item historyLabel="EntradaDados.java" index="7">
+<position info="not_deleted" x="788" y="0"/>
 </item>
-<item historyLabel="TrataEntrada.java" index="5">
-<position info="not_deleted" x="0" y="0"/>
+<item historyLabel="TrataEntrada.java" index="0">
+<position info="not_deleted" x="749" y="0"/>
 </item>
-<item historyLabel="EntradaDados.java" index="4">
-<position info="not_deleted" x="862" y="0"/>
+<item historyLabel="EntradaDados.java" index="7">
+<position info="not_deleted" x="788" y="0"/>
 </item>
-<item historyLabel="TrataEntrada.java" index="5">
-<position info="not_deleted" x="0" y="0"/>
+<item historyLabel="TrataEntrada.java" index="0">
+<position info="not_deleted" x="749" y="0"/>
 </item>
-<item historyLabel="EntradaDados.java" index="4">
-<position info="not_deleted" x="1003" y="0"/>
+<item historyLabel="EntradaDados.java" index="7">
+<position info="not_deleted" x="788" y="0"/>
 </item>
-<item historyLabel="TrataEntrada.java" index="5">
-<position info="not_deleted" x="681" y="0"/>
+<item historyLabel="TrataEntrada.java" index="0">
+<position info="not_deleted" x="749" y="0"/>
 </item>
-<item historyLabel="EntradaDados.java" index="4">
-<position info="not_deleted" x="997" y="0"/>
+<item historyLabel="EntradaDados.java" index="7">
+<position info="not_deleted" x="788" y="0"/>
 </item>
-<item historyLabel="TrataEntrada.java" index="5">
-<position info="not_deleted" x="837" y="0"/>
-</item>
-<item historyLabel="TrataCliente.java" index="1">
-<position info="not_deleted" x="1896" y="0"/>
-</item>
-<item historyLabel="OpenLync.java" index="0">
-<position info="not_deleted" x="1102" y="0"/>
-</item>
-<item historyLabel="EntradaDados.java" index="4">
-<position info="not_deleted" x="1049" y="0"/>
-</item>
-<item active="true" historyLabel="TrataEntrada.java" index="5">
-<position info="not_deleted" x="837" y="0"/>
+<item active="true" historyLabel="OpenLync_client.java" index="4">
+<position info="not_deleted" x="499" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -723,26 +710,26 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TrataSaida.java" tooltip="OpenLync_client/src/TrataSaida.java">
+<persistable path="/OpenLync_client/src/TrataSaida.java"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TrataEntrada.java" tooltip="OpenLync_client/src/TrataEntrada.java">
 <persistable path="/OpenLync_client/src/TrataEntrada.java"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="EntradaDados.java" tooltip="OpenLync_client/src/EntradaDados.java">
 <persistable path="/OpenLync_client/src/EntradaDados.java"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TrataSaida.java" tooltip="OpenLync_client/src/TrataSaida.java">
-<persistable path="/OpenLync_client/src/TrataSaida.java"/>
-</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="SaidaDados.java" tooltip="OpenLync_client/src/SaidaDados.java">
 <persistable path="/OpenLync_client/src/SaidaDados.java"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="OpenLync_client.java" tooltip="OpenLync_client/src/OpenLync_client.java">
+<persistable path="/OpenLync_client/src/OpenLync_client.java"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="TrataCliente.java" tooltip="OpenLync/src/TrataCliente.java">
 <persistable path="/OpenLync/src/TrataCliente.java"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="OpenLync.java" tooltip="OpenLync/src/OpenLync.java">
 <persistable path="/OpenLync/src/OpenLync.java"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.jdt.ui.CompilationUnitEditor" name="OpenLync_client.java" tooltip="OpenLync_client/src/OpenLync_client.java">
-<persistable path="/OpenLync_client/src/OpenLync_client.java"/>
 </file>
 </mruList>
 </workbench>
