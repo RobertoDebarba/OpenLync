@@ -13,13 +13,11 @@ public class OpenLync {
 	}
 	   
 	private int porta;
-	private int portaSaida;
 	private ServerSocket SSservidor;
 	private Socket Scliente;
    
 	public OpenLync() {
 		this.porta = 7609;
-		this.portaSaida = 7608;
 	}
    
 	public void executa () throws IOException {
@@ -38,7 +36,7 @@ public class OpenLync {
 			System.out.println("Nova conexão com o cliente " + Scliente.getInetAddress().getHostAddress());
    
 			// cria tratador de cliente numa nova thread
-			TrataCliente tc = new TrataCliente(Scliente, portaSaida);
+			TrataCliente tc = new TrataCliente(Scliente);
 			new Thread(tc).start();
 		}
  

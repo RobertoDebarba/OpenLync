@@ -6,11 +6,9 @@ import java.util.Scanner;
 public class TrataCliente implements Runnable {
 	
 	private Socket Scliente;
-	private int portaSaida;
 	 
-	public TrataCliente(Socket Scliente, int portaSaida) {
+	public TrataCliente(Socket Scliente) {
 		this.Scliente = Scliente;
-		this.portaSaida = portaSaida;
 	}
 	 
 	public void run() {
@@ -49,26 +47,36 @@ public class TrataCliente implements Runnable {
 				}
 			} 
 			// ---
+			 
 			String msg = remetente + "|" + mensagem;
-			
-			MandaMsg(ipDestino, msg);
+			 
+			 //-------------------------------------------------------
+			 
+
 		 }
 	}
 	
-	private void MandaMsg(String ipDestino, String msg) {
+	private void MandaMsg() {
 		
 		Socket Sdestino = null;
 		PrintStream PSdestino = null;
 		 
 		try {
-			Sdestino = new Socket(ipDestino, this.portaSaida); 
+			Sdestino = new Socket(ipDestino, 7606);  // Cria uma porta acima para nao dar conflito
 			PSdestino = new PrintStream(Sdestino.getOutputStream());
-			PSdestino.println(msg); //Envia a Mensagem com o ip do remetente
+			PSdestino.println(msg); //Envia a bagaça
 		} catch (IOException e) {
-			System.out.println("Não foi possivel estabelecer conexão com destinatario "+ipDestino);
-			System.out.println("Porta de servidor de saida "+this.portaSaida);
+			System.out.println("Não foi possivel estabelecer conexão com destinatario!");
+		}
+		 
+		try {
+			Sdestino.close();
+			PSdestino.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
-		System.out.println(msg); //FIXME mensagem enviada
+		System.out.println(msg); // printa mensagem para teste
 	}
 }

@@ -69,6 +69,6 @@ public class TrataCliente implements Runnable {
 			System.out.println("Porta de servidor de saida "+this.portaSaida);
 		}
 
-		System.out.println(msg); //FIXME mensagem enviada
+		System.out.println(msg); // printa mensagem para teste
 	}
 }

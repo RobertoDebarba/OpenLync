@@ -15,25 +15,25 @@
 	<section name="JavaElementSearchActions">
 	</section>
 	<section name="FatJarPackageWizard">
-		<item value="/home/robertoluiz/Área de Trabalho/OpenLync_client_2.jar" key="FatJarPackageWizardPage.DESTINATION_PATH_SELECTION"/>
-		<item value="OpenLync_client - OpenLync_client" key="FatJarPackageWizardPage.LAUNCH_CONFIGURATION_SELECTION_NAME"/>
+		<item value="/home/robertoluiz/Área de Trabalho/OpenLync_server_2.jar" key="FatJarPackageWizardPage.DESTINATION_PATH_SELECTION"/>
+		<item value="OpenLync - OpenLync" key="FatJarPackageWizardPage.LAUNCH_CONFIGURATION_SELECTION_NAME"/>
 		<item value="/home/robertoluiz/Documentos/GitHub/OpenLync.git" key="FatJarPackageWizardPage.ANTSCRIPT_LOCATION"/>
 		<item value="false" key="FatJarPackageWizardPage.ANTSCRIPT_SAVE"/>
 		<item value="1" key="FatJarPackageWizardPage.LIBRARY_HANDLING"/>
 		<list key="FatJarPackageWizardPage.DESTINATION_NAMES_ID">
-			<item value="/home/robertoluiz/Área de Trabalho/OpenLync_client_2.jar"/>
 			<item value="/home/robertoluiz/Área de Trabalho/OpenLync_server_2.jar"/>
+			<item value="/home/robertoluiz/Área de Trabalho/OpenLync_client_2.jar"/>
 		</list>
 		<list key="FatJarPackageWizardPage.ANTSCRIPT_LOCATION_HISTORY">
 			<item value="/home/robertoluiz/Documentos/GitHub/OpenLync.git"/>
 			<item value=".xml"/>
 		</list>
 	</section>
-	<section name="quick_assist_proposal_size">
-	</section>
 	<section name="NewClassWizardPage">
 		<item value="false" key="create_constructor"/>
-		<item value="false" key="create_main"/>
 		<item value="true" key="create_unimplemented"/>
+		<item value="false" key="create_main"/>
+	</section>
+	<section name="quick_assist_proposal_size">
 	</section>
 </section>

@@ -49,9 +49,12 @@ public class TrataCliente implements Runnable {
 				}
 			} 
 			// ---
+			 
 			String msg = remetente + "|" + mensagem;
-			
-			MandaMsg(ipDestino, msg);
+			 
+			 //-------------------------------------------------------
+			 
+
 		 }
 	}
 	
@@ -65,10 +68,17 @@ public class TrataCliente implements Runnable {
 			PSdestino = new PrintStream(Sdestino.getOutputStream());
 			PSdestino.println(msg); //Envia a Mensagem com o ip do remetente
 		} catch (IOException e) {
-			System.out.println("Não foi possivel estabelecer conexão com destinatario "+ipDestino);
-			System.out.println("Porta de servidor de saida "+this.portaSaida);
+			System.out.println("Não foi possivel estabelecer conexão com destinatario!");
+		}
+		 
+		try {
+			Sdestino.close();
+			PSdestino.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
-		System.out.println(msg); //FIXME mensagem enviada
+		System.out.println(msg); // printa mensagem para teste
 	}
 }
