@@ -3,8 +3,12 @@
 //http://pt.slideshare.net/akhilgouthamkotini/multi-user-chat-system-using-java1
  
 import java.io.IOException;  
+import java.io.PrintStream;
 import java.net.ServerSocket;  
 import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OpenLync {
 	
@@ -21,14 +25,9 @@ public class OpenLync {
 	     this.porta = porta;
 	   }
 	   
-	   @SuppressWarnings("resource")
-	public void executa () throws IOException {
-		 ServerSocket servidor = null;
-		try {
-		servidor = new ServerSocket(this.porta);
+	   public void executa () throws IOException {
+	     ServerSocket servidor = new ServerSocket(this.porta);
 	     System.out.println("Porta 7600 aberta!");
-		} catch(IOException e) {
-		}
 	     
 	     while (true) {
 	       // aceita um cliente

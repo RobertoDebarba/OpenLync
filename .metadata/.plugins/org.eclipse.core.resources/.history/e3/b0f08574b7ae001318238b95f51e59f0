@@ -21,8 +21,7 @@ public class OpenLync {
 	     this.porta = porta;
 	   }
 	   
-	   @SuppressWarnings("resource")
-	public void executa () throws IOException {
+	   public void executa () throws IOException {
 		 ServerSocket servidor = null;
 		try {
 		servidor = new ServerSocket(this.porta);

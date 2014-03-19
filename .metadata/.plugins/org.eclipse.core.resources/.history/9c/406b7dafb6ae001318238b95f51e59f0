@@ -12,7 +12,11 @@ public class TrataCliente implements Runnable {
 	   }
 	 
 	   public void run() {
-
+		   
+		   
+		   
+			// quando chegar uma msg, distribui pra todos
+			 
 			// Inicia Imput Strim
 			Scanner s = null;
 			// Instancia imout strem
@@ -54,6 +58,10 @@ public class TrataCliente implements Runnable {
 				 String msg = remetente + "|" + mensagem;
 				 
 				 System.out.println("com remetente = " + msg); //FIXME remover
+				 
+				 // Envia mensagem (seja o que Deus quiser) ---
+				 
+				//OpenLync.mandaMensagem(ipDestino, msg);
 				 
 				 //-------------------------------------------------------
 				 Socket Sdestino = null;

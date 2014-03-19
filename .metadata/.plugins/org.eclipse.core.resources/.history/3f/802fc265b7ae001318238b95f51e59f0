@@ -21,11 +21,10 @@ public class OpenLync {
 	     this.porta = porta;
 	   }
 	   
-	   @SuppressWarnings("resource")
-	public void executa () throws IOException {
-		 ServerSocket servidor = null;
+	   public void executa () throws IOException {
+		 ServerSocket servidor = null/
 		try {
-		servidor = new ServerSocket(this.porta);
+	     ServerSocket servidor = new ServerSocket(this.porta);
 	     System.out.println("Porta 7600 aberta!");
 		} catch(IOException e) {
 		}
