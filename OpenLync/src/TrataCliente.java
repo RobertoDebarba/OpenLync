@@ -1,5 +1,4 @@
 import java.io.IOException;
-import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -33,29 +32,15 @@ public class TrataCliente implements Runnable {
 			 
 			// Varre mensagem
 			Mensagens TratadorMensagens = new Mensagens();
-			TratadorMensagens.tratarMensagens(scannerCliente.nextLine());
+			TratadorMensagens.tratarMensagem(scannerCliente.nextLine());
 			 
 			String msg = remetente + "|" + TratadorMensagens.getMensagemTratada();
 			
-			Socket Sdestino = null;
-			PrintStream PSdestino = null;
-			try {
-				Sdestino = new Socket(TratadorMensagens.getIpDestino(), this.portaSaida);
-				PSdestino = new PrintStream(Sdestino.getOutputStream());
-				PSdestino.println(msg); //Envia a mensagem
-			} catch (IOException e) {
-				System.out.println("Não foi possivel estabelecer conexão com destinatario!");
-			}
+			//Envia a mensagem
+			TratadorMensagens.enviarMensagem(msg, this.portaSaida);
 			
-			// Limpa objetos por causa do loop
-			try {
-				Sdestino.close();
-				PSdestino.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-			System.out.println(msg); // Mostra a mensagem enviada ao destinatario com o ip do remetente
+			// Mostra a mensagem enviada ao destinatario com o ip do remetente
+			System.out.println(msg);
 
 		}
    }

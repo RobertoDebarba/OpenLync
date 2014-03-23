@@ -1,3 +1,6 @@
+import java.io.IOException;
+import java.io.PrintStream;
+import java.net.Socket;
 
 public class Mensagens {
 
@@ -12,7 +15,7 @@ public class Mensagens {
 		return mensagemTratada;
 	}
 
-	public void tratarMensagens(String mensagemNaoTratada) {
+	public void tratarMensagem(String mensagemNaoTratada) {
 		
 		boolean pParte = true;
 	 
@@ -29,5 +32,27 @@ public class Mensagens {
 			   mensagemTratada = mensagemTratada + c;
 		   }
 		} 
+	}
+	
+	public void enviarMensagem(String mensagem, int portaSaida) {
+		
+		Socket Sdestino = null;
+		PrintStream PSdestino = null;
+		try {
+			Sdestino = new Socket(ipDestino, portaSaida);
+			PSdestino = new PrintStream(Sdestino.getOutputStream());
+			PSdestino.println(mensagem); //Envia a mensagem
+		} catch (IOException e) {
+			System.out.println("Não foi possivel estabelecer conexão com destinatario!");
+		}
+		
+		// É necessario fechar os objetos para não dar complito quando chamar o metodo na segunda vez
+		try {
+			Sdestino.close();
+			PSdestino.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 }

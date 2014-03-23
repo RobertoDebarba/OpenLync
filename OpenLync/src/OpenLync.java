@@ -15,8 +15,8 @@ public class OpenLync {
 	}
 			   
 	public OpenLync () {
-		this.portaEntrada = 7609;
-		this.portaSaida = 7606;
+		portaEntrada = 7609;
+		portaSaida = 7606;
 	}
 
 	public void iniciarServidor() throws IOException {
