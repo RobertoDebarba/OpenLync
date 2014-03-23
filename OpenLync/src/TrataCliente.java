@@ -3,6 +3,10 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Scanner;
 
+/*
+ * Quando um novo cliente se conecta, uma nova Thread é criada com essa classe,
+ * que possui um loop infinito para verificar cada mensagem enviada pelo cliente.
+ */
 public class TrataCliente implements Runnable {
 	 
    private Socket Scliente;

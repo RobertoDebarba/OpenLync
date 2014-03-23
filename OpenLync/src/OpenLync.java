@@ -4,7 +4,6 @@
  
 import java.io.IOException;  
 import java.net.ServerSocket;  
-import java.net.Socket;
 
 public class OpenLync {
 	
@@ -19,8 +18,7 @@ public class OpenLync {
 		this.portaEntrada = 7609;
 		this.portaSaida = 7606;
 	}
-			   
-	@SuppressWarnings("resource")
+
 	public void iniciarServidor() throws IOException {
 		ServerSocket servidor = null;
 		try {
@@ -29,17 +27,9 @@ public class OpenLync {
 		} catch(IOException e) {
 			System.out.println("Erro ao criar servidor na porta "+ this.portaEntrada);
 		}
-			     
-		while (true) {
-			// aceita um cliente
-			Socket cliente = servidor.accept();
-			System.out.println("Nova conexão com o cliente " +   
-			cliente.getInetAddress().getHostAddress()
-			);
-			   
-			// cria tratador de cliente numa nova thread
-			TrataCliente tc = new TrataCliente(cliente, portaSaida);
-			new Thread(tc).start();
-		} 
+		
+		// Cria Thread para verificar entrada de novos clientes	     
+		NovosClientes verifNovosClientes = new NovosClientes(servidor, portaSaida);
+		new Thread(verifNovosClientes).start();
 	}
 }
