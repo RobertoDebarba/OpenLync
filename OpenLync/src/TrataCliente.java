@@ -5,82 +5,54 @@ import java.util.Scanner;
 
 public class TrataCliente implements Runnable {
 	 
-	   private Socket cliente;
-	 
-	   public TrataCliente(Socket cliente) {
-	     this.cliente = cliente;
-	   }
-	 
-	   public void run() {
+   private Socket Scliente;
+   private int portaSaida;
+ 
+   public TrataCliente(Socket cliente, int portaSaida) {
+     this.Scliente = cliente;
+     this.portaSaida = portaSaida;
+   }
+ 
+   public void run() {
 
-			// Inicia Imput Strim
-			Scanner s = null;
-			// Instancia imout strem
+		Scanner scannerCliente = null;
+		try {
+			scannerCliente = new Scanner(this.Scliente.getInputStream());
+		} catch (IOException e) {
+			System.out.println("Erro ao criar Scanner do cliente!");
+		}
+		
+		while (scannerCliente.hasNextLine()) {
+
+			// Salva IP do cliente que enviou a mensagem
+			String remetente = this.Scliente.getInetAddress().getHostAddress();
+			 
+			// Varre mensagem
+			Mensagens TratadorMensagens = new Mensagens();
+			TratadorMensagens.tratarMensagens(scannerCliente.nextLine());
+			 
+			String msg = remetente + "|" + TratadorMensagens.getMensagemTratada();
+			
+			Socket Sdestino = null;
+			PrintStream PSdestino = null;
 			try {
-				s = new Scanner(this.cliente.getInputStream());
+				Sdestino = new Socket(TratadorMensagens.getIpDestino(), this.portaSaida);
+				PSdestino = new PrintStream(Sdestino.getOutputStream());
+				PSdestino.println(msg); //Envia a mensagem
 			} catch (IOException e) {
+				System.out.println("Não foi possivel estabelecer conexão com destinatario!");
 			}
 			
-			 while (s.hasNextLine()) {
-				 //servidor.distribuiMensagem(s.nextLine());
-				 
-				 // Aqui começa as pira
-				 // Verificar o IP do cliente e mardar ------------------------------------------------
-				 String remetente = cliente.getInetAddress().getHostAddress(); // Salva ip do servidor em var remetente
-				 
-				 // Varre linha para capturar ip de destino ---
-				 
-				 boolean pParte = true;
-				 String ipDestino = "";
-				 String mensagem = "";
-				 
-				 String sLinha = s.nextLine();  // "nextLine()" só pode ser usado uma vez
-				 System.out.println("com destino = " + sLinha); //FIXME remover
-				 
-				 for(int i=0;i<(sLinha).length();i++){  
-					   char c = (sLinha).charAt(i);
-					   
-					   if (c == '|') {
-						   pParte = false;
-					   }
-					   else if (pParte) {
-						   ipDestino = ipDestino + c;
-					   }
-					   else if (!pParte) {
-						   mensagem = mensagem + c;
-					   }
-				 }  
-				 
-				 String msg = remetente + "|" + mensagem;
-				 
-				 System.out.println("com remetente = " + msg); //FIXME remover
-				 
-				 //-------------------------------------------------------
-				 Socket Sdestino = null;
-				 PrintStream PSdestino = null;
-				 
-				 try {
-					   Sdestino = new Socket(ipDestino, 7606);  // Cria uma porta acima para nao dar conflito
-					   PSdestino = new PrintStream(Sdestino.getOutputStream());
-					   PSdestino.println(msg); //Envia a bagaça
-				   } catch (IOException e) {
-					   System.out.println("Não foi possivel estabelecer conexão com destinatario!");
-				   }
-				 
-				 try {
-					Sdestino.close();
-					PSdestino.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				 
-				 
-				 
-				
-				System.out.println(msg); // printa mensagem para teste
+			// Limpa objetos por causa do loop
+			try {
+				Sdestino.close();
+				PSdestino.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			System.out.println(msg); // Mostra a mensagem enviada ao destinatario com o ip do remetente
 
-			 }
-			 s.close();
-	   }
+		}
+   }
 }

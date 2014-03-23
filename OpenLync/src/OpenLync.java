@@ -8,40 +8,38 @@ import java.net.Socket;
 
 public class OpenLync {
 	
-	
-	
+	private int portaEntrada;
+	private int portaSaida;
+
 	public static void main(String[] args) throws IOException {
-	     // inicia o servidor
-	     new OpenLync(7609).executa();
-	   }
-	   
-	   private int porta;
-	   
-	   public OpenLync (int porta) {
-	     this.porta = porta;
-	   }
-	   
-	   @SuppressWarnings("resource")
-	public void executa () throws IOException {
-		 ServerSocket servidor = null;
+		new OpenLync().iniciarServidor();
+	}
+			   
+	public OpenLync () {
+		this.portaEntrada = 7609;
+		this.portaSaida = 7606;
+	}
+			   
+	@SuppressWarnings("resource")
+	public void iniciarServidor() throws IOException {
+		ServerSocket servidor = null;
 		try {
-		servidor = new ServerSocket(this.porta);
-	     System.out.println("Porta 7600 aberta!");
+			servidor = new ServerSocket(this.portaEntrada);
+			System.out.println("Servidor iniciado na porta "+ this.portaEntrada +"!");
 		} catch(IOException e) {
+			System.out.println("Erro ao criar servidor na porta "+ this.portaEntrada);
 		}
-	     
-	     while (true) {
-	       // aceita um cliente
-	       Socket cliente = servidor.accept();
-	       System.out.println("Nova conexão com o cliente " +   
-	         cliente.getInetAddress().getHostAddress()
-	       );
-	       
-	       // cria tratador de cliente numa nova thread
-	       TrataCliente tc = new TrataCliente(cliente);
-	       new Thread(tc).start();
-	     }
-	 
-	   }
-	   
-	 }
+			     
+		while (true) {
+			// aceita um cliente
+			Socket cliente = servidor.accept();
+			System.out.println("Nova conexão com o cliente " +   
+			cliente.getInetAddress().getHostAddress()
+			);
+			   
+			// cria tratador de cliente numa nova thread
+			TrataCliente tc = new TrataCliente(cliente, portaSaida);
+			new Thread(tc).start();
+		} 
+	}
+}
