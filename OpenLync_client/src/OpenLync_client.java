@@ -4,6 +4,7 @@
 
 import java.io.IOException;  
 import java.util.Scanner;
+import java.sql.*;
 
 public class OpenLync_client {
 	
@@ -28,8 +29,12 @@ public class OpenLync_client {
 		ipDestino = scan.nextLine();  
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		
+		FormPrincipal frmPrincipal = new FormPrincipal();
+		frmPrincipal.criarTela();
+		
+		/*
 		IniciaVariaveis();
 		
 		// Instancia objeto que cuidará da entrada de dados e manda para uma thread
@@ -39,7 +44,7 @@ public class OpenLync_client {
 		// Instancia objeto que cuidará da saida de dados e manda para uma thered
 		SaidaDados sd = new SaidaDados(ipServidor, portaSaida, ipDestino);
 		new Thread(sd).start();
-		
+		*/
 	}
 
 }
