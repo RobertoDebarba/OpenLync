@@ -1,0 +1,75 @@
+
+import java.io.IOException;
+import java.io.PrintStream;
+import java.net.Socket;
+import java.util.Scanner;
+
+public class TrataCliente implements Runnable {
+	 
+	   private Socket cliente;
+	 
+	   public TrataCliente(Socket cliente) {
+	     this.cliente = cliente;
+	   }
+	 
+	   public void run() {
+
+			Scanner scannerCliente = null;
+			try {
+				scannerCliente = new Scanner(this.cliente.getInputStream());
+			} catch (IOException e) {
+				System.out.println("Erro ao criar Scanner de Cliente!");
+			}
+			
+			while (scannerCliente.hasNextLine()) {
+
+				 // Verificar o IP do cliente e mardar ------------------------------------------------
+				 String remetente = cliente.getInetAddress().getHostAddress(); // Salva ip do servidor em var remetente
+				 
+				 // Varre linha para capturar ip de destino ---		 
+				 boolean pParte = true;
+				 String ipDestino = "";
+				 String mensagem = "";
+				 
+				 String sLinha = scannerCliente.nextLine();  // "nextLine()" só pode ser usado uma vez
+				 
+				 for(int i=0;i<(sLinha).length();i++){  
+					   char c = (sLinha).charAt(i);
+					   
+					   if (c == '|') {
+						   pParte = false;
+					   }
+					   else if (pParte) {
+						   ipDestino = ipDestino + c;
+					   }
+					   else if (!pParte) {
+						   mensagem = mensagem + c;
+					   }
+				 }  
+				 
+				 String msg = remetente + "|" + mensagem;
+				 // ---
+				 
+				 Socket Sdestino = null;
+				 PrintStream PSdestino = null;
+				 
+				 try {
+					   Sdestino = new Socket(ipDestino, 7606);
+					   PSdestino = new PrintStream(Sdestino.getOutputStream());
+					   PSdestino.println(msg); //Envia a mensagem
+				   } catch (IOException e) {
+					   System.out.println("Não foi possivel estabelecer conexão com destinatario!");
+				   }
+				 
+				 try {
+					 // Destroi objetos por causa do loop infinito
+					 Sdestino.close();
+					 PSdestino.close();
+				 } catch (IOException e) {
+					 e.printStackTrace();
+				 }
+				
+				 System.out.println(msg); //FIXME Mostra mensagem no servidor
+			}
+	   }
+}
