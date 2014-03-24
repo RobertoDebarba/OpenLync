@@ -1,134 +1,106 @@
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JButton;
-
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JTextField;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JLabel;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.Composite;
 
 public class FormPrincipal {
 
-	private JFrame frmOpenlync;
-	private JTextField editUsuario;
-	private JTextField editSenha;
+	protected Shell shell;
+	private Text EditUsuario;
+	private Text EditSenha;
 
 	/**
 	 * Launch the application.
+	 * @param args
 	 */
-	public void criarTela() {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
+	public void abrirTelaPrincipal() {
+		try {
+			FormPrincipal window = new FormPrincipal();
+			window.open();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Open the window.
+	 */
+	public void open() {
+		Display display = Display.getDefault();
+		createContents();
+		shell.open();
+		shell.layout();
+		while (!shell.isDisposed()) {
+			if (!display.readAndDispatch()) {
+				display.sleep();
+			}
+		}
+	}
+
+	/**
+	 * Create contents of the window.
+	 * @wbp.parser.entryPoint
+	 */
+	protected void createContents() {
+		shell = new Shell();
+		shell.setSize(330, 543);
+		shell.setText("OpenLync");
+		
+		final Composite compoTeste = new Composite(shell, SWT.NONE);
+		compoTeste.setBounds(0, 0, 330, 533);
+		
+		Button BtnEntrar = new Button(compoTeste, SWT.NONE);
+		BtnEntrar.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent arg0) {
+				Connection conexao = MySQLConection.getMySQLConnection();
+				Usuarios usuario = new Usuarios();
 				try {
-					FormPrincipal window = new FormPrincipal();
-					window.frmOpenlync.setVisible(true);
-				} catch (Exception e) {
+					if (usuario.verificarLogin(conexao, EditUsuario.getText(), EditSenha.getText())) {
+						System.out.println("entrou");
+						compoTeste.setVisible(false);
+					} else {
+						System.out.println("nao entrou");
+					}
+				} catch (SQLException e) {
 					e.printStackTrace();
 				}
 			}
 		});
-	}
-
-	/**
-	 * Create the application.
-	 */
-	public FormPrincipal() {
-		initialize();
-	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frmOpenlync = new JFrame();
-		frmOpenlync.setTitle("OpenLync");
-		frmOpenlync.setBounds(100, 100, 450, 300);
-		frmOpenlync.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		BtnEntrar.setText("Entrar");
+		BtnEntrar.setBounds(68, 233, 91, 45);
 		
-		JButton btnNewButton = new JButton("Entrar");
-		btnNewButton.addMouseListener(new MouseAdapter() {
+		Button BtnSair = new Button(compoTeste, SWT.NONE);
+		BtnSair.addSelectionListener(new SelectionAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				// Liga ao banco
-				Connection dbConnection = MySQLConection.getMySQLConnection();
-				// Verifica usuario
-				Usuarios usuario = new Usuarios();
-				try {
-					if (usuario.verificarLogin(dbConnection, editUsuario.getText(), editSenha.getText())) {
-						System.out.println("entrou");
-					} else {
-						System.out.println("nao entrou");
-					}
-				} catch (SQLException e1) {
-					e1.printStackTrace();
-				}
-			}
-		});
-		
-		JButton btnNewButton_1 = new JButton("Sair");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+			public void widgetSelected(SelectionEvent arg0) {
 				System.exit(1);
 			}
 		});
+		BtnSair.setText("Sair");
+		BtnSair.setBounds(173, 233, 91, 45);
 		
-		editUsuario = new JTextField();
-		editUsuario.setColumns(10);
+		Label label = new Label(compoTeste, SWT.NONE);
+		label.setText("Senha:");
+		label.setBounds(68, 173, 70, 17);
 		
-		editSenha = new JTextField();
-		editSenha.setColumns(10);
+		Label label_1 = new Label(compoTeste, SWT.NONE);
+		label_1.setText("Usuário:");
+		label_1.setBounds(68, 138, 70, 17);
 		
-		JLabel lblUsurio = new JLabel("Usuário:");
+		EditUsuario = new Text(compoTeste, SWT.BORDER);
+		EditUsuario.setBounds(160, 130, 104, 27);
 		
-		JLabel lblSenha = new JLabel("Senha:");
-		GroupLayout groupLayout = new GroupLayout(frmOpenlync.getContentPane());
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(48)
-					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(btnNewButton)
-							.addGap(39)
-							.addComponent(btnNewButton_1))
-						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-							.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-								.addComponent(lblSenha, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(editSenha, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-								.addComponent(lblUsurio)
-								.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(editUsuario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-					.addContainerGap(187, Short.MAX_VALUE))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-					.addGap(47)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(editUsuario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblUsurio))
-					.addGap(30)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(editSenha, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblSenha))
-					.addPreferredGap(ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnNewButton)
-						.addComponent(btnNewButton_1))
-					.addGap(57))
-		);
-		frmOpenlync.getContentPane().setLayout(groupLayout);
+		EditSenha = new Text(compoTeste, SWT.BORDER);
+		EditSenha.setBounds(160, 163, 104, 27);
+		
 	}
 }

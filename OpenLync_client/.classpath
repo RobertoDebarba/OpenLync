@@ -3,6 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="/home/robertoluiz/Área de Trabalho/mysql-connector-java-5.1.29/mysql-connector-java-5.1.29-bin.jar"/>
-	<classpathentry kind="lib" path="forms-1.3.0.jar" sourcepath="forms-1.3.0-src.zip"/>
+	<classpathentry kind="lib" path="/home/robertoluiz/Downloads/swt-4.3-gtk-linux-x86_64/swt.jar"/>
+	<classpathentry kind="lib" path="/home/robertoluiz/Downloads/swt-4.3-gtk-linux-x86_64/swt-debug.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
