@@ -31,9 +31,11 @@ public class OpenLync_client {
 
 	public static void main(String[] args) throws IOException, InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
 		
-		FormPrincipal frmPrincipal = new FormPrincipal();
-		frmPrincipal.abrirTelaPrincipal();
+		//FormPrincipal frmPrincipal = new FormPrincipal();
+		//frmPrincipal.abrirTelaPrincipal();
 		
+		FormMain frmMain = new FormMain();
+		frmMain.abrirTelaPrincipal();
 		
 		/*
 		IniciaVariaveis();
