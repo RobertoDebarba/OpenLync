@@ -10,6 +10,10 @@ import javax.swing.JButton;
 
 
 public class FormLogin extends JInternalFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField editUsuario;
 	private JTextField editSenha;
 
@@ -33,7 +37,8 @@ public class FormLogin extends JInternalFrame {
 	 * Create the frame.
 	 */
 	public FormLogin() {
-		setBounds(100, 100, 348, 537);
+		setBorder(null);
+		setBounds(100, 100, 370, 570);
 		
 		JLabel lblUsurio = new JLabel("Usuário:");
 		
@@ -52,7 +57,7 @@ public class FormLogin extends JInternalFrame {
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(64)
+					.addGap(76)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(btnEntrar, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
@@ -63,15 +68,15 @@ public class FormLogin extends JInternalFrame {
 								.addComponent(lblUsurio)
 								.addComponent(lblSenha))
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(editSenha)
-								.addComponent(editUsuario, GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE))))
-					.addContainerGap(56, Short.MAX_VALUE))
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(editUsuario, GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+								.addComponent(editSenha, GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE))))
+					.addGap(76))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(100)
+					.addGap(112)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblUsurio)
 						.addComponent(editUsuario, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
@@ -83,7 +88,7 @@ public class FormLogin extends JInternalFrame {
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(btnEntrar, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnSair, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(264, Short.MAX_VALUE))
+					.addContainerGap(295, Short.MAX_VALUE))
 		);
 		getContentPane().setLayout(groupLayout);
 

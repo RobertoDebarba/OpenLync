@@ -29,10 +29,7 @@ public class OpenLync_client {
 		ipDestino = scan.nextLine();  
 	}
 
-	public static void main(String[] args) throws IOException, InstantiationException, IllegalAccessException, ClassNotFoundException, SQLException {
-		
-		//FormPrincipal frmPrincipal = new FormPrincipal();
-		//frmPrincipal.abrirTelaPrincipal();
+	public static void main(String[] args) {
 		
 		FormMain frmMain = new FormMain();
 		frmMain.abrirTelaPrincipal();
