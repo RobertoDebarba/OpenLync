@@ -14,11 +14,16 @@ import java.awt.BorderLayout;
 public class FormMain {
 
 	private JFrame MainFrame;
+	private static JDesktopPane jdpMain;
+	
+	//Forms
+	private static FormLogin frmLogin = new FormLogin();
+	private static FormIncial frmInicial = new FormIncial();
 
 	/**
 	 * Launch the application.
 	 */
-	public void abrirTelaPrincipal() {
+	public void abrirTela() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -38,6 +43,61 @@ public class FormMain {
 		initialize();
 	}
 
+	public static void abrirFrmLogin() {
+		
+		frmLogin = new FormLogin();
+		
+		// Retira bordas
+		((BasicInternalFrameUI)frmLogin.getUI()).setNorthPane(null); //retirar o painel superior  
+		frmLogin.setBorder(null);//retirar bordas  
+		
+		// Seta tema
+		try {
+	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	    } catch (ClassNotFoundException | InstantiationException
+	            | IllegalAccessException | UnsupportedLookAndFeelException e) {
+	        e.printStackTrace();
+	    }
+	    SwingUtilities.updateComponentTreeUI(frmLogin);
+		
+		// Seta centro
+		frmLogin.setLocation(0, 0);
+		    
+		jdpMain.add(frmLogin);
+		frmLogin.setVisible(true);
+	}
+	
+	public static void fecharFrmLogin() {
+		jdpMain.remove(frmLogin);
+	}
+	
+	public static void abrirFrmInicial() {
+			
+		// Retira bordas
+		((BasicInternalFrameUI)frmInicial.getUI()).setNorthPane(null); //retirar o painel superior  
+		frmInicial.setBorder(null);//retirar bordas  
+		
+		// Seta tema
+		try {
+	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	    } catch (ClassNotFoundException | InstantiationException
+	            | IllegalAccessException | UnsupportedLookAndFeelException e) {
+	        e.printStackTrace();
+	    }
+	    SwingUtilities.updateComponentTreeUI(frmInicial);
+	    
+	    //Seta centro
+	    frmInicial.setLocation(0, 0);
+	    
+	    jdpMain.add(frmInicial);
+	    frmInicial.setVisible(true);
+		
+	}
+	
+	public static void fecharFrmInicial() {
+		jdpMain.remove(frmInicial);
+	}
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -47,34 +107,8 @@ public class FormMain {
 		MainFrame.setBounds(100, 100, 370, 570);
 		MainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		JDesktopPane jdpMain = new JDesktopPane();
+		jdpMain = new JDesktopPane();
 		MainFrame.getContentPane().add(jdpMain, BorderLayout.CENTER);
 		
-		// Retira bordas
-		FormLogin frmLogin = new FormLogin();
-		((BasicInternalFrameUI)frmLogin.getUI()).setNorthPane(null); //retirar o painel superior  
-		frmLogin.setBorder(null);//retirar bordas  
-		
-		// Seta tema
-		try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException
-                | IllegalAccessException | UnsupportedLookAndFeelException e) {
-            e.printStackTrace();
-        }
-        SwingUtilities.updateComponentTreeUI(frmLogin);
-		
-		// Seta centro
-		frmLogin.setLocation(0, 0);
-		    
-		jdpMain.add(frmLogin);
-		frmLogin.setVisible(true);
-		
-		
-		
 	}
-	
-        
-	
-
 }

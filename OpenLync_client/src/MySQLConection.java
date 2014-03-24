@@ -25,7 +25,7 @@ public class MySQLConection {
 	
 	private static String status = "Não houve tentativa de conexão!";
 
-	public String getStatusMySQL() {
+	public static String getStatusMySQL() {
 		return status;
 	}
 	

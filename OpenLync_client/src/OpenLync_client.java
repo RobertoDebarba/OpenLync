@@ -32,7 +32,9 @@ public class OpenLync_client {
 	public static void main(String[] args) {
 		
 		FormMain frmMain = new FormMain();
-		frmMain.abrirTelaPrincipal();
+		frmMain.abrirTela();
+		
+		FormMain.abrirFrmLogin();
 		
 		/*
 		IniciaVariaveis();

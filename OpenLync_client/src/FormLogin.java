@@ -4,9 +4,16 @@ import javax.swing.JInternalFrame;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
+
+import com.mysql.jdbc.Connection;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.sql.SQLException;
 
 
 public class FormLogin extends JInternalFrame {
@@ -51,8 +58,30 @@ public class FormLogin extends JInternalFrame {
 		editSenha.setColumns(10);
 		
 		JButton btnEntrar = new JButton("Entrar");
+		btnEntrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+					java.sql.Connection conexao = MySQLConection.getMySQLConnection();
+					Usuarios usuario = new Usuarios();
+					try {
+						if (usuario.verificarLogin(conexao, editUsuario.getText(), editSenha.getText())) {
+							FormMain.fecharFrmLogin();
+							FormMain.abrirFrmInicial();
+						} else {
+							// Mostra mensagem
+							JOptionPane.showMessageDialog(null, "Usuário ou senha não encontrado!", "Login Inválido", 1);
+						};
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+			}
+		});
 		
 		JButton btnSair = new JButton("Sair");
+		btnSair.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.exit(1);
+			}
+		});
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
