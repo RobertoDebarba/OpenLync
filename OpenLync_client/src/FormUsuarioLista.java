@@ -8,26 +8,10 @@ import java.awt.Font;
 
 public class FormUsuarioLista extends JInternalFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	JLabel labelNome;
 	JLabel labelCargo;
 	JPanel panelFoto;
-	
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					FormUsuarioLista frame = new FormUsuarioLista();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
 	
 	public FormUsuarioLista(String nome, String cargo) { //FIXME foto
 		setBorder(null);

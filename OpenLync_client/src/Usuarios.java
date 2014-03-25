@@ -97,6 +97,7 @@ public class Usuarios {
 
 		ResultSet rs = st.executeQuery(SQL);
 		
+		rs.beforeFirst();
 		while(rs.next()) {
 			this.codigo = rs.getInt("codigo_usuario");
 			this.nome = rs.getString("nome_usuario");
@@ -114,10 +115,11 @@ public class Usuarios {
 		java.sql.Connection conexao = MySQLConection.getMySQLConnection();
 		Statement st = conexao.createStatement();
 		
-		String SQL = "SELECT * FROM tb_usuarios WHERE login_usuario = '"+ codigo +"';";
+		String SQL = "SELECT * FROM tb_usuarios WHERE codigo_usuario = '"+ codigo +"';";
 
 		ResultSet rs = st.executeQuery(SQL);
 		
+		rs.beforeFirst();
 		while(rs.next()) {
 			this.codigo = rs.getInt("codigo_usuario");
 			this.nome = rs.getString("nome_usuario");

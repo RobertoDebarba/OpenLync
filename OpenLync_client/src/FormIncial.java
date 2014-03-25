@@ -1,13 +1,10 @@
 
 import javax.swing.JInternalFrame;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
-import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import javax.swing.JPanel;
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -16,9 +13,6 @@ import java.awt.Font;
 
 public class FormIncial extends JInternalFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	public static JDesktopPane jdpUsuarios;
 	private static int contadorUsuarios = 0;
@@ -50,7 +44,7 @@ public class FormIncial extends JInternalFrame {
 		jdpUsuarios.add(frmUsuario);
 		frmUsuario.setVisible(true);
 		
-		contadorUsuarios = contadorUsuarios + 60; //tamanho do frmUsuarioLista
+		contadorUsuarios = contadorUsuarios + 60;
 		}
 	
 	
@@ -61,19 +55,8 @@ public class FormIncial extends JInternalFrame {
 		jdpUsuarios = new JDesktopPane();
 		jdpUsuarios.setBounds(22, 85, 321, 414);
 		jdpUsuarios.setBorder(null);
-		
-		JButton btnNovoUsuario = new JButton("Novo Usuario");
-		btnNovoUsuario.setBounds(230, 511, 128, 25);
-		btnNovoUsuario.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				//FIXME remover
-				//FormIncial.getNovoUsuario();
-				
-			}
-		});
 		getContentPane().setLayout(null);
 		getContentPane().add(jdpUsuarios);
-		getContentPane().add(btnNovoUsuario);
 		
 		panelFoto = new JPanel();
 		panelFoto.setBackground(Color.GREEN);

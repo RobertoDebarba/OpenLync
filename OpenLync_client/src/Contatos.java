@@ -10,7 +10,9 @@ public class Contatos {
 		Connection conexao = MySQLConection.getMySQLConnection();
 		Statement st = conexao.createStatement();
 		
-		String SQL = "SELECT * FROM tb_usuarios WHERE status_usuario = true;";
+		Usuarios usuarioLogin = FormLogin.getUsuarioLogin();
+		String SQL = "SELECT (codigo_usuario) FROM tb_usuarios WHERE status_usuario = true AND"+
+					 " codigo_usuario <> " + usuarioLogin.getCodigo() + ";";
 		
 		ResultSet rs = st.executeQuery(SQL);
 		

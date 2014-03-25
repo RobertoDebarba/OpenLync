@@ -5,22 +5,16 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
-
 import java.awt.BorderLayout;
-
 
 public class FormMain {
 
 	private JFrame MainFrame;
 	private static JDesktopPane jdpMain;
-	
 	//Forms
 	private static FormLogin frmLogin;
 	private static FormIncial frmInicial;
 
-	/**
-	 * Launch the application.
-	 */
 	public void abrirTela() {
 		try {
 			FormMain window = new FormMain();
@@ -30,9 +24,6 @@ public class FormMain {
 		}
 	}
 
-	/**
-	 * Create the application.
-	 */
 	public FormMain() {
 		initialize();
 	}
@@ -91,10 +82,7 @@ public class FormMain {
 	public static void fecharFrmInicial() {
 		jdpMain.remove(frmInicial);
 	}
-	
-	/**
-	 * Initialize the contents of the frame.
-	 */
+
 	private void initialize() {
 		MainFrame = new JFrame();
 		MainFrame.setTitle("OpenLync");
