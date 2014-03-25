@@ -9,8 +9,6 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 
-import com.mysql.jdbc.Connection;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
@@ -82,8 +80,7 @@ public class FormLogin extends JInternalFrame {
 						if (usuarioLogin.verificarLogin()) {
 							usuarioLogin.carregarInformacoes(usuarioLogin.getLogin());
 							FormMain.fecharFrmLogin();
-							FormMain.abrirFrmInicial();
-							FormIncial.carregarInformacoes(usuarioLogin.getNome(), usuarioLogin.getCargo());
+							FormMain.abrirFrmInicial(usuarioLogin.getNome(), usuarioLogin.getCargo());
 							Contatos.atualizarListaPrincipal();
 						} else {
 							// Mostra mensagem

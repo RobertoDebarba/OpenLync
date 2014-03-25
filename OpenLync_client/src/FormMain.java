@@ -1,6 +1,4 @@
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JDesktopPane;
 import javax.swing.SwingUtilities;
@@ -17,23 +15,19 @@ public class FormMain {
 	private static JDesktopPane jdpMain;
 	
 	//Forms
-	private static FormLogin frmLogin = new FormLogin();
-	private static FormIncial frmInicial = new FormIncial();
+	private static FormLogin frmLogin;
+	private static FormIncial frmInicial;
 
 	/**
 	 * Launch the application.
 	 */
 	public void abrirTela() {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					FormMain window = new FormMain();
-					window.MainFrame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		try {
+			FormMain window = new FormMain();
+			window.MainFrame.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -45,6 +39,7 @@ public class FormMain {
 
 	public static void abrirFrmLogin() {
 		
+		frmLogin = new FormLogin();
 		// Seta tema
 		try {
 	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -69,8 +64,9 @@ public class FormMain {
 		jdpMain.remove(frmLogin);
 	}
 	
-	public static void abrirFrmInicial() { 
+	public static void abrirFrmInicial(String nome, String cargo) { //FIXME foto 
 		
+		frmInicial = new FormIncial(nome, cargo);
 		// Seta tema
 		try {
 	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

@@ -17,8 +17,7 @@ public class Contatos {
 		while(rs.next()) {
 			Usuarios usuario = new Usuarios();
 			usuario.carregarInformacoes(rs.getInt("codigo_usuario"));
-			FormUsuarioLista frmUsuario = FormIncial.getNovoUsuario();//FIXME pensar em modo melhor de fazer isso
-			frmUsuario.carregarInformacoes(usuario.getNome(), usuario.getCargo());
+			FormIncial.setNovoUsuarioLista(usuario.getNome(), usuario.getCargo());
 		}
 	}
 }

@@ -1,4 +1,4 @@
-import java.sql.Connection;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -93,7 +93,7 @@ public class Usuarios {
 		java.sql.Connection conexao = MySQLConection.getMySQLConnection();
 		Statement st = conexao.createStatement();
 		
-		String SQL = "SELECT * FROM tb_usuarios WHERE login_usuario = '"+ this.login +"';";
+		String SQL = "SELECT * FROM tb_usuarios WHERE login_usuario = '"+ login +"';";
 
 		ResultSet rs = st.executeQuery(SQL);
 		
@@ -114,7 +114,7 @@ public class Usuarios {
 		java.sql.Connection conexao = MySQLConection.getMySQLConnection();
 		Statement st = conexao.createStatement();
 		
-		String SQL = "SELECT * FROM tb_usuarios WHERE login_usuario = '"+ this.codigo +"';";
+		String SQL = "SELECT * FROM tb_usuarios WHERE login_usuario = '"+ codigo +"';";
 
 		ResultSet rs = st.executeQuery(SQL);
 		

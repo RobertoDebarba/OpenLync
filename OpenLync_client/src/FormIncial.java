@@ -1,9 +1,6 @@
-import java.awt.EventQueue;
 
 import javax.swing.JInternalFrame;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.SwingUtilities;
@@ -11,7 +8,6 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JPanel;
 import java.awt.Color;
 import javax.swing.JLabel;
@@ -24,7 +20,7 @@ public class FormIncial extends JInternalFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static JDesktopPane jdpUsuarios;
+	public static JDesktopPane jdpUsuarios;
 	private static int contadorUsuarios = 0;
 	
 	private static JLabel labelNome;
@@ -32,29 +28,8 @@ public class FormIncial extends JInternalFrame {
 	private static JPanel panelFoto;
 	
 	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					FormIncial frame = new FormIncial();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	public static void carregarInformacoes(String nome, String cargo) { //FIXME foto
-		labelNome.setText(nome);
-		labelCargo.setText(cargo);
-	}
-	
-	public static FormUsuarioLista getNovoUsuario() {
-		FormUsuarioLista frmUsuario = new FormUsuarioLista();
+	public static void setNovoUsuarioLista(String nome, String cargo) { //FIXME foto
+		FormUsuarioLista frmUsuario = new FormUsuarioLista(nome, cargo);
 		
 		// Seta tema
 		try {
@@ -76,12 +51,10 @@ public class FormIncial extends JInternalFrame {
 		frmUsuario.setVisible(true);
 		
 		contadorUsuarios = contadorUsuarios + 60; //tamanho do frmUsuarioLista
-		
-		return frmUsuario;
 		}
 	
 	
-	public FormIncial() {
+	public FormIncial(String nome, String cargo) { //FIXME foto
 		setBorder(null);
 		setBounds(100, 100, 370, 570);
 		
@@ -107,12 +80,12 @@ public class FormIncial extends JInternalFrame {
 		panelFoto.setBounds(22, 12, 61, 61);
 		getContentPane().add(panelFoto);
 		
-		labelNome = new JLabel("Roberto Luiz Debarba");
+		labelNome = new JLabel(nome);
 		labelNome.setFont(new Font("Dialog", Font.BOLD, 17));
 		labelNome.setBounds(96, 18, 247, 15);
 		getContentPane().add(labelNome);
 		
-		labelCargo = new JLabel("Programador de Sistemas");
+		labelCargo = new JLabel(cargo);
 		labelCargo.setFont(new Font("Dialog", Font.PLAIN, 14));
 		labelCargo.setBounds(96, 48, 247, 15);
 		getContentPane().add(labelCargo);
