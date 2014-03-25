@@ -35,17 +35,17 @@ public class FormLogin extends JInternalFrame {
 		setBounds(100, 100, 370, 570);
 		
 		JLabel lblUsurio = new JLabel("Usuário:");
-		lblUsurio.setBounds(76, 114, 60, 15);
+		lblUsurio.setBounds(76, 114, 60, 25);
 		
 		JLabel lblSenha = new JLabel("Senha:");
-		lblSenha.setBounds(76, 151, 50, 15);
+		lblSenha.setBounds(76, 151, 50, 23);
 		
 		editUsuario = new JTextField();
-		editUsuario.setBounds(154, 112, 140, 19);
+		editUsuario.setBounds(154, 112, 140, 25);
 		editUsuario.setColumns(10);
 		
 		editSenha = new JTextField();
-		editSenha.setBounds(154, 149, 140, 19);
+		editSenha.setBounds(154, 149, 140, 25);
 		editSenha.setColumns(10);
 		
 		JButton btnEntrar = new JButton("Entrar");
