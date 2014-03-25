@@ -45,12 +45,6 @@ public class FormMain {
 
 	public static void abrirFrmLogin() {
 		
-		frmLogin = new FormLogin();
-		
-		// Retira bordas
-		((BasicInternalFrameUI)frmLogin.getUI()).setNorthPane(null); //retirar o painel superior  
-		frmLogin.setBorder(null);//retirar bordas  
-		
 		// Seta tema
 		try {
 	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -59,6 +53,10 @@ public class FormMain {
 	        e.printStackTrace();
 	    }
 	    SwingUtilities.updateComponentTreeUI(frmLogin);
+	    
+	    // Retira bordas
+ 		((BasicInternalFrameUI)frmLogin.getUI()).setNorthPane(null); //retirar o painel superior  
+ 		frmLogin.setBorder(null);//retirar bordas  
 		
 		// Seta centro
 		frmLogin.setLocation(0, 0);
@@ -71,11 +69,7 @@ public class FormMain {
 		jdpMain.remove(frmLogin);
 	}
 	
-	public static void abrirFrmInicial() {
-			
-		// Retira bordas
-		((BasicInternalFrameUI)frmInicial.getUI()).setNorthPane(null); //retirar o painel superior  
-		frmInicial.setBorder(null);//retirar bordas  
+	public static void abrirFrmInicial() { 
 		
 		// Seta tema
 		try {
@@ -85,6 +79,10 @@ public class FormMain {
 	        e.printStackTrace();
 	    }
 	    SwingUtilities.updateComponentTreeUI(frmInicial);
+	    
+	    // Retira bordas
+ 		((BasicInternalFrameUI)frmInicial.getUI()).setNorthPane(null); //retirar o painel superior  
+ 		frmInicial.setBorder(null);//retirar bordas 
 	    
 	    //Seta centro
 	    frmInicial.setLocation(0, 0);

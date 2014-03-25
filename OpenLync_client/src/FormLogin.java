@@ -21,8 +21,11 @@ public class FormLogin extends JInternalFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTextField editUsuario;
-	private JTextField editSenha;
+	
+	private static JTextField editUsuario;
+	private static JTextField editSenha;
+	
+	private static Usuarios usuarioLogin = null;
 
 	/**
 	 * Launch the application.
@@ -38,6 +41,18 @@ public class FormLogin extends JInternalFrame {
 				}
 			}
 		});
+	}
+	
+	public static Usuarios getUsuarioLogin() {
+		return usuarioLogin;
+	}
+	
+	public static String getLoginNome() {
+		return editUsuario.getText();
+	}
+	
+	public static String getLoginSenha() {
+		return editSenha.getText();
 	}
 
 	/**
@@ -60,12 +75,16 @@ public class FormLogin extends JInternalFrame {
 		JButton btnEntrar = new JButton("Entrar");
 		btnEntrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-					java.sql.Connection conexao = MySQLConection.getMySQLConnection();
-					Usuarios usuario = new Usuarios();
+					usuarioLogin = new Usuarios();
+					usuarioLogin.setLogin(editUsuario.getText());
+					usuarioLogin.setSenha(editSenha.getText());
 					try {
-						if (usuario.verificarLogin(conexao, editUsuario.getText(), editSenha.getText())) {
+						if (usuarioLogin.verificarLogin()) {
+							usuarioLogin.carregarInformacoes(usuarioLogin.getLogin());
 							FormMain.fecharFrmLogin();
 							FormMain.abrirFrmInicial();
+							FormIncial.carregarInformacoes(usuarioLogin.getNome(), usuarioLogin.getCargo());
+							Contatos.atualizarListaPrincipal();
 						} else {
 							// Mostra mensagem
 							JOptionPane.showMessageDialog(null, "Usuário ou senha não encontrado!", "Login Inválido", 1);
