@@ -19,7 +19,7 @@ public class Contatos {
 		while(rs.next()) {
 			Usuarios usuario = new Usuarios();
 			usuario.carregarInformacoes(rs.getInt("codigo_usuario"));
-			FormIncial.setNovoUsuarioLista(usuario.getNome(), usuario.getCargo());
+			FormIncial.setNovoUsuarioLista(usuario.getCodigo(), usuario.getNome(), usuario.getCargo(), usuario.getIp());
 		}
 	}
 }

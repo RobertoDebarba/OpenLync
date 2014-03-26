@@ -1,19 +1,45 @@
 
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
 import java.awt.Color;
+
 import javax.swing.JLabel;
+
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 public class FormUsuarioLista extends JInternalFrame {
 
 	private static final long serialVersionUID = 1L;
-	JLabel labelNome;
-	JLabel labelCargo;
-	JPanel panelFoto;
+	private JLabel labelNome;
+	private JLabel labelCargo;
+	private JPanel panelFoto;
+	private int codigo;
+	private String nome;
+	private String cargo;
+	private String ip;
+	//TODO foto
 	
-	public FormUsuarioLista(String nome, String cargo) { //FIXME foto
+	public FormUsuarioLista(final int codigo,final String nome,final String cargo,final String ip) {
+		this.codigo = codigo;
+		this.nome = nome;
+		this.cargo = cargo;
+		this.ip = ip;
+		
+		getContentPane().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					//TODO Abre tela de chat
+					FormChat frmChat = new FormChat(codigo, nome, cargo, ip );
+					frmChat.setVisible(true);
+				}
+			}
+		}); //FIXME foto
 		setBorder(null);
 		getContentPane().setBackground(Color.LIGHT_GRAY);
 		setBounds(100, 100, 321, 65);

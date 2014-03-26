@@ -22,8 +22,8 @@ public class FormIncial extends JInternalFrame {
 	private static JPanel panelFoto;
 	
 	
-	public static void setNovoUsuarioLista(String nome, String cargo) { //FIXME foto
-		FormUsuarioLista frmUsuario = new FormUsuarioLista(nome, cargo);
+	public static void setNovoUsuarioLista(int codigo,String nome, String cargo, String ip) { //FIXME foto
+		FormUsuarioLista frmUsuario = new FormUsuarioLista(codigo, nome, cargo, ip);
 		
 		// Seta tema
 		try {
