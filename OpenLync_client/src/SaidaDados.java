@@ -1,7 +1,6 @@
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class SaidaDados implements Runnable {
 
@@ -27,21 +26,14 @@ public class SaidaDados implements Runnable {
 		} catch(IOException e) {
 			System.out.println("Erro ao conectar com o servidor "+this.ipServidor+" pela porta "+this.portaSaida);
 		}
-		
-		
-		PSsaida = null;  
 
 		// Cria printStream
+		PSsaida = null;  
     	try {
 			PSsaida = new PrintStream(this.socketSaida.getOutputStream());
 		} catch (IOException e) {
 			System.out.println("Erro ao criar PrintStream de saída");
 		} 
-		
-		
-		// Cria objeto que ficará enviando mensagens e coloca na Thread
-//		TrataSaida ts = new TrataSaida(this.socketSaida, this.ipDestino);
-//		new Thread(ts).start();
 	}
 	
 	public void enviarMensagem(String msg) {

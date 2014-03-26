@@ -11,7 +11,6 @@ public class OpenLync_client {
 	private static String ipServidor;
 	private static int portaEntrada;
 	private static int portaSaida; 
-	private static String ipDestino;
 	
 	public OpenLync_client() {
 		
@@ -45,12 +44,6 @@ public class OpenLync_client {
 		ipServidor = "192.168.152.1"; // Define ip do servidor
 		portaEntrada = 7606;  //Define porta de entrada de dados; Servidor -> Cliente
 		portaSaida = 7609;// Define porta de sáida de dados; Cliente -> Servidor
-		
-		// Define ip destino para comunicação
-		System.out.print("Digite o ip com o qual deseja se comunicar: ");
-		@SuppressWarnings("resource")
-		Scanner scan = new Scanner(System.in);
-		ipDestino = scan.nextLine();  
 	}
 
 	public static void main(String[] args) {

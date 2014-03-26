@@ -1,4 +1,3 @@
-import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -22,16 +21,12 @@ public class FormChat extends JFrame {
 	private JPanel contentPane;
 	
 	private int codigo;
-	private String nome;
-	private String cargo;
 	private String ip;
 	//TODO foto
 
 	public FormChat(int codigo, String nome, String cargo, String ip) {
 		setTitle(nome);
 		this.codigo = codigo;
-		this.nome = nome;
-		this.cargo = cargo;
 		this.ip = ip;
 		
 		//Abre Conexão de Saida
@@ -73,8 +68,10 @@ public class FormChat extends JFrame {
 		JButton BtnEnviar = new JButton("Enviar");
 		BtnEnviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				String linhas = textPane.getText() + "\n" + textArea.getText();
+				textArea.setText(null);
+				textPane.setText(linhas);
 				conexaoSaida.enviarMensagem(textArea.getText());
-				textPane.setText(textArea.getText());
 			}
 		});
 		BtnEnviar.setBounds(293, 315, 63, 59);
