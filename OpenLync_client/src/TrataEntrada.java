@@ -35,7 +35,23 @@ public class TrataEntrada implements Runnable {
 			while (s.hasNextLine()) {
 
 				String msg = s.nextLine();
-				System.out.println(msg);
+				System.out.println(msg); //TODO remover
+				
+				Mensagens TratadorMensagens = new Mensagens();
+				TratadorMensagens.tratarMensagem(msg);
+				
+				//mandar para tela de chat
+				int i = 0;
+				FormChat[] listaChat = null;
+				while (i < FormUsuarioLista.getContadorChat()) {
+					
+					listaChat = FormUsuarioLista.getListaChat();
+					if (TratadorMensagens.getIpRemetente().equals(listaChat[i].getIp())) {
+						listaChat[i].adicionarMensagem(TratadorMensagens.getMensagemTratada());//FIXME
+					}
+					i++;
+				}
+				
 			}
 			
 		}

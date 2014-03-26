@@ -24,6 +24,21 @@ public class FormUsuarioLista extends JInternalFrame {
 	private String ip;
 	//TODO foto
 	
+	private static FormChat[] listaChat = new FormChat[100]; //FIXME tornar tamanho dinamico
+	private static int contadorChat = 0;
+	
+	public static int getContadorChat() {
+		return contadorChat;
+	}
+	
+	public static FormChat[] getListaChat() {
+		return listaChat;
+	}
+
+	public static void setListaChat(FormChat[] listaChat) {
+		FormUsuarioLista.listaChat = listaChat;
+	}
+
 	public FormUsuarioLista(final int codigo,final String nome,final String cargo,final String ip) {
 		this.codigo = codigo;
 		this.nome = nome;
@@ -35,8 +50,9 @@ public class FormUsuarioLista extends JInternalFrame {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
 					//TODO Abre tela de chat
-					FormChat frmChat = new FormChat(codigo, nome, cargo, ip );
-					frmChat.setVisible(true);
+					listaChat[contadorChat] = new FormChat(codigo, nome, cargo, ip );
+					listaChat[contadorChat].setVisible(true);
+					contadorChat++;
 				}
 			}
 		}); //FIXME foto

@@ -19,10 +19,24 @@ public class FormChat extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	private JTextPane textPane;
 	
 	private int codigo;
 	private String ip;
 	//TODO foto
+	
+	public int getCodigo() {
+		return codigo;
+	}
+
+	public String getIp() {
+		return ip;
+	}
+	
+	public void adicionarMensagem(String mensagem) {
+		String linhas = textPane.getText() + "\n" + mensagem;
+		textPane.setText(linhas);
+	}
 
 	public FormChat(int codigo, String nome, String cargo, String ip) {
 		setTitle(nome);
@@ -41,7 +55,7 @@ public class FormChat extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		final JTextPane textPane = new JTextPane();
+		textPane = new JTextPane();
 		textPane.setEditable(false);
 		textPane.setBounds(8, 60, 348, 248);
 		contentPane.add(textPane);
@@ -68,10 +82,9 @@ public class FormChat extends JFrame {
 		JButton BtnEnviar = new JButton("Enviar");
 		BtnEnviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String linhas = textPane.getText() + "\n" + textArea.getText();
-				textArea.setText(null);
-				textPane.setText(linhas);
+				adicionarMensagem(textArea.getText());
 				conexaoSaida.enviarMensagem(textArea.getText());
+				textArea.setText(null);
 			}
 		});
 		BtnEnviar.setBounds(293, 315, 63, 59);

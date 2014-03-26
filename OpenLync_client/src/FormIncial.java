@@ -6,9 +6,13 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.JPanel;
+
 import java.awt.Color;
+
 import javax.swing.JLabel;
+
 import java.awt.Font;
+import java.sql.SQLException;
 
 
 public class FormIncial extends JInternalFrame {
@@ -19,11 +23,17 @@ public class FormIncial extends JInternalFrame {
 	
 	private static JLabel labelNome;
 	private static JLabel labelCargo;
-	private static JPanel panelFoto;
+	private static JPanel panelFoto;	
 	
-	
-	public static void setNovoUsuarioLista(int codigo,String nome, String cargo, String ip) { //FIXME foto
-		FormUsuarioLista frmUsuario = new FormUsuarioLista(codigo, nome, cargo, ip);
+	public static void setNovoUsuarioLista(int codigoUsuario) { //FIXME foto
+		Usuarios usuario = new Usuarios();
+		try {
+			usuario.carregarInformacoes(codigoUsuario);
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		FormUsuarioLista frmUsuario = new FormUsuarioLista(usuario.getCodigo(), usuario.getNome(), usuario.getCargo(), usuario.getIp());
 		
 		// Seta tema
 		try {

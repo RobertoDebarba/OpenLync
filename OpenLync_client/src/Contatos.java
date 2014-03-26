@@ -17,9 +17,10 @@ public class Contatos {
 		ResultSet rs = st.executeQuery(SQL);
 		
 		while(rs.next()) {
-			Usuarios usuario = new Usuarios();
-			usuario.carregarInformacoes(rs.getInt("codigo_usuario"));
-			FormIncial.setNovoUsuarioLista(usuario.getCodigo(), usuario.getNome(), usuario.getCargo(), usuario.getIp());
+//			Usuarios usuario = new Usuarios();
+//			usuario.carregarInformacoes(rs.getInt("codigo_usuario"));
+//			FormIncial.setNovoUsuarioLista(usuario.getCodigo(), usuario.getNome(), usuario.getCargo(), usuario.getIp());
+			FormIncial.setNovoUsuarioLista(rs.getInt("codigo_usuario"));
 		}
 	}
 }
