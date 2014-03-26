@@ -1,4 +1,8 @@
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -70,13 +74,37 @@ public class Usuarios {
 		this.ip = ip;
 	}
 	
-	public boolean verificarLogin() throws SQLException {
+	public void setStatusDB(int codigoUsuario, boolean status) throws SQLException {
+		java.sql.Connection conexao = MySQLConection.getMySQLConnection();
+		Statement st = conexao.createStatement();
+		
+		String SQL = "UPDATE tb_usuarios SET status_usuario = "+status+
+					 " WHERE codigo_usuario = "+codigoUsuario+";";
+
+		st.executeUpdate(SQL);
+		
+		//this.status = status;
+	}
+	
+	public void setIpDB(int codigoUsuario, String ip) throws SQLException {
+		java.sql.Connection conexao = MySQLConection.getMySQLConnection();
+		Statement st = conexao.createStatement();
+		
+		String SQL = "UPDATE tb_usuarios SET ip_usuario = '"+ip+
+					 "' WHERE codigo_usuario = "+codigoUsuario+";";
+		
+		st.executeUpdate(SQL);
+		
+		this.ip = ip;
+	}
+	
+	public boolean verificarLogin(String login, String senha) throws SQLException {
 		
 		java.sql.Connection conexao = MySQLConection.getMySQLConnection();
 		Statement st = conexao.createStatement();
 		
-		String SQL = "SELECT 1 FROM tb_usuarios WHERE login_usuario = '"+ this.login +
-					 "' and senha_usuario = '"+ this.senha +"';";
+		String SQL = "SELECT 1 FROM tb_usuarios WHERE login_usuario = '"+ login +
+					 "' and senha_usuario = '"+ senha +"';";
 
 		ResultSet rs = st.executeQuery(SQL);
 
@@ -130,5 +158,9 @@ public class Usuarios {
 			this.ip = rs.getString("ip_usuario");
 			//FIXME foto
 		}
+	}
+	
+	protected void finalize( ) throws Throwable {
+		setStatusDB(this.codigo, false);
 	}
 }

@@ -53,16 +53,17 @@ public class FormLogin extends JInternalFrame {
 		btnEntrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 					usuarioLogin = new Usuarios();
-					usuarioLogin.setLogin(editUsuario.getText());
-					usuarioLogin.setSenha(editSenha.getText());
+					String login = editUsuario.getText();
+					String senha = editSenha.getText();
 					try {
-						if (usuarioLogin.verificarLogin()) {
-							usuarioLogin.carregarInformacoes(usuarioLogin.getLogin());
+						if (usuarioLogin.verificarLogin(login, senha)) {
+							usuarioLogin.carregarInformacoes(login);
+							usuarioLogin.setStatusDB(usuarioLogin.getCodigo(), true);
+							usuarioLogin.setIpDB(usuarioLogin.getCodigo(), OpenLync_client.getIpLocal());
 							FormMain.fecharFrmLogin();
 							FormMain.abrirFrmInicial(usuarioLogin.getNome(), usuarioLogin.getCargo());
 							Contatos.atualizarListaPrincipal();
 						} else {
-							// Mostra mensagem
 							JOptionPane.showMessageDialog(null, "Usuário ou senha não encontrado!", "Login Inválido", 1);
 						};
 					} catch (SQLException e) {

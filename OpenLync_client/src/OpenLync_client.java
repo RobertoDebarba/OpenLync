@@ -3,6 +3,8 @@
 //	http://www.guj.com.br/articles/126
 
 import java.io.IOException;  
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Scanner;
 import java.sql.*;
 
@@ -45,6 +47,18 @@ public class OpenLync_client {
 		portaEntrada = 7606;  //Define porta de entrada de dados; Servidor -> Cliente
 		portaSaida = 7609;// Define porta de sáida de dados; Cliente -> Servidor
 	}
+	
+	public static String getIpLocal() {
+		String ip = "";
+		try {
+			InetAddress InetAdd = InetAddress.getLocalHost();
+			String hostName = InetAdd.getHostName();
+			ip = InetAddress.getByName(hostName +".local").getHostAddress();
+		} catch (UnknownHostException e) {
+			System.out.println("Erro ao analisar ip!");
+		}
+		return ip;
+	}
 
 	public static void main(String[] args) {
 		
@@ -59,11 +73,5 @@ public class OpenLync_client {
 		// Instancia objeto que cuidará da entrada de dados e manda para uma thread
 		EntradaDados ed = new EntradaDados(portaEntrada);
 		new Thread(ed).start();
-		
-//		// Instancia objeto que cuidará da saida de dados e manda para uma thered
-//		SaidaDados sd = new SaidaDados(ipServidor, portaSaida, ipDestino);
-//		new Thread(sd).start();
-//		*/
 	}
-
 }
