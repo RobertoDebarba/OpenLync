@@ -32,7 +32,8 @@ public class TrataCliente implements Runnable {
 			 
 			// Varre mensagem
 			Mensagens TratadorMensagens = new Mensagens();
-			TratadorMensagens.tratarMensagem(scannerCliente.nextLine());
+			String mensg = scannerCliente.nextLine();
+			TratadorMensagens.tratarMensagem(mensg);
 			 
 			String msg = remetente + "|" + TratadorMensagens.getMensagemTratada();
 			
