@@ -1,6 +1,5 @@
 
 import javax.swing.JInternalFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import java.awt.Color;
@@ -18,11 +17,6 @@ public class FormUsuarioLista extends JInternalFrame {
 	private JLabel labelNome;
 	private JLabel labelCargo;
 	private JPanel panelFoto;
-	private int codigo;
-	private String nome;
-	private String cargo;
-	private String ip;
-	//TODO foto
 	
 	private static FormChat[] listaChat = new FormChat[100]; //FIXME tornar tamanho dinamico
 	private static int contadorChat = 0;
@@ -40,10 +34,6 @@ public class FormUsuarioLista extends JInternalFrame {
 	}
 
 	public FormUsuarioLista(final int codigo,final String nome,final String cargo,final String ip) {
-		this.codigo = codigo;
-		this.nome = nome;
-		this.cargo = cargo;
-		this.ip = ip;
 		
 		getContentPane().addMouseListener(new MouseAdapter() {
 			@Override

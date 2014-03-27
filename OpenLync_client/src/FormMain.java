@@ -7,6 +7,9 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 import java.awt.BorderLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.SQLException;
 
 public class FormMain {
 
@@ -86,6 +89,17 @@ public class FormMain {
 
 	private void initialize() {
 		MainFrame = new JFrame();
+		MainFrame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				Usuarios usuarioLogin = FormLogin.getUsuarioLogin();
+				try {
+					usuarioLogin.setStatusDB(usuarioLogin.getCodigo(), false);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 		MainFrame.setTitle("OpenLync");
 		MainFrame.setBounds(100, 100, 370, 570);
 		MainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

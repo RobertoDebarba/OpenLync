@@ -2,11 +2,8 @@
 //	
 //	http://www.guj.com.br/articles/126
 
-import java.io.IOException;  
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.Scanner;
-import java.sql.*;
 
 public class OpenLync_client {
 	

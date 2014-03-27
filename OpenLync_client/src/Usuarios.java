@@ -1,8 +1,4 @@
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -158,9 +154,5 @@ public class Usuarios {
 			this.ip = rs.getString("ip_usuario");
 			//FIXME foto
 		}
-	}
-	
-	protected void finalize( ) throws Throwable {
-		setStatusDB(this.codigo, false);
 	}
 }
