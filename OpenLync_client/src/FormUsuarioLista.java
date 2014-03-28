@@ -1,14 +1,19 @@
 
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import java.awt.Color;
 
 import javax.swing.JLabel;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 
 
 public class FormUsuarioLista extends JInternalFrame {
@@ -22,6 +27,8 @@ public class FormUsuarioLista extends JInternalFrame {
 	
 	private static FormChat[] listaChat = new FormChat[100]; //FIXME tornar tamanho dinamico
 	private static int contadorChat = 0;
+	
+	private static int contadorPosicaoPrintUsuario = 0;
 	
 	public int getCodigoUsuario() {
 		return codigoUsuario;
@@ -42,6 +49,38 @@ public class FormUsuarioLista extends JInternalFrame {
 	public static void setListaChat(FormChat[] listaChat) {
 		FormUsuarioLista.listaChat = listaChat;
 	}
+	
+	public static FormUsuarioLista getNovoFormUsuarioLista(int codigoUsuario) { //FIXME foto
+		Usuarios usuario = new Usuarios();
+		try {
+			usuario.carregarInformacoes(codigoUsuario);
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		FormUsuarioLista frmUsuario = new FormUsuarioLista(usuario.getCodigo(), usuario.getNome(), usuario.getCargo(), usuario.getIp());
+		
+		// Seta tema
+		try {
+	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	    } catch (ClassNotFoundException | InstantiationException
+	            | IllegalAccessException | UnsupportedLookAndFeelException e) {
+	        e.printStackTrace();
+	    }
+	    SwingUtilities.updateComponentTreeUI(frmUsuario);
+	    
+	    // Retira bordas
+ 		((BasicInternalFrameUI)frmUsuario.getUI()).setNorthPane(null); //retirar o painel superior  
+ 		frmUsuario.setBorder(null);//retirar bordas  
+		
+		// Seta centro
+		frmUsuario.setLocation(0, contadorPosicaoPrintUsuario);
+		
+		contadorPosicaoPrintUsuario = contadorPosicaoPrintUsuario + 60;
+		
+		return frmUsuario;
+	
+	}
 
 	public FormUsuarioLista(final int codigo,final String nome,final String cargo,final String ip) {
 		
@@ -51,7 +90,7 @@ public class FormUsuarioLista extends JInternalFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-					//TODO Abre tela de chat
+					// Abre tela do chat
 					listaChat[contadorChat] = new FormChat(codigo, nome, cargo, ip );
 					listaChat[contadorChat].setVisible(true);
 					contadorChat++;

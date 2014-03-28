@@ -79,7 +79,7 @@ public class Usuarios {
 
 		st.executeUpdate(SQL);
 		
-		//this.status = status;
+		this.status = status;
 	}
 	
 	public void setIpDB(int codigoUsuario, String ip) throws SQLException {
