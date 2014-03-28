@@ -54,7 +54,7 @@ public class Usuarios {
 		this.senha = senha;
 	}
 
-	public boolean isStatus() {
+	public boolean getStatus() {
 		return status;
 	}
 

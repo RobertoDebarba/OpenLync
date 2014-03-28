@@ -62,7 +62,7 @@ public class FormLogin extends JInternalFrame {
 							usuarioLogin.setIpDB(usuarioLogin.getCodigo(), OpenLync_client.getIpLocal());
 							FormMain.fecharFrmLogin();
 							FormMain.abrirFrmInicial(usuarioLogin.getNome(), usuarioLogin.getCargo());
-							Contatos.atualizarListaPrincipal();
+							//Contatos.atualizarListaPrincipal();
 						} else {
 							JOptionPane.showMessageDialog(null, "Usuário ou senha não encontrado!", "Login Inválido", 1);
 						};

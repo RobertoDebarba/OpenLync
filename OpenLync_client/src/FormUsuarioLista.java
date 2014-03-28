@@ -18,9 +18,19 @@ public class FormUsuarioLista extends JInternalFrame {
 	private JLabel labelCargo;
 	private JPanel panelFoto;
 	
+	private int codigoUsuario;
+	
 	private static FormChat[] listaChat = new FormChat[100]; //FIXME tornar tamanho dinamico
 	private static int contadorChat = 0;
 	
+	public int getCodigoUsuario() {
+		return codigoUsuario;
+	}
+
+	public void setCodigoUsuario(int codigoUsuario) {
+		this.codigoUsuario = codigoUsuario;
+	}
+
 	public static int getContadorChat() {
 		return contadorChat;
 	}
@@ -34,6 +44,8 @@ public class FormUsuarioLista extends JInternalFrame {
 	}
 
 	public FormUsuarioLista(final int codigo,final String nome,final String cargo,final String ip) {
+		
+		this.codigoUsuario = codigo;
 		
 		getContentPane().addMouseListener(new MouseAdapter() {
 			@Override
