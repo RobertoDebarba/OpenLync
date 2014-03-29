@@ -21,9 +21,25 @@ public class FormChat extends JFrame {
 	private JPanel contentPane;
 	private JTextPane textPane;
 	
+	public static FormChat[] listaChat = new FormChat[100]; //FIXME tornar tamanho dinamico
+	private static int contadorChat = 0;
+	
 	private int codigo;
 	private String ip;
 	//TODO foto
+	
+	
+	public static int getContadorChat() {
+		return contadorChat;
+	}
+
+	public static void setContadorChat(int contadorChat) {
+		FormChat.contadorChat = contadorChat;
+	}
+	
+	public static void incContadorChat() {
+		contadorChat++;
+	}
 	
 	public int getCodigo() {
 		return codigo;

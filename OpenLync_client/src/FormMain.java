@@ -92,9 +92,13 @@ public class FormMain {
 		MainFrame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
+				// Ao fechar programa
 				Usuarios usuarioLogin = FormLogin.getUsuarioLogin();
 				try {
+					//Seta status usuarioLogin para status_usuario = false
 					usuarioLogin.setStatusDB(usuarioLogin.getCodigo(), false);
+					//Seta ip para null
+					usuarioLogin.setIpDB(usuarioLogin.getCodigo(), null);
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}

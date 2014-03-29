@@ -139,7 +139,29 @@ public class Usuarios {
 		java.sql.Connection conexao = MySQLConection.getMySQLConnection();
 		Statement st = conexao.createStatement();
 		
-		String SQL = "SELECT * FROM tb_usuarios WHERE codigo_usuario = '"+ codigo +"';";
+		String SQL = "SELECT * FROM tb_usuarios WHERE codigo_usuario = "+ codigo +";";
+
+		ResultSet rs = st.executeQuery(SQL);
+		
+		rs.beforeFirst();
+		while(rs.next()) {
+			this.codigo = rs.getInt("codigo_usuario");
+			this.nome = rs.getString("nome_usuario");
+			this.cargo = rs.getString("cargo_usuario");
+			this.login = rs.getString("login_usuario");
+			this.senha = rs.getString("senha_usuario");
+			this.status = rs.getBoolean("status_usuario");
+			this.ip = rs.getString("ip_usuario");
+			//FIXME foto
+		}
+	}
+	
+public void carregarInformacoesPorIP(String ip) throws SQLException {
+		
+		java.sql.Connection conexao = MySQLConection.getMySQLConnection();
+		Statement st = conexao.createStatement();
+		
+		String SQL = "SELECT * FROM tb_usuarios WHERE ip_usuario = '"+ ip +"';";
 
 		ResultSet rs = st.executeQuery(SQL);
 		
