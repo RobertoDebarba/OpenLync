@@ -27,6 +27,14 @@ public class FormUsuarioLista extends JInternalFrame {
 	
 	private static int contadorPosicaoPrintUsuario = 0;
 	
+	public static void incContadorPosicaoUsuario() {
+		contadorPosicaoPrintUsuario = contadorPosicaoPrintUsuario + 60;
+	}
+	
+	public static void decContadorPosicaoUsuario() {
+		contadorPosicaoPrintUsuario = contadorPosicaoPrintUsuario - 60;
+	}
+	
 	public int getCodigoUsuario() {
 		return codigoUsuario;
 	}
@@ -61,7 +69,7 @@ public class FormUsuarioLista extends JInternalFrame {
 		// Seta centro
 		frmUsuario.setLocation(0, contadorPosicaoPrintUsuario);
 		
-		contadorPosicaoPrintUsuario = contadorPosicaoPrintUsuario + 60;
+		incContadorPosicaoUsuario();
 		
 		return frmUsuario;
 	

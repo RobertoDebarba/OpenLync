@@ -54,7 +54,7 @@ public class FormIncial extends JInternalFrame {
 					e.printStackTrace();
 				}
             }
-        }, 1000, 15000);
+        }, 1000, 7000);
 
 	}
 	

@@ -79,6 +79,7 @@ public class Contatos {
 		
 		int i = 0;
 		// Varre lista  para verificar posicoes NÂO NULAS
+		int y = 0;
 		while (i < 100) { //FIXME tamanho grid
 
 			Usuarios userTeste = new Usuarios();
@@ -90,9 +91,17 @@ public class Contatos {
 					//Se usuario está offline(status_usuario = false) remove da JDesktopPane e seta NULL NA LISTA
 					if (!userTeste.getStatus()) {
 						FormIncial.jdpUsuarios.remove(listaInternalFrames[i]);
-						FormIncial.jdpUsuarios.repaint();
+						//FormIncial.jdpUsuarios.repaint();
 						listaInternalFrames[i] = null; //FIXME testetesteteste
+						
+						FormChat.decContadorChat();
+						FormUsuarioLista.decContadorPosicaoUsuario();
+					} else {
+						listaInternalFrames[i].setLocation(0, y);
+						y = y + 60;
 					}
+					
+					FormIncial.jdpUsuarios.repaint();
 				}
 				
 			} catch (SQLException e) {
@@ -101,5 +110,9 @@ public class Contatos {
 			
 			i++;
 		}
+		//Reorganiza posições dos forms na lista de contatos
+		i = 0;
+
+
 	}
 }

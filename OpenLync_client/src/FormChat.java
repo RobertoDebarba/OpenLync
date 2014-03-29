@@ -41,6 +41,10 @@ public class FormChat extends JFrame {
 		contadorChat++;
 	}
 	
+	public static void decContadorChat() {
+		contadorChat--;
+	}
+	
 	public int getCodigo() {
 		return codigo;
 	}
