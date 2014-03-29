@@ -92,11 +92,12 @@ public class Contatos {
 					if (!userTeste.getStatus()) {
 						FormIncial.jdpUsuarios.remove(listaInternalFrames[i]);
 						//FormIncial.jdpUsuarios.repaint();
-						listaInternalFrames[i] = null; //FIXME testetesteteste
+						listaInternalFrames[i] = null;
 						
 						FormChat.decContadorChat();
 						FormUsuarioLista.decContadorPosicaoUsuario();
 					} else {
+						//Reorganiza posições dos forms na lista de contatos
 						listaInternalFrames[i].setLocation(0, y);
 						y = y + 60;
 					}
@@ -110,9 +111,5 @@ public class Contatos {
 			
 			i++;
 		}
-		//Reorganiza posições dos forms na lista de contatos
-		i = 0;
-
-
 	}
 }
