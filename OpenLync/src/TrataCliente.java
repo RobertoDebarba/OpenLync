@@ -25,24 +25,36 @@ public class TrataCliente implements Runnable {
 			System.out.println("Erro ao criar Scanner do cliente!");
 		}
 		
+		Mensagens TratadorMensagens = new Mensagens();
+		
 		while (scannerCliente.hasNextLine()) {
 
 			// Salva IP do cliente que enviou a mensagem
 			String remetente = this.Scliente.getInetAddress().getHostAddress();
 			 
 			// Varre mensagem
-			Mensagens TratadorMensagens = new Mensagens();
 			String mensg = scannerCliente.nextLine();
+			
+			TratadorMensagens.setIpDestino("");
+			TratadorMensagens.setMensagemTratada("");
 			TratadorMensagens.tratarMensagem(mensg);
 			 
-			String msg = remetente + "|" + TratadorMensagens.getMensagemTratada();
+			String msg = "";
+			if (TratadorMensagens.getIpDestino().equals("TESTCONNECTION")) {  // SE for teste de sistema
+				
+				msg = "TESTCONNECTION|" + remetente;
+				
+				TratadorMensagens.setIpDestino(remetente);
+			} else {
+			
+				msg = remetente + "|" + TratadorMensagens.getMensagemTratada();
+			}
 			
 			//Envia a mensagem
 			TratadorMensagens.enviarMensagem(msg, this.portaSaida);
 			
 			// Mostra a mensagem enviada ao destinatario com o ip do remetente
 			System.out.println(msg);
-
 		}
    }
 }

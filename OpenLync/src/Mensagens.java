@@ -15,6 +15,14 @@ public class Mensagens {
 		return mensagemTratada;
 	}
 
+	public void setIpDestino(String ipDestino) {
+		this.ipDestino = ipDestino;
+	}
+	
+	public void setMensagemTratada(String mensagemTratada) {
+		this.mensagemTratada = mensagemTratada;
+	}
+
 	public void tratarMensagem(String mensagemNaoTratada) {
 		
 		boolean pParte = true;
@@ -33,7 +41,7 @@ public class Mensagens {
 		   }
 		} 
 	}
-	
+
 	public void enviarMensagem(String mensagem, int portaSaida) {
 		
 		Socket Sdestino = null;
