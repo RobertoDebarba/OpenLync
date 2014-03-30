@@ -8,8 +8,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
-import javax.swing.JOptionPane;
-
 public class OpenLync_client {
 	
 	private static String ipServidor;

@@ -18,6 +18,7 @@ public class FormMain {
 	//Forms
 	private static FormLogin frmLogin;
 	private static FormIncial frmInicial;
+	private static FormConfig frmConfig;
 
 	public void abrirTela() {
 		try {
@@ -85,6 +86,33 @@ public class FormMain {
 	
 	public static void fecharFrmInicial() {
 		jdpMain.remove(frmInicial);
+	}
+	
+	public static void abrirFrmConfig() {
+		frmConfig = new FormConfig();
+		// Seta tema
+		try {
+	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	    } catch (ClassNotFoundException | InstantiationException
+	            | IllegalAccessException | UnsupportedLookAndFeelException e) {
+	        e.printStackTrace();
+	    }
+	    SwingUtilities.updateComponentTreeUI(frmConfig);
+	    
+	    // Retira bordas
+ 		((BasicInternalFrameUI)frmConfig.getUI()).setNorthPane(null); //retirar o painel superior  
+ 		frmConfig.setBorder(null);//retirar bordas 
+	    
+	    //Seta centro
+	    frmConfig.setLocation(0, 0);
+	    
+	    jdpMain.add(frmConfig);
+	    frmConfig.setVisible(true);
+	}
+	
+	public static void fecharFrmConfig() {
+		jdpMain.remove(frmConfig);
+		jdpMain.repaint();
 	}
 
 	private void initialize() {

@@ -1,11 +1,14 @@
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextPane;
 import javax.swing.JTextArea;
 
+import java.awt.AWTException;
 import java.awt.Color;
+import java.awt.Robot;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -15,6 +18,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class FormChat extends JFrame {
@@ -22,11 +30,13 @@ public class FormChat extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextPane textPane;
+	private JScrollPane scrollPane;
 	
 	public static FormChat[] listaChat = new FormChat[100]; //FIXME tornar tamanho dinamico
 	private static int contadorChat = 0;
 	
 	private int codigo;
+	private String nome;
 	private String ip;
 	//TODO foto
 	
@@ -51,32 +61,28 @@ public class FormChat extends JFrame {
 		return ip;
 	}
 	
-	public void adicionarMensagem(String mensagem) {
-		String linhas = textPane.getText() + "\n" + mensagem;
+	public void adicionarMensagem(String mensagem, String remetente) {
+		
+		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+		Date date = new Date();
+		
+		String linhas = "";
+		if (remetente == "local") {
+			linhas = textPane.getText() + "\n" + this.nome + "  " + dateFormat.format(date);
+		} else {
+			Usuarios userLogin = FormLogin.getUsuarioLogin();
+			linhas = textPane.getText() + "\n" + userLogin.getNome() + "  " + dateFormat.format(date);
+		}
+		
+		linhas = linhas + "\n   " + mensagem + "\n";
 		textPane.setText(linhas);
 	}
 
 	public FormChat(final int codigo, String nome, String cargo, String ip) {
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosed(WindowEvent e) {
-				//Ao fechar
-				int a = 0;
-				while (a < 100) { //FIXME
-					
-					if (listaChat[a] != null) {
-						if (listaChat[a].getCodigo() == codigo) {
-							listaChat[a] = null;
-							contadorChat--;
-						}
-					}	
-					a++;
-				}
-			}
-		});
 		
 		setTitle(nome);
 		this.codigo = codigo;
+		this.nome = nome;
 		this.ip = ip;
 		
 		//Abre Conexão de Saida
@@ -92,13 +98,11 @@ public class FormChat extends JFrame {
 		contentPane.setLayout(null);
 		
 		textPane = new JTextPane();
+		textPane.setFont(new Font("Dialog", Font.PLAIN, 12));
 		textPane.setEditable(false);
 		textPane.setBounds(8, 60, 348, 248);
+		textPane.setFont(Font.getFont("Dialog"));
 		contentPane.add(textPane);
-		
-		final JTextArea textArea = new JTextArea();
-		textArea.setBounds(8, 315, 280, 59);
-		contentPane.add(textArea);
 		
 		JPanel panelFoto = new JPanel();
 		panelFoto.setBackground(Color.GREEN);
@@ -115,16 +119,66 @@ public class FormChat extends JFrame {
 		labelCargo.setBounds(69, 31, 287, 15);
 		contentPane.add(labelCargo);
 		
-		JButton BtnEnviar = new JButton("Enviar");
-		BtnEnviar.addActionListener(new ActionListener() {
+		final JTextArea textArea = new JTextArea();
+		textArea.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {		// Ao pressionar ENTER
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					Robot robot = null;
+					try {
+						robot = new Robot();
+					} catch (AWTException e1) {
+					}
+					// Apaga o ENTER
+					robot.keyPress(KeyEvent.VK_BACK_SPACE);
+					robot.keyRelease(KeyEvent.VK_BACK_SPACE);
+					
+					adicionarMensagem(textArea.getText(), "local");
+					conexaoSaida.enviarMensagem(textArea.getText());
+					textArea.setText(null);
+					textArea.grabFocus();
+				}
+			}
+		});
+		textArea.setBounds(8, 315, 280, 59);
+		contentPane.add(textArea);
+		
+		JButton BtnEnviar = new JButton("Enviar");		
+		BtnEnviar.addActionListener(new ActionListener() {		// Ao clicar botão ENVIAR
 			public void actionPerformed(ActionEvent arg0) {
-				adicionarMensagem(textArea.getText());
+				adicionarMensagem(textArea.getText(), "local");
 				conexaoSaida.enviarMensagem(textArea.getText());
 				textArea.setText(null);
+				textArea.grabFocus();
 			}
 		});
 		BtnEnviar.setBounds(293, 315, 63, 59);
 		contentPane.add(BtnEnviar);
+		
+		scrollPane = new JScrollPane(textPane);
+		scrollPane.setBounds(8, 60, 348, 248);
+		contentPane.add(scrollPane);
 	
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {		// Ao fechar janela
+				//Ao fechar
+				int a = 0;
+				while (a < 100) { //FIXME
+					
+					if (listaChat[a] != null) {
+						if (listaChat[a].getCodigo() == codigo) {
+							listaChat[a] = null;
+							contadorChat--;
+						}
+					}	
+					a++;
+				}
+			}
+			@Override
+			public void windowActivated(WindowEvent e) {
+				textArea.grabFocus();
+			}
+		});
 	}
 }

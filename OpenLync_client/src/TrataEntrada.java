@@ -49,7 +49,7 @@ public class TrataEntrada implements Runnable {
 				while (i < FormChat.getContadorChat()) {
 					
 					if (TratadorMensagens.getIpRemetente().equals(FormChat.listaChat[i].getIp())) {
-						FormChat.listaChat[i].adicionarMensagem(TratadorMensagens.getMensagemTratada());//FIXME
+						FormChat.listaChat[i].adicionarMensagem(TratadorMensagens.getMensagemTratada(), "out");//FIXME
 						encontrouChat = true;
 					}
 					i++;
@@ -68,7 +68,7 @@ public class TrataEntrada implements Runnable {
 					
 					FormChat.listaChat[FormChat.getContadorChat()] = new FormChat(usuarioPesquisa.getCodigo(), usuarioPesquisa.getNome(), usuarioPesquisa.getCargo(), usuarioPesquisa.getIp());
 					FormChat.listaChat[FormChat.getContadorChat()].setVisible(true);
-					FormChat.listaChat[FormChat.getContadorChat()].adicionarMensagem(TratadorMensagens.getMensagemTratada());
+					FormChat.listaChat[FormChat.getContadorChat()].adicionarMensagem(TratadorMensagens.getMensagemTratada(), "out");
 					FormChat.incContadorChat();
 				}
 				

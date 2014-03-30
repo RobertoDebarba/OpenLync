@@ -1,4 +1,5 @@
 
+import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -8,6 +9,8 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
+import org.eclipse.wb.swing.FocusTraversalOnArray;
+import java.awt.Component;
 
 
 public class FormLogin extends JInternalFrame {
@@ -16,7 +19,6 @@ public class FormLogin extends JInternalFrame {
 	private static JTextField editUsuario;
 	private static JTextField editSenha;
 	private static Usuarios usuarioLogin = null;
-
 	
 	public static Usuarios getUsuarioLogin() {
 		return usuarioLogin;
@@ -90,7 +92,17 @@ public class FormLogin extends JInternalFrame {
 		getContentPane().add(lblSenha);
 		getContentPane().add(editUsuario);
 		getContentPane().add(editSenha);
-
-	}
-
+		
+		JButton btnNewButton = new JButton("");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				FormMain.abrirFrmConfig();
+			}
+		});
+		btnNewButton.setIcon(new ImageIcon("/home/robertoluiz/gear_icon2.png"));
+		btnNewButton.setBounds(330, 2, 27, 27);
+		getContentPane().add(btnNewButton);
+		setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{editUsuario, editSenha, btnEntrar, btnSair, btnNewButton, getContentPane(), lblUsurio, lblSenha}));
+		
+	}	
 }
