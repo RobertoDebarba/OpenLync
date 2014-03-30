@@ -13,6 +13,8 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 
 public class FormChat extends JFrame {
@@ -31,10 +33,6 @@ public class FormChat extends JFrame {
 	
 	public static int getContadorChat() {
 		return contadorChat;
-	}
-
-	public static void setContadorChat(int contadorChat) {
-		FormChat.contadorChat = contadorChat;
 	}
 	
 	public static void incContadorChat() {
@@ -58,7 +56,25 @@ public class FormChat extends JFrame {
 		textPane.setText(linhas);
 	}
 
-	public FormChat(int codigo, String nome, String cargo, String ip) {
+	public FormChat(final int codigo, String nome, String cargo, String ip) {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				//Ao fechar
+				int a = 0;
+				while (a < 100) { //FIXME
+					
+					if (listaChat[a] != null) {
+						if (listaChat[a].getCodigo() == codigo) {
+							listaChat[a] = null;
+							contadorChat--;
+						}
+					}	
+					a++;
+				}
+			}
+		});
+		
 		setTitle(nome);
 		this.codigo = codigo;
 		this.ip = ip;

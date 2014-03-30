@@ -58,13 +58,14 @@ public class TrataEntrada implements Runnable {
 					//Cria janela de chat
 					Usuarios usuarioPesquisa = new Usuarios();
 					try {
-						usuarioPesquisa.carregarInformacoesPorIP(FormChat.listaChat[i].getIp());
+						usuarioPesquisa.carregarInformacoesPorIP(TratadorMensagens.getIpRemetente());
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
 					
 					FormChat.listaChat[FormChat.getContadorChat()] = new FormChat(usuarioPesquisa.getCodigo(), usuarioPesquisa.getNome(), usuarioPesquisa.getCargo(), usuarioPesquisa.getIp());
 					FormChat.listaChat[FormChat.getContadorChat()].setVisible(true);
+					FormChat.listaChat[FormChat.getContadorChat()].adicionarMensagem(TratadorMensagens.getMensagemTratada());
 					FormChat.incContadorChat();
 				}
 				
