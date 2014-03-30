@@ -98,7 +98,6 @@ public class OpenLync_client {
 			}
 			
 		} catch (IOException e1) {
-			JOptionPane.showMessageDialog(null, "Erro ao conectar ao servidor!", "Erro de conexão", 1);
 			return false;
 		}  
 	    

@@ -32,12 +32,15 @@ public class TrataEntrada implements Runnable {
 				System.out.println("Erro 'socketEntrada.getInputStream'");
 			}
 			
+			Mensagens TratadorMensagens = new Mensagens();
+			
 			while (s.hasNextLine()) {
 
 				String msg = s.nextLine();
 				System.out.println(msg);
 				
-				Mensagens TratadorMensagens = new Mensagens();
+				TratadorMensagens.setIpRemetente("");
+				TratadorMensagens.setMensagemTratada("");
 				TratadorMensagens.tratarMensagem(msg);
 				
 				//mandar para tela de chat

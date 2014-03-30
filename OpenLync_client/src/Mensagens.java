@@ -8,6 +8,14 @@ public class Mensagens {
 		return ipRemetente;
 	}
 
+	public void setIpRemetente(String ipRemetente) {
+		this.ipRemetente = ipRemetente;
+	}
+
+	public void setMensagemTratada(String mensagemTratada) {
+		this.mensagemTratada = mensagemTratada;
+	}
+
 	public String getMensagemTratada() {
 		return mensagemTratada;
 	}

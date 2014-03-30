@@ -56,18 +56,22 @@ public class FormLogin extends JInternalFrame {
 					String login = editUsuario.getText();
 					String senha = editSenha.getText();
 					try {
-						if (usuarioLogin.verificarLogin(login, senha) && OpenLync_client.verificarConexaoServidor()) {
-							OpenLync_client.iniciarEntrada();
-							usuarioLogin.carregarInformacoes(login);
-							usuarioLogin.setStatusDB(usuarioLogin.getCodigo(), true);
-							usuarioLogin.setIpDB(usuarioLogin.getCodigo(), OpenLync_client.getIpLocal());
-							FormMain.fecharFrmLogin();
-							FormMain.abrirFrmInicial(usuarioLogin.getNome(), usuarioLogin.getCargo());
+						if (OpenLync_client.verificarConexaoServidor()) {
+							if (usuarioLogin.verificarLogin(login, senha)) {
+								OpenLync_client.iniciarEntrada();
+								usuarioLogin.carregarInformacoes(login);
+								usuarioLogin.setStatusDB(usuarioLogin.getCodigo(), true);
+								usuarioLogin.setIpDB(usuarioLogin.getCodigo(), OpenLync_client.getIpLocal());
+								FormMain.fecharFrmLogin();
+								FormMain.abrirFrmInicial(usuarioLogin.getNome(), usuarioLogin.getCargo());
+							} else {
+								JOptionPane.showMessageDialog(null, "Usuário ou senha não encontrado!", "Login Inválido", 1);
+							}
 						} else {
-							JOptionPane.showMessageDialog(null, "Usuário ou senha não encontrado!", "Login Inválido", 1);
+							JOptionPane.showMessageDialog(null, "Erro ao conectar ao servidor!", "Erro de conexão", 1);
 						};
 					} catch (SQLException e) {
-						e.printStackTrace();
+						JOptionPane.showMessageDialog(null, "Erro ao conectar ao Banco de Dados!", "Erro de conexão", 1);
 					}
 			}
 		});
