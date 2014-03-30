@@ -2,8 +2,13 @@
 //	
 //	http://www.guj.com.br/articles/126
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Scanner;
+
+import javax.swing.JOptionPane;
 
 public class OpenLync_client {
 	
@@ -11,8 +16,18 @@ public class OpenLync_client {
 	private static int portaEntrada;
 	private static int portaSaida; 
 	
+	private static String ipLocal = "";
+	
 	public OpenLync_client() {
 		
+	}
+	
+	public static String getIpLocal() {
+		return ipLocal;
+	}
+
+	public static void setIpLocal(String ipLocal) {
+		OpenLync_client.ipLocal = ipLocal;
 	}
 	
 	public static String getIpServidor() {
@@ -45,16 +60,48 @@ public class OpenLync_client {
 		portaSaida = 7609;// Define porta de sáida de dados; Cliente -> Servidor
 	}
 	
-	public static String getIpLocal() {
-		String ip = "";
-		try {
-			InetAddress InetAdd = InetAddress.getLocalHost();
-			String hostName = InetAdd.getHostName();
-			ip = InetAddress.getByName(hostName +".local").getHostAddress();
-		} catch (UnknownHostException e) {
-			System.out.println("Erro ao analisar ip!");
-		}
-		return ip;
+	@SuppressWarnings("resource")
+	public static boolean verificarConexaoServidor() {
+		
+		// Conecta ao socket
+		Socket socketSaida = null;
+	    try {
+	    	ServerSocket SSentrada = new ServerSocket(portaEntrada);
+	    	
+	    	
+			socketSaida = new Socket(ipServidor, portaSaida);
+			
+			PrintStream PSsaida = new PrintStream(socketSaida.getOutputStream());
+			PSsaida.println("TESTCONNECTION|RETURN IP CLIENT"); 
+			
+			// Recebe mensagem de resposta
+			Socket socketEntrada = SSentrada.accept();
+			
+			Scanner s = new Scanner(socketEntrada.getInputStream());
+			String msg = s.nextLine();
+			
+			Mensagens TratadorMensagens = new Mensagens();
+			TratadorMensagens.tratarMensagem(msg);
+			
+			//Se for mensagem de sistema
+			if (TratadorMensagens.getIpRemetente().equals("TESTCONNECTION")) { //Aqui IP representa a mensagem de SISTEMA
+				OpenLync_client.setIpLocal(TratadorMensagens.getMensagemTratada());
+			
+				SSentrada.close();
+				socketSaida.close();
+				PSsaida.close();
+				s.close();
+				
+				return true;
+			} else {
+				return false;
+			}
+			
+		} catch (IOException e1) {
+			JOptionPane.showMessageDialog(null, "Erro ao conectar ao servidor!", "Erro de conexão", 1);
+			return false;
+		}  
+	    
 	}
 
 	public static void main(String[] args) {
@@ -64,8 +111,10 @@ public class OpenLync_client {
 		
 		FormMain.abrirFrmLogin();
 		
-		
-		IniciaVariaveis();
+		IniciaVariaveis(); //FIXME
+	}
+	
+	public static void iniciarEntrada() {
 		
 		// Instancia objeto que cuidará da entrada de dados e manda para uma thread
 		EntradaDados ed = new EntradaDados(portaEntrada);
