@@ -96,9 +96,9 @@ public class FormMain {
 				Usuarios usuarioLogin = FormLogin.getUsuarioLogin();
 				try {
 					//Seta status usuarioLogin para status_usuario = false
-					usuarioLogin.setStatusDB(usuarioLogin.getCodigo(), false);
+					usuarioLogin.setStatusOnDB(usuarioLogin.getCodigo(), false);
 					//Seta ip para null
-					usuarioLogin.setIpDB(usuarioLogin.getCodigo(), null);
+					usuarioLogin.setIpOnDB(usuarioLogin.getCodigo(), null);
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}

@@ -60,8 +60,8 @@ public class FormLogin extends JInternalFrame {
 							if (usuarioLogin.verificarLogin(login, senha)) {
 								OpenLync_client.iniciarEntrada();
 								usuarioLogin.carregarInformacoes(login);
-								usuarioLogin.setStatusDB(usuarioLogin.getCodigo(), true);
-								usuarioLogin.setIpDB(usuarioLogin.getCodigo(), OpenLync_client.getIpLocal());
+								usuarioLogin.setStatusOnDB(usuarioLogin.getCodigo(), true);
+								usuarioLogin.setIpOnDB(usuarioLogin.getCodigo(), OpenLync_client.getIpLocal());
 								FormMain.fecharFrmLogin();
 								FormMain.abrirFrmInicial(usuarioLogin.getNome(), usuarioLogin.getCargo());
 							} else {

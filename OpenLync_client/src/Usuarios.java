@@ -70,7 +70,7 @@ public class Usuarios {
 		this.ip = ip;
 	}
 	
-	public void setStatusDB(int codigoUsuario, boolean status) throws SQLException {
+	public void setStatusOnDB(int codigoUsuario, boolean status) throws SQLException {
 		java.sql.Connection conexao = MySQLConection.getMySQLConnection();
 		Statement st = conexao.createStatement();
 		
@@ -82,7 +82,7 @@ public class Usuarios {
 		this.status = status;
 	}
 	
-	public void setIpDB(int codigoUsuario, String ip) throws SQLException {
+	public void setIpOnDB(int codigoUsuario, String ip) throws SQLException {
 		java.sql.Connection conexao = MySQLConection.getMySQLConnection();
 		Statement st = conexao.createStatement();
 		
@@ -99,8 +99,10 @@ public class Usuarios {
 		java.sql.Connection conexao = MySQLConection.getMySQLConnection();
 		Statement st = conexao.createStatement();
 		
-		String SQL = "SELECT 1 FROM tb_usuarios WHERE login_usuario = '"+ login +
-					 "' and senha_usuario = '"+ senha +"';";
+		String SQL = "SELECT 1 FROM tb_usuarios WHERE login_usuario = '"+ login +"'" +
+					 " AND senha_usuario = '"+ senha +"'" +
+					 " AND status_usuario = false" +
+					 " AND ip_usuario = 'null';";
 
 		ResultSet rs = st.executeQuery(SQL);
 
