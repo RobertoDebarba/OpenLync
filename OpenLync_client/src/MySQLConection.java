@@ -37,7 +37,7 @@ public class MySQLConection {
 			String driverName = "com.mysql.jdbc.Driver";                        
 			Class.forName(driverName);
 
-			String url = "jdbc:mysql://192.168.152.1/OpenLync";
+			String url = "jdbc:mysql://"+OpenLync_client.getIpServidor()+"/OpenLync";
             connection = DriverManager.getConnection(url, "open@%", "123");
 
             // Testar Conexão

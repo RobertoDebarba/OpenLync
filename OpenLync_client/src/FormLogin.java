@@ -1,4 +1,5 @@
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
@@ -9,8 +10,12 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
+
 import org.eclipse.wb.swing.FocusTraversalOnArray;
+
 import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 public class FormLogin extends JInternalFrame {
@@ -93,16 +98,17 @@ public class FormLogin extends JInternalFrame {
 		getContentPane().add(editUsuario);
 		getContentPane().add(editSenha);
 		
-		JButton btnNewButton = new JButton("");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		JLabel ImgGear = new JLabel("");
+		ImgGear.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {  //
 				FormMain.abrirFrmConfig();
 			}
 		});
-		btnNewButton.setIcon(new ImageIcon("/home/robertoluiz/gear_icon2.png"));
-		btnNewButton.setBounds(330, 2, 27, 27);
-		getContentPane().add(btnNewButton);
-		setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{editUsuario, editSenha, btnEntrar, btnSair, btnNewButton, getContentPane(), lblUsurio, lblSenha}));
+		ImgGear.setIcon(new ImageIcon(FormLogin.class.getResource("/Imagens/gear_icon.png")));
+		ImgGear.setBounds(333, 0, 25, 23);
+		getContentPane().add(ImgGear);
+		setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{editUsuario, editSenha, btnEntrar, btnSair, getContentPane(), lblUsurio, lblSenha}));
 		
 	}	
 }
