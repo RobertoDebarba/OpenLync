@@ -1,9 +1,12 @@
 
-import java.awt.Image;
-import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import javax.imageio.ImageIO;
 
 public class Usuarios {
 	
@@ -14,13 +17,13 @@ public class Usuarios {
 	private String senha = "";
 	private boolean status = false;
 	private String ip = "";
-	private Image foto = null;
+	private BufferedImage foto = null;
 	
-	public Image getFoto() {
+	public BufferedImage getFoto() {
 		return foto;
 	}
 
-	public void setFoto(Image foto) {
+	public void setFoto(BufferedImage foto) {
 		this.foto = foto;
 	}
 	
@@ -135,7 +138,7 @@ public class Usuarios {
 		
 		rs.beforeFirst();
 		
-		byte[] imageBytes;
+		//byte[] imageBytes;
 		while(rs.next()) {
 			this.codigo = rs.getInt("codigo_usuario");
 			this.nome = rs.getString("nome_usuario");
@@ -144,8 +147,15 @@ public class Usuarios {
 			this.senha = rs.getString("senha_usuario");
 			this.status = rs.getBoolean("status_usuario");
 			this.ip = rs.getString("ip_usuario");
-			imageBytes = rs.getBytes("foto_usuario");
-			this.foto = Toolkit.getDefaultToolkit().createImage(imageBytes);
+			Blob blobImage = rs.getBlob("foto_usuario");			
+			try {
+				this.foto = ImageIO.read(blobImage.getBinaryStream());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			//imageBytes = rs.getBytes("foto_usuario");
+			//this.foto = (BufferedImage) Toolkit.getDefaultToolkit().createImage(imageBytes);
 		}
 	}
 
@@ -159,8 +169,6 @@ public class Usuarios {
 		ResultSet rs = st.executeQuery(SQL);
 		
 		rs.beforeFirst();
-		
-		byte[] imageBytes;
 		while(rs.next()) {
 			this.codigo = rs.getInt("codigo_usuario");
 			this.nome = rs.getString("nome_usuario");
@@ -169,8 +177,12 @@ public class Usuarios {
 			this.senha = rs.getString("senha_usuario");
 			this.status = rs.getBoolean("status_usuario");
 			this.ip = rs.getString("ip_usuario");
-			imageBytes = rs.getBytes("foto_usuario");
-			this.foto = Toolkit.getDefaultToolkit().createImage(imageBytes);
+			Blob blobImage = rs.getBlob("foto_usuario");			
+			try {
+				this.foto = ImageIO.read(blobImage.getBinaryStream());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -184,8 +196,6 @@ public void carregarInformacoesPorIP(String ip) throws SQLException {
 		ResultSet rs = st.executeQuery(SQL);
 		
 		rs.beforeFirst();
-		
-		byte[] imageBytes;
 		while(rs.next()) {
 			this.codigo = rs.getInt("codigo_usuario");
 			this.nome = rs.getString("nome_usuario");
@@ -194,8 +204,12 @@ public void carregarInformacoesPorIP(String ip) throws SQLException {
 			this.senha = rs.getString("senha_usuario");
 			this.status = rs.getBoolean("status_usuario");
 			this.ip = rs.getString("ip_usuario");
-			imageBytes = rs.getBytes("foto_usuario");
-			this.foto = Toolkit.getDefaultToolkit().createImage(imageBytes);
+			Blob blobImage = rs.getBlob("foto_usuario");			
+			try {
+				this.foto = ImageIO.read(blobImage.getBinaryStream());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 }

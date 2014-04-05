@@ -5,11 +5,10 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
-
 import java.awt.BorderLayout;
-import java.awt.Image;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 import java.sql.SQLException;
 
 public class FormMain {
@@ -61,7 +60,7 @@ public class FormMain {
 		jdpMain.remove(frmLogin);
 	}
 	
-	public static void abrirFrmInicial(String nome, String cargo, Image foto) { //FIXME foto 
+	public static void abrirFrmInicial(String nome, String cargo, BufferedImage foto) { //FIXME foto 
 		
 		frmInicial = new FormIncial(nome, cargo, foto);
 		// Seta tema

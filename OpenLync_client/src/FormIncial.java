@@ -1,7 +1,6 @@
 
 import javax.swing.JInternalFrame;
 import javax.swing.JDesktopPane;
-import java.awt.Image;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.sql.SQLException;
@@ -9,6 +8,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.ImageIcon;
 import java.awt.Color;
+import java.awt.image.BufferedImage;
 
 public class FormIncial extends JInternalFrame {
 
@@ -19,7 +19,7 @@ public class FormIncial extends JInternalFrame {
 	private static JLabel labelCargo;
 	private JLabel labelFoto;
 	
-	public FormIncial(String nome, String cargo, Image foto) {
+	public FormIncial(String nome, String cargo, BufferedImage foto) {
 		
 		setBorder(null);
 		setBounds(100, 100, 370, 570);

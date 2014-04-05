@@ -4,16 +4,15 @@ import javax.swing.JInternalFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-
 import java.awt.Color;
 import java.awt.Image;
-
 import javax.swing.JLabel;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
-
+import org.imgscalr.Scalr;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.sql.SQLException;
 
 
@@ -76,7 +75,7 @@ public class FormUsuarioLista extends JInternalFrame {
 	
 	}
 
-	public FormUsuarioLista(final int codigo,final String nome,final String cargo,final String ip, Image foto) {
+	public FormUsuarioLista(final int codigo,final String nome,final String cargo,final String ip, BufferedImage foto) {
 		
 		this.codigoUsuario = codigo;
 		
@@ -106,8 +105,9 @@ public class FormUsuarioLista extends JInternalFrame {
 		labelCargo.setBounds(65, 30, 174, 15);
 		getContentPane().add(labelCargo);
 		
+		Image imagemRedim = Scalr.resize(foto, 42, 42);
 		labelFoto = new JLabel("");
-		labelFoto.setIcon(new ImageIcon(foto));
+		labelFoto.setIcon(new ImageIcon(imagemRedim));
 		labelFoto.setBounds(8, 5, 42, 42);
 		getContentPane().add(labelFoto);
 	}
