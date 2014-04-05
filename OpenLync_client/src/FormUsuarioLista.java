@@ -75,7 +75,7 @@ public class FormUsuarioLista extends JInternalFrame {
 	
 	}
 
-	public FormUsuarioLista(final int codigo,final String nome,final String cargo,final String ip, BufferedImage foto) {
+	public FormUsuarioLista(final int codigo,final String nome,final String cargo,final String ip, final BufferedImage foto) {
 		
 		this.codigoUsuario = codigo;
 		
@@ -84,7 +84,7 @@ public class FormUsuarioLista extends JInternalFrame {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
 					// Abre tela do chat
-					FormChat.listaChat[FormChat.getContadorChat()] = new FormChat(codigo, nome, cargo, ip );
+					FormChat.listaChat[FormChat.getContadorChat()] = new FormChat(codigo, nome, cargo, ip, foto);
 					FormChat.listaChat[FormChat.getContadorChat()].setVisible(true);
 					FormChat.incContadorChat();
 				}

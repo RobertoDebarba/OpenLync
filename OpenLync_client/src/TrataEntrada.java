@@ -66,7 +66,7 @@ public class TrataEntrada implements Runnable {
 						e.printStackTrace();
 					}
 					
-					FormChat.listaChat[FormChat.getContadorChat()] = new FormChat(usuarioPesquisa.getCodigo(), usuarioPesquisa.getNome(), usuarioPesquisa.getCargo(), usuarioPesquisa.getIp());
+					FormChat.listaChat[FormChat.getContadorChat()] = new FormChat(usuarioPesquisa.getCodigo(), usuarioPesquisa.getNome(), usuarioPesquisa.getCargo(), usuarioPesquisa.getIp(), usuarioPesquisa.getFoto());
 					FormChat.listaChat[FormChat.getContadorChat()].setVisible(true);
 					FormChat.listaChat[FormChat.getContadorChat()].adicionarMensagem(TratadorMensagens.getMensagemTratada(), "out");
 					FormChat.incContadorChat();

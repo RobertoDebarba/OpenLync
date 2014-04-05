@@ -20,9 +20,12 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import javax.swing.ImageIcon;
 
 
 public class FormChat extends JFrame {
@@ -37,9 +40,7 @@ public class FormChat extends JFrame {
 	
 	private int codigo;
 	private String nome;
-	private String ip;
-	//TODO foto
-	
+	private String ip;	
 	
 	public static int getContadorChat() {
 		return contadorChat;
@@ -78,7 +79,7 @@ public class FormChat extends JFrame {
 		textPane.setText(linhas);
 	}
 
-	public FormChat(final int codigo, String nome, String cargo, String ip) {
+	public FormChat(final int codigo, String nome, String cargo, String ip, BufferedImage foto) {
 		
 		setTitle(nome);
 		this.codigo = codigo;
@@ -90,7 +91,7 @@ public class FormChat extends JFrame {
 		new Thread(conexaoSaida).start();
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 374, 412);
+		setBounds(100, 100, 366, 418);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.LIGHT_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -100,23 +101,23 @@ public class FormChat extends JFrame {
 		textPane = new JTextPane();
 		textPane.setFont(new Font("Dialog", Font.PLAIN, 12));
 		textPane.setEditable(false);
-		textPane.setBounds(8, 60, 348, 248);
+		textPane.setBounds(8, 70, 355, 248);
 		textPane.setFont(Font.getFont("Dialog"));
 		contentPane.add(textPane);
 		
-		JPanel panelFoto = new JPanel();
-		panelFoto.setBackground(Color.GREEN);
-		panelFoto.setBounds(12, 6, 42, 42);
-		contentPane.add(panelFoto);
+		JLabel labelFoto = new JLabel("");
+		labelFoto.setIcon(new ImageIcon(foto));
+		labelFoto.setBounds(10, 8, 57, 57);
+		contentPane.add(labelFoto);
 		
 		JLabel labelNome = new JLabel(nome);
-		labelNome.setFont(new Font("Dialog", Font.BOLD, 14));
-		labelNome.setBounds(69, 11, 287, 15);
+		labelNome.setFont(new Font("Dialog", Font.BOLD, 16));
+		labelNome.setBounds(75, 16, 285, 15);
 		contentPane.add(labelNome);
 		
 		JLabel labelCargo = new JLabel(cargo);
-		labelCargo.setFont(new Font("Dialog", Font.PLAIN, 12));
-		labelCargo.setBounds(69, 31, 287, 15);
+		labelCargo.setFont(new Font("Dialog", Font.PLAIN, 14));
+		labelCargo.setBounds(75, 42, 285, 15);
 		contentPane.add(labelCargo);
 		
 		final JTextArea textArea = new JTextArea();
@@ -140,7 +141,7 @@ public class FormChat extends JFrame {
 				}
 			}
 		});
-		textArea.setBounds(8, 315, 280, 59);
+		textArea.setBounds(8, 322, 280, 59);
 		contentPane.add(textArea);
 		
 		JButton BtnEnviar = new JButton("Enviar");		
@@ -152,11 +153,11 @@ public class FormChat extends JFrame {
 				textArea.grabFocus();
 			}
 		});
-		BtnEnviar.setBounds(293, 315, 63, 59);
+		BtnEnviar.setBounds(293, 322, 63, 59);
 		contentPane.add(BtnEnviar);
 		
 		scrollPane = new JScrollPane(textPane);
-		scrollPane.setBounds(8, 60, 348, 248);
+		scrollPane.setBounds(8, 70, 348, 248);
 		contentPane.add(scrollPane);
 	
 		addWindowListener(new WindowAdapter() {
