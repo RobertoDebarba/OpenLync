@@ -67,6 +67,7 @@ public class FormMain {
 		// Seta tema
 		try {
 	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	        UIManager.put("DesktopPaneUI","javax.swing.plaf.basic.BasicDesktopPaneUI"); // Remove barra inferior
 	    } catch (ClassNotFoundException | InstantiationException
 	            | IllegalAccessException | UnsupportedLookAndFeelException e) {
 	        e.printStackTrace();
