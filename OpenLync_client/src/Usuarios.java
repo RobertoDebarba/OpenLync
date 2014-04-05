@@ -5,7 +5,6 @@ import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import javax.imageio.ImageIO;
 
 public class Usuarios {
@@ -147,9 +146,14 @@ public class Usuarios {
 			this.senha = rs.getString("senha_usuario");
 			this.status = rs.getBoolean("status_usuario");
 			this.ip = rs.getString("ip_usuario");
-			Blob blobImage = rs.getBlob("foto_usuario");			
+			Blob blobImage = rs.getBlob("foto_usuario");
 			try {
-				this.foto = ImageIO.read(blobImage.getBinaryStream());
+				if (blobImage == null) {
+					java.io.InputStream fis = getClass().getResourceAsStream("/Imagens/imgPerfilGenerica.jpg");				
+					this.foto = ImageIO.read(fis);
+				} else {
+					this.foto = ImageIO.read(blobImage.getBinaryStream());
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -177,9 +181,14 @@ public class Usuarios {
 			this.senha = rs.getString("senha_usuario");
 			this.status = rs.getBoolean("status_usuario");
 			this.ip = rs.getString("ip_usuario");
-			Blob blobImage = rs.getBlob("foto_usuario");			
+			Blob blobImage = rs.getBlob("foto_usuario");
 			try {
-				this.foto = ImageIO.read(blobImage.getBinaryStream());
+				if (blobImage == null) {
+					java.io.InputStream fis = getClass().getResourceAsStream("/Imagens/imgPerfilGenerica.jpg");				
+					this.foto = ImageIO.read(fis);
+				} else {
+					this.foto = ImageIO.read(blobImage.getBinaryStream());
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -206,7 +215,12 @@ public void carregarInformacoesPorIP(String ip) throws SQLException {
 			this.ip = rs.getString("ip_usuario");
 			Blob blobImage = rs.getBlob("foto_usuario");			
 			try {
-				this.foto = ImageIO.read(blobImage.getBinaryStream());
+				if (blobImage == null) {
+					java.io.InputStream fis = getClass().getResourceAsStream("/Imagens/imgPerfilGenerica.jpg");				
+					this.foto = ImageIO.read(fis);
+				} else {
+					this.foto = ImageIO.read(blobImage.getBinaryStream());
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

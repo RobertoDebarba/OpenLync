@@ -47,7 +47,8 @@ public class FormMain {
 	    
 	    // Retira bordas
  		((BasicInternalFrameUI)frmLogin.getUI()).setNorthPane(null); //retirar o painel superior  
- 		frmLogin.setBorder(null);//retirar bordas  
+ 		((BasicInternalFrameUI)frmLogin.getUI()).setSouthPane(null); //retirar o painel inferior
+  		frmLogin.setBorder(null);//retirar bordas  
 		
 		// Seta centro
 		frmLogin.setLocation(0, 0);

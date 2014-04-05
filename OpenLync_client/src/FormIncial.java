@@ -60,5 +60,4 @@ public class FormIncial extends JInternalFrame {
         }, 1000, 7000);
 
 	}
-	
 }

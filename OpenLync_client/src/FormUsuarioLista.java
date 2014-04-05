@@ -105,8 +105,8 @@ public class FormUsuarioLista extends JInternalFrame {
 		labelCargo.setBounds(65, 30, 174, 15);
 		getContentPane().add(labelCargo);
 		
-		Image imagemRedim = Scalr.resize(foto, 42, 42);
 		labelFoto = new JLabel("");
+		Image imagemRedim = Scalr.resize(foto, 42, 42);
 		labelFoto.setIcon(new ImageIcon(imagemRedim));
 		labelFoto.setBounds(8, 5, 42, 42);
 		getContentPane().add(labelFoto);
