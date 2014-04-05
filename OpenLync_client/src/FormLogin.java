@@ -1,5 +1,4 @@
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
@@ -70,7 +69,7 @@ public class FormLogin extends JInternalFrame {
 								usuarioLogin.setStatusOnDB(usuarioLogin.getCodigo(), true);
 								usuarioLogin.setIpOnDB(usuarioLogin.getCodigo(), OpenLync_client.getIpLocal());
 								FormMain.fecharFrmLogin();
-								FormMain.abrirFrmInicial(usuarioLogin.getNome(), usuarioLogin.getCargo());
+								FormMain.abrirFrmInicial(usuarioLogin.getNome(), usuarioLogin.getCargo(), usuarioLogin.getFoto());
 							} else {
 								JOptionPane.showMessageDialog(null, "Usuário ou senha não encontrado!", "Login Inválido", 1);
 							}

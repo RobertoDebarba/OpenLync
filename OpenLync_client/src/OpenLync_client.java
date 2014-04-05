@@ -53,7 +53,7 @@ public class OpenLync_client {
 	}
 
 	private static void IniciaVariaveis() {
-		ipServidor = "192.168.152.1"; // Define ip do servidor
+		ipServidor = "192.168.1.3"; // Define ip do servidor
 		portaEntrada = 7606;  //Define porta de entrada de dados; Servidor -> Cliente
 		portaSaida = 7609;// Define porta de sáida de dados; Cliente -> Servidor
 	}

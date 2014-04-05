@@ -1,11 +1,12 @@
 
+import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import java.awt.Color;
+import java.awt.Image;
 
 import javax.swing.JLabel;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
@@ -21,7 +22,7 @@ public class FormUsuarioLista extends JInternalFrame {
 	private static final long serialVersionUID = 1L;
 	private JLabel labelNome;
 	private JLabel labelCargo;
-	private JPanel panelFoto;
+	private JLabel labelFoto;
 	
 	private int codigoUsuario;
 	
@@ -43,7 +44,7 @@ public class FormUsuarioLista extends JInternalFrame {
 		this.codigoUsuario = codigoUsuario;
 	}
 	
-	public static FormUsuarioLista getNovoFormUsuarioLista(int codigoUsuario) { //FIXME foto
+	public static FormUsuarioLista getNovoFormUsuarioLista(int codigoUsuario) {
 		Usuarios usuario = new Usuarios();
 		try {
 			usuario.carregarInformacoes(codigoUsuario);
@@ -51,7 +52,7 @@ public class FormUsuarioLista extends JInternalFrame {
 			e1.printStackTrace();
 		}
 		
-		FormUsuarioLista frmUsuario = new FormUsuarioLista(usuario.getCodigo(), usuario.getNome(), usuario.getCargo(), usuario.getIp());
+		FormUsuarioLista frmUsuario = new FormUsuarioLista(usuario.getCodigo(), usuario.getNome(), usuario.getCargo(), usuario.getIp(), usuario.getFoto());
 		
 		// Seta tema
 		try {
@@ -75,7 +76,7 @@ public class FormUsuarioLista extends JInternalFrame {
 	
 	}
 
-	public FormUsuarioLista(final int codigo,final String nome,final String cargo,final String ip) {
+	public FormUsuarioLista(final int codigo,final String nome,final String cargo,final String ip, Image foto) {
 		
 		this.codigoUsuario = codigo;
 		
@@ -89,25 +90,25 @@ public class FormUsuarioLista extends JInternalFrame {
 					FormChat.incContadorChat();
 				}
 			}
-		}); //FIXME foto
+		});
 		setBorder(null);
 		getContentPane().setBackground(Color.LIGHT_GRAY);
 		setBounds(100, 100, 321, 65);
-		
-		panelFoto = new JPanel();
-		panelFoto.setBounds(8, 5, 42, 42);
-		panelFoto.setBackground(Color.GREEN);
 		
 		labelNome = new JLabel(nome);
 		labelNome.setFont(new Font("Dialog", Font.BOLD, 14));
 		labelNome.setBounds(65, 10, 174, 15);
 		getContentPane().setLayout(null);
-		getContentPane().add(panelFoto);
 		getContentPane().add(labelNome);
 		
 		labelCargo = new JLabel(cargo);
 		labelCargo.setFont(new Font("Dialog", Font.PLAIN, 12));
 		labelCargo.setBounds(65, 30, 174, 15);
 		getContentPane().add(labelCargo);
+		
+		labelFoto = new JLabel("");
+		labelFoto.setIcon(new ImageIcon(foto));
+		labelFoto.setBounds(8, 5, 42, 42);
+		getContentPane().add(labelFoto);
 	}
 }

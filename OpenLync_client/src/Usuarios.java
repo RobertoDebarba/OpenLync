@@ -1,4 +1,6 @@
 
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,7 +14,15 @@ public class Usuarios {
 	private String senha = "";
 	private boolean status = false;
 	private String ip = "";
-	//FIXME private BLOB foto;
+	private Image foto = null;
+	
+	public Image getFoto() {
+		return foto;
+	}
+
+	public void setFoto(Image foto) {
+		this.foto = foto;
+	}
 	
 	public int getCodigo() {
 		return codigo;
@@ -124,6 +134,8 @@ public class Usuarios {
 		ResultSet rs = st.executeQuery(SQL);
 		
 		rs.beforeFirst();
+		
+		byte[] imageBytes;
 		while(rs.next()) {
 			this.codigo = rs.getInt("codigo_usuario");
 			this.nome = rs.getString("nome_usuario");
@@ -132,10 +144,11 @@ public class Usuarios {
 			this.senha = rs.getString("senha_usuario");
 			this.status = rs.getBoolean("status_usuario");
 			this.ip = rs.getString("ip_usuario");
-			//FIXME foto
+			imageBytes = rs.getBytes("foto_usuario");
+			this.foto = Toolkit.getDefaultToolkit().createImage(imageBytes);
 		}
 	}
-	
+
 	public void carregarInformacoes(int codigo) throws SQLException {
 		
 		java.sql.Connection conexao = MySQLConection.getMySQLConnection();
@@ -146,6 +159,8 @@ public class Usuarios {
 		ResultSet rs = st.executeQuery(SQL);
 		
 		rs.beforeFirst();
+		
+		byte[] imageBytes;
 		while(rs.next()) {
 			this.codigo = rs.getInt("codigo_usuario");
 			this.nome = rs.getString("nome_usuario");
@@ -154,7 +169,8 @@ public class Usuarios {
 			this.senha = rs.getString("senha_usuario");
 			this.status = rs.getBoolean("status_usuario");
 			this.ip = rs.getString("ip_usuario");
-			//FIXME foto
+			imageBytes = rs.getBytes("foto_usuario");
+			this.foto = Toolkit.getDefaultToolkit().createImage(imageBytes);
 		}
 	}
 	
@@ -168,6 +184,8 @@ public void carregarInformacoesPorIP(String ip) throws SQLException {
 		ResultSet rs = st.executeQuery(SQL);
 		
 		rs.beforeFirst();
+		
+		byte[] imageBytes;
 		while(rs.next()) {
 			this.codigo = rs.getInt("codigo_usuario");
 			this.nome = rs.getString("nome_usuario");
@@ -176,7 +194,8 @@ public void carregarInformacoesPorIP(String ip) throws SQLException {
 			this.senha = rs.getString("senha_usuario");
 			this.status = rs.getBoolean("status_usuario");
 			this.ip = rs.getString("ip_usuario");
-			//FIXME foto
+			imageBytes = rs.getBytes("foto_usuario");
+			this.foto = Toolkit.getDefaultToolkit().createImage(imageBytes);
 		}
 	}
 }

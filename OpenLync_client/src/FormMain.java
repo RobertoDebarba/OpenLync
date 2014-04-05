@@ -7,6 +7,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 import java.awt.BorderLayout;
+import java.awt.Image;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
@@ -60,9 +61,9 @@ public class FormMain {
 		jdpMain.remove(frmLogin);
 	}
 	
-	public static void abrirFrmInicial(String nome, String cargo) { //FIXME foto 
+	public static void abrirFrmInicial(String nome, String cargo, Image foto) { //FIXME foto 
 		
-		frmInicial = new FormIncial(nome, cargo);
+		frmInicial = new FormIncial(nome, cargo, foto);
 		// Seta tema
 		try {
 	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
