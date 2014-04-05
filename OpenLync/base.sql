@@ -12,6 +12,11 @@ CREATE TABLE tb_usuarios (
 	foto_usuario BLOB
 );
 
-INSERT INTO tb_usuarios(nome_usuario, cargo_usuario, login_usuario, senha_usuario, status_usuario, ip_usuario) VALUES ('Roberto Luiz Debarba', 'Programador de Sistemas', 'roberto', '123', false, null);
-INSERT INTO tb_usuarios(nome_usuario, cargo_usuario, login_usuario, senha_usuario, status_usuario, ip_usuario) VALUES ('Maria da Silva', 'Analista', 'maria', '123', false, null);
-INSERT INTO tb_usuarios(nome_usuario, cargo_usuario, login_usuario, senha_usuario, status_usuario, ip_usuario) VALUES ('Joao Felipe', 'Secretaria', 'joao', '123', false, null);
+INSERT INTO tb_usuarios(nome_usuario, cargo_usuario, login_usuario, senha_usuario, status_usuario, ip_usuario, foto_usuario) 
+VALUES ('Roberto Luiz Debarba', 'Programador de Sistemas', 'roberto', '123', false, 'null', LOAD_FILE('/home/robertoluiz/roberto.jpg'));
+
+INSERT INTO tb_usuarios(nome_usuario, cargo_usuario, login_usuario, senha_usuario, status_usuario, ip_usuario, foto_usuario) 
+VALUES ('Maria da Silva', 'Analista', 'maria', '123', false, 'null', LOAD_FILE('/home/robertoluiz/maria.jpg'));
+
+INSERT INTO tb_usuarios(nome_usuario, cargo_usuario, login_usuario, senha_usuario, status_usuario, ip_usuario, foto_usuario) 
+VALUES ('Joao Felipe', 'Secretaria', 'joao', '123', false, 'null', LOAD_FILE('/home/robertoluiz/joao.jpg'));
