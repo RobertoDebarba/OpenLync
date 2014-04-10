@@ -4,11 +4,15 @@ import javax.swing.JInternalFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+
 import java.awt.Color;
 import java.awt.Image;
+
 import javax.swing.JLabel;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+
 import org.imgscalr.Scalr;
+
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

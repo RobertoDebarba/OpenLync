@@ -1,4 +1,8 @@
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.net.Socket;
 
@@ -40,5 +44,38 @@ public class SaidaDados implements Runnable {
 		String mensagem = this.ipDestino + "|" + msg; 
         
         PSsaida.println(mensagem); 
+	}
+	
+	public void enviarArquivo() {
+		try {
+			PSsaida.println("FILE|ipqualquer");
+			
+			@SuppressWarnings("resource")
+			FileInputStream in = new FileInputStream("/home/roberto/joao.jpg");
+			
+			OutputStream out = this.socketSaida.getOutputStream();
+			
+			OutputStreamWriter osw;
+			osw = new OutputStreamWriter(out);
+			
+			 
+			BufferedWriter writer = new BufferedWriter(osw);
+			 
+			
+			writer.write("joao.jpg" + "\n");
+		    writer.flush(); 
+			 
+		    int tamanho = 4096; // buffer de 4KB 
+		    byte[] buffer = new byte[tamanho];    
+	        
+		    int lidos = -1;
+		    while ((lidos = in.read(buffer, 0, tamanho)) != -1) {    
+	            out.write(buffer, 0, lidos);    
+		    }  
+		} catch (IOException e) {
+			System.out.println("Erro ao enviar arquivo ao servidor!");
+			e.printStackTrace();
+		}
+		 
 	}
 }
