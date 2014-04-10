@@ -30,7 +30,6 @@ import javax.swing.ImageIcon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-
 public class FormChat extends JFrame {
 
 	private static final long serialVersionUID = 1L;
