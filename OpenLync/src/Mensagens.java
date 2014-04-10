@@ -41,6 +41,10 @@ public class Mensagens {
 		   }
 		} 
 	}
+	
+	public void tratarArquivo() {
+		
+	}
 
 	public void enviarMensagem(String mensagem, int portaSaida) {
 		
@@ -54,7 +58,7 @@ public class Mensagens {
 			System.out.println("Não foi possivel estabelecer conexão com destinatario!");
 		}
 		
-		// É necessario fechar os objetos para não dar complito quando chamar o metodo na segunda vez
+		// É necessario fechar os objetos para não dar conflito quando chamar o metodo na segunda vez
 		try {
 			Sdestino.close();
 			PSdestino.close();

@@ -1,3 +1,4 @@
+
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Scanner;
@@ -38,23 +39,41 @@ public class TrataCliente implements Runnable {
 			TratadorMensagens.setIpDestino("");
 			TratadorMensagens.setMensagemTratada("");
 			TratadorMensagens.tratarMensagem(mensg);
-			 
+				
 			String msg = "";
-			if (TratadorMensagens.getIpDestino().equals("TESTCONNECTION")) {  // SE for teste de sistema
+			if (TratadorMensagens.getIpDestino().equals("TESTCONNECTION")) {	// SE for teste de sistema
 				
 				msg = "TESTCONNECTION|" + remetente;
 				
 				TratadorMensagens.setIpDestino(remetente);
-			} else {
+				
+				//Envia a mensagem
+				TratadorMensagens.enviarMensagem(msg, this.portaSaida);
+				
+				// Mostra a mensagem enviada ao destinatario com o ip do remetente
+				System.out.println(msg);
+				
+			} else if (TratadorMensagens.getIpDestino().equals("FILE")) {		//Se for envio de arquivo
+				
+				ReceberArquivo tratadorArquivo = new ReceberArquivo(this.Scliente);
+				new Thread(tratadorArquivo).start();
+					
+				try {							//Para thread enquanto recebe arquivo
+					Thread.sleep(5000);			//FIXME
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				
+			} else {															//Se for mensagem normal
 			
 				msg = remetente + "|" + TratadorMensagens.getMensagemTratada();
+				
+				//Envia a mensagem
+				TratadorMensagens.enviarMensagem(msg, this.portaSaida);
+				
+				// Mostra a mensagem enviada ao destinatario com o ip do remetente
+				System.out.println(msg);
 			}
-			
-			//Envia a mensagem
-			TratadorMensagens.enviarMensagem(msg, this.portaSaida);
-			
-			// Mostra a mensagem enviada ao destinatario com o ip do remetente
-			System.out.println(msg);
 		}
    }
 }
