@@ -17,7 +17,9 @@ public class OpenLync_client {
 	private static String ipLocal = "";
 	
 	public OpenLync_client() {
-		
+		ipServidor = "192.168.1.3"; // Define ip do servidor
+		portaEntrada = 7606;  //Define porta de entrada de dados; Servidor -> Cliente
+		portaSaida = 7609;// Define porta de sáida de dados; Cliente -> Servidor
 	}
 	
 	public static String getIpLocal() {
@@ -50,12 +52,6 @@ public class OpenLync_client {
 
 	public static void setPortaSaida(int portaSaida) {
 		OpenLync_client.portaSaida = portaSaida;
-	}
-
-	private static void IniciaVariaveis() {
-		ipServidor = "192.168.1.3"; // Define ip do servidor
-		portaEntrada = 7606;  //Define porta de entrada de dados; Servidor -> Cliente
-		portaSaida = 7609;// Define porta de sáida de dados; Cliente -> Servidor
 	}
 	
 	@SuppressWarnings("resource")
@@ -103,12 +99,12 @@ public class OpenLync_client {
 
 	public static void main(String[] args) {
 		
+		new OpenLync_client();;
+		
 		FormMain frmMain = new FormMain();
 		frmMain.abrirTela();
 		
 		FormMain.abrirFrmLogin();
-		
-		IniciaVariaveis(); //FIXME
 	}
 	
 	public static void iniciarEntrada() {
