@@ -90,7 +90,8 @@ public class FormChat extends JFrame {
 		
 		//Abre Conexão de Saida
 		final SaidaDados conexaoSaida = new SaidaDados(this.ip);
-		new Thread(conexaoSaida).start();
+		Thread threadSaida = new Thread(conexaoSaida);
+		threadSaida.start();
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 366, 418);
@@ -188,6 +189,8 @@ public class FormChat extends JFrame {
 					}	
 					a++;
 				}
+				//Encerra thread de saida de dados
+				conexaoSaida.encerrarThread();
 			}
 			@Override
 			public void windowActivated(WindowEvent e) {

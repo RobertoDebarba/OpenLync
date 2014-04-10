@@ -9,6 +9,13 @@ import java.net.Socket;
 
 import javax.swing.JFileChooser;
 
+/*
+ * Esta thread está ligada à Thread TrataCliente no servidor.
+ * Cada vez que esta é criada, uma nova trata cliente surge.
+ * 
+ * Quando esta for finalizada, a trata cliente também deve ser.
+ */
+
 public class SaidaDados implements Runnable {
 
 	private Socket socketSaida = null;
@@ -22,6 +29,12 @@ public class SaidaDados implements Runnable {
 		this.ipServidor = OpenLync_client.getIpServidor();
 		this.portaSaida = OpenLync_client.getPortaSaida();
 		this.ipDestino = ipDestino;
+	}
+	
+	public void encerrarThread() {
+		
+		PSsaida.println("SYSTEM|KILL CLIENT");
+		Thread.currentThread().interrupt();
 	}
 	
 	public void run() {
@@ -49,7 +62,7 @@ public class SaidaDados implements Runnable {
         PSsaida.println(mensagem); 
 	}
 	
-	@SuppressWarnings("resource")
+	@SuppressWarnings("resource")	//FIXME arquivo
 	public void enviarArquivo() {
 		try {	
 			File arquivo = escolherArquivo();
@@ -87,7 +100,7 @@ public class SaidaDados implements Runnable {
 		}	 
 	}
 	
-    public File escolherArquivo(){  
+    public File escolherArquivo(){  //FIXME arquivo
         File arquivo  = null;  
         JFileChooser fc = new JFileChooser();
         fc.setDialogTitle("Escolha o arquivo...");  

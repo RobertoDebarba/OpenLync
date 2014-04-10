@@ -70,7 +70,7 @@ public class OpenLync_client {
 			socketSaida = new Socket(ipServidor, portaSaida);
 			
 			PrintStream PSsaida = new PrintStream(socketSaida.getOutputStream());
-			PSsaida.println("TESTCONNECTION|RETURN IP CLIENT"); 
+			PSsaida.println("SYSTEM|RETURN IP CLIENT"); 
 			
 			// Recebe mensagem de resposta
 			Socket socketEntrada = SSentrada.accept();
@@ -82,7 +82,7 @@ public class OpenLync_client {
 			TratadorMensagens.tratarMensagem(msg);
 			
 			//Se for mensagem de sistema
-			if (TratadorMensagens.getIpRemetente().equals("TESTCONNECTION")) { //Aqui IP representa a mensagem de SISTEMA
+			if (TratadorMensagens.getIpRemetente().equals("SYSTEM")) { //Aqui IP representa a mensagem de SISTEMA
 				OpenLync_client.setIpLocal(TratadorMensagens.getMensagemTratada());
 			
 				SSentrada.close();

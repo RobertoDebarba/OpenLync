@@ -30,7 +30,7 @@ public class NovosClientes implements Runnable {
 			}
 			System.out.println("Nova conexão com o cliente " + cliente.getInetAddress().getHostAddress());
 			   
-			// Cada novo cliente recebe uma Threas onde é tratado
+			// Cada novo cliente recebe uma Thread onde é tratado
 			TrataCliente tc = new TrataCliente(cliente, portaSaida);
 			new Thread(tc).start();
 		} 
