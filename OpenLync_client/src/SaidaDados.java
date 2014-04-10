@@ -46,12 +46,13 @@ public class SaidaDados implements Runnable {
         PSsaida.println(mensagem); 
 	}
 	
+	@SuppressWarnings("resource")
 	public void enviarArquivo() {
 		try {
 			PSsaida.println("FILE|ipqualquer");
 			
-			@SuppressWarnings("resource")
-			FileInputStream in = new FileInputStream("/home/roberto/joao.jpg");
+			FileInputStream in;
+			in = new FileInputStream("/home/roberto/joao.jpg");
 			
 			OutputStream out = this.socketSaida.getOutputStream();
 			
@@ -64,6 +65,8 @@ public class SaidaDados implements Runnable {
 			
 			writer.write("joao.jpg" + "\n");
 		    writer.flush(); 
+		    
+		    Thread.sleep(1000); //QG gambiara master - Sem esse sleep o arquivo é enviado com 0b //FIXME
 			 
 		    int tamanho = 4096; // buffer de 4KB 
 		    byte[] buffer = new byte[tamanho];    
@@ -72,7 +75,7 @@ public class SaidaDados implements Runnable {
 		    while ((lidos = in.read(buffer, 0, tamanho)) != -1) {    
 	            out.write(buffer, 0, lidos);    
 		    }  
-		} catch (IOException e) {
+		} catch (IOException | InterruptedException  e) {
 			System.out.println("Erro ao enviar arquivo ao servidor!");
 			e.printStackTrace();
 		}
