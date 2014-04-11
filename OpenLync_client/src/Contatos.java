@@ -2,12 +2,30 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Connection;
+import java.util.ArrayList;
 
 public class Contatos {
 
 	public static FormUsuarioLista listaInternalFrames[] = new FormUsuarioLista[100]; //FIXME
 	
+	public static FormChat[] listaChat = new FormChat[100]; //FIXME tornar tamanho dinamico
+	private static int contadorChat = 0;
+	
 	private static int i = 0;
+	
+	
+	public static int getContadorChat() {
+		return contadorChat;
+	}
+	
+	public static void incContadorChat() {
+		contadorChat++;
+	}
+	
+	public static void decContadorChat() {
+		contadorChat--;
+	}
+	
 	
 	public static void atualizarListaPrincipal() throws SQLException {
 		
@@ -94,7 +112,6 @@ public class Contatos {
 						//FormIncial.jdpUsuarios.repaint();
 						listaInternalFrames[i] = null;
 						
-						FormChat.decContadorChat();
 						FormUsuarioLista.decContadorPosicaoUsuario();
 					} else {
 						//Reorganiza posições dos forms na lista de contatos

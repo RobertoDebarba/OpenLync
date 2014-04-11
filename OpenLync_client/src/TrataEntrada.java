@@ -46,10 +46,10 @@ public class TrataEntrada implements Runnable {
 				//mandar para tela de chat
 				int i = 0;
 				boolean encontrouChat = false;
-				while (i < FormChat.getContadorChat()) {
+				while (i < Contatos.getContadorChat()) {
 					
-					if (TratadorMensagens.getIpRemetente().equals(FormChat.listaChat[i].getIp())) {
-						FormChat.listaChat[i].adicionarMensagem(TratadorMensagens.getMensagemTratada(), "out");//FIXME
+					if (TratadorMensagens.getIpRemetente().equals(Contatos.listaChat[i].getIp())) {
+						Contatos.listaChat[i].adicionarMensagem(TratadorMensagens.getMensagemTratada(), "out");//FIXME
 						encontrouChat = true;
 					}
 					i++;
@@ -66,10 +66,10 @@ public class TrataEntrada implements Runnable {
 						e.printStackTrace();
 					}
 					
-					FormChat.listaChat[FormChat.getContadorChat()] = new FormChat(usuarioPesquisa.getCodigo(), usuarioPesquisa.getNome(), usuarioPesquisa.getCargo(), usuarioPesquisa.getIp(), usuarioPesquisa.getFoto());
-					FormChat.listaChat[FormChat.getContadorChat()].setVisible(true);
-					FormChat.listaChat[FormChat.getContadorChat()].adicionarMensagem(TratadorMensagens.getMensagemTratada(), "out");
-					FormChat.incContadorChat();
+					Contatos.listaChat[Contatos.getContadorChat()] = new FormChat(usuarioPesquisa.getCodigo(), usuarioPesquisa.getNome(), usuarioPesquisa.getCargo(), usuarioPesquisa.getIp(), usuarioPesquisa.getFoto());
+					Contatos.listaChat[Contatos.getContadorChat()].setVisible(true);
+					Contatos.listaChat[Contatos.getContadorChat()].adicionarMensagem(TratadorMensagens.getMensagemTratada(), "out");
+					Contatos.incContadorChat();
 				}
 				
 			}

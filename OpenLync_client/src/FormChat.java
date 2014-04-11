@@ -1,5 +1,6 @@
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
@@ -21,9 +22,14 @@ import java.awt.event.WindowEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 
@@ -37,24 +43,10 @@ public class FormChat extends JFrame {
 	private JTextPane textPane;
 	private JScrollPane scrollPane;
 	
-	public static FormChat[] listaChat = new FormChat[100]; //FIXME tornar tamanho dinamico
-	private static int contadorChat = 0;
-	
 	private int codigo;
 	private String nome;
 	private String ip;	
 	
-	public static int getContadorChat() {
-		return contadorChat;
-	}
-	
-	public static void incContadorChat() {
-		contadorChat++;
-	}
-	
-	public static void decContadorChat() {
-		contadorChat--;
-	}
 	
 	public int getCodigo() {
 		return codigo;
@@ -174,6 +166,15 @@ public class FormChat extends JFrame {
 		labelAnexo.setBounds(326, 43, 37, 28);
 		contentPane.add(labelAnexo);
 	
+		//Timer para verificar se contato continua online
+		final Timer t = new Timer();
+		t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+				verificarStatusContato();
+            }
+        }, 1000, 4000);
+		
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {		// Ao fechar janela
@@ -181,15 +182,16 @@ public class FormChat extends JFrame {
 				int a = 0;
 				while (a < 100) { //FIXME
 					
-					if (listaChat[a] != null) {
-						if (listaChat[a].getCodigo() == codigo) {
-							listaChat[a] = null;
-							contadorChat--;
+					if (Contatos.listaChat[a] != null) {
+						if (Contatos.listaChat[a].getCodigo() == codigo) {
+							Contatos.listaChat[a] = null;
+							Contatos.decContadorChat();
 						}
 					}	
 					a++;
 				}
 				//Encerra thread de saida de dados
+				t.cancel();
 				conexaoSaida.encerrarThread();
 			}
 			@Override
@@ -197,5 +199,40 @@ public class FormChat extends JFrame {
 				textArea.grabFocus();
 			}
 		});
+		
+	}
+	
+	/*
+	 * Verifica status atual do usuario do chat no DB
+	 * 
+	 * Se usuário se desconectou fecha a janela de chat //TODO implementar comportamento melhor
+	 */
+	
+	private void verificarStatusContato() {
+		
+		String statusAtual = "";
+		try {
+			java.sql.Connection conexao = MySQLConection.getMySQLConnection();
+			Statement st = conexao.createStatement();
+		
+			String SQL = "SELECT ip_usuario FROM tb_usuarios WHERE codigo_usuario = "+ this.codigo +";";
+	
+			ResultSet rs = st.executeQuery(SQL);
+
+			rs.beforeFirst();
+			if (rs.next()) {
+				statusAtual = rs.getString("ip_usuario");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		//Se o usuario ficou offline
+		if (statusAtual.equals("null")) {
+			
+			dispose();
+			JOptionPane.showMessageDialog(null, this.nome +" ficou offline!", "Usuário desconectado", 1);
+		}
 	}
 }

@@ -88,9 +88,9 @@ public class FormUsuarioLista extends JInternalFrame {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
 					// Abre tela do chat
-					FormChat.listaChat[FormChat.getContadorChat()] = new FormChat(codigo, nome, cargo, ip, foto);
-					FormChat.listaChat[FormChat.getContadorChat()].setVisible(true);
-					FormChat.incContadorChat();
+					Contatos.listaChat[Contatos.getContadorChat()] = new FormChat(codigo, nome, cargo, ip, foto); //FIXME BUG do seculo | Provavelmente problema contador de chat
+					Contatos.listaChat[Contatos.getContadorChat()].setVisible(true);
+					Contatos.incContadorChat();
 				}
 			}
 		});
