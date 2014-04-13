@@ -6,7 +6,6 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.net.Socket;
-
 import javax.swing.JFileChooser;
 
 /*
@@ -38,7 +37,6 @@ public class SaidaDados implements Runnable {
 	}
 	
 	public void run() {
-
 		// Conecta ao socket
 		try {
     	socketSaida = new Socket(this.ipServidor, this.portaSaida);  

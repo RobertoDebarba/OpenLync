@@ -14,9 +14,16 @@ public class Usuarios {
 	private String cargo = "";
 	private String login = "";
 	private String senha = "";
-	private boolean status = false;
 	private String ip = "";
 	private BufferedImage foto = null;
+	
+	public boolean getStatus() {
+		if (this.ip.equals("null")) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 	
 	public BufferedImage getFoto() {
 		return foto;
@@ -66,14 +73,6 @@ public class Usuarios {
 		this.senha = senha;
 	}
 
-	public boolean getStatus() {
-		return status;
-	}
-
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
-
 	public String getIp() {
 		return ip;
 	}
@@ -86,12 +85,16 @@ public class Usuarios {
 		java.sql.Connection conexao = MySQLConection.getMySQLConnection();
 		Statement st = conexao.createStatement();
 		
-		String SQL = "UPDATE tb_usuarios SET status_usuario = "+status+
-					 " WHERE codigo_usuario = "+codigoUsuario+";";
-
-		st.executeUpdate(SQL);
+		String SQL;
+		if (status == true) {
+			SQL = "UPDATE tb_usuarios SET ip_usuario = '000'" +
+						 " WHERE codigo_usuario = "+codigoUsuario+";";
+		} else {
+			SQL = "UPDATE tb_usuarios SET ip_usuario = 'null'" +
+					 	 " WHERE codigo_usuario = "+codigoUsuario+";";
+		}
 		
-		this.status = status;
+		st.executeUpdate(SQL);
 	}
 	
 	public void setIpOnDB(int codigoUsuario, String ip) throws SQLException {
@@ -113,7 +116,6 @@ public class Usuarios {
 		
 		String SQL = "SELECT 1 FROM tb_usuarios WHERE login_usuario = '"+ login +"'" +
 					 " AND senha_usuario = '"+ senha +"'" +
-					 " AND status_usuario = false" +
 					 " AND ip_usuario = 'null';";
 
 		ResultSet rs = st.executeQuery(SQL);
@@ -131,20 +133,20 @@ public class Usuarios {
 		java.sql.Connection conexao = MySQLConection.getMySQLConnection();
 		Statement st = conexao.createStatement();
 		
-		String SQL = "SELECT * FROM tb_usuarios WHERE login_usuario = '"+ login +"';";
+		String SQL = "SELECT codigo_usuario, nome_usuario, login_usuario, senha_usuario, ip_usuario, foto_usuario, tb_cargos.desc_cargo"+
+					 " FROM tb_usuarios, tb_cargos" +
+					 " WHERE tb_usuarios.login_usuario = '"+login+"' AND tb_cargos.codigo_cargo = tb_usuarios.codigo_cargo;";
 
 		ResultSet rs = st.executeQuery(SQL);
 		
 		rs.beforeFirst();
 		
-		//byte[] imageBytes;
 		while(rs.next()) {
 			this.codigo = rs.getInt("codigo_usuario");
 			this.nome = rs.getString("nome_usuario");
-			this.cargo = rs.getString("cargo_usuario");
+			this.cargo = rs.getString("desc_cargo");
 			this.login = rs.getString("login_usuario");
 			this.senha = rs.getString("senha_usuario");
-			this.status = rs.getBoolean("status_usuario");
 			this.ip = rs.getString("ip_usuario");
 			Blob blobImage = rs.getBlob("foto_usuario");
 			try {
@@ -158,8 +160,6 @@ public class Usuarios {
 				e.printStackTrace();
 			}
 
-			//imageBytes = rs.getBytes("foto_usuario");
-			//this.foto = (BufferedImage) Toolkit.getDefaultToolkit().createImage(imageBytes);
 		}
 	}
 
@@ -168,7 +168,9 @@ public class Usuarios {
 		java.sql.Connection conexao = MySQLConection.getMySQLConnection();
 		Statement st = conexao.createStatement();
 		
-		String SQL = "SELECT * FROM tb_usuarios WHERE codigo_usuario = "+ codigo +";";
+		String SQL = "SELECT codigo_usuario, nome_usuario, login_usuario, senha_usuario, ip_usuario, foto_usuario, tb_cargos.desc_cargo"+
+				 	 " FROM tb_usuarios, tb_cargos" +
+				 	 " WHERE tb_usuarios.codigo_usuario = "+codigo+" AND tb_cargos.codigo_cargo = tb_usuarios.codigo_cargo;";
 
 		ResultSet rs = st.executeQuery(SQL);
 		
@@ -176,10 +178,9 @@ public class Usuarios {
 		while(rs.next()) {
 			this.codigo = rs.getInt("codigo_usuario");
 			this.nome = rs.getString("nome_usuario");
-			this.cargo = rs.getString("cargo_usuario");
+			this.cargo = rs.getString("desc_cargo");
 			this.login = rs.getString("login_usuario");
 			this.senha = rs.getString("senha_usuario");
-			this.status = rs.getBoolean("status_usuario");
 			this.ip = rs.getString("ip_usuario");
 			Blob blobImage = rs.getBlob("foto_usuario");
 			try {
@@ -200,7 +201,9 @@ public void carregarInformacoesPorIP(String ip) throws SQLException {
 		java.sql.Connection conexao = MySQLConection.getMySQLConnection();
 		Statement st = conexao.createStatement();
 		
-		String SQL = "SELECT * FROM tb_usuarios WHERE ip_usuario = '"+ ip +"';";
+		String SQL = "SELECT codigo_usuario, nome_usuario, login_usuario, senha_usuario, ip_usuario, foto_usuario, tb_cargos.desc_cargo"+
+				 	 " FROM tb_usuarios, tb_cargos" +
+				 	 " WHERE tb_usuarios.ip_usuario = '"+ip+"' AND tb_cargos.codigo_cargo = tb_usuarios.codigo_cargo;";
 
 		ResultSet rs = st.executeQuery(SQL);
 		
@@ -208,10 +211,9 @@ public void carregarInformacoesPorIP(String ip) throws SQLException {
 		while(rs.next()) {
 			this.codigo = rs.getInt("codigo_usuario");
 			this.nome = rs.getString("nome_usuario");
-			this.cargo = rs.getString("cargo_usuario");
+			this.cargo = rs.getString("desc_cargo");
 			this.login = rs.getString("login_usuario");
 			this.senha = rs.getString("senha_usuario");
-			this.status = rs.getBoolean("status_usuario");
 			this.ip = rs.getString("ip_usuario");
 			Blob blobImage = rs.getBlob("foto_usuario");			
 			try {

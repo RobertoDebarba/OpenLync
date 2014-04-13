@@ -2,7 +2,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Connection;
-import java.util.ArrayList;
 
 public class Contatos {
 
@@ -34,7 +33,7 @@ public class Contatos {
 		
 		Usuarios usuarioLogin = FormLogin.getUsuarioLogin();
 		// SELECT codigo_usuario - todos logados exeto o usuario que realizou o login no programa
-		String SQL = "SELECT (codigo_usuario) FROM tb_usuarios WHERE status_usuario = true AND"+
+		String SQL = "SELECT (codigo_usuario) FROM tb_usuarios WHERE ip_usuario <> 'null' AND"+
 					 " codigo_usuario <> " + usuarioLogin.getCodigo() + ";";
 		
 		ResultSet rs = st.executeQuery(SQL);
@@ -104,9 +103,9 @@ public class Contatos {
 			try {
 				
 				if (listaInternalFrames[i] != null) {
-					//Instancia novo usuario com codigo da posicao atual da grid para verificar status_usuario
+					//Instancia novo usuario com codigo da posicao atual da grid para verificar o status do usuario
 					userTeste.carregarInformacoes(listaInternalFrames[i].getCodigoUsuario());
-					//Se usuario está offline(status_usuario = false) remove da JDesktopPane e seta NULL NA LISTA
+					//Se usuario está offline(ip_usuario <> 'null') remove da JDesktopPane e seta NULL NA LISTA
 					if (!userTeste.getStatus()) {
 						FormIncial.jdpUsuarios.remove(listaInternalFrames[i]);
 						//FormIncial.jdpUsuarios.repaint();
