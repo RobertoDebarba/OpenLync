@@ -10,20 +10,18 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 
-import org.eclipse.wb.swing.FocusTraversalOnArray;
-
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.HeadlessException;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JPasswordField;
 
 
 public class FormLogin extends JInternalFrame {
 
 	private static final long serialVersionUID = 1L;
 	private static JTextField editUsuario;
-	private static JTextField editSenha;
+	private static JPasswordField editSenha;
 	private static Usuarios usuarioLogin = null;
 	
 	public static Usuarios getUsuarioLogin() {
@@ -35,7 +33,7 @@ public class FormLogin extends JInternalFrame {
 	}
 	
 	public static String getLoginSenha() {
-		return editSenha.getText();
+		return new String(editSenha.getPassword());
 	}
 
 	public FormLogin() {
@@ -53,18 +51,24 @@ public class FormLogin extends JInternalFrame {
 		editUsuario.setBounds(154, 112, 140, 25);
 		editUsuario.setColumns(10);
 		
-		editSenha = new JTextField();
+		editSenha = new JPasswordField();
 		editSenha.setBounds(154, 149, 140, 25);
 		editSenha.setColumns(10);
+		getContentPane().add(editSenha);
 		
 		JButton btnEntrar = new JButton("Entrar");
 		btnEntrar.setBounds(76, 208, 100, 45);
 		btnEntrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (!editUsuario.getText().equals("") && !editSenha.getText().equals("")) {
-					usuarioLogin = new Usuarios();
-					String login = editUsuario.getText();
-					String senha = editSenha.getText();
+				
+				usuarioLogin = new Usuarios();
+				usuarioLogin.setLogin(editUsuario.getText());
+				usuarioLogin.setSenha(new String(editSenha.getPassword()));
+				
+				if (!usuarioLogin.getLogin().equals("") && !usuarioLogin.getSenha().equals("")) {
+					
+					String login = usuarioLogin.getLogin();
+					String senha = usuarioLogin.getSenha();
 					if (OpenLync_client.verificarConexaoBanco()) {
 						//Se o banco conectou já é seguro solicitar o IP local ao servidor
 						//Se o servidor não responder o sistema irá travar
@@ -120,7 +124,6 @@ public class FormLogin extends JInternalFrame {
 		ImgGear.setIcon(new ImageIcon(FormLogin.class.getResource("/Imagens/gear_icon.png")));
 		ImgGear.setBounds(333, 0, 25, 23);
 		getContentPane().add(ImgGear);
-		setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{editUsuario, editSenha, btnEntrar, btnSair, getContentPane(), lblUsurio, lblSenha}));
 		
 	}	
 }
