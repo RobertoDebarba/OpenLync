@@ -18,6 +18,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.sql.SQLException;
+import java.awt.SystemColor;
 
 
 public class FormUsuarioLista extends JInternalFrame {
@@ -88,17 +89,18 @@ public class FormUsuarioLista extends JInternalFrame {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
 					// Abre tela do chat
-					Contatos.listaChat[Contatos.getContadorChat()] = new FormChat(codigo, nome, cargo, ip, foto); //FIXME BUG do seculo | Provavelmente problema contador de chat
+					Contatos.listaChat[Contatos.getContadorChat()] = new FormChat(codigo, nome, cargo, ip, foto);
 					Contatos.listaChat[Contatos.getContadorChat()].setVisible(true);
 					Contatos.incContadorChat();
 				}
 			}
 		});
 		setBorder(null);
-		getContentPane().setBackground(Color.LIGHT_GRAY);
+		getContentPane().setBackground(new Color(200, 200, 200));
 		setBounds(100, 100, 321, 65);
 		
 		labelNome = new JLabel(nome);
+		labelNome.setBackground(SystemColor.textHighlightText);
 		labelNome.setFont(new Font("Dialog", Font.BOLD, 14));
 		labelNome.setBounds(65, 10, 174, 15);
 		getContentPane().setLayout(null);
@@ -110,6 +112,7 @@ public class FormUsuarioLista extends JInternalFrame {
 		getContentPane().add(labelCargo);
 		
 		labelFoto = new JLabel("");
+		labelFoto.setBackground(Color.GRAY);
 		Image imagemRedim = Scalr.resize(foto, 42, 42);
 		labelFoto.setIcon(new ImageIcon(imagemRedim));
 		labelFoto.setBounds(8, 5, 42, 42);

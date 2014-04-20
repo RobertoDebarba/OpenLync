@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.ImageIcon;
-import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.awt.Color;
 
 public class FormIncial extends JInternalFrame {
 
@@ -20,13 +20,14 @@ public class FormIncial extends JInternalFrame {
 	private JLabel labelFoto;
 	
 	public FormIncial(String nome, String cargo, BufferedImage foto) {
+		getContentPane().setBackground(new Color(238, 238, 238));
 		
 		setBorder(null);
 		setBounds(100, 100, 370, 570);
 		
 		jdpUsuarios = new JDesktopPane();
-		jdpUsuarios.setBackground(Color.WHITE);
-		jdpUsuarios.setBounds(22, 85, 321, 414);
+		jdpUsuarios.setBackground(new Color(238, 238, 238));
+		jdpUsuarios.setBounds(22, 85, 321, 438);
 		jdpUsuarios.setBorder(null);
 		getContentPane().setLayout(null);
 		getContentPane().add(jdpUsuarios);
@@ -42,6 +43,7 @@ public class FormIncial extends JInternalFrame {
 		getContentPane().add(labelCargo);
 		
 		labelFoto = new JLabel("");
+		labelFoto.setBackground(new Color(255, 255, 255));
 		labelFoto.setIcon(new ImageIcon(foto));
 		labelFoto.setBounds(22, 12, 57, 57);
 		getContentPane().add(labelFoto);

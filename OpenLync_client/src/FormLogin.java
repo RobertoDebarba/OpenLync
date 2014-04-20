@@ -12,6 +12,7 @@ import java.sql.SQLException;
 
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.HeadlessException;
 import java.awt.event.MouseAdapter;
@@ -38,6 +39,7 @@ public class FormLogin extends JInternalFrame {
 	}
 
 	public FormLogin() {
+		getContentPane().setBackground(new Color(238, 238, 238));
 		setBorder(null);
 		setBounds(100, 100, 370, 570);
 		
