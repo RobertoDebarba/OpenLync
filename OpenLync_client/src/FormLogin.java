@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 
 import java.awt.Component;
+import java.awt.HeadlessException;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -58,11 +59,16 @@ public class FormLogin extends JInternalFrame {
 		btnEntrar.setBounds(76, 208, 100, 45);
 		btnEntrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				if (!editUsuario.getText().equals("") && !editSenha.getText().equals("")) {
 					usuarioLogin = new Usuarios();
 					String login = editUsuario.getText();
 					String senha = editSenha.getText();
-					try {
-						if (OpenLync_client.verificarConexaoServidor()) {
+					if (OpenLync_client.verificarConexaoBanco()) {
+						//Se o banco conectou já é seguro solicitar o IP local ao servidor
+						//Se o servidor não responder o sistema irá travar
+						OpenLync_client.verificarIPlocal();
+						
+						try {
 							if (usuarioLogin.verificarLogin(login, senha)) {
 								OpenLync_client.iniciarEntrada();
 								usuarioLogin.carregarInformacoes(login);
@@ -71,14 +77,19 @@ public class FormLogin extends JInternalFrame {
 								FormMain.fecharFrmLogin();
 								FormMain.abrirFrmInicial(usuarioLogin.getNome(), usuarioLogin.getCargo(), usuarioLogin.getFoto());
 							} else {
-								JOptionPane.showMessageDialog(null, "Usuário ou senha não encontrado!", "Login Inválido", 1);
+								JOptionPane.showMessageDialog(null, "Usuário ou senha incorretos ou Usuário já logado!", "Login Inválido", 1);
 							}
-						} else {
-							JOptionPane.showMessageDialog(null, "Erro ao conectar ao servidor!", "Erro de conexão", 1);
-						};
-					} catch (SQLException e) {
+							
+						} catch (HeadlessException | SQLException e) {
+							e.printStackTrace();
+						}
+						
+					} else {
 						JOptionPane.showMessageDialog(null, "Erro ao conectar ao Banco de Dados!", "Erro de conexão", 1);
 					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Você deve preencher todos os campos!", "Campos inválidos", 1);
+				}
 			}
 		});
 		

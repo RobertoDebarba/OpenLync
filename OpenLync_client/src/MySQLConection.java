@@ -23,9 +23,9 @@ while (rs.next()) {
 }*/
 public class MySQLConection {
 	
-	private static String status = "Não houve tentativa de conexão!";
+	private static boolean status = false;
 
-	public static String getStatusMySQL() {
+	public static boolean getStatusMySQL() {
 		return status;
 	}
 	
@@ -42,9 +42,9 @@ public class MySQLConection {
 
             // Testar Conexão
             if (connection != null) {
-            	status = "MySQL concetado!";
+            	status = true;
             } else {
-            	status = "MySQL não conectado!";
+            	status = false;
             }
             
             return connection;

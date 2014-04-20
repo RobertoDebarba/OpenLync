@@ -5,6 +5,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -124,12 +125,13 @@ public class FormMain {
 			public void windowClosing(WindowEvent e) {
 				// Ao fechar programa
 				Usuarios usuarioLogin = FormLogin.getUsuarioLogin();
-				if (usuarioLogin != null) {
+				//Se o banco estiver conectado
+				if ((usuarioLogin != null) && (MySQLConection.getStatusMySQL())) {
 					try {
 						//Seta status usuarioLogin para status_usuario = false
 						usuarioLogin.setStatusOnDB(usuarioLogin.getCodigo(), false);
-						//Seta ip para null
-						usuarioLogin.setIpOnDB(usuarioLogin.getCodigo(), null);
+						//Fecha conexão com banco
+						MySQLConection.fecharConexaoMySQL();
 					} catch (SQLException e1) {
 						e1.printStackTrace();
 					}

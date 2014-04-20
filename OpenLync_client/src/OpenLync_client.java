@@ -8,6 +8,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
+import java.sql.Connection;
+
 public class OpenLync_client {
 	
 	private static String ipServidor;
@@ -54,8 +56,29 @@ public class OpenLync_client {
 		OpenLync_client.portaSaida = portaSaida;
 	}
 	
+	/*
+	 * Verifica conexão com Banco de Dados
+	 */
+	
+	public static boolean verificarConexaoBanco() {
+		Connection conexao = MySQLConection.getMySQLConnection();
+		
+		if (conexao != null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/*
+	 * Acessa o servidor (aplicativo) e solicita IP local
+	 * 
+	 * Se o servidor não responder o Sistema irá travar;
+	 * Importante!!: o metodo verificar verificarConexaoBanco deve ser chamado antes desse
+	 */
+	
 	@SuppressWarnings("resource")
-	public static boolean verificarConexaoServidor() {
+	public static boolean verificarIPlocal() {
 		
 		// Conecta ao socket
 		Socket socketSaida = null;
@@ -79,6 +102,7 @@ public class OpenLync_client {
 			
 			//Se for mensagem de sistema
 			if (TratadorMensagens.getIpRemetente().equals("SYSTEM")) { //Aqui IP representa a mensagem de SISTEMA
+				//Seta o ip local
 				OpenLync_client.setIpLocal(TratadorMensagens.getMensagemTratada());
 			
 				SSentrada.close();
