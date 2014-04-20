@@ -31,6 +31,15 @@ public class TrataCliente implements Runnable {
 		Thread.currentThread().interrupt();
    }
  
+   /*
+    * Loop infinito que verrifica chegada de novas mensagens
+    * 
+    * Quando chega mensagem
+    * 	1. descriptografa
+    * 	2. Trata mensagem
+    * 
+    * Verifica se é mensagem de sistema (SYSTEM) ou normal
+    */
    public void run() {
 
 	   	System.out.println("Criada a Thread "+ Thread.currentThread().getId());
@@ -42,6 +51,8 @@ public class TrataCliente implements Runnable {
 			System.out.println("Erro ao criar Scanner do cliente!");
 		}
 		
+		Criptografia cript = new Criptografia();
+		
 		while (scannerCliente.hasNextLine()) {
 			
 			// Varre mensagem
@@ -50,7 +61,8 @@ public class TrataCliente implements Runnable {
 			this.msg = "";
 			TratadorMensagens.setIpDestino("");
 			TratadorMensagens.setMensagemTratada("");
-			TratadorMensagens.tratarMensagem(mensg);
+			//Descriptografar e tratar mensagem
+			TratadorMensagens.tratarMensagem(cript.descriptografarMensagem(mensg));
 			
 			if (TratadorMensagens.getIpDestino().equals("SYSTEM")) {			// SE for teste de sistema
 				
@@ -65,6 +77,9 @@ public class TrataCliente implements Runnable {
 		}
    }
    
+   /*
+    * Quando for mensagem do sistema verifica o solicitado e repassa ao remetente
+    */
    private void MsgSistema() {
 	   
 	   	if (TratadorMensagens.getMensagemTratada().equals("RETURN IP CLIENT")) {
@@ -114,6 +129,9 @@ public class TrataCliente implements Runnable {
        }
    }
    
+   /*
+    * QUando for mensagem normal repassa ao destinatario com o ip do remetente
+    */
    private void MsgMensagem() {
 	   
 	   msg = remetente + "|" + TratadorMensagens.getMensagemTratada();

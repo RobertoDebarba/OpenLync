@@ -54,10 +54,16 @@ public class SaidaDados implements Runnable {
 		} 
 	}
 	
+	/*
+	 * Criptografa e manda mensagem
+	 */
 	public void enviarMensagem(String msg) {
 		String mensagem = this.ipDestino + "|" + msg; 
+		
+		Criptografia cript = new Criptografia();
         
-        PSsaida.println(mensagem); 
+		//Criptografa e manda mensagem
+        PSsaida.println(cript.criptografarMensagem(mensagem)); 
 	}
 	
 	@SuppressWarnings("resource")	//FIXME arquivo

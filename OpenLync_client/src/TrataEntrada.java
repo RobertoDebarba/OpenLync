@@ -13,6 +13,14 @@ public class TrataEntrada implements Runnable {
 		this.SS = SS;
 	}
 
+	/*
+	 * Loop infinito que verifica entrada de novas mensagens.
+	 * Se recebeu nova mensagem: 
+	 * 		1 - Descriptografa
+	 * 		2 - Trata mensagem
+	 * 		3 - Manda para tela de chat correta
+	 * 			Se não encontrou cria uma tela de chat nova
+	 */
 	public void run() {
 		
 		while (true) {
@@ -33,15 +41,19 @@ public class TrataEntrada implements Runnable {
 			}
 			
 			Mensagens TratadorMensagens = new Mensagens();
+			Criptografia cript = new Criptografia();
 			
 			while (s.hasNextLine()) {
 
 				String msg = s.nextLine();
-				System.out.println(msg);
 				
 				TratadorMensagens.setIpRemetente("");
 				TratadorMensagens.setMensagemTratada("");
-				TratadorMensagens.tratarMensagem(msg);
+				//Descriptografa e trata mensagem
+				TratadorMensagens.tratarMensagem(cript.descriptografarMensagem(msg));
+				
+				//Mostra mensagem descriptografada
+				System.out.println(cript.descriptografarMensagem(msg));
 				
 				//mandar para tela de chat
 				int i = 0;

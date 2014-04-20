@@ -41,19 +41,21 @@ public class Mensagens {
 		   }
 		} 
 	}
-	
-	public void tratarArquivo() {
-		
-	}
 
+	/*
+	 * Criptografa e envia mensagem ao ipDestino
+	 */
 	public void enviarMensagem(String mensagem, int portaSaida) {
+		
+		Criptografia cript = new Criptografia();
 		
 		Socket Sdestino = null;
 		PrintStream PSdestino = null;
 		try {
 			Sdestino = new Socket(ipDestino, portaSaida);
 			PSdestino = new PrintStream(Sdestino.getOutputStream());
-			PSdestino.println(mensagem); //Envia a mensagem
+			//Criptografa e envia mensagem
+			PSdestino.println(cript.criptografarMensagem(mensagem));
 		} catch (IOException e) {
 			System.out.println("Não foi possivel estabelecer conexão com destinatario!");
 		}

@@ -83,13 +83,15 @@ public class OpenLync_client {
 		// Conecta ao socket
 		Socket socketSaida = null;
 	    try {
-	    	ServerSocket SSentrada = new ServerSocket(portaEntrada);
+	    	Criptografia cript = new Criptografia();
 	    	
+	    	ServerSocket SSentrada = new ServerSocket(portaEntrada);
 	    	
 			socketSaida = new Socket(ipServidor, portaSaida);
 			
 			PrintStream PSsaida = new PrintStream(socketSaida.getOutputStream());
-			PSsaida.println("SYSTEM|RETURN IP CLIENT"); 
+			//Criptografa e manda solicitação
+			PSsaida.println(cript.criptografarMensagem("SYSTEM|RETURN IP CLIENT")); 
 			
 			// Recebe mensagem de resposta
 			Socket socketEntrada = SSentrada.accept();
@@ -98,7 +100,8 @@ public class OpenLync_client {
 			String msg = s.nextLine();
 			
 			Mensagens TratadorMensagens = new Mensagens();
-			TratadorMensagens.tratarMensagem(msg);
+			//Descriptografa e trata mensagem
+			TratadorMensagens.tratarMensagem(cript.descriptografarMensagem(msg));
 			
 			//Se for mensagem de sistema
 			if (TratadorMensagens.getIpRemetente().equals("SYSTEM")) { //Aqui IP representa a mensagem de SISTEMA
