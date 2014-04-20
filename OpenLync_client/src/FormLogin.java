@@ -83,7 +83,7 @@ public class FormLogin extends JInternalFrame {
 								FormMain.fecharFrmLogin();
 								FormMain.abrirFrmInicial(usuarioLogin.getNome(), usuarioLogin.getCargo(), usuarioLogin.getFoto());
 							} else {
-								JOptionPane.showMessageDialog(null, "Usuário ou senha incorretos ou Usuário já logado!", "Login Inválido", 1);
+								JOptionPane.showMessageDialog(null, "Usuário ou senha incorretos! / Usuário já logado!", "Login Inválido", 1);
 							}
 							
 						} catch (HeadlessException | SQLException e) {
