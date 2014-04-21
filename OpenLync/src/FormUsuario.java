@@ -1,23 +1,87 @@
-/*
- * FormUsuario.java
- *
- * Created on __DATE__, __TIME__
- */
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- *
- * @author  __USER__
- */
+
 public class FormUsuario extends javax.swing.JFrame {
 
-	/**
+	private static final long serialVersionUID = 1L;
+
+	/*
+	 * Por Roberto
+	 */
+	private List<Usuarios> lista;
+	private String[] colunasGrid;
+	private String[][] listaStr;
+
+	/*
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
 
 	/** Creates new form FormUsuario */
 	public FormUsuario() {
+		carregarGrid();
 		initComponents();
+	}
+
+	/*
+	 * Criado por Roberto Luiz Debarba
+	 * Área editavel
+	 */
+	private void carregarGrid() {
+
+		Connection conexao = MySQLConection.getMySQLConnection();
+		Criptografia cript = new Criptografia();
+
+		//Carrega dados dos usuarios para uma lista ---------------------------------------------------
+		//Lista do resultado
+		lista = new ArrayList<Usuarios>();
+		try {
+			java.sql.Statement st = conexao.createStatement();
+
+			String SQL = "SELECT codigo_usuario, nome_usuario, login_usuario, senha_usuario, tb_cargos.desc_cargo"
+					+ " FROM tb_usuarios, tb_cargos"
+					+ " WHERE tb_cargos.codigo_cargo = tb_usuarios.codigo_cargo;";
+
+			ResultSet rs = st.executeQuery(SQL);
+
+			while (rs.next()) {
+				Usuarios usuario = new Usuarios();
+
+				usuario.setCodigo(rs.getInt("codigo_usuario"));
+				usuario.setNome(rs.getString("nome_usuario"));
+				usuario.setCargo(rs.getString("tb_cargos.desc_cargo"));
+				usuario.setLogin(cript.descriptografarMensagem(rs
+						.getString("login_usuario")));
+				usuario.setSenha(cript.descriptografarMensagem(rs
+						.getString("senha_usuario")));
+
+				lista.add(usuario);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		//DEfine colunas da GRID -----------------------------------------------------------
+
+		colunasGrid = new String[] { "Código", "Nome", "Cargo", "Login",
+				"Senha" };
+		
+		//Carrega lista para Array ----------------------------------------------------------
+		int i = 0;
+		
+		listaStr = new String[lista.size()][5];
+		while (i < lista.size()) {
+			listaStr[i][0] = lista.get(i).getCargo()+"";
+			listaStr[i][1] = lista.get(i).getNome();
+			listaStr[i][2] = lista.get(i).getCargo();
+			listaStr[i][3] = lista.get(i).getLogin();
+			listaStr[i][4] = lista.get(i).getSenha();
+			i++;
+		}
 	}
 
 	/** This method is called from within the constructor to
@@ -48,8 +112,8 @@ public class FormUsuario extends javax.swing.JFrame {
 		editCargo = new javax.swing.JTextField();
 		EditLogin = new javax.swing.JTextField();
 		editSenha = new javax.swing.JTextField();
-		tableUsuarios = new javax.swing.JScrollPane();
-		jTable1 = new javax.swing.JTable();
+		scroolTable = new javax.swing.JScrollPane();
+		tableUsuarios = new javax.swing.JTable();
 
 		setTitle("OpenLync | Usu\u00e1rios");
 
@@ -247,15 +311,12 @@ public class FormUsuario extends javax.swing.JFrame {
 		jPanel2.add(editSenha);
 		editSenha.setBounds(100, 230, 360, 25);
 
-		jTable1.setModel(new javax.swing.table.DefaultTableModel(
-				new Object[][] { { null, null, null, null },
-						{ null, null, null, null }, { null, null, null, null },
-						{ null, null, null, null } }, new String[] { "Title 1",
-						"Title 2", "Title 3", "Title 4" }));
-		tableUsuarios.setViewportView(jTable1);
+		tableUsuarios.setModel(new javax.swing.table.DefaultTableModel(
+				listaStr, colunasGrid));
+		scroolTable.setViewportView(tableUsuarios);
 
-		jPanel2.add(tableUsuarios);
-		tableUsuarios.setBounds(43, 283, 440, 160);
+		jPanel2.add(scroolTable);
+		scroolTable.setBounds(43, 283, 440, 160);
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(
 				getContentPane());
@@ -330,8 +391,8 @@ public class FormUsuario extends javax.swing.JFrame {
 	private javax.swing.JLabel jLabel6;
 	private javax.swing.JPanel jPanel1;
 	private javax.swing.JPanel jPanel2;
-	private javax.swing.JTable jTable1;
-	private javax.swing.JScrollPane tableUsuarios;
+	private javax.swing.JScrollPane scroolTable;
+	private javax.swing.JTable tableUsuarios;
 	// End of variables declaration//GEN-END:variables
 
 }

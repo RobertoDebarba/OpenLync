@@ -8,23 +8,11 @@ import java.sql.SQLException;
  * http://alvinalexander.com/java/java-mysql-select-query-example
  */
 
-/*
-// da um select
-Statement st = dbConnection.createStatement();
-ResultSet rs = st.executeQuery("select * from usuarios;");
 
-while (rs.next()) {
-    int codigo = rs.getInt("codigo_usuario");
-    String nome = rs.getString("nome_usuario");
-    String usuario = rs.getString("login_usuario");
-    String senha = rs.getString("senha_usuario");
-    
-    System.out.println(codigo+" "+nome+" "+usuario+" "+senha);
-}*/
 public class MySQLConection {
 	
 	private static boolean status = false;
-	private static String ipServidor;
+	private static String ipServidor = "192.168.1.3";
 
 	public static String getIpServidor() {
 		return ipServidor;
