@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 
 public class FormMain {
@@ -128,6 +129,12 @@ public class FormMain {
 		frmOpenlyncServer.getContentPane().add(labelStatusDB);
 		
 		JButton btnUsuarios = new JButton("Usuários");
+		btnUsuarios.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {		//Abre Form usuarios
+				FormUsuario frmUsuarios = new FormUsuario();
+				frmUsuarios.setVisible(true);
+			}
+		});
 		btnUsuarios.setBounds(114, 293, 117, 45);
 		frmOpenlyncServer.getContentPane().add(btnUsuarios);
 		
@@ -150,6 +157,13 @@ public class FormMain {
 					setStatusDB(false);
 				} else {
 					setStatusDB(true);
+				}
+				
+				MySQLConection.fecharConexaoMySQL();
+				try {
+					conexao.close();
+				} catch (SQLException e1) {
+					e1.printStackTrace();
 				}
 			}
 		});
