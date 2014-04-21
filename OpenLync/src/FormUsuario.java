@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class FormUsuario extends javax.swing.JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -19,8 +18,9 @@ public class FormUsuario extends javax.swing.JFrame {
 
 	/** Creates new form FormUsuario */
 	public FormUsuario() {
-		carregarInfoGridUsuarios();
+		
 		initComponents();
+		carregarInfoGridUsuarios();
 		carregarCampos(0);
 	}
 
@@ -80,6 +80,7 @@ public class FormUsuario extends javax.swing.JFrame {
 			i++;
 		}
 
+		tableUsuarios.setModel(new javax.swing.table.DefaultTableModel(listaGridusuarios, colunasGridUsuarios));
 	}
 
 	private void carregarCampos(int numeroRegistro) {
@@ -289,19 +290,19 @@ public class FormUsuario extends javax.swing.JFrame {
 
 		jLabel3.setText("Nome:");
 		jPanel2.add(jLabel3);
-		jLabel3.setBounds(20, 115, 70, 18);
+		jLabel3.setBounds(20, 105, 70, 18);
 
 		jLabel4.setText("Cargo:");
 		jPanel2.add(jLabel4);
-		jLabel4.setBounds(20, 155, 70, 18);
+		jLabel4.setBounds(20, 135, 70, 18);
 
 		jLabel5.setText("Login:");
 		jPanel2.add(jLabel5);
-		jLabel5.setBounds(20, 195, 70, 18);
+		jLabel5.setBounds(20, 165, 70, 18);
 
 		jLabel6.setText("Senha:");
 		jPanel2.add(jLabel6);
-		jLabel6.setBounds(20, 235, 70, 18);
+		jLabel6.setBounds(20, 195, 70, 18);
 
 		editCodigo.setFocusable(false);
 		editCodigo.addActionListener(new java.awt.event.ActionListener() {
@@ -317,7 +318,7 @@ public class FormUsuario extends javax.swing.JFrame {
 			}
 		});
 		jPanel2.add(editNome);
-		editNome.setBounds(100, 110, 360, 25);
+		editNome.setBounds(100, 100, 390, 25);
 
 		editCargo.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -325,7 +326,7 @@ public class FormUsuario extends javax.swing.JFrame {
 			}
 		});
 		jPanel2.add(editCargo);
-		editCargo.setBounds(100, 150, 360, 25);
+		editCargo.setBounds(100, 130, 390, 25);
 
 		EditLogin.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -333,7 +334,7 @@ public class FormUsuario extends javax.swing.JFrame {
 			}
 		});
 		jPanel2.add(EditLogin);
-		EditLogin.setBounds(100, 190, 360, 25);
+		EditLogin.setBounds(100, 160, 390, 25);
 
 		editSenha.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -341,10 +342,13 @@ public class FormUsuario extends javax.swing.JFrame {
 			}
 		});
 		jPanel2.add(editSenha);
-		editSenha.setBounds(100, 230, 360, 25);
+		editSenha.setBounds(100, 190, 390, 25);
 
 		tableUsuarios.setModel(new javax.swing.table.DefaultTableModel(
-								listaGridusuarios, colunasGridUsuarios));
+				new Object[][] { { null, null, null, null },
+						{ null, null, null, null }, { null, null, null, null },
+						{ null, null, null, null } }, new String[] { "Title 1",
+						"Title 2", "Title 3", "Title 4" }));
 		tableUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
 				tableUsuariosMouseClicked(evt);
@@ -353,7 +357,7 @@ public class FormUsuario extends javax.swing.JFrame {
 		scroolTable.setViewportView(tableUsuarios);
 
 		jPanel2.add(scroolTable);
-		scroolTable.setBounds(43, 283, 440, 160);
+		scroolTable.setBounds(20, 230, 470, 210);
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(
 				getContentPane());
