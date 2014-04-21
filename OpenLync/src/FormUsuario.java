@@ -12,32 +12,29 @@ public class FormUsuario extends javax.swing.JFrame {
 	/*
 	 * Por Roberto
 	 */
-	private List<Usuarios> lista;
-	private String[] colunasGrid;
-	private String[][] listaStr;
+	private Connection conexao = MySQLConection.getMySQLConnection();
 
-	/*
-	 * 
-	 */
+	private String[] colunasGridUsuarios;
+	private String[][] listaGridusuarios;
 
 	/** Creates new form FormUsuario */
 	public FormUsuario() {
-		carregarGrid();
+		carregarInfoGridUsuarios();
 		initComponents();
+		carregarCampos(0);
 	}
 
 	/*
 	 * Criado por Roberto Luiz Debarba
 	 * Área editavel
 	 */
-	private void carregarGrid() {
+	private void carregarInfoGridUsuarios() {
 
-		Connection conexao = MySQLConection.getMySQLConnection();
 		Criptografia cript = new Criptografia();
 
 		//Carrega dados dos usuarios para uma lista ---------------------------------------------------
 		//Lista do resultado
-		lista = new ArrayList<Usuarios>();
+		List<Usuarios> lista = new ArrayList<Usuarios>();
 		try {
 			java.sql.Statement st = conexao.createStatement();
 
@@ -67,20 +64,55 @@ public class FormUsuario extends javax.swing.JFrame {
 
 		//DEfine colunas da GRID -----------------------------------------------------------
 
-		colunasGrid = new String[] { "Código", "Nome", "Cargo", "Login",
-				"Senha" };
-		
+		colunasGridUsuarios = new String[] { "Código", "Nome", "Cargo",
+				"Login", "Senha" };
+
 		//Carrega lista para Array ----------------------------------------------------------
 		int i = 0;
-		
-		listaStr = new String[lista.size()][5];
+
+		listaGridusuarios = new String[lista.size()][5];
 		while (i < lista.size()) {
-			listaStr[i][0] = lista.get(i).getCargo()+"";
-			listaStr[i][1] = lista.get(i).getNome();
-			listaStr[i][2] = lista.get(i).getCargo();
-			listaStr[i][3] = lista.get(i).getLogin();
-			listaStr[i][4] = lista.get(i).getSenha();
+			listaGridusuarios[i][0] = lista.get(i).getCargo() + "";
+			listaGridusuarios[i][1] = lista.get(i).getNome();
+			listaGridusuarios[i][2] = lista.get(i).getCargo();
+			listaGridusuarios[i][3] = lista.get(i).getLogin();
+			listaGridusuarios[i][4] = lista.get(i).getSenha();
 			i++;
+		}
+
+	}
+
+	private void carregarCampos(int numeroRegistro) {
+
+		Criptografia cript = new Criptografia();
+
+		try {
+			java.sql.Statement st = conexao.createStatement();
+
+			String SQL = "SELECT codigo_usuario, nome_usuario, login_usuario, senha_usuario, tb_cargos.desc_cargo"
+					+ " FROM tb_usuarios, tb_cargos"
+					+ " WHERE tb_cargos.codigo_cargo = tb_usuarios.codigo_cargo;";
+
+			ResultSet rs = st.executeQuery(SQL);
+
+			int i = 0;
+			while (i <= numeroRegistro) {
+
+				rs.next();
+
+				i++;
+			}
+
+			editCodigo.setText(rs.getInt("codigo_usuario") + "");
+			editNome.setText(rs.getString("nome_usuario"));
+			editCargo.setText(rs.getString("tb_cargos.desc_cargo"));
+			EditLogin.setText(cript.descriptografarMensagem(rs
+					.getString("login_usuario")));
+			editSenha.setText(cript.descriptografarMensagem(rs
+					.getString("senha_usuario")));
+
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -271,7 +303,7 @@ public class FormUsuario extends javax.swing.JFrame {
 		jPanel2.add(jLabel6);
 		jLabel6.setBounds(20, 235, 70, 18);
 
-		editCodigo.setEnabled(false);
+		editCodigo.setFocusable(false);
 		editCodigo.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				editCodigoActionPerformed(evt);
@@ -312,7 +344,12 @@ public class FormUsuario extends javax.swing.JFrame {
 		editSenha.setBounds(100, 230, 360, 25);
 
 		tableUsuarios.setModel(new javax.swing.table.DefaultTableModel(
-				listaStr, colunasGrid));
+								listaGridusuarios, colunasGridUsuarios));
+		tableUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				tableUsuariosMouseClicked(evt);
+			}
+		});
 		scroolTable.setViewportView(tableUsuarios);
 
 		jPanel2.add(scroolTable);
@@ -345,6 +382,10 @@ public class FormUsuario extends javax.swing.JFrame {
 		pack();
 	}// </editor-fold>
 	//GEN-END:initComponents
+
+	private void tableUsuariosMouseClicked(java.awt.event.MouseEvent evt) {
+		carregarCampos(tableUsuarios.getSelectedRow());
+	}
 
 	private void BtnVoltarMouseClicked(java.awt.event.MouseEvent evt) {
 		dispose();
