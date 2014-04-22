@@ -24,7 +24,7 @@ public class FormUsuario extends javax.swing.JFrame {
 		atualizarComboCargos();
 		carregarCampos(0);
 	}
-	
+
 	//-----------------------------------------------------------------------------------------------------
 
 	/*
@@ -99,47 +99,46 @@ public class FormUsuario extends javax.swing.JFrame {
 
 		editCodigo.setText(listaUsuarios.get(numeroRegistro).getCodigo() + "");
 		editNome.setText(listaUsuarios.get(numeroRegistro).getNome());
-		editCargo.setText(listaUsuarios.get(numeroRegistro).getCargo());
 		EditLogin.setText(listaUsuarios.get(numeroRegistro).getLogin());
 		editSenha.setText(listaUsuarios.get(numeroRegistro).getSenha());
-		
+
 		comboCargo.setSelectedItem(listaUsuarios.get(numeroRegistro).getCargo());
 	}
-	
+
 	/*
 	 * Atualiza itens do comboBox Cargos
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void atualizarComboCargos() {
-		
+
 		String[] listaCargos = null;
 		try {
 			Statement st = conexao.createStatement();
-			
+
 			String SQL = "SELECT desc_cargo FROM tb_cargos;";
-			
+
 			ResultSet rs = st.executeQuery(SQL);
-			
+
 			//Conta o numero de registros retornados
 			rs.last();
 			int quantidadeRegistros = rs.getRow();
 			rs.beforeFirst();
-			
+
 			listaCargos = new String[quantidadeRegistros];
 			int i = 0;
 			while (rs.next()) {
-				
+
 				listaCargos[i] = rs.getString("desc_cargo");
 				i++;
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		comboCargo.setModel(new javax.swing.DefaultComboBoxModel(listaCargos));
 	}
-	
+
 	//-------------------------------------------------------------------------------------------------
 
 	/** This method is called from within the constructor to
@@ -168,7 +167,6 @@ public class FormUsuario extends javax.swing.JFrame {
 		jLabel6 = new javax.swing.JLabel();
 		editCodigo = new javax.swing.JTextField();
 		editNome = new javax.swing.JTextField();
-		editCargo = new javax.swing.JTextField();
 		EditLogin = new javax.swing.JTextField();
 		editSenha = new javax.swing.JTextField();
 		scroolTable = new javax.swing.JScrollPane();
@@ -347,14 +345,6 @@ public class FormUsuario extends javax.swing.JFrame {
 		jPanel2.add(editNome);
 		editNome.setBounds(100, 100, 390, 25);
 
-		editCargo.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				editCargoActionPerformed(evt);
-			}
-		});
-		jPanel2.add(editCargo);
-		editCargo.setBounds(100, 40, 390, 25);
-
 		EditLogin.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				EditLoginActionPerformed(evt);
@@ -417,7 +407,7 @@ public class FormUsuario extends javax.swing.JFrame {
 
 		pack();
 	}// </editor-fold>
-	//GEN-END:initComponents
+		//GEN-END:initComponents
 
 	private void tableUsuariosMouseClicked(java.awt.event.MouseEvent evt) {
 		carregarCampos(tableUsuarios.getSelectedRow());
@@ -439,10 +429,6 @@ public class FormUsuario extends javax.swing.JFrame {
 		// TODO add your handling code here:
 	}
 
-	void editCargoActionPerformed(java.awt.event.ActionEvent evt) {
-		// TODO add your handling code here:
-	}
-
 	void editCodigoActionPerformed(java.awt.event.ActionEvent evt) {
 		// TODO add your handling code here:
 	}
@@ -456,9 +442,7 @@ public class FormUsuario extends javax.swing.JFrame {
 	private javax.swing.JButton BtnSalvar;
 	private javax.swing.JButton BtnVoltar;
 	private javax.swing.JTextField EditLogin;
-	@SuppressWarnings("rawtypes")
 	private javax.swing.JComboBox comboCargo;
-	private javax.swing.JTextField editCargo;
 	private javax.swing.JTextField editCodigo;
 	private javax.swing.JTextField editNome;
 	private javax.swing.JTextField editSenha;
