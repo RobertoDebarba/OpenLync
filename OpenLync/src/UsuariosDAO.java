@@ -8,6 +8,31 @@ public class UsuariosDAO {
 	private Criptografia cript = new Criptografia();
 	private Connection conexao = MySQLConection.getMySQLConnection();
 
+	
+	/*
+	 * Retorna proximo codigo utilizavel;
+	 */
+	public int getNovoCodigo() {
+		
+		int ultimoCodigo = 0;
+		try {
+			java.sql.Statement st = conexao.createStatement();
+			
+			String SQL = "SELECT codigo_usuario FROM tb_usuarios;";
+			
+			ResultSet rs = st.executeQuery(SQL);
+			
+			rs.last();
+			
+			ultimoCodigo =  rs.getInt("codigo_usuario") + 1;
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
+		
+		return ultimoCodigo + 1;
+	}
+	
 	public void adicionar(Usuarios usuario) {
 		
 		try {
@@ -18,10 +43,11 @@ public class UsuariosDAO {
 			rs.next();
 			int cargo = rs.getInt("codigo_cargo");
 			
-			SQL = "INSERT INTO tb_usuarios (codigo_usuario, nome_usuario, cargo_usuario, login_usuario, senha_usuario)" +
-						 " VALUES ("+usuario.getCodigo()+", '"+usuario.getNome()+"', "+cargo+","+
-						 " '"+cript.criptografarMensagem(usuario.getLogin())+"' , '"+cript.criptografarMensagem(usuario.getSenha())+"');";
-			st.executeQuery(SQL);
+			SQL = "INSERT INTO tb_usuarios (codigo_usuario, nome_usuario, codigo_cargo, login_usuario, senha_usuario, ip_usuario)" +
+					 " VALUES ("+usuario.getCodigo()+", '"+usuario.getNome()+"', "+cargo+","+
+					 " '"+cript.criptografarMensagem(usuario.getLogin())+"' , '"+cript.criptografarMensagem(usuario.getSenha())+"',"+
+					 " 'null');";
+			st.execute(SQL);
 				
 		} catch (SQLException e) {
 			e.printStackTrace();

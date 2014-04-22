@@ -11,7 +11,8 @@ public class FormUsuario extends javax.swing.JFrame {
 
 	// Editavel
 	private Connection conexao = MySQLConection.getMySQLConnection();
-	List<Usuarios> listaUsuarios;
+	private List<Usuarios> listaUsuarios;
+	private int estado = 0; //Define modo da tela / 0 = neutro / 1 = Novo / 2 = Editando
 
 	/** Creates new form FormUsuario */
 	public FormUsuario() {
@@ -23,9 +24,49 @@ public class FormUsuario extends javax.swing.JFrame {
 		carregarGridUsuarios();
 		atualizarComboCargos();
 		carregarCampos(0);
+
+		editOFF();
 	}
 
 	//-----------------------------------------------------------------------------------------------------
+
+	/*
+	 * Desabilitar Edição
+	 */
+	private void editOFF() {
+
+		editNome.setFocusable(false);
+		comboCargo.setEnabled(false);
+		EditLogin.setFocusable(false);
+		editSenha.setFocusable(false);
+
+		tableUsuarios.setEnabled(true);
+
+		BtnNovo.setEnabled(true);
+		BtnEditar.setEnabled(true);
+		BtnApagar.setEnabled(true);
+		BtnSalvar.setEnabled(false);
+		BtnCancelar.setEnabled(false);
+	}
+
+	/*
+	 * Habilita edição
+	 */
+	private void editON() {
+
+		editNome.setFocusable(true);
+		comboCargo.setEnabled(true);
+		EditLogin.setFocusable(true);
+		editSenha.setFocusable(true);
+
+		tableUsuarios.setEnabled(false);
+
+		BtnNovo.setEnabled(false);
+		BtnEditar.setEnabled(false);
+		BtnApagar.setEnabled(false);
+		BtnSalvar.setEnabled(true);
+		BtnCancelar.setEnabled(true);
+	}
 
 	/*
 	 * Carrega objetos com todos os registros de tb_usuarios
@@ -102,7 +143,8 @@ public class FormUsuario extends javax.swing.JFrame {
 		EditLogin.setText(listaUsuarios.get(numeroRegistro).getLogin());
 		editSenha.setText(listaUsuarios.get(numeroRegistro).getSenha());
 
-		comboCargo.setSelectedItem(listaUsuarios.get(numeroRegistro).getCargo());
+		comboCargo
+				.setSelectedItem(listaUsuarios.get(numeroRegistro).getCargo());
 	}
 
 	/*
@@ -148,7 +190,6 @@ public class FormUsuario extends javax.swing.JFrame {
 	 */
 	//GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc="Generated Code">
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void initComponents() {
 
 		jPanel1 = new javax.swing.JPanel();
@@ -176,12 +217,22 @@ public class FormUsuario extends javax.swing.JFrame {
 		setTitle("OpenLync | Usu\u00e1rios");
 
 		BtnNovo.setText("Novo");
+		BtnNovo.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				BtnNovoMouseClicked(evt);
+			}
+		});
 
 		BtnEditar.setText("Editar");
 
 		BtnApagar.setText("Apagar");
 
 		BtnSalvar.setText("Salvar");
+		BtnSalvar.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				BtnSalvarMouseClicked(evt);
+			}
+		});
 
 		BtnCancelar.setText("Cancelar");
 
@@ -407,13 +458,56 @@ public class FormUsuario extends javax.swing.JFrame {
 
 		pack();
 	}// </editor-fold>
-		//GEN-END:initComponents
+	//GEN-END:initComponents
 
-	private void tableUsuariosMouseClicked(java.awt.event.MouseEvent evt) {
+	private void BtnSalvarMouseClicked(java.awt.event.MouseEvent evt) {		//Btn Salvar
+		UsuariosDAO dao = new UsuariosDAO();
+		
+		if (estado == 1) { //Novo
+			//Adquire novo codigo e coloca no edit
+			int codigo = dao.getNovoCodigo();
+			editCodigo.setText(codigo+"");
+			
+			//Cria novo usuario e preenche seus atributos
+			Usuarios usuario = new Usuarios();
+			
+			usuario.setCodigo(codigo);
+			usuario.setNome(editNome.getText());
+			usuario.setCargo(comboCargo.getSelectedItem()+"");
+			usuario.setLogin(EditLogin.getText());
+			usuario.setSenha(editSenha.getText());
+			
+			//Adiciona usuario à lista
+			listaUsuarios.add(usuario);
+			
+			//Chama comando SQL
+			dao.adicionar(usuario);	
+			
+			//Desabilita Edição
+			editOFF();
+			
+			//Atualiza Grid
+			carregarGridUsuarios();
+			
+		} else if (estado == 2) { //Editar
+			
+		}
+	}
+
+	private void BtnNovoMouseClicked(java.awt.event.MouseEvent evt) { //Btn Novo
+		editON();
+		editCodigo.setText("");
+		editNome.setText("");
+		EditLogin.setText("");
+		editSenha.setText("");
+		estado = 1;
+	}
+
+	private void tableUsuariosMouseClicked(java.awt.event.MouseEvent evt) { //Click GRID
 		carregarCampos(tableUsuarios.getSelectedRow());
 	}
 
-	private void BtnVoltarMouseClicked(java.awt.event.MouseEvent evt) {
+	private void BtnVoltarMouseClicked(java.awt.event.MouseEvent evt) { //Btn Voltar
 		dispose();
 	}
 
