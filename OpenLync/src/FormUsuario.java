@@ -1,6 +1,7 @@
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,33 +9,33 @@ public class FormUsuario extends javax.swing.JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	/*
-	 * Por Roberto
-	 */
+	// Editavel
 	private Connection conexao = MySQLConection.getMySQLConnection();
-
-	private String[] colunasGridUsuarios;
-	private String[][] listaGridusuarios;
+	List<Usuarios> listaUsuarios;
 
 	/** Creates new form FormUsuario */
 	public FormUsuario() {
-		
+
 		initComponents();
-		carregarInfoGridUsuarios();
+
+		//Carregar informações iniciais
+		carregarListaUsuario();
+		carregarGridUsuarios();
+		atualizarComboCargos();
 		carregarCampos(0);
 	}
+	
+	//-----------------------------------------------------------------------------------------------------
 
 	/*
-	 * Criado por Roberto Luiz Debarba
-	 * Área editavel
+	 * Carrega objetos com todos os registros de tb_usuarios
 	 */
-	private void carregarInfoGridUsuarios() {
-
+	private void carregarListaUsuario() {
 		Criptografia cript = new Criptografia();
 
-		//Carrega dados dos usuarios para uma lista ---------------------------------------------------
+		//Carrega dados dos usuarios para uma lista
 		//Lista do resultado
-		List<Usuarios> lista = new ArrayList<Usuarios>();
+		listaUsuarios = new ArrayList<Usuarios>();
 		try {
 			java.sql.Statement st = conexao.createStatement();
 
@@ -55,67 +56,91 @@ public class FormUsuario extends javax.swing.JFrame {
 				usuario.setSenha(cript.descriptografarMensagem(rs
 						.getString("senha_usuario")));
 
-				lista.add(usuario);
+				listaUsuarios.add(usuario);
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
 
-		//DEfine colunas da GRID -----------------------------------------------------------
+	/*
+	 * Select todos registros do tb_usuario e carrega para grid
+	 */
+	private void carregarGridUsuarios() {
 
-		colunasGridUsuarios = new String[] { "Código", "Nome", "Cargo",
-				"Login", "Senha" };
+		//DEfine colunas da GRID ---------------------------------------
 
-		//Carrega lista para Array ----------------------------------------------------------
+		String[] colunasGridUsuarios = new String[] { "Código", "Nome",
+				"Cargo", "Login", "Senha" };
+
+		//Carrega lista para Array -------------------------------------
 		int i = 0;
 
-		listaGridusuarios = new String[lista.size()][5];
-		while (i < lista.size()) {
-			listaGridusuarios[i][0] = lista.get(i).getCargo() + "";
-			listaGridusuarios[i][1] = lista.get(i).getNome();
-			listaGridusuarios[i][2] = lista.get(i).getCargo();
-			listaGridusuarios[i][3] = lista.get(i).getLogin();
-			listaGridusuarios[i][4] = lista.get(i).getSenha();
+		String[][] listaGridusuarios = new String[listaUsuarios.size()][5];
+		while (i < listaUsuarios.size()) {
+			listaGridusuarios[i][0] = listaUsuarios.get(i).getCargo() + "";
+			listaGridusuarios[i][1] = listaUsuarios.get(i).getNome();
+			listaGridusuarios[i][2] = listaUsuarios.get(i).getCargo();
+			listaGridusuarios[i][3] = listaUsuarios.get(i).getLogin();
+			listaGridusuarios[i][4] = listaUsuarios.get(i).getSenha();
 			i++;
 		}
 
-		tableUsuarios.setModel(new javax.swing.table.DefaultTableModel(listaGridusuarios, colunasGridUsuarios));
+		//Preenche a grid
+		tableUsuarios.setModel(new javax.swing.table.DefaultTableModel(
+				listaGridusuarios, colunasGridUsuarios));
 	}
 
+	/*
+	 * Carrega campos com base na listaUsuarios
+	 */
 	private void carregarCampos(int numeroRegistro) {
 
-		Criptografia cript = new Criptografia();
-
+		editCodigo.setText(listaUsuarios.get(numeroRegistro).getCodigo() + "");
+		editNome.setText(listaUsuarios.get(numeroRegistro).getNome());
+		editCargo.setText(listaUsuarios.get(numeroRegistro).getCargo());
+		EditLogin.setText(listaUsuarios.get(numeroRegistro).getLogin());
+		editSenha.setText(listaUsuarios.get(numeroRegistro).getSenha());
+		
+		comboCargo.setSelectedItem(listaUsuarios.get(numeroRegistro).getCargo());
+	}
+	
+	/*
+	 * Atualiza itens do comboBox Cargos
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public void atualizarComboCargos() {
+		
+		String[] listaCargos = null;
 		try {
-			java.sql.Statement st = conexao.createStatement();
-
-			String SQL = "SELECT codigo_usuario, nome_usuario, login_usuario, senha_usuario, tb_cargos.desc_cargo"
-					+ " FROM tb_usuarios, tb_cargos"
-					+ " WHERE tb_cargos.codigo_cargo = tb_usuarios.codigo_cargo;";
-
+			Statement st = conexao.createStatement();
+			
+			String SQL = "SELECT desc_cargo FROM tb_cargos;";
+			
 			ResultSet rs = st.executeQuery(SQL);
-
+			
+			//Conta o numero de registros retornados
+			rs.last();
+			int quantidadeRegistros = rs.getRow();
+			rs.beforeFirst();
+			
+			listaCargos = new String[quantidadeRegistros];
 			int i = 0;
-			while (i <= numeroRegistro) {
-
-				rs.next();
-
+			while (rs.next()) {
+				
+				listaCargos[i] = rs.getString("desc_cargo");
 				i++;
 			}
-
-			editCodigo.setText(rs.getInt("codigo_usuario") + "");
-			editNome.setText(rs.getString("nome_usuario"));
-			editCargo.setText(rs.getString("tb_cargos.desc_cargo"));
-			EditLogin.setText(cript.descriptografarMensagem(rs
-					.getString("login_usuario")));
-			editSenha.setText(cript.descriptografarMensagem(rs
-					.getString("senha_usuario")));
-
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		comboCargo.setModel(new javax.swing.DefaultComboBoxModel(listaCargos));
 	}
+	
+	//-------------------------------------------------------------------------------------------------
 
 	/** This method is called from within the constructor to
 	 * initialize the form.
@@ -124,6 +149,7 @@ public class FormUsuario extends javax.swing.JFrame {
 	 */
 	//GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc="Generated Code">
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void initComponents() {
 
 		jPanel1 = new javax.swing.JPanel();
@@ -147,6 +173,7 @@ public class FormUsuario extends javax.swing.JFrame {
 		editSenha = new javax.swing.JTextField();
 		scroolTable = new javax.swing.JScrollPane();
 		tableUsuarios = new javax.swing.JTable();
+		comboCargo = new javax.swing.JComboBox();
 
 		setTitle("OpenLync | Usu\u00e1rios");
 
@@ -326,7 +353,7 @@ public class FormUsuario extends javax.swing.JFrame {
 			}
 		});
 		jPanel2.add(editCargo);
-		editCargo.setBounds(100, 130, 390, 25);
+		editCargo.setBounds(100, 40, 390, 25);
 
 		EditLogin.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -358,6 +385,11 @@ public class FormUsuario extends javax.swing.JFrame {
 
 		jPanel2.add(scroolTable);
 		scroolTable.setBounds(20, 230, 470, 210);
+
+		comboCargo.setModel(new javax.swing.DefaultComboBoxModel(new String[] {
+				"Item 1", "Item 2", "Item 3", "Item 4" }));
+		jPanel2.add(comboCargo);
+		comboCargo.setBounds(100, 130, 390, 27);
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(
 				getContentPane());
@@ -424,6 +456,8 @@ public class FormUsuario extends javax.swing.JFrame {
 	private javax.swing.JButton BtnSalvar;
 	private javax.swing.JButton BtnVoltar;
 	private javax.swing.JTextField EditLogin;
+	@SuppressWarnings("rawtypes")
+	private javax.swing.JComboBox comboCargo;
 	private javax.swing.JTextField editCargo;
 	private javax.swing.JTextField editCodigo;
 	private javax.swing.JTextField editNome;
