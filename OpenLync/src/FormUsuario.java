@@ -1,9 +1,20 @@
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+
+import org.imgscalr.Scalr;
 
 public class FormUsuario extends javax.swing.JFrame {
 
@@ -13,6 +24,7 @@ public class FormUsuario extends javax.swing.JFrame {
 	private Connection conexao = MySQLConection.getMySQLConnection();
 	private List<Usuarios> listaUsuarios;
 	private int estado = 0; //Define modo da tela / 0 = neutro / 1 = Novo / 2 = Editando
+	BufferedImage fotoPerfil = null;
 
 	/** Creates new form FormUsuario */
 	public FormUsuario() {
@@ -41,7 +53,8 @@ public class FormUsuario extends javax.swing.JFrame {
 		editSenha.setFocusable(false);
 
 		tableUsuarios.setEnabled(true);
-
+		BtnFoto.setEnabled(false);
+		
 		BtnNovo.setEnabled(true);
 		BtnEditar.setEnabled(true);
 		BtnApagar.setEnabled(true);
@@ -60,12 +73,35 @@ public class FormUsuario extends javax.swing.JFrame {
 		editSenha.setFocusable(true);
 
 		tableUsuarios.setEnabled(false);
+		BtnFoto.setEnabled(true);
 
 		BtnNovo.setEnabled(false);
 		BtnEditar.setEnabled(false);
 		BtnApagar.setEnabled(false);
 		BtnSalvar.setEnabled(true);
 		BtnCancelar.setEnabled(true);
+	}
+
+	/*
+	 * Abre tela de seleção de arquivo (para seleção de Foto de perfil)
+	 */
+	private File escolherArquivo() {
+		File arquivo = null;
+		JFileChooser fc = new JFileChooser();
+		fc.setDialogTitle("Escolha o arquivo...");
+		fc.setDialogType(JFileChooser.OPEN_DIALOG);
+		fc.setApproveButtonText("OK");
+		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		//FIXME filtro para imagens
+		fc.setMultiSelectionEnabled(false);
+		int resultado = fc.showOpenDialog(fc);
+		if (resultado == JFileChooser.CANCEL_OPTION) {
+			return null;
+		}
+
+		arquivo = fc.getSelectedFile();
+
+		return arquivo;
 	}
 
 	/*
@@ -120,7 +156,7 @@ public class FormUsuario extends javax.swing.JFrame {
 
 		String[][] listaGridusuarios = new String[listaUsuarios.size()][5];
 		while (i < listaUsuarios.size()) {
-			listaGridusuarios[i][0] = listaUsuarios.get(i).getCargo() + "";
+			listaGridusuarios[i][0] = listaUsuarios.get(i).getCodigo() + "";
 			listaGridusuarios[i][1] = listaUsuarios.get(i).getNome();
 			listaGridusuarios[i][2] = listaUsuarios.get(i).getCargo();
 			listaGridusuarios[i][3] = listaUsuarios.get(i).getLogin();
@@ -213,6 +249,10 @@ public class FormUsuario extends javax.swing.JFrame {
 		scroolTable = new javax.swing.JScrollPane();
 		tableUsuarios = new javax.swing.JTable();
 		comboCargo = new javax.swing.JComboBox();
+		jLabel7 = new javax.swing.JLabel();
+		editFoto = new javax.swing.JTextField();
+		labelFoto = new javax.swing.JLabel();
+		BtnFoto = new javax.swing.JButton();
 
 		setTitle("OpenLync | Usu\u00e1rios");
 
@@ -345,7 +385,7 @@ public class FormUsuario extends javax.swing.JFrame {
 												javax.swing.GroupLayout.PREFERRED_SIZE)
 										.addPreferredGap(
 												javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-												164, Short.MAX_VALUE)
+												200, Short.MAX_VALUE)
 										.addComponent(
 												BtnVoltar,
 												javax.swing.GroupLayout.PREFERRED_SIZE,
@@ -394,7 +434,7 @@ public class FormUsuario extends javax.swing.JFrame {
 			}
 		});
 		jPanel2.add(editNome);
-		editNome.setBounds(100, 100, 390, 25);
+		editNome.setBounds(100, 100, 420, 25);
 
 		EditLogin.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -402,7 +442,7 @@ public class FormUsuario extends javax.swing.JFrame {
 			}
 		});
 		jPanel2.add(EditLogin);
-		EditLogin.setBounds(100, 160, 390, 25);
+		EditLogin.setBounds(100, 160, 420, 25);
 
 		editSenha.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -410,7 +450,7 @@ public class FormUsuario extends javax.swing.JFrame {
 			}
 		});
 		jPanel2.add(editSenha);
-		editSenha.setBounds(100, 190, 390, 25);
+		editSenha.setBounds(100, 190, 420, 25);
 
 		tableUsuarios.setModel(new javax.swing.table.DefaultTableModel(
 				new Object[][] { { null, null, null, null },
@@ -425,12 +465,31 @@ public class FormUsuario extends javax.swing.JFrame {
 		scroolTable.setViewportView(tableUsuarios);
 
 		jPanel2.add(scroolTable);
-		scroolTable.setBounds(20, 230, 470, 210);
+		scroolTable.setBounds(20, 260, 500, 220);
 
 		comboCargo.setModel(new javax.swing.DefaultComboBoxModel(new String[] {
 				"Item 1", "Item 2", "Item 3", "Item 4" }));
 		jPanel2.add(comboCargo);
-		comboCargo.setBounds(100, 130, 390, 27);
+		comboCargo.setBounds(100, 130, 420, 27);
+
+		jLabel7.setText("Foto:");
+		jPanel2.add(jLabel7);
+		jLabel7.setBounds(20, 225, 36, 18);
+
+		editFoto.setFocusable(false);
+		jPanel2.add(editFoto);
+		editFoto.setBounds(100, 220, 370, 25);
+		jPanel2.add(labelFoto);
+		labelFoto.setBounds(440, 15, 70, 70);
+
+		BtnFoto.setText("...");
+		BtnFoto.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				BtnFotoMouseClicked(evt);
+			}
+		});
+		jPanel2.add(BtnFoto);
+		BtnFoto.setBounds(475, 220, 43, 25);
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(
 				getContentPane());
@@ -442,7 +501,7 @@ public class FormUsuario extends javax.swing.JFrame {
 						layout.createSequentialGroup()
 								.addComponent(jPanel2,
 										javax.swing.GroupLayout.DEFAULT_SIZE,
-										512, Short.MAX_VALUE)
+										524, Short.MAX_VALUE)
 								.addPreferredGap(
 										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 								.addComponent(jPanel1,
@@ -454,43 +513,68 @@ public class FormUsuario extends javax.swing.JFrame {
 				.addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE,
 						javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 				.addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE,
-						452, Short.MAX_VALUE));
+						488, Short.MAX_VALUE));
 
 		pack();
 	}// </editor-fold>
 	//GEN-END:initComponents
 
-	private void BtnSalvarMouseClicked(java.awt.event.MouseEvent evt) {		//Btn Salvar
+	private void BtnFotoMouseClicked(java.awt.event.MouseEvent evt) { //Btn escolher foto
+		File foto = escolherArquivo();
+
+		try {
+			fotoPerfil = ImageIO.read(foto); //Carrega foto para BufferedImage
+		} catch (IOException e) {
+			e.printStackTrace();
+		};
+
+		if ((fotoPerfil.getHeight() == 57) && (fotoPerfil.getWidth() == 57)) {
+
+			editFoto.setText(foto.getAbsolutePath()); //Localização
+
+			BufferedImage imgMaior = Scalr.resize(fotoPerfil, 70, 70);
+			labelFoto.setIcon(new ImageIcon(imgMaior));
+
+		} else {
+			JOptionPane.showMessageDialog(null,
+					"O tamanho da imagem deve ser 57 x 57px!",
+					"Imagem inválida", 1);
+		};
+
+	}
+
+	private void BtnSalvarMouseClicked(java.awt.event.MouseEvent evt) { //Btn Salvar
 		UsuariosDAO dao = new UsuariosDAO();
-		
+
 		if (estado == 1) { //Novo
 			//Adquire novo codigo e coloca no edit
 			int codigo = dao.getNovoCodigo();
-			editCodigo.setText(codigo+"");
-			
+			editCodigo.setText(codigo + "");
+
 			//Cria novo usuario e preenche seus atributos
 			Usuarios usuario = new Usuarios();
-			
+
 			usuario.setCodigo(codigo);
 			usuario.setNome(editNome.getText());
-			usuario.setCargo(comboCargo.getSelectedItem()+"");
+			usuario.setCargo(comboCargo.getSelectedItem() + "");
 			usuario.setLogin(EditLogin.getText());
 			usuario.setSenha(editSenha.getText());
-			
+			usuario.setFoto(fotoPerfil);
+
 			//Adiciona usuario à lista
 			listaUsuarios.add(usuario);
-			
+
 			//Chama comando SQL
-			dao.adicionar(usuario);	
-			
+			dao.adicionar(usuario);
+
 			//Desabilita Edição
 			editOFF();
-			
+
 			//Atualiza Grid
 			carregarGridUsuarios();
-			
+
 		} else if (estado == 2) { //Editar
-			
+
 		}
 	}
 
@@ -500,6 +584,8 @@ public class FormUsuario extends javax.swing.JFrame {
 		editNome.setText("");
 		EditLogin.setText("");
 		editSenha.setText("");
+		editFoto.setText("");
+		labelFoto.setIcon(null);
 		estado = 1;
 	}
 
@@ -532,12 +618,14 @@ public class FormUsuario extends javax.swing.JFrame {
 	private javax.swing.JButton BtnApagar;
 	private javax.swing.JButton BtnCancelar;
 	private javax.swing.JButton BtnEditar;
+	private javax.swing.JButton BtnFoto;
 	private javax.swing.JButton BtnNovo;
 	private javax.swing.JButton BtnSalvar;
 	private javax.swing.JButton BtnVoltar;
 	private javax.swing.JTextField EditLogin;
 	private javax.swing.JComboBox comboCargo;
 	private javax.swing.JTextField editCodigo;
+	private javax.swing.JTextField editFoto;
 	private javax.swing.JTextField editNome;
 	private javax.swing.JTextField editSenha;
 	private javax.swing.JLabel jLabel1;
@@ -546,8 +634,10 @@ public class FormUsuario extends javax.swing.JFrame {
 	private javax.swing.JLabel jLabel4;
 	private javax.swing.JLabel jLabel5;
 	private javax.swing.JLabel jLabel6;
+	private javax.swing.JLabel jLabel7;
 	private javax.swing.JPanel jPanel1;
 	private javax.swing.JPanel jPanel2;
+	private javax.swing.JLabel labelFoto;
 	private javax.swing.JScrollPane scroolTable;
 	private javax.swing.JTable tableUsuarios;
 	// End of variables declaration//GEN-END:variables

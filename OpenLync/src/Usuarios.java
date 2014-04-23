@@ -1,3 +1,5 @@
+import java.awt.image.BufferedImage;
+
 
 public class Usuarios {
 
@@ -6,7 +8,14 @@ public class Usuarios {
 	private String cargo;
 	private String login;
 	private String senha;
+	private BufferedImage foto;
 	
+	public BufferedImage getFoto() {
+		return foto;
+	}
+	public void setFoto(BufferedImage foto) {
+		this.foto = foto;
+	}
 	public int getCodigo() {
 		return codigo;
 	}

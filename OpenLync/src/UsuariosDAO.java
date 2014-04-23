@@ -1,6 +1,11 @@
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import javax.imageio.ImageIO;
 
 
 public class UsuariosDAO {
@@ -22,9 +27,11 @@ public class UsuariosDAO {
 			
 			ResultSet rs = st.executeQuery(SQL);
 			
-			rs.last();
-			
-			ultimoCodigo =  rs.getInt("codigo_usuario") + 1;
+			while (rs.next()) {
+				if (ultimoCodigo < rs.getInt("codigo_usuario")) {
+					ultimoCodigo = rs.getInt("codigo_usuario");
+				}
+			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -43,11 +50,42 @@ public class UsuariosDAO {
 			rs.next();
 			int cargo = rs.getInt("codigo_cargo");
 			
-			SQL = "INSERT INTO tb_usuarios (codigo_usuario, nome_usuario, codigo_cargo, login_usuario, senha_usuario, ip_usuario)" +
-					 " VALUES ("+usuario.getCodigo()+", '"+usuario.getNome()+"', "+cargo+","+
-					 " '"+cript.criptografarMensagem(usuario.getLogin())+"' , '"+cript.criptografarMensagem(usuario.getSenha())+"',"+
-					 " 'null');";
-			st.execute(SQL);
+			if (usuario.getFoto() == null) {	//Se foto estiver vazia
+				
+				SQL = "INSERT INTO tb_usuarios (codigo_usuario, nome_usuario, codigo_cargo, login_usuario, senha_usuario, ip_usuario)" +
+						 " VALUES ("+usuario.getCodigo()+", '"+usuario.getNome()+"', "+cargo+","+
+						 " '"+cript.criptografarMensagem(usuario.getLogin())+"' , '"+cript.criptografarMensagem(usuario.getSenha())+"',"+
+						 " 'null');";
+				
+				st.execute(SQL);
+				st.close();
+			} else {
+				
+				SQL = "INSERT INTO tb_usuarios (codigo_usuario, nome_usuario, codigo_cargo, login_usuario, senha_usuario, ip_usuario, foto_usuario)" +
+						 " VALUES ("+usuario.getCodigo()+", '"+usuario.getNome()+"', "+cargo+","+
+						 " '"+cript.criptografarMensagem(usuario.getLogin())+"' , '"+cript.criptografarMensagem(usuario.getSenha())+"',"+
+						 " 'null', ?);";
+				
+				//Prepara imagem para INSERT ---------------------------------------------------------
+				java.sql.PreparedStatement pst = conexao.prepareStatement(SQL);
+				
+				ByteArrayOutputStream out = new ByteArrayOutputStream();
+				try {
+					ImageIO.write(usuario.getFoto(), "jpeg", out);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				byte[] buf = out.toByteArray();
+				ByteArrayInputStream inStream = new ByteArrayInputStream(buf);
+				
+				//------------------------------------------------------------------------------------
+				pst.setBinaryStream(1, inStream, inStream.available());;
+				pst.executeUpdate();
+				
+				pst.close();
+				st.close();
+			}
 				
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -71,6 +109,8 @@ public class UsuariosDAO {
 						 "' senha_usuario = '"+cript.criptografarMensagem(cript.criptografarMensagem(usuario.getSenha()))+"';";
 			st.execute(SQL);
 			
+			st.close();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -83,6 +123,8 @@ public class UsuariosDAO {
 			
 			String SQL = "DELETE FROM tb_usuarios WHERE codigo_usuario = "+usuario.getCodigo()+";";
 			st.executeQuery(SQL);
+			
+			st.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
