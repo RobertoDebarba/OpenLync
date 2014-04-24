@@ -12,7 +12,7 @@ import java.sql.SQLException;
 public class MySQLConection {
 	
 	private static boolean status = false;
-	private static String ipServidor = "192.168.1.3";
+	private static String ipServidor = "192.168.229.1";
 
 	public static String getIpServidor() {
 		return ipServidor;

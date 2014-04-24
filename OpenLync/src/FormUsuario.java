@@ -1,6 +1,8 @@
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,10 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
 
 import org.imgscalr.Scalr;
 
@@ -38,6 +41,15 @@ public class FormUsuario extends javax.swing.JFrame {
 		carregarCampos(0);
 
 		editOFF();
+
+		//Personaliza Grid
+		tableUsuarios.addRowSelectionInterval(0, 0);
+		tableUsuarios.setRowHeight(25);
+		tableUsuarios.getColumn("Código").setPreferredWidth(40);
+		tableUsuarios.getColumn("Nome").setPreferredWidth(150);
+		tableUsuarios.getColumn("Cargo").setPreferredWidth(110);
+		
+		//TODO verificar apagar e editar
 	}
 
 	//-----------------------------------------------------------------------------------------------------
@@ -54,12 +66,13 @@ public class FormUsuario extends javax.swing.JFrame {
 
 		tableUsuarios.setEnabled(true);
 		BtnFoto.setEnabled(false);
-		
+
 		BtnNovo.setEnabled(true);
 		BtnEditar.setEnabled(true);
 		BtnApagar.setEnabled(true);
 		BtnSalvar.setEnabled(false);
 		BtnCancelar.setEnabled(false);
+		BtnVoltar.setEnabled(true);
 	}
 
 	/*
@@ -80,6 +93,7 @@ public class FormUsuario extends javax.swing.JFrame {
 		BtnApagar.setEnabled(false);
 		BtnSalvar.setEnabled(true);
 		BtnCancelar.setEnabled(true);
+		BtnVoltar.setEnabled(false);
 	}
 
 	/*
@@ -92,7 +106,11 @@ public class FormUsuario extends javax.swing.JFrame {
 		fc.setDialogType(JFileChooser.OPEN_DIALOG);
 		fc.setApproveButtonText("OK");
 		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		//FIXME filtro para imagens
+		//Adiciona filtro para apenas selecionar imagens
+		fc.setAcceptAllFileFilterUsed(false);
+		fc.setFileFilter(new FileNameExtensionFilter("Image files", ImageIO
+				.getReaderFileSuffixes()));
+
 		fc.setMultiSelectionEnabled(false);
 		int resultado = fc.showOpenDialog(fc);
 		if (resultado == JFileChooser.CANCEL_OPTION) {
@@ -116,7 +134,7 @@ public class FormUsuario extends javax.swing.JFrame {
 		try {
 			java.sql.Statement st = conexao.createStatement();
 
-			String SQL = "SELECT codigo_usuario, nome_usuario, login_usuario, senha_usuario, tb_cargos.desc_cargo"
+			String SQL = "SELECT codigo_usuario, nome_usuario, login_usuario, senha_usuario, foto_usuario, tb_cargos.desc_cargo"
 					+ " FROM tb_usuarios, tb_cargos"
 					+ " WHERE tb_cargos.codigo_cargo = tb_usuarios.codigo_cargo;";
 
@@ -132,6 +150,14 @@ public class FormUsuario extends javax.swing.JFrame {
 						.getString("login_usuario")));
 				usuario.setSenha(cript.descriptografarMensagem(rs
 						.getString("senha_usuario")));
+				Blob blobImage = rs.getBlob("foto_usuario");
+				try {
+					if (blobImage != null) {
+						usuario.setFoto(ImageIO.read(blobImage.getBinaryStream()));
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 
 				listaUsuarios.add(usuario);
 			}
@@ -164,9 +190,16 @@ public class FormUsuario extends javax.swing.JFrame {
 			i++;
 		}
 
-		//Preenche a grid
-		tableUsuarios.setModel(new javax.swing.table.DefaultTableModel(
-				listaGridusuarios, colunasGridUsuarios));
+		//Cria grig preenchendo os campos e colunas com listaGrigUsuarios e colunasGridUsuarios
+		//Cria novo modelo defaul sobreescrevendo o modo isCellEditable para desabilitar a edição
+		tableUsuarios.setModel(new DefaultTableModel(listaGridusuarios,
+				colunasGridUsuarios) {
+			private static final long serialVersionUID = 1L;
+
+			public boolean isCellEditable(int row, int col) {
+				return false;
+			}
+		});
 	}
 
 	/*
@@ -179,8 +212,17 @@ public class FormUsuario extends javax.swing.JFrame {
 		EditLogin.setText(listaUsuarios.get(numeroRegistro).getLogin());
 		editSenha.setText(listaUsuarios.get(numeroRegistro).getSenha());
 
-		comboCargo
-				.setSelectedItem(listaUsuarios.get(numeroRegistro).getCargo());
+		comboCargo.setSelectedItem(listaUsuarios.get(numeroRegistro).getCargo());
+		
+		//Seta foto
+		//Se houver foto -> seta Icon do label
+		if (listaUsuarios.get(numeroRegistro).getFoto() != null) {
+			BufferedImage imgMaior = Scalr.resize(listaUsuarios.get(numeroRegistro).getFoto(), 70, 70);
+			labelFoto.setIcon(new ImageIcon(imgMaior));
+		//Se não houver foto -> limpa Icon do label
+		} else {
+			labelFoto.setIcon(null);
+		}
 	}
 
 	/*
@@ -262,10 +304,30 @@ public class FormUsuario extends javax.swing.JFrame {
 				BtnNovoMouseClicked(evt);
 			}
 		});
+		BtnNovo.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				BtnNovoActionPerformed(evt);
+			}
+		});
 
 		BtnEditar.setText("Editar");
+		BtnEditar.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				BtnEditarActionPerformed(evt);
+			}
+		});
 
 		BtnApagar.setText("Apagar");
+		BtnApagar.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				BtnApagarMouseClicked(evt);
+			}
+		});
+		BtnApagar.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				BtnApagarActionPerformed(evt);
+			}
+		});
 
 		BtnSalvar.setText("Salvar");
 		BtnSalvar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -273,8 +335,18 @@ public class FormUsuario extends javax.swing.JFrame {
 				BtnSalvarMouseClicked(evt);
 			}
 		});
+		BtnSalvar.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				BtnSalvarActionPerformed(evt);
+			}
+		});
 
 		BtnCancelar.setText("Cancelar");
+		BtnCancelar.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				BtnCancelarActionPerformed(evt);
+			}
+		});
 
 		BtnVoltar.setText("Voltar");
 		BtnVoltar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -431,6 +503,7 @@ public class FormUsuario extends javax.swing.JFrame {
 
 		editNome.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				editNomeActionPerformed(evt);
 			}
 		});
 		jPanel2.add(editNome);
@@ -439,6 +512,11 @@ public class FormUsuario extends javax.swing.JFrame {
 		EditLogin.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				EditLoginActionPerformed(evt);
+			}
+		});
+		EditLogin.addFocusListener(new java.awt.event.FocusAdapter() {
+			public void focusLost(java.awt.event.FocusEvent evt) {
+				EditLoginFocusLost(evt);
 			}
 		});
 		jPanel2.add(EditLogin);
@@ -488,6 +566,11 @@ public class FormUsuario extends javax.swing.JFrame {
 				BtnFotoMouseClicked(evt);
 			}
 		});
+		BtnFoto.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				BtnFotoActionPerformed(evt);
+			}
+		});
 		jPanel2.add(BtnFoto);
 		BtnFoto.setBounds(475, 220, 43, 25);
 
@@ -519,31 +602,75 @@ public class FormUsuario extends javax.swing.JFrame {
 	}// </editor-fold>
 	//GEN-END:initComponents
 
-	private void BtnFotoMouseClicked(java.awt.event.MouseEvent evt) { //Btn escolher foto
-		File foto = escolherArquivo();
-
-		try {
-			fotoPerfil = ImageIO.read(foto); //Carrega foto para BufferedImage
-		} catch (IOException e) {
-			e.printStackTrace();
-		};
-
-		if ((fotoPerfil.getHeight() == 57) && (fotoPerfil.getWidth() == 57)) {
-
-			editFoto.setText(foto.getAbsolutePath()); //Localização
-
-			BufferedImage imgMaior = Scalr.resize(fotoPerfil, 70, 70);
-			labelFoto.setIcon(new ImageIcon(imgMaior));
-
-		} else {
-			JOptionPane.showMessageDialog(null,
-					"O tamanho da imagem deve ser 57 x 57px!",
-					"Imagem inválida", 1);
-		};
-
+	private void EditLoginFocusLost(java.awt.event.FocusEvent evt) {	//Sair do campo Login
+		UsuariosDAO dao = new UsuariosDAO();
+		
+		//Se estiver inserindo um novo registro
+		if (estado == 1) {			
+			
+			try {
+				if (dao.verificarDispLogin(EditLogin.getText())) {	//Se estiver disponivel 
+					EditLogin.setForeground(new Color(0, 0, 0));
+				} else {
+					JOptionPane.showMessageDialog(null, "Usuário já cadastrado!", "Usuário Inválido", 1);
+					EditLogin.setForeground(new Color(210, 0, 0));
+					EditLogin.requestFocus();
+				};
+			} catch (SQLException e) {
+				e.printStackTrace();
+			};
+		//Se estiver editando um registro existente
+		} else if (estado == 2) {	//Editar
+			//Se o codigo digitado for diferente do original -> executar verificação
+			if (!EditLogin.getText().equals(listaUsuarios.get(tableUsuarios.getSelectedRow()).getLogin())) {
+				try {
+					if (dao.verificarDispLogin(EditLogin.getText())) {	//Se estiver disponivel 
+						EditLogin.setForeground(new Color(0, 0, 0));
+					} else {
+						JOptionPane.showMessageDialog(null, "Usuário já cadastrado!", "Usuário Inválido", 1);
+						EditLogin.setForeground(new Color(210, 0, 0));
+						EditLogin.requestFocus();
+					};
+				} catch (SQLException e) {
+					e.printStackTrace();
+				};
+			} else {
+				//Se não verificou reseta cor para garantir ações anteriores
+				EditLogin.setForeground(new Color(0, 0, 0));
+			}
+		}
 	}
 
-	private void BtnSalvarMouseClicked(java.awt.event.MouseEvent evt) { //Btn Salvar
+	private void BtnEditarActionPerformed(java.awt.event.ActionEvent evt) { //Btn Editar
+		editON();
+		estado = 2; //editando
+	}
+
+	private void BtnCancelarActionPerformed(java.awt.event.ActionEvent evt) { //Btn Cancelar
+
+		carregarCampos(tableUsuarios.getSelectedRow());
+		editOFF();
+		estado = 0; //neutro
+	}
+
+	private void BtnApagarMouseClicked(java.awt.event.MouseEvent evt) {
+		// TODO add your handling code here:
+	}
+
+	private void BtnApagarActionPerformed(java.awt.event.ActionEvent evt) { //Btn Apagar
+		if (JOptionPane.showConfirmDialog(null, "Apagar resgitro?",
+				"Apagar registro", 2) == 0) {//0 = OK
+			UsuariosDAO dao = new UsuariosDAO();
+
+			dao.apagar(listaUsuarios.get(tableUsuarios.getSelectedRow()));
+			listaUsuarios.remove(tableUsuarios.getSelectedColumn());
+			carregarGridUsuarios();
+			carregarCampos(0);
+			
+		}
+	}
+
+	private void BtnSalvarActionPerformed(java.awt.event.ActionEvent evt) { //Btn Salvar
 		UsuariosDAO dao = new UsuariosDAO();
 
 		if (estado == 1) { //Novo
@@ -573,12 +700,60 @@ public class FormUsuario extends javax.swing.JFrame {
 			//Atualiza Grid
 			carregarGridUsuarios();
 
+			estado = 0; //neutro
+
 		} else if (estado == 2) { //Editar
 
+			listaUsuarios.get(Integer.parseInt(editCodigo.getText())).setNome(
+					editNome.getText());
+			listaUsuarios.get(Integer.parseInt(editCodigo.getText())).setCargo(
+					comboCargo.getSelectedItem() + "");
+			listaUsuarios.get(Integer.parseInt(editCodigo.getText())).setLogin(
+					EditLogin.getText());
+			listaUsuarios.get(Integer.parseInt(editCodigo.getText())).setSenha(
+					editSenha.getText());
+			listaUsuarios.get(Integer.parseInt(editCodigo.getText())).setFoto(
+					fotoPerfil);
+
+			dao.editar(listaUsuarios.get(Integer.parseInt(editCodigo.getText())));
+
+			carregarGridUsuarios();
+
+			editOFF();
+
+			estado = 0; //neutro
 		}
 	}
 
-	private void BtnNovoMouseClicked(java.awt.event.MouseEvent evt) { //Btn Novo
+	private void BtnFotoActionPerformed(java.awt.event.ActionEvent evt) { //Btn escolher foto
+		File foto = escolherArquivo();
+
+		//Se o arquivo não for null (se usuario não cancelou a escolha)
+		if (foto != null) {
+			try {
+				fotoPerfil = ImageIO.read(foto); //Carrega foto para BufferedImage
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			;
+
+			if ((fotoPerfil.getHeight() == 57) && (fotoPerfil.getWidth() == 57)) {
+
+				editFoto.setText(foto.getAbsolutePath()); //Localização
+
+				BufferedImage imgMaior = Scalr.resize(fotoPerfil, 70, 70);
+				labelFoto.setIcon(new ImageIcon(imgMaior));
+
+			} else {
+				JOptionPane.showMessageDialog(null,
+						"O tamanho da imagem deve ser 57 x 57px!",
+						"Imagem inválida", 1);
+			}
+			;
+		}
+	}
+
+	private void BtnNovoActionPerformed(java.awt.event.ActionEvent evt) { //Btn Novo
 		editON();
 		editCodigo.setText("");
 		editNome.setText("");
@@ -589,16 +764,34 @@ public class FormUsuario extends javax.swing.JFrame {
 		estado = 1;
 	}
 
-	private void tableUsuariosMouseClicked(java.awt.event.MouseEvent evt) { //Click GRID
-		carregarCampos(tableUsuarios.getSelectedRow());
+	private void BtnFotoMouseClicked(java.awt.event.MouseEvent evt) {
+
 	}
 
-	private void BtnVoltarMouseClicked(java.awt.event.MouseEvent evt) { //Btn Voltar
+	private void BtnSalvarMouseClicked(java.awt.event.MouseEvent evt) {
+
+	}
+
+	private void BtnNovoMouseClicked(java.awt.event.MouseEvent evt) {
+
+	}
+
+	private void tableUsuariosMouseClicked(java.awt.event.MouseEvent evt) { //Click GRID
+		if (estado == 0) {
+			carregarCampos(tableUsuarios.getSelectedRow());
+		}
+	}
+
+	private void BtnVoltarMouseClicked(java.awt.event.MouseEvent evt) {
+
+	}
+
+	private void BtnVoltarActionPerformed(java.awt.event.ActionEvent evt) { //Btn Voltar
 		dispose();
 	}
 
-	private void BtnVoltarActionPerformed(java.awt.event.ActionEvent evt) {
-		// TODO add your handling code here:
+	private void editNomeActionPerformed(java.awt.event.ActionEvent evt) {
+
 	}
 
 	void editSenhaActionPerformed(java.awt.event.ActionEvent evt) {
