@@ -63,6 +63,7 @@ public class FormUsuario extends javax.swing.JFrame {
 		editSenha.setFocusable(false);
 
 		tableUsuarios.setEnabled(true);
+		BtnNovoCargo.setEnabled(false);
 		BtnFoto.setEnabled(false);
 		checkAdmin.setEnabled(false);
 
@@ -85,6 +86,7 @@ public class FormUsuario extends javax.swing.JFrame {
 		editSenha.setFocusable(true);
 
 		tableUsuarios.setEnabled(false);
+		BtnNovoCargo.setEnabled(true);
 		BtnFoto.setEnabled(true);
 		checkAdmin.setEnabled(true);
 
@@ -217,7 +219,7 @@ public class FormUsuario extends javax.swing.JFrame {
 		editSenha.setText(listaUsuarios.get(numeroRegistro).getSenha());
 
 		checkAdmin.setSelected(listaUsuarios.get(numeroRegistro).isAdmin());
-		
+
 		comboCargo
 				.setSelectedItem(listaUsuarios.get(numeroRegistro).getCargo());
 
@@ -301,18 +303,14 @@ public class FormUsuario extends javax.swing.JFrame {
 		tableUsuarios = new javax.swing.JTable();
 		comboCargo = new javax.swing.JComboBox();
 		labelFoto = new javax.swing.JLabel();
-		BtnFoto = new javax.swing.JButton();
+		BtnNovoCargo = new javax.swing.JButton();
 		jLabel8 = new javax.swing.JLabel();
 		checkAdmin = new javax.swing.JCheckBox();
+		BtnFoto = new javax.swing.JButton();
 
 		setTitle("OpenLync | Usu\u00e1rios");
 
 		BtnNovo.setText("Novo");
-		BtnNovo.addMouseListener(new java.awt.event.MouseAdapter() {
-			public void mouseClicked(java.awt.event.MouseEvent evt) {
-				BtnNovoMouseClicked(evt);
-			}
-		});
 		BtnNovo.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				BtnNovoActionPerformed(evt);
@@ -327,11 +325,6 @@ public class FormUsuario extends javax.swing.JFrame {
 		});
 
 		BtnApagar.setText("Apagar");
-		BtnApagar.addMouseListener(new java.awt.event.MouseAdapter() {
-			public void mouseClicked(java.awt.event.MouseEvent evt) {
-				BtnApagarMouseClicked(evt);
-			}
-		});
 		BtnApagar.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				BtnApagarActionPerformed(evt);
@@ -339,11 +332,6 @@ public class FormUsuario extends javax.swing.JFrame {
 		});
 
 		BtnSalvar.setText("Salvar");
-		BtnSalvar.addMouseListener(new java.awt.event.MouseAdapter() {
-			public void mouseClicked(java.awt.event.MouseEvent evt) {
-				BtnSalvarMouseClicked(evt);
-			}
-		});
 		BtnSalvar.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				BtnSalvarActionPerformed(evt);
@@ -358,11 +346,6 @@ public class FormUsuario extends javax.swing.JFrame {
 		});
 
 		BtnVoltar.setText("Voltar");
-		BtnVoltar.addMouseListener(new java.awt.event.MouseAdapter() {
-			public void mouseClicked(java.awt.event.MouseEvent evt) {
-				BtnVoltarMouseClicked(evt);
-			}
-		});
 		BtnVoltar.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				BtnVoltarActionPerformed(evt);
@@ -502,27 +485,12 @@ public class FormUsuario extends javax.swing.JFrame {
 		jLabel6.setBounds(20, 195, 70, 18);
 
 		editCodigo.setFocusable(false);
-		editCodigo.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				editCodigoActionPerformed(evt);
-			}
-		});
 		jPanel2.add(editCodigo);
 		editCodigo.setBounds(100, 70, 170, 25);
 
-		editNome.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				editNomeActionPerformed(evt);
-			}
-		});
 		jPanel2.add(editNome);
 		editNome.setBounds(100, 100, 420, 25);
 
-		EditLogin.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				EditLoginActionPerformed(evt);
-			}
-		});
 		EditLogin.addFocusListener(new java.awt.event.FocusAdapter() {
 			public void focusLost(java.awt.event.FocusEvent evt) {
 				EditLoginFocusLost(evt);
@@ -531,11 +499,6 @@ public class FormUsuario extends javax.swing.JFrame {
 		jPanel2.add(EditLogin);
 		EditLogin.setBounds(100, 160, 420, 25);
 
-		editSenha.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				editSenhaActionPerformed(evt);
-			}
-		});
 		jPanel2.add(editSenha);
 		editSenha.setBounds(100, 190, 420, 25);
 
@@ -549,18 +512,8 @@ public class FormUsuario extends javax.swing.JFrame {
 				tableUsuariosMouseClicked(evt);
 			}
 		});
-		tableUsuarios
-				.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-					public void propertyChange(
-							java.beans.PropertyChangeEvent evt) {
-						tableUsuariosPropertyChange(evt);
-					}
-				});
-		tableUsuarios.addKeyListener(new java.awt.event.KeyAdapter() {
-			public void keyPressed(java.awt.event.KeyEvent evt) {
-				tableUsuariosKeyPressed(evt);
-			}
 
+		tableUsuarios.addKeyListener(new java.awt.event.KeyAdapter() {
 			public void keyReleased(java.awt.event.KeyEvent evt) {
 				tableUsuariosKeyReleased(evt);
 			}
@@ -573,23 +526,18 @@ public class FormUsuario extends javax.swing.JFrame {
 		comboCargo.setModel(new javax.swing.DefaultComboBoxModel(new String[] {
 				"Item 1", "Item 2", "Item 3", "Item 4" }));
 		jPanel2.add(comboCargo);
-		comboCargo.setBounds(100, 130, 420, 27);
+		comboCargo.setBounds(100, 130, 340, 27);
 		jPanel2.add(labelFoto);
 		labelFoto.setBounds(440, 15, 70, 70);
 
-		BtnFoto.setText("Escolher");
-		BtnFoto.addMouseListener(new java.awt.event.MouseAdapter() {
-			public void mouseClicked(java.awt.event.MouseEvent evt) {
-				BtnFotoMouseClicked(evt);
-			}
-		});
-		BtnFoto.addActionListener(new java.awt.event.ActionListener() {
+		BtnNovoCargo.setText("Novo");
+		BtnNovoCargo.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				BtnFotoActionPerformed(evt);
+				BtnNovoCargoActionPerformed(evt);
 			}
 		});
-		jPanel2.add(BtnFoto);
-		BtnFoto.setBounds(100, 220, 100, 25);
+		jPanel2.add(BtnNovoCargo);
+		BtnNovoCargo.setBounds(450, 130, 70, 25);
 
 		jLabel8.setText("Foto:");
 		jPanel2.add(jLabel8);
@@ -598,6 +546,15 @@ public class FormUsuario extends javax.swing.JFrame {
 		checkAdmin.setText("Administrador");
 		jPanel2.add(checkAdmin);
 		checkAdmin.setBounds(390, 220, 130, 26);
+
+		BtnFoto.setText("Escolher");
+		jPanel2.add(BtnFoto);
+		BtnFoto.setBounds(100, 220, 100, 25);
+		BtnFoto.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				BtnFotoActionPerformed(evt);
+			}
+		});
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(
 				getContentPane());
@@ -625,7 +582,38 @@ public class FormUsuario extends javax.swing.JFrame {
 
 		pack();
 	}// </editor-fold>
-	//GEN-END:initComponents
+		//GEN-END:initComponents
+
+	private void BtnFotoActionPerformed(java.awt.event.ActionEvent evt) {
+		File foto = escolherArquivo();
+
+		//Se o arquivo não for null (se usuario não cancelou a escolha)
+		if (foto != null) {
+			try {
+				fotoPerfil = ImageIO.read(foto); //Carrega foto para BufferedImage
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			;
+
+			if ((fotoPerfil.getHeight() == 57) && (fotoPerfil.getWidth() == 57)) {
+
+				BufferedImage imgMaior = Scalr.resize(fotoPerfil, 70, 70);
+				labelFoto.setIcon(new ImageIcon(imgMaior));
+
+			} else {
+				JOptionPane.showMessageDialog(null,
+						"O tamanho da imagem deve ser 57 x 57px!",
+						"Imagem inválida", 1);
+			}
+			;
+		}
+	}
+	
+	private void BtnNovoCargoActionPerformed(java.awt.event.ActionEvent evt) {
+		FormCargos frmCargos = new FormCargos();
+		frmCargos.setVisible(true);
+	}
 
 	private void tableUsuariosKeyReleased(java.awt.event.KeyEvent evt) {
 		if ((evt.getKeyCode() == KeyEvent.VK_UP)
@@ -634,14 +622,6 @@ public class FormUsuario extends javax.swing.JFrame {
 				carregarCampos(tableUsuarios.getSelectedRow());
 			}
 		}
-	}
-
-	private void tableUsuariosKeyPressed(java.awt.event.KeyEvent evt) {
-
-	}
-
-	private void tableUsuariosPropertyChange(java.beans.PropertyChangeEvent evt) {
-
 	}
 
 	private void EditLoginFocusLost(java.awt.event.FocusEvent evt) { //Sair do campo Login
@@ -703,10 +683,6 @@ public class FormUsuario extends javax.swing.JFrame {
 		carregarCampos(tableUsuarios.getSelectedRow());
 		editOFF();
 		estado = 0; //neutro
-	}
-
-	private void BtnApagarMouseClicked(java.awt.event.MouseEvent evt) {
-		// TODO add your handling code here:
 	}
 
 	private void BtnApagarActionPerformed(java.awt.event.ActionEvent evt) { //Btn Apagar
@@ -792,32 +768,6 @@ public class FormUsuario extends javax.swing.JFrame {
 		}
 	}
 
-	private void BtnFotoActionPerformed(java.awt.event.ActionEvent evt) { //Btn escolher foto
-		File foto = escolherArquivo();
-
-		//Se o arquivo não for null (se usuario não cancelou a escolha)
-		if (foto != null) {
-			try {
-				fotoPerfil = ImageIO.read(foto); //Carrega foto para BufferedImage
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			;
-
-			if ((fotoPerfil.getHeight() == 57) && (fotoPerfil.getWidth() == 57)) {
-
-				BufferedImage imgMaior = Scalr.resize(fotoPerfil, 70, 70);
-				labelFoto.setIcon(new ImageIcon(imgMaior));
-
-			} else {
-				JOptionPane.showMessageDialog(null,
-						"O tamanho da imagem deve ser 57 x 57px!",
-						"Imagem inválida", 1);
-			}
-			;
-		}
-	}
-
 	private void BtnNovoActionPerformed(java.awt.event.ActionEvent evt) { //Btn Novo
 		editON();
 		editCodigo.setText("");
@@ -831,46 +781,14 @@ public class FormUsuario extends javax.swing.JFrame {
 		editNome.requestFocus();
 	}
 
-	private void BtnFotoMouseClicked(java.awt.event.MouseEvent evt) {
-
-	}
-
-	private void BtnSalvarMouseClicked(java.awt.event.MouseEvent evt) {
-
-	}
-
-	private void BtnNovoMouseClicked(java.awt.event.MouseEvent evt) {
-
-	}
-
 	private void tableUsuariosMouseClicked(java.awt.event.MouseEvent evt) { //Click GRID
 		if (estado == 0) {
 			carregarCampos(tableUsuarios.getSelectedRow());
 		}
 	}
 
-	private void BtnVoltarMouseClicked(java.awt.event.MouseEvent evt) {
-
-	}
-
 	private void BtnVoltarActionPerformed(java.awt.event.ActionEvent evt) { //Btn Voltar
 		dispose();
-	}
-
-	private void editNomeActionPerformed(java.awt.event.ActionEvent evt) {
-
-	}
-
-	void editSenhaActionPerformed(java.awt.event.ActionEvent evt) {
-		// TODO add your handling code here:
-	}
-
-	void EditLoginActionPerformed(java.awt.event.ActionEvent evt) {
-		// TODO add your handling code here:
-	}
-
-	void editCodigoActionPerformed(java.awt.event.ActionEvent evt) {
-		// TODO add your handling code here:
 	}
 
 	//GEN-BEGIN:variables
@@ -880,6 +798,7 @@ public class FormUsuario extends javax.swing.JFrame {
 	private javax.swing.JButton BtnEditar;
 	private javax.swing.JButton BtnFoto;
 	private javax.swing.JButton BtnNovo;
+	private javax.swing.JButton BtnNovoCargo;
 	private javax.swing.JButton BtnSalvar;
 	private javax.swing.JButton BtnVoltar;
 	private javax.swing.JTextField EditLogin;

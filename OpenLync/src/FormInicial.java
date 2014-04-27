@@ -2,6 +2,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /*
  * FormInicial.java
@@ -20,6 +23,9 @@ public class FormInicial extends javax.swing.JInternalFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	public static FormCargos frmCargos = new FormCargos();
+	public static FormUsuario frmUsuarios = new FormUsuario();
+	
 	/** Creates new form FormInicial */
 	public FormInicial() {
 		initComponents();
@@ -223,7 +229,16 @@ public class FormInicial extends javax.swing.JInternalFrame {
 		if (!editIP.getText().equals("")) {
 
 			MySQLConection.setIpServidor(editIP.getText());
-			FormCargos frmCargos = new FormCargos();
+			
+			// Seta tema
+			try {
+		        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		    } catch (ClassNotFoundException | InstantiationException
+		            | IllegalAccessException | UnsupportedLookAndFeelException e) {
+		        e.printStackTrace();
+		    }
+		    SwingUtilities.updateComponentTreeUI(frmCargos);
+			
 			frmCargos.setVisible(true);
 		} else {
 			JOptionPane.showMessageDialog(null,
@@ -280,7 +295,16 @@ public class FormInicial extends javax.swing.JInternalFrame {
 		if (!editIP.getText().equals("")) {
 
 			MySQLConection.setIpServidor(editIP.getText());
-			FormUsuario frmUsuarios = new FormUsuario();
+			
+			// Seta tema
+			try {
+		        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		    } catch (ClassNotFoundException | InstantiationException
+		            | IllegalAccessException | UnsupportedLookAndFeelException e) {
+		        e.printStackTrace();
+		    }
+		    SwingUtilities.updateComponentTreeUI(frmUsuarios);
+			
 			frmUsuarios.setVisible(true);
 		} else {
 			JOptionPane.showMessageDialog(null,

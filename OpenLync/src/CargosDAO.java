@@ -18,7 +18,7 @@ public class CargosDAO {
 			java.sql.Statement st = conexao.createStatement();
 			
 			String SQL = "SELECT 1 FROM tb_cargos" +
-						 " WHERE desc_cargos = '"+cargo+"';";
+						 " WHERE desc_cargo = '"+cargo+"';";
 			
 			rs = st.executeQuery(SQL);
 			
@@ -66,7 +66,7 @@ public class CargosDAO {
 			java.sql.Statement st = conexao.createStatement();
 							
 			String SQL = "INSERT INTO tb_cargos (codigo_cargo,"+
-											" desc_cargo,"+
+											" desc_cargo)"+
 					 " VALUES ("+cargo.getCodigo()+
 					 			", '"+cargo.getDesc()+
 					 			"');";
@@ -86,7 +86,7 @@ public class CargosDAO {
 			
 			String SQL = "UPDATE tb_cargos SET" +
 						 " desc_cargo = '"+cargo.getDesc()+
-						 " WHERE codigo_usuario ="+ cargo.getCodigo() +";";
+						 "' WHERE codigo_cargo = "+ cargo.getCodigo() +";";
 			st.execute(SQL);
 			
 			st.close();

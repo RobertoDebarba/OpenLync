@@ -168,6 +168,11 @@ public class FormCargos extends javax.swing.JFrame {
 		tableCargos = new javax.swing.JTable();
 
 		setTitle("OpenLync | Cargos");
+		addWindowListener(new java.awt.event.WindowAdapter() {
+			public void windowClosed(java.awt.event.WindowEvent evt) {
+				formWindowClosed(evt);
+			}
+		});
 
 		BtnNovo.setText("Novo");
 		BtnNovo.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -432,6 +437,12 @@ public class FormCargos extends javax.swing.JFrame {
 	}// </editor-fold>
 	//GEN-END:initComponents
 
+	private void formWindowClosed(java.awt.event.WindowEvent evt) {
+		if (FormInicial.frmUsuarios.isVisible()) {
+			FormInicial.frmUsuarios.atualizarComboCargos();
+		}
+	}
+
 	private void tableCargosKeyReleased(java.awt.event.KeyEvent evt) {
 		if ((evt.getKeyCode() == KeyEvent.VK_UP)
 				|| (evt.getKeyCode() == KeyEvent.VK_DOWN)) {
@@ -448,7 +459,7 @@ public class FormCargos extends javax.swing.JFrame {
 	private void tableCargosPropertyChange(java.beans.PropertyChangeEvent evt) {
 
 	}
-	
+
 	private void editDescFocusLost(java.awt.event.FocusEvent evt) {
 		CargosDAO dao = new CargosDAO();
 
@@ -459,8 +470,8 @@ public class FormCargos extends javax.swing.JFrame {
 				if (dao.verificarDispDesc(editDesc.getText())) { //Se estiver disponivel 
 					editDesc.setForeground(new Color(0, 0, 0));
 				} else {
-					JOptionPane.showMessageDialog(null,
-							"Cargo já cadastrado!", "Cargo Inválido", 1);
+					JOptionPane.showMessageDialog(null, "Cargo já cadastrado!",
+							"Cargo Inválido", 1);
 					editDesc.setForeground(new Color(210, 0, 0));
 					editDesc.requestFocus();
 				}
@@ -469,20 +480,17 @@ public class FormCargos extends javax.swing.JFrame {
 				e.printStackTrace();
 			}
 			;
-		//Se estiver editando um registro existente
+			//Se estiver editando um registro existente
 		} else if (estado == 2) { //Editar
 			//Se o codigo digitado for diferente do original -> executar verificação
 			if (!editDesc.getText().equals(
-					listaCargos.get(tableCargos.getSelectedRow())
-							.getDesc())) {
+					listaCargos.get(tableCargos.getSelectedRow()).getDesc())) {
 				try {
 					if (dao.verificarDispDesc(editDesc.getText())) { //Se estiver disponivel 
 						editDesc.setForeground(new Color(0, 0, 0));
 					} else {
-						JOptionPane
-								.showMessageDialog(null,
-										"Cargo já cadastrado!",
-										"Cargo Inválido", 1);
+						JOptionPane.showMessageDialog(null,
+								"Cargo já cadastrado!", "Cargo Inválido", 1);
 						editDesc.setForeground(new Color(210, 0, 0));
 						editDesc.requestFocus();
 					}
@@ -614,7 +622,7 @@ public class FormCargos extends javax.swing.JFrame {
 	private void BtnNovoMouseClicked(java.awt.event.MouseEvent evt) {
 
 	}
-	
+
 	private void tableCargosMouseClicked(java.awt.event.MouseEvent evt) { //Click GRID
 		if (estado == 0) {
 			carregarCampos(tableCargos.getSelectedRow());
