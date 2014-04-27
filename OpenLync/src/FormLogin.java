@@ -18,7 +18,7 @@ public class FormLogin extends javax.swing.JInternalFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	/** Creates new form FormLogin */
 	public FormLogin() {
 		initComponents();
@@ -35,6 +35,7 @@ public class FormLogin extends javax.swing.JInternalFrame {
 		jLabel4 = new javax.swing.JLabel();
 		editLogin = new javax.swing.JTextField();
 		editSenha = new javax.swing.JPasswordField();
+		labelConfig = new javax.swing.JLabel();
 
 		jPanel1.setLayout(null);
 
@@ -50,11 +51,11 @@ public class FormLogin extends javax.swing.JInternalFrame {
 
 		jLabel3.setText("Login:");
 		jPanel1.add(jLabel3);
-		jLabel3.setBounds(150, 245, 42, 18);
+		jLabel3.setBounds(150, 245, 44, 15);
 
 		jLabel4.setText("Senha:");
 		jPanel1.add(jLabel4);
-		jLabel4.setBounds(150, 275, 47, 18);
+		jLabel4.setBounds(150, 275, 50, 15);
 
 		editLogin.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -82,6 +83,16 @@ public class FormLogin extends javax.swing.JInternalFrame {
 		jPanel1.add(editSenha);
 		editSenha.setBounds(210, 270, 150, 25);
 
+		labelConfig.setIcon(new javax.swing.ImageIcon(getClass().getResource(
+				"/Imagens/gear_icon.png"))); // NOI18N
+		labelConfig.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				labelConfigMouseClicked(evt);
+			}
+		});
+		jPanel1.add(labelConfig);
+		labelConfig.setBounds(480, 10, 20, 20);
+
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(
 				getContentPane());
 		getContentPane().setLayout(layout);
@@ -98,15 +109,21 @@ public class FormLogin extends javax.swing.JInternalFrame {
 	}// </editor-fold>
 	//GEN-END:initComponents
 
+	private void labelConfigMouseClicked(java.awt.event.MouseEvent evt) { //Botão Config
+		MySQLConection.setIpServidor(JOptionPane.showInputDialog(null, "IP do Servidor", "Configurações", 1));
+	}
+
 	private void editSenhaKeyPressed(java.awt.event.KeyEvent evt) {
 		if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
 			Usuarios usuario = new Usuarios();
-			if (usuario.verifLogin(editLogin.getText(), new String(editSenha.getPassword()))) {
+			if (usuario.verifLogin(editLogin.getText(),
+					new String(editSenha.getPassword()))) {
 				FormMain.frmLogin.setVisible(false);
 				editLogin.setText("");
 				editSenha.setText("");
 			} else {
-				JOptionPane.showMessageDialog(null, "Usuário ou Senha incorretos!", "Erro de Login", 1);
+				JOptionPane.showMessageDialog(null,
+						"Usuário ou Senha incorretos!", "Erro de Login", 1);
 			}
 		}
 	}
@@ -114,7 +131,8 @@ public class FormLogin extends javax.swing.JInternalFrame {
 	private void editLoginKeyPressed(java.awt.event.KeyEvent evt) {
 		if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
 			Usuarios usuario = new Usuarios();
-			if (usuario.verifLogin(editLogin.getText(), new String(editSenha.getPassword()))) {
+			if (usuario.verifLogin(editLogin.getText(),
+					new String(editSenha.getPassword()))) {
 				FormMain.frmLogin.setVisible(false);
 				editLogin.setText("");
 				editSenha.setText("");
@@ -142,6 +160,7 @@ public class FormLogin extends javax.swing.JInternalFrame {
 	private javax.swing.JLabel jLabel3;
 	private javax.swing.JLabel jLabel4;
 	private javax.swing.JPanel jPanel1;
+	private javax.swing.JLabel labelConfig;
 	// End of variables declaration//GEN-END:variables
 
 }

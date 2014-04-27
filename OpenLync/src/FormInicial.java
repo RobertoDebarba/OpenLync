@@ -29,6 +29,8 @@ public class FormInicial extends javax.swing.JInternalFrame {
 	/** Creates new form FormInicial */
 	public FormInicial() {
 		initComponents();
+		
+		editIP.setText(MySQLConection.getIpServidor());
 	}
 
 	//GEN-BEGIN:initComponents
