@@ -27,7 +27,7 @@ public class TrataCliente implements Runnable {
    }
    
    public void encerrarThread() {
-	   	System.out.println("Encerrada a Thread "+ Thread.currentThread().getId());
+	   	FormMain.frmInicial.adicionarLog("Encerrada a Thread "+ Thread.currentThread().getId());
 		Thread.currentThread().interrupt();
    }
  
@@ -42,13 +42,14 @@ public class TrataCliente implements Runnable {
     */
    public void run() {
 
-	   	System.out.println("Criada a Thread "+ Thread.currentThread().getId());
+	   	FormMain.frmInicial.adicionarLog("Criada a Thread "+ Thread.currentThread().getId());
 	   
 		Scanner scannerCliente = null;
 		try {
 			scannerCliente = new Scanner(this.Scliente.getInputStream());
 		} catch (IOException e) {
-			System.out.println("Erro ao criar Scanner do cliente!");
+			e.printStackTrace();
+			FormMain.frmInicial.adicionarLog("Erro ao criar Scanner do cliente!");
 		}
 		
 		Criptografia cript = new Criptografia();
@@ -91,7 +92,7 @@ public class TrataCliente implements Runnable {
 			TratadorMensagens.enviarMensagem(msg, this.portaSaida);
 			
 			// Mostra a mensagem enviada ao destinatario com o ip do remetente
-			System.out.println(msg);
+			FormMain.frmInicial.adicionarLog(msg);
 			
 	   	} else if (TratadorMensagens.getMensagemTratada().equals("KILL CLIENT")) {
 	   		
@@ -140,6 +141,6 @@ public class TrataCliente implements Runnable {
 	   TratadorMensagens.enviarMensagem(msg, this.portaSaida);
 		
 	   // Mostra a mensagem enviada ao destinatario com o ip do remetente
-	   System.out.println(msg);
+	   FormMain.frmInicial.adicionarLog(msg);
    }
 }

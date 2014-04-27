@@ -6,16 +6,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-/*
- * FormInicial.java
- *
- * Created on __DATE__, __TIME__
- */
-
-/**
- *
- * @author  __USER__
- */
 public class FormInicial extends javax.swing.JInternalFrame {
 
 	/**
@@ -31,6 +21,15 @@ public class FormInicial extends javax.swing.JInternalFrame {
 		initComponents();
 
 		editIP.setText(MySQLConection.getIpServidor());
+	}
+	
+	public void adicionarLog(String mensagem) {
+		
+		if (textPane.getText().equals("")) {
+			textPane.setText(mensagem);
+		} else {
+			textPane.setText(textPane.getText() + "\n" + mensagem);
+		}
 	}
 
 	//GEN-BEGIN:initComponents

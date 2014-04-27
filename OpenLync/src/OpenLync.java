@@ -41,9 +41,9 @@ public class OpenLync {
 		servidor = null;
 		try {
 			servidor = new ServerSocket(portaEntrada);
-			System.out.println("Servidor iniciado na porta "+ portaEntrada +"!");
+			FormMain.frmInicial.adicionarLog("Servidor iniciado na porta "+ portaEntrada +"!");
 		} catch(IOException e) {
-			System.out.println("Erro ao criar servidor na porta "+ portaEntrada);
+			FormMain.frmInicial.adicionarLog("Erro ao criar servidor na porta "+ portaEntrada);
 		}
 		
 		// Cria Thread para verificar entrada de novos clientes	     
@@ -62,7 +62,7 @@ public class OpenLync {
 		
 		TClientes.interrupt();
 		
-		System.out.println("Servidor parado!");
+		FormMain.frmInicial.adicionarLog("Servidor parado!");
 
 	}
 }
