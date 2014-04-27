@@ -19,15 +19,13 @@ public class UsuariosDAO {
 	 */
 	public boolean verificarDispLogin(String login) throws SQLException {
 		
-		Criptografia crip = new Criptografia();
-		
 		if (!login.equals("")) {	//Se login não estiver vazio
 			ResultSet rs;
 	
 			java.sql.Statement st = conexao.createStatement();
 			
-			String SQL = "SELECT codigo_usuario FROM tb_usuarios" +
-						 " WHERE login_usuario = '"+crip.criptografarMensagem(login)+"';";
+			String SQL = "SELECT 1 FROM tb_usuarios" +
+						 " WHERE login_usuario = '"+cript.criptografarMensagem(login)+"';";
 			
 			rs = st.executeQuery(SQL);
 			

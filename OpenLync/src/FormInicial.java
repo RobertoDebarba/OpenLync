@@ -2,10 +2,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 /*
  * FormInicial.java
@@ -18,6 +14,11 @@ import javax.swing.plaf.basic.BasicInternalFrameUI;
  * @author  __USER__
  */
 public class FormInicial extends javax.swing.JInternalFrame {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/** Creates new form FormInicial */
 	public FormInicial() {
@@ -155,6 +156,11 @@ public class FormInicial extends javax.swing.JInternalFrame {
 		menuGerencia.add(menuItemUsuarios);
 
 		menuItemCargos.setText("Cargos");
+		menuItemCargos.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				menuItemCargosActionPerformed(evt);
+			}
+		});
 		menuGerencia.add(menuItemCargos);
 
 		jMenuBar1.add(menuGerencia);
@@ -212,6 +218,19 @@ public class FormInicial extends javax.swing.JInternalFrame {
 		pack();
 	}// </editor-fold>
 	//GEN-END:initComponents
+
+	private void menuItemCargosActionPerformed(java.awt.event.ActionEvent evt) {
+		if (!editIP.getText().equals("")) {
+
+			MySQLConection.setIpServidor(editIP.getText());
+			FormCargos frmCargos = new FormCargos();
+			frmCargos.setVisible(true);
+		} else {
+			JOptionPane.showMessageDialog(null,
+					"O campo 'IP' deve estar preenchido corretamente!",
+					"Aviso", 1);
+		}
+	}
 
 	private void menuItemONOFFActionPerformed(java.awt.event.ActionEvent evt) {
 		if (!checkServ.isSelected()) {

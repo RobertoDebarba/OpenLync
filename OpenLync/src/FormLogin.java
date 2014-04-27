@@ -14,6 +14,11 @@ import javax.swing.JOptionPane;
  */
 public class FormLogin extends javax.swing.JInternalFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	/** Creates new form FormLogin */
 	public FormLogin() {
 		initComponents();

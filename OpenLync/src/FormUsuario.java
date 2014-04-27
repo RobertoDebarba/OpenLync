@@ -15,6 +15,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
@@ -26,7 +27,7 @@ public class FormUsuario extends javax.swing.JFrame {
 
 	// Editavel
 	private Connection conexao = MySQLConection.getMySQLConnection();
-	private List<Usuarios> listaUsuarios;
+	private List<Usuarios> listaUsuarios = new ArrayList<Usuarios>();
 	private int estado = 0; //Define modo da tela / 0 = neutro / 1 = Novo / 2 = Editando
 	BufferedImage fotoPerfil = null;
 
@@ -44,6 +45,7 @@ public class FormUsuario extends javax.swing.JFrame {
 		editOFF();
 
 		//Personaliza Grid
+		tableUsuarios.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tableUsuarios.addRowSelectionInterval(0, 0);
 		tableUsuarios.setRowHeight(25);
 	}
@@ -126,9 +128,7 @@ public class FormUsuario extends javax.swing.JFrame {
 	private void carregarListaUsuario() {
 		Criptografia cript = new Criptografia();
 
-		//Carrega dados dos usuarios para uma lista
-		//Lista do resultado
-		listaUsuarios = new ArrayList<Usuarios>();
+		listaUsuarios.removeAll(listaUsuarios);
 		try {
 			java.sql.Statement st = conexao.createStatement();
 
@@ -276,6 +276,7 @@ public class FormUsuario extends javax.swing.JFrame {
 	 */
 	//GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc="Generated Code">
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void initComponents() {
 
 		jPanel1 = new javax.swing.JPanel();
@@ -883,6 +884,7 @@ public class FormUsuario extends javax.swing.JFrame {
 	private javax.swing.JButton BtnVoltar;
 	private javax.swing.JTextField EditLogin;
 	private javax.swing.JCheckBox checkAdmin;
+	@SuppressWarnings("rawtypes")
 	private javax.swing.JComboBox comboCargo;
 	private javax.swing.JTextField editCodigo;
 	private javax.swing.JTextField editNome;
