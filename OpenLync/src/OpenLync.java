@@ -5,6 +5,11 @@
 import java.io.IOException;  
 import java.net.ServerSocket;  
 
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
+
 public class OpenLync {
 	
 	private static int portaEntrada;
@@ -32,11 +37,16 @@ public class OpenLync {
 		portaSaida = 7606;
 		
 		//Cria Form
-		frmMain = new FormMain();
-		frmMain.editPorta.setText(""+portaEntrada);
+		FormMain frmMain = new FormMain();
+		frmMain.setVisible(true);
 		
-		frmMain.setStatus(false);
-		frmMain.setStatusDB(false);
+		
+		
+//		frmMain = new FormMain();
+//		frmMain.editPorta.setText(""+portaEntrada);
+//		
+//		frmMain.setStatus(false);
+//		frmMain.setStatusDB(false);
 		
 	}
 
@@ -55,7 +65,7 @@ public class OpenLync {
 		TClientes = new Thread(verifNovosClientes);
 		TClientes.start();
 		
-		frmMain.setStatus(true);
+		//frmMain.setStatus(true);
 	}
 	
 	public static void pararServidor() {
@@ -69,6 +79,6 @@ public class OpenLync {
 		
 		System.out.println("Servidor parado!");
 		
-		frmMain.setStatus(false);
+		//frmMain.setStatus(false);
 	}
 }

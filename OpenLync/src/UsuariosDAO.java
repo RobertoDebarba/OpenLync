@@ -82,13 +82,16 @@ public class UsuariosDAO {
 												" codigo_cargo,"+
 												" login_usuario,"+
 												" senha_usuario,"+
-												" ip_usuario)" +
+												" ip_usuario," +
+												" admin_usuario)"+
 						 " VALUES ("+usuario.getCodigo()+
 						 			", '"+usuario.getNome()+
 						 			"', (SELECT codigo_cargo FROM tb_cargos WHERE desc_cargo = '"+usuario.getCargo()+"')"+
 						 			", '"+cript.criptografarMensagem(usuario.getLogin())+
 						 			"' , '"+cript.criptografarMensagem(usuario.getSenha())+"',"+
-						 			" 'null');";
+						 			" 'null'"+
+						 			", "+usuario.isAdmin()+
+						 			");";
 				
 				st.execute(SQL);
 			} else {							//Se houver alguma foto
@@ -99,7 +102,8 @@ public class UsuariosDAO {
 												" login_usuario,"+
 												" senha_usuario,"+
 												" ip_usuario,"+
-												" foto_usuario)" +
+												" foto_usuario"+
+												" admin_usuario)"+
 						 " VALUES ("+usuario.getCodigo()+
 						 			", '"+usuario.getNome()+
 						 			"', (SELECT codigo_cargo FROM tb_cargos WHERE desc_cargo = '"+usuario.getCargo()+"')"+

@@ -1,4 +1,8 @@
 import java.awt.image.BufferedImage;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 
 public class Usuarios {
@@ -8,6 +12,7 @@ public class Usuarios {
 	private String cargo;
 	private String login;
 	private String senha;
+	private boolean admin;
 	private BufferedImage foto;
 	
 	public BufferedImage getFoto() {
@@ -15,6 +20,12 @@ public class Usuarios {
 	}
 	public void setFoto(BufferedImage foto) {
 		this.foto = foto;
+	}
+	public boolean isAdmin() {
+		return admin;
+	}
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
 	}
 	public int getCodigo() {
 		return codigo;
@@ -45,5 +56,34 @@ public class Usuarios {
 	}
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+	
+	public boolean verifLogin(String login, String senha) {
+		
+		Connection conexao = MySQLConection.getMySQLConnection();
+		Criptografia cript = new Criptografia();
+		
+		boolean result = false;
+		try {
+			Statement st = conexao.createStatement();
+			
+			String SQL = "SELECT 1 FROM tb_usuarios"+
+						 " WHERE login_usuario = '"+cript.criptografarMensagem(login)+
+						 		"' AND senha_usuario = '"+cript.criptografarMensagem(senha)+
+						 		"' AND admin_usuario = true;";
+			
+			ResultSet rs = st.executeQuery(SQL);
+			
+			if (rs.next()) {
+				result = true;
+			} else {
+				result = false;
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 }
