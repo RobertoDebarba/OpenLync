@@ -74,25 +74,38 @@ public class UsuariosDAO {
 		try {
 			java.sql.Statement st = conexao.createStatement();
 			
-			String SQL = "SELECT codigo_cargo FROM tb_cargos WHERE desc_cargo = '"+usuario.getCargo()+"';";
-			ResultSet rs = st.executeQuery(SQL);
-			rs.next();
-			int cargo = rs.getInt("codigo_cargo");
-			
+			String SQL;
 			if (usuario.getFoto() == null) {	//Se foto estiver vazia
 				
-				SQL = "INSERT INTO tb_usuarios (codigo_usuario, nome_usuario, codigo_cargo, login_usuario, senha_usuario, ip_usuario)" +
-						 " VALUES ("+usuario.getCodigo()+", '"+usuario.getNome()+"', "+cargo+","+
-						 " '"+cript.criptografarMensagem(usuario.getLogin())+"' , '"+cript.criptografarMensagem(usuario.getSenha())+"',"+
-						 " 'null');";
+				SQL = "INSERT INTO tb_usuarios (codigo_usuario,"+
+												" nome_usuario,"+
+												" codigo_cargo,"+
+												" login_usuario,"+
+												" senha_usuario,"+
+												" ip_usuario)" +
+						 " VALUES ("+usuario.getCodigo()+
+						 			", '"+usuario.getNome()+
+						 			"', (SELECT codigo_cargo FROM tb_cargos WHERE desc_cargo = '"+usuario.getCargo()+"')"+
+						 			", '"+cript.criptografarMensagem(usuario.getLogin())+
+						 			"' , '"+cript.criptografarMensagem(usuario.getSenha())+"',"+
+						 			" 'null');";
 				
 				st.execute(SQL);
 			} else {							//Se houver alguma foto
 				
-				SQL = "INSERT INTO tb_usuarios (codigo_usuario, nome_usuario, codigo_cargo, login_usuario, senha_usuario, ip_usuario, foto_usuario)" +
-						 " VALUES ("+usuario.getCodigo()+", '"+usuario.getNome()+"', "+cargo+","+
-						 " '"+cript.criptografarMensagem(usuario.getLogin())+"' , '"+cript.criptografarMensagem(usuario.getSenha())+"',"+
-						 " 'null', ?);";
+				SQL = "INSERT INTO tb_usuarios (codigo_usuario,"+
+												" nome_usuario,"+
+												" codigo_cargo,"+
+												" login_usuario,"+
+												" senha_usuario,"+
+												" ip_usuario,"+
+												" foto_usuario)" +
+						 " VALUES ("+usuario.getCodigo()+
+						 			", '"+usuario.getNome()+
+						 			"', (SELECT codigo_cargo FROM tb_cargos WHERE desc_cargo = '"+usuario.getCargo()+"')"+
+						 			", '"+cript.criptografarMensagem(usuario.getLogin())+
+						 			"' , '"+cript.criptografarMensagem(usuario.getSenha())+"',"+
+						 			" 'null', ?);";
 				
 				//Prepara imagem para INSERT ---------------------------------------------------------
 				java.sql.PreparedStatement pst = conexao.prepareStatement(SQL);
@@ -114,7 +127,6 @@ public class UsuariosDAO {
 				pst.close();
 			}
 			
-			rs.close();
 			st.close();
 				
 		} catch (SQLException e) {
@@ -127,27 +139,25 @@ public class UsuariosDAO {
 		try {
 			java.sql.Statement st = conexao.createStatement();
 			
-			String SQL = "SELECT codigo_cargo FROM tb_cargos WHERE desc_cargo = '"+usuario.getCargo()+"';";
-			ResultSet rs = st.executeQuery(SQL);
-			rs.next();
-			int cargo = rs.getInt("codigo_cargo");
-			
+			String SQL;
 			if (usuario.getFoto() == null) { 	//Se usuario nao possuir foto
-				SQL = "UPDATE tb_usuario SET" +
+				SQL = "UPDATE tb_usuarios SET" +
 							 " nome_usuario = '"+usuario.getNome()+
-							 "' cargo_usuario = "+cargo+
-							 " login_usuario = '"+cript.criptografarMensagem(usuario.getLogin())+
-							 "' senha_usuario = '"+cript.criptografarMensagem(cript.criptografarMensagem(usuario.getSenha()))+
-							 "' foto_usuario = null;";
+							 "', codigo_cargo = (SELECT codigo_cargo FROM tb_cargos WHERE desc_cargo = '"+usuario.getCargo()+"')"+
+							 ", login_usuario = '"+cript.criptografarMensagem(usuario.getLogin())+
+							 "', senha_usuario = '"+cript.criptografarMensagem(usuario.getSenha())+
+							 "', foto_usuario = null"+
+							 " WHERE codigo_usuario ="+ usuario.getCodigo() +";";
 				st.execute(SQL);
 			
 			} else {	//Se houver alguma foto
-				SQL = "UPDATE tb_usuario SET" +
-						 " nome_usuario = '"+usuario.getNome()+
-						 "' cargo_usuario = "+cargo+
-						 " login_usuario = '"+cript.criptografarMensagem(usuario.getLogin())+
-						 "' senha_usuario = '"+cript.criptografarMensagem(cript.criptografarMensagem(usuario.getSenha()))+
-						 "' foto_usuario = ?;";
+				SQL = "UPDATE tb_usuarios SET" +
+						 ", nome_usuario = '"+usuario.getNome()+
+						 "', codigo_cargo = (SELECT codigo_cargo FROM tb_cargos WHERE desc_cargo = '"+usuario.getCargo()+"')"+
+						 ", login_usuario = '"+cript.criptografarMensagem(usuario.getLogin())+
+						 "', senha_usuario = '"+cript.criptografarMensagem(usuario.getSenha())+
+						 "', foto_usuario = ?"+
+						 " WHERE codigo_usuario ="+ usuario.getCodigo() +";";
 				
 				//Prepara imagem para INSERT ---------------------------------------------------------
 				java.sql.PreparedStatement pst = conexao.prepareStatement(SQL);
@@ -170,7 +180,6 @@ public class UsuariosDAO {
 			}
 			
 			st.close();
-			rs.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
