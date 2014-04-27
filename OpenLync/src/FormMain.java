@@ -27,6 +27,9 @@ public class FormMain extends javax.swing.JFrame {
 	public FormMain() {
 		initComponents();
 		
+		setLocationRelativeTo(null);
+		setResizable(false);
+		
 		//abrirFrmInicial();
 		abrirFrmInicial();
 		abrirFrmLogin();

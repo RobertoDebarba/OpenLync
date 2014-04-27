@@ -22,6 +22,9 @@ public class FormCargos extends javax.swing.JFrame {
 	/** Creates new form FormCargos */
 	public FormCargos() {
 		initComponents();
+		
+		setLocationRelativeTo(null);
+		setResizable(false);
 
 		//Carregar informações iniciais
 		carregarListaCargos();

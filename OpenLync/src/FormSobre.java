@@ -13,6 +13,9 @@ public class FormSobre extends javax.swing.JFrame {
 	/** Creates new form FormSobre */
 	public FormSobre() {
 		initComponents();
+		
+		setLocationRelativeTo(null);
+		setResizable(false);
 
 		jLabel6.setForeground(new Color(250, 0, 0));
 	}

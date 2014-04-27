@@ -35,6 +35,9 @@ public class FormUsuario extends javax.swing.JFrame {
 	public FormUsuario() {
 
 		initComponents();
+		
+		setLocationRelativeTo(null);
+		setResizable(false);
 
 		//Carregar informações iniciais
 		carregarListaUsuario();
