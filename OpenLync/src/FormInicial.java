@@ -25,11 +25,11 @@ public class FormInicial extends javax.swing.JInternalFrame {
 
 	public static FormCargos frmCargos = new FormCargos();
 	public static FormUsuario frmUsuarios = new FormUsuario();
-	
+
 	/** Creates new form FormInicial */
 	public FormInicial() {
 		initComponents();
-		
+
 		editIP.setText(MySQLConection.getIpServidor());
 	}
 
@@ -182,6 +182,11 @@ public class FormInicial extends javax.swing.JInternalFrame {
 		jMenuBar1.add(menuBloaquear);
 
 		menuSobre.setText("Sobre");
+		menuSobre.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				menuSobreMouseClicked(evt);
+			}
+		});
 		jMenuBar1.add(menuSobre);
 
 		menuSair.setText("Sair");
@@ -227,20 +232,37 @@ public class FormInicial extends javax.swing.JInternalFrame {
 	}// </editor-fold>
 	//GEN-END:initComponents
 
+	private void menuSobreMouseClicked(java.awt.event.MouseEvent evt) {
+		FormSobre frmSobre = new FormSobre();
+		
+		// Seta tema
+		try {
+			UIManager.setLookAndFeel(UIManager
+					.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException
+				| IllegalAccessException | UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		}
+		SwingUtilities.updateComponentTreeUI(frmSobre);
+		
+		frmSobre.setVisible(true);
+	}
+
 	private void menuItemCargosActionPerformed(java.awt.event.ActionEvent evt) {
 		if (!editIP.getText().equals("")) {
 
 			MySQLConection.setIpServidor(editIP.getText());
-			
+
 			// Seta tema
 			try {
-		        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		    } catch (ClassNotFoundException | InstantiationException
-		            | IllegalAccessException | UnsupportedLookAndFeelException e) {
-		        e.printStackTrace();
-		    }
-		    SwingUtilities.updateComponentTreeUI(frmCargos);
-			
+				UIManager.setLookAndFeel(UIManager
+						.getSystemLookAndFeelClassName());
+			} catch (ClassNotFoundException | InstantiationException
+					| IllegalAccessException | UnsupportedLookAndFeelException e) {
+				e.printStackTrace();
+			}
+			SwingUtilities.updateComponentTreeUI(frmCargos);
+
 			frmCargos.setVisible(true);
 		} else {
 			JOptionPane.showMessageDialog(null,
@@ -297,16 +319,17 @@ public class FormInicial extends javax.swing.JInternalFrame {
 		if (!editIP.getText().equals("")) {
 
 			MySQLConection.setIpServidor(editIP.getText());
-			
+
 			// Seta tema
 			try {
-		        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		    } catch (ClassNotFoundException | InstantiationException
-		            | IllegalAccessException | UnsupportedLookAndFeelException e) {
-		        e.printStackTrace();
-		    }
-		    SwingUtilities.updateComponentTreeUI(frmUsuarios);
-			
+				UIManager.setLookAndFeel(UIManager
+						.getSystemLookAndFeelClassName());
+			} catch (ClassNotFoundException | InstantiationException
+					| IllegalAccessException | UnsupportedLookAndFeelException e) {
+				e.printStackTrace();
+			}
+			SwingUtilities.updateComponentTreeUI(frmUsuarios);
+
 			frmUsuarios.setVisible(true);
 		} else {
 			JOptionPane.showMessageDialog(null,
