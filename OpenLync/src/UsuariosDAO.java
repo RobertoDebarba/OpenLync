@@ -109,7 +109,10 @@ public class UsuariosDAO {
 						 			"', (SELECT codigo_cargo FROM tb_cargos WHERE desc_cargo = '"+usuario.getCargo()+"')"+
 						 			", '"+cript.criptografarMensagem(usuario.getLogin())+
 						 			"' , '"+cript.criptografarMensagem(usuario.getSenha())+"',"+
-						 			" 'null', ?);";
+						 			" 'null'"+
+						 			", ?"+
+						 			", "+usuario.isAdmin()+
+						 			");";
 				
 				//Prepara imagem para INSERT ---------------------------------------------------------
 				java.sql.PreparedStatement pst = conexao.prepareStatement(SQL);
@@ -151,6 +154,7 @@ public class UsuariosDAO {
 							 ", login_usuario = '"+cript.criptografarMensagem(usuario.getLogin())+
 							 "', senha_usuario = '"+cript.criptografarMensagem(usuario.getSenha())+
 							 "', foto_usuario = null"+
+							 ", admin_usuario = "+usuario.isAdmin()+
 							 " WHERE codigo_usuario ="+ usuario.getCodigo() +";";
 				st.execute(SQL);
 			
@@ -161,6 +165,7 @@ public class UsuariosDAO {
 						 ", login_usuario = '"+cript.criptografarMensagem(usuario.getLogin())+
 						 "', senha_usuario = '"+cript.criptografarMensagem(usuario.getSenha())+
 						 "', foto_usuario = ?"+
+						 ", admin_usuario = "+usuario.isAdmin()+
 						 " WHERE codigo_usuario ="+ usuario.getCodigo() +";";
 				
 				//Prepara imagem para INSERT ---------------------------------------------------------
