@@ -22,7 +22,7 @@ public class FormConfig extends JInternalFrame {
 		addInternalFrameListener(new InternalFrameAdapter() {
 			@Override
 			public void internalFrameActivated(InternalFrameEvent e) {
-				editIPdoServidor.setText(OpenLync_client.getIpServidor());
+				editIPdoServidor.setText(Configuracoes.getIpServidor());
 			}
 		});
 		setBounds(100, 100, 370, 570);
@@ -40,7 +40,7 @@ public class FormConfig extends JInternalFrame {
 		JButton BtnOK = new JButton("OK");
 		BtnOK.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {		// Seta IP do SERVIDOR
-				OpenLync_client.setIpServidor(editIPdoServidor.getText());
+				Configuracoes.setIpServidor(editIPdoServidor.getText());
 				FormMain.fecharFrmConfig();
 			}
 		});

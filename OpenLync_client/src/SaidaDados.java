@@ -25,8 +25,8 @@ public class SaidaDados implements Runnable {
 	private String ipDestino;
 	
 	public SaidaDados(String ipDestino) {
-		this.ipServidor = OpenLync_client.getIpServidor();
-		this.portaSaida = OpenLync_client.getPortaSaida();
+		this.ipServidor = Configuracoes.getIpServidor();
+		this.portaSaida = Configuracoes.getPortaSaida();
 		this.ipDestino = ipDestino;
 	}
 	

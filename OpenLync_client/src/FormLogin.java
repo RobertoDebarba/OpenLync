@@ -68,16 +68,16 @@ public class FormLogin extends JInternalFrame {
 				
 				if (!login.equals("") && !senha.equals("")) {
 					
-					if (OpenLync_client.verificarConexaoBanco()) {
+					if (MySQLConection.verificarConexaoBanco()) {
 						//Se o banco conectou já é seguro solicitar o IP local ao servidor
 						//Se o servidor não responder o sistema irá travar
-						if (OpenLync_client.verificarIPlocal()) {
+						if (Configuracoes.verificarIPlocal()) {
 						
 							try {
 								if (usuarioLogin.verificarLogin(login, senha)) {
 									OpenLync_client.iniciarEntrada();
 									usuarioLogin.carregarInformacoes(login);
-									usuarioLogin.setIpOnDB(usuarioLogin.getCodigo(), OpenLync_client.getIpLocal());
+									usuarioLogin.setIpOnDB(usuarioLogin.getCodigo(), Configuracoes.getIpLocal());
 									FormMain.fecharFrmLogin();
 									FormMain.abrirFrmInicial(usuarioLogin.getNome(), usuarioLogin.getCargo(), usuarioLogin.getFoto());
 								} else {

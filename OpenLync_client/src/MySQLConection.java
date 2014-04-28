@@ -8,19 +8,6 @@ import java.sql.SQLException;
  * http://alvinalexander.com/java/java-mysql-select-query-example
  */
 
-/*
-// da um select
-Statement st = dbConnection.createStatement();
-ResultSet rs = st.executeQuery("select * from usuarios;");
-
-while (rs.next()) {
-    int codigo = rs.getInt("codigo_usuario");
-    String nome = rs.getString("nome_usuario");
-    String usuario = rs.getString("login_usuario");
-    String senha = rs.getString("senha_usuario");
-    
-    System.out.println(codigo+" "+nome+" "+usuario+" "+senha);
-}*/
 public class MySQLConection {
 	
 	private static boolean status = false;
@@ -37,7 +24,7 @@ public class MySQLConection {
 			String driverName = "com.mysql.jdbc.Driver";                        
 			Class.forName(driverName);
 
-			String url = "jdbc:mysql://"+OpenLync_client.getIpServidor()+"/OpenLync";
+			String url = "jdbc:mysql://"+Configuracoes.getIpServidor()+"/OpenLync";
             connection = DriverManager.getConnection(url, "open@%", "123");
 
             // Testar Conexão
@@ -72,6 +59,19 @@ public class MySQLConection {
 		
 		fecharConexaoMySQL();
 		return getMySQLConnection();
+	}
+	
+	/*
+	 * Verifica conexão com Banco de Dados
+	 */
+	public static boolean verificarConexaoBanco() {
+		Connection conexao = MySQLConection.getMySQLConnection();
+		
+		if (conexao != null) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 }
