@@ -71,6 +71,9 @@ public class FormChat extends JFrame {
 		
 		linhas = linhas + "\n   " + mensagem + "\n";
 		textPane.setText(linhas);
+		
+		// Manda scroll para o final
+		textPane.setCaretPosition(textPane.getDocument().getLength());
 	}
 
 	public FormChat(final int codigo, String nome, String cargo, String ip, BufferedImage foto) {

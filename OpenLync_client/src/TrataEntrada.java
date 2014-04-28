@@ -61,7 +61,7 @@ public class TrataEntrada implements Runnable {
 				while (i < Contatos.getContadorChat()) {
 					
 					if (TratadorMensagens.getIpRemetente().equals(Contatos.listaChat[i].getIp())) {
-						Contatos.listaChat[i].adicionarMensagem(TratadorMensagens.getMensagemTratada(), "out");//FIXME
+						Contatos.listaChat[i].adicionarMensagem(TratadorMensagens.getMensagemTratada(), "out"); //Significa que mensegem não é do proprio usuario
 						encontrouChat = true;
 					}
 					i++;
