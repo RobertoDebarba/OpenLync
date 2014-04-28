@@ -80,23 +80,7 @@ public class Usuarios {
 	public void setIp(String ip) {
 		this.ip = ip;
 	}
-	
-	public void setStatusOnDB(int codigoUsuario, boolean status) throws SQLException {
-		java.sql.Connection conexao = MySQLConection.getMySQLConnection();
-		Statement st = conexao.createStatement();
 		
-		String SQL;
-		if (status == true) {
-			SQL = "UPDATE tb_usuarios SET ip_usuario = '000'" +
-						 " WHERE codigo_usuario = "+codigoUsuario+";";
-		} else {
-			SQL = "UPDATE tb_usuarios SET ip_usuario = 'null'" +
-					 	 " WHERE codigo_usuario = "+codigoUsuario+";";
-		}
-		
-		st.executeUpdate(SQL);
-	}
-	
 	public void setIpOnDB(int codigoUsuario, String ip) throws SQLException {
 		java.sql.Connection conexao = MySQLConection.getMySQLConnection();
 		Statement st = conexao.createStatement();

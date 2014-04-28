@@ -129,7 +129,7 @@ public class FormMain {
 				if ((usuarioLogin != null) && (MySQLConection.getStatusMySQL())) {
 					try {
 						//Seta status usuarioLogin para status_usuario = false
-						usuarioLogin.setStatusOnDB(usuarioLogin.getCodigo(), false);
+						usuarioLogin.setIpOnDB(usuarioLogin.getCodigo(), "null");
 						//Fecha conexão com banco
 						MySQLConection.fecharConexaoMySQL();
 					} catch (SQLException e1) {

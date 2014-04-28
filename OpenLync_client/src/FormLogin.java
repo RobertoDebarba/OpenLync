@@ -15,6 +15,7 @@ import java.awt.HeadlessException;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JPasswordField;
+import java.awt.Font;
 
 
 public class FormLogin extends JInternalFrame {
@@ -42,52 +43,52 @@ public class FormLogin extends JInternalFrame {
 		setBounds(100, 100, 370, 570);
 		
 		JLabel lblUsurio = new JLabel("Usuário:");
-		lblUsurio.setBounds(76, 114, 60, 25);
+		lblUsurio.setBounds(80, 193, 60, 25);
 		
 		JLabel lblSenha = new JLabel("Senha:");
-		lblSenha.setBounds(76, 151, 50, 23);
+		lblSenha.setBounds(80, 230, 50, 23);
 		
 		editUsuario = new JTextField();
-		editUsuario.setBounds(154, 112, 140, 25);
+		editUsuario.setBounds(158, 191, 140, 25);
 		editUsuario.setColumns(10);
 		
 		editSenha = new JPasswordField();
-		editSenha.setBounds(154, 149, 140, 25);
+		editSenha.setBounds(158, 228, 140, 25);
 		editSenha.setColumns(10);
 		getContentPane().add(editSenha);
 		
 		JButton btnEntrar = new JButton("Entrar");
-		btnEntrar.setBounds(76, 208, 100, 45);
+		btnEntrar.setBounds(80, 287, 100, 45);
 		btnEntrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				usuarioLogin = new Usuarios();
-				usuarioLogin.setLogin(editUsuario.getText());
-				usuarioLogin.setSenha(new String(editSenha.getPassword()));
+				String login = editUsuario.getText();
+				String senha = (new String(editSenha.getPassword()));
 				
-				if (!usuarioLogin.getLogin().equals("") && !usuarioLogin.getSenha().equals("")) {
+				if (!login.equals("") && !senha.equals("")) {
 					
-					String login = usuarioLogin.getLogin();
-					String senha = usuarioLogin.getSenha();
 					if (OpenLync_client.verificarConexaoBanco()) {
 						//Se o banco conectou já é seguro solicitar o IP local ao servidor
 						//Se o servidor não responder o sistema irá travar
-						OpenLync_client.verificarIPlocal();
+						if (OpenLync_client.verificarIPlocal()) {
 						
-						try {
-							if (usuarioLogin.verificarLogin(login, senha)) {
-								OpenLync_client.iniciarEntrada();
-								usuarioLogin.carregarInformacoes(login);
-								usuarioLogin.setStatusOnDB(usuarioLogin.getCodigo(), true);
-								usuarioLogin.setIpOnDB(usuarioLogin.getCodigo(), OpenLync_client.getIpLocal());
-								FormMain.fecharFrmLogin();
-								FormMain.abrirFrmInicial(usuarioLogin.getNome(), usuarioLogin.getCargo(), usuarioLogin.getFoto());
-							} else {
-								JOptionPane.showMessageDialog(null, "Usuário ou senha incorretos! / Usuário já logado!", "Login Inválido", 1);
+							try {
+								if (usuarioLogin.verificarLogin(login, senha)) {
+									OpenLync_client.iniciarEntrada();
+									usuarioLogin.carregarInformacoes(login);
+									usuarioLogin.setIpOnDB(usuarioLogin.getCodigo(), OpenLync_client.getIpLocal());
+									FormMain.fecharFrmLogin();
+									FormMain.abrirFrmInicial(usuarioLogin.getNome(), usuarioLogin.getCargo(), usuarioLogin.getFoto());
+								} else {
+									JOptionPane.showMessageDialog(null, "Usuário ou senha incorretos! / Usuário já logado!", "Login Inválido", 1);
+								}
+								
+							} catch (HeadlessException | SQLException e) {
+								e.printStackTrace();
 							}
-							
-						} catch (HeadlessException | SQLException e) {
-							e.printStackTrace();
+						} else {
+							JOptionPane.showMessageDialog(null, "Erro ao conecar ao Servidor de Mensagens", "Erro de conexão", 1);
 						}
 						
 					} else {
@@ -100,7 +101,7 @@ public class FormLogin extends JInternalFrame {
 		});
 		
 		JButton btnSair = new JButton("Sair");
-		btnSair.setBounds(194, 208, 100, 45);
+		btnSair.setBounds(198, 287, 100, 45);
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				System.exit(1);
@@ -124,6 +125,11 @@ public class FormLogin extends JInternalFrame {
 		ImgGear.setIcon(new ImageIcon(FormLogin.class.getResource("/Imagens/gear_icon.png")));
 		ImgGear.setBounds(333, 0, 25, 23);
 		getContentPane().add(ImgGear);
+		
+		JLabel lblOpenlync = new JLabel("OpenLync");
+		lblOpenlync.setFont(new Font("Ubuntu", Font.BOLD, 30));
+		lblOpenlync.setBounds(113, 106, 153, 45);
+		getContentPane().add(lblOpenlync);
 		
 	}	
 }
