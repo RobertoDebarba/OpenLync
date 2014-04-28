@@ -7,7 +7,8 @@ import java.net.ServerSocket;
 
 
 public class OpenLync {
-	
+
+	public static FormMain frmMain = new FormMain();
 	private static int portaEntrada;
 	private static int portaSaida;
 	
@@ -31,7 +32,6 @@ public class OpenLync {
 		portaSaida = 7606;
 		
 		//Cria Form
-		FormMain frmMain = new FormMain();
 		frmMain.setVisible(true);
 		
 	}
@@ -41,9 +41,9 @@ public class OpenLync {
 		servidor = null;
 		try {
 			servidor = new ServerSocket(portaEntrada);
-			FormMain.frmInicial.adicionarLog("Servidor iniciado na porta "+ portaEntrada +"!");
+			OpenLync.frmMain.frmInicial.adicionarLog("Servidor iniciado na porta "+ portaEntrada +"!");
 		} catch(IOException e) {
-			FormMain.frmInicial.adicionarLog("Erro ao criar servidor na porta "+ portaEntrada);
+			OpenLync.frmMain.frmInicial.adicionarLog("Erro ao criar servidor na porta "+ portaEntrada);
 		}
 		
 		// Cria Thread para verificar entrada de novos clientes	     
@@ -62,7 +62,7 @@ public class OpenLync {
 		
 		TClientes.interrupt();
 		
-		FormMain.frmInicial.adicionarLog("Servidor parado!");
+		OpenLync.frmMain.frmInicial.adicionarLog("Servidor parado!");
 
 	}
 }

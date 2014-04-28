@@ -51,11 +51,11 @@ public class FormLogin extends javax.swing.JInternalFrame {
 
 		jLabel3.setText("Login:");
 		jPanel1.add(jLabel3);
-		jLabel3.setBounds(150, 245, 44, 15);
+		jLabel3.setBounds(150, 245, 42, 18);
 
 		jLabel4.setText("Senha:");
 		jPanel1.add(jLabel4);
-		jLabel4.setBounds(150, 275, 50, 15);
+		jLabel4.setBounds(150, 275, 47, 18);
 
 		editLogin.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -98,11 +98,11 @@ public class FormLogin extends javax.swing.JInternalFrame {
 		getContentPane().setLayout(layout);
 		layout.setHorizontalGroup(layout.createParallelGroup(
 				javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-				jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 506,
+				jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 509,
 				Short.MAX_VALUE));
 		layout.setVerticalGroup(layout.createParallelGroup(
 				javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-				jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 481,
+				jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 514,
 				Short.MAX_VALUE));
 
 		pack();
@@ -110,7 +110,8 @@ public class FormLogin extends javax.swing.JInternalFrame {
 	//GEN-END:initComponents
 
 	private void labelConfigMouseClicked(java.awt.event.MouseEvent evt) { //Botão Config
-		MySQLConection.setIpServidor(JOptionPane.showInputDialog(null, "IP do Servidor", "Configurações", 1));
+		MySQLConection.setIpServidor(JOptionPane.showInputDialog(null,
+				"IP do Servidor", "Configurações", 1));
 	}
 
 	private void editSenhaKeyPressed(java.awt.event.KeyEvent evt) {
@@ -118,7 +119,10 @@ public class FormLogin extends javax.swing.JInternalFrame {
 			Usuarios usuario = new Usuarios();
 			if (usuario.verifLogin(editLogin.getText(),
 					new String(editSenha.getPassword()))) {
-				FormMain.frmLogin.setVisible(false);
+				OpenLync.frmMain.frmLogin.setVisible(false);
+				if (OpenLync.frmMain.frmInicial == null) {
+					OpenLync.frmMain.abrirFrmInicial();
+				}
 				editLogin.setText("");
 				editSenha.setText("");
 			} else {
@@ -133,7 +137,10 @@ public class FormLogin extends javax.swing.JInternalFrame {
 			Usuarios usuario = new Usuarios();
 			if (usuario.verifLogin(editLogin.getText(),
 					new String(editSenha.getPassword()))) {
-				FormMain.frmLogin.setVisible(false);
+				OpenLync.frmMain.frmLogin.setVisible(false);
+				if (OpenLync.frmMain.frmInicial == null) {
+					OpenLync.frmMain.abrirFrmInicial();
+				}
 				editLogin.setText("");
 				editSenha.setText("");
 			} else {

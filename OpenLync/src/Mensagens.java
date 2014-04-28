@@ -57,7 +57,7 @@ public class Mensagens {
 			//Criptografa e envia mensagem
 			PSdestino.println(cript.criptografarMensagem(mensagem));
 		} catch (IOException e) {
-			FormMain.frmInicial.adicionarLog("Não foi possivel estabelecer conexão com destinatario!");
+			OpenLync.frmMain.frmInicial.adicionarLog("Não foi possivel estabelecer conexão com destinatario!");
 		}
 		
 		// É necessario fechar os objetos para não dar conflito quando chamar o metodo na segunda vez

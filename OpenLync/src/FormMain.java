@@ -3,21 +3,11 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
-/*
- * FormMain.java
- *
- * Created on __DATE__, __TIME__
- */
-
-/**
- *
- * @author  __USER__
- */
 public class FormMain extends javax.swing.JFrame {
 
-	public static FormInicial frmInicial = new FormInicial();
-	public static FormLogin frmLogin = new FormLogin();
-	
+	public FormInicial frmInicial;
+	public FormLogin frmLogin;
+
 	/**
 	 * 
 	 */
@@ -26,58 +16,61 @@ public class FormMain extends javax.swing.JFrame {
 	/** Creates new form FormMain */
 	public FormMain() {
 		initComponents();
-		
+
 		setLocationRelativeTo(null);
 		setResizable(false);
-		
+
 		//abrirFrmInicial();
-		abrirFrmInicial();
 		abrirFrmLogin();
 	}
-	
-	private void abrirFrmInicial() {
-		
+
+	public void abrirFrmInicial() {
+
+		frmInicial = new FormInicial();
+
 		// Seta tema
 		try {
-	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-	    } catch (ClassNotFoundException | InstantiationException
-	            | IllegalAccessException | UnsupportedLookAndFeelException e) {
-	        e.printStackTrace();
-	    }
-	    SwingUtilities.updateComponentTreeUI(frmInicial);
-	    
-	    // Retira bordas
- 		((BasicInternalFrameUI)frmInicial.getUI()).setNorthPane(null); //retirar o painel superior  
- 		((BasicInternalFrameUI)frmInicial.getUI()).setSouthPane(null); //retirar o painel inferior
-  		frmInicial.setBorder(null);//retirar bordas  
-		
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException
+				| IllegalAccessException | UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		}
+		SwingUtilities.updateComponentTreeUI(frmInicial);
+
+		// Retira bordas
+		((BasicInternalFrameUI) frmInicial.getUI()).setNorthPane(null); //retirar o painel superior  
+		((BasicInternalFrameUI) frmInicial.getUI()).setSouthPane(null); //retirar o painel inferior
+		frmInicial.setBorder(null);//retirar bordas  
+
 		// Seta centro
 		frmInicial.setLocation(0, 0);
-		
+
 		// Mostra
 		desktopPane.add(frmInicial);
 		frmInicial.setVisible(true);
 	}
-	
+
 	private void abrirFrmLogin() {
-		
+
+		frmLogin = new FormLogin();
+
 		// Seta tema
 		try {
-	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-	    } catch (ClassNotFoundException | InstantiationException
-	            | IllegalAccessException | UnsupportedLookAndFeelException e) {
-	        e.printStackTrace();
-	    }
-	    SwingUtilities.updateComponentTreeUI(frmLogin);
-	    
-	    // Retira bordas
- 		((BasicInternalFrameUI)frmLogin.getUI()).setNorthPane(null); //retirar o painel superior  
- 		((BasicInternalFrameUI)frmLogin.getUI()).setSouthPane(null); //retirar o painel inferior
-  		frmLogin.setBorder(null);//retirar bordas  
-		
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException
+				| IllegalAccessException | UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		}
+		SwingUtilities.updateComponentTreeUI(frmLogin);
+
+		// Retira bordas
+		((BasicInternalFrameUI) frmLogin.getUI()).setNorthPane(null); //retirar o painel superior  
+		((BasicInternalFrameUI) frmLogin.getUI()).setSouthPane(null); //retirar o painel inferior
+		frmLogin.setBorder(null);//retirar bordas  
+
 		// Seta centro
 		frmLogin.setLocation(0, 0);
-		
+
 		// Mostra
 		desktopPane.add(frmLogin);
 		frmLogin.setVisible(true);
@@ -97,11 +90,11 @@ public class FormMain extends javax.swing.JFrame {
 		getContentPane().setLayout(layout);
 		layout.setHorizontalGroup(layout.createParallelGroup(
 				javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-				desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 510,
+				desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 513,
 				Short.MAX_VALUE));
 		layout.setVerticalGroup(layout.createParallelGroup(
 				javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-				desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 500,
+				desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 542,
 				Short.MAX_VALUE));
 
 		pack();

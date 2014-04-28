@@ -289,8 +289,10 @@ public class FormInicial extends javax.swing.JInternalFrame {
 
 			if (conexao == null) {
 				checkDB.setSelected(false);
+				adicionarLog("Status do Banco de Dados: OFFLINE!");
 			} else {
 				checkDB.setSelected(true);
+				adicionarLog("Status do Banco de Dados: ONLINE!");
 			}
 
 			MySQLConection.fecharConexaoMySQL();
@@ -342,7 +344,7 @@ public class FormInicial extends javax.swing.JInternalFrame {
 	}
 
 	private void menuBloaquearMouseClicked(java.awt.event.MouseEvent evt) {
-		FormMain.frmLogin.setVisible(true);
+		OpenLync.frmMain.frmLogin.setVisible(true);
 	}
 
 	private void menuSairMouseClicked(java.awt.event.MouseEvent evt) {

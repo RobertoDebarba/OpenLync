@@ -27,7 +27,7 @@ public class TrataCliente implements Runnable {
    }
    
    public void encerrarThread() {
-	   	FormMain.frmInicial.adicionarLog("Encerrada a Thread "+ Thread.currentThread().getId());
+	   OpenLync.frmMain.frmInicial.adicionarLog("Encerrada a Thread "+ Thread.currentThread().getId());
 		Thread.currentThread().interrupt();
    }
  
@@ -42,14 +42,14 @@ public class TrataCliente implements Runnable {
     */
    public void run() {
 
-	   	FormMain.frmInicial.adicionarLog("Criada a Thread "+ Thread.currentThread().getId());
+	   OpenLync.frmMain.frmInicial.adicionarLog("Criada a Thread "+ Thread.currentThread().getId());
 	   
 		Scanner scannerCliente = null;
 		try {
 			scannerCliente = new Scanner(this.Scliente.getInputStream());
 		} catch (IOException e) {
 			e.printStackTrace();
-			FormMain.frmInicial.adicionarLog("Erro ao criar Scanner do cliente!");
+			OpenLync.frmMain.frmInicial.adicionarLog("Erro ao criar Scanner do cliente!");
 		}
 		
 		Criptografia cript = new Criptografia();
@@ -92,7 +92,7 @@ public class TrataCliente implements Runnable {
 			TratadorMensagens.enviarMensagem(msg, this.portaSaida);
 			
 			// Mostra a mensagem enviada ao destinatario com o ip do remetente
-			FormMain.frmInicial.adicionarLog(msg);
+			OpenLync.frmMain.frmInicial.adicionarLog(msg);
 			
 	   	} else if (TratadorMensagens.getMensagemTratada().equals("KILL CLIENT")) {
 	   		
@@ -141,6 +141,6 @@ public class TrataCliente implements Runnable {
 	   TratadorMensagens.enviarMensagem(msg, this.portaSaida);
 		
 	   // Mostra a mensagem enviada ao destinatario com o ip do remetente
-	   FormMain.frmInicial.adicionarLog(msg);
+	   OpenLync.frmMain.frmInicial.adicionarLog(msg);
    }
 }

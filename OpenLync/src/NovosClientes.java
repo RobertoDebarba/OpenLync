@@ -28,7 +28,7 @@ public class NovosClientes implements Runnable {
 				cliente = this.servidor.accept();
 			} catch (IOException e) {
 			}
-			FormMain.frmInicial.adicionarLog("Nova conexão com o cliente " + cliente.getInetAddress().getHostAddress());
+			OpenLync.frmMain.frmInicial.adicionarLog("Nova conexão com o cliente " + cliente.getInetAddress().getHostAddress());
 			   
 			// Cada novo cliente recebe uma Thread onde é tratado
 			TrataCliente tc = new TrataCliente(cliente, portaSaida);

@@ -3,6 +3,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import javax.swing.JOptionPane;
+
 /*
  * http://www.devmedia.com.br/criando-uma-conexao-java-mysql-server/16753	
  * http://alvinalexander.com/java/java-mysql-select-query-example
@@ -47,10 +49,10 @@ public class MySQLConection {
             return connection;
             
 		} catch (ClassNotFoundException e) { 
-            System.out.println("O driver expecificado nao foi encontrado.");
+            JOptionPane.showMessageDialog(null, "O driver expecificado nao foi encontrado.", "Erro de conexão com Banco de Dados", 1);
             return null;
         } catch (SQLException e) {
-        	System.out.println("Nao foi possivel conectar ao Banco de Dados.");
+        	JOptionPane.showMessageDialog(null, "Nao foi possivel conectar ao Banco de Dados.", "Erro de conexão com Banco de Dados", 1);
         	return null;
         }
 	}
