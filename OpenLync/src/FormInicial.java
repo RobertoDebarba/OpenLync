@@ -30,6 +30,10 @@ public class FormInicial extends javax.swing.JInternalFrame {
 		} else {
 			textPane.setText(textPane.getText() + "\n" + mensagem);
 		}
+		
+		textPane.repaint();
+		// Manda scroll para o final
+		textPane.setCaretPosition(textPane.getDocument().getLength());
 	}
 
 	//GEN-BEGIN:initComponents
