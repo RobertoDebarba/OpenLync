@@ -31,7 +31,7 @@ public class FormMain {
 	}
 
 	public FormMain() {
-		initialize();
+		initialize();	
 	}
 
 	public static void abrirFrmLogin() {
@@ -145,5 +145,6 @@ public class FormMain {
 		jdpMain = new JDesktopPane();
 		MainFrame.getContentPane().add(jdpMain, BorderLayout.CENTER);
 		
+		MainFrame.setResizable(false);
 	}
 }

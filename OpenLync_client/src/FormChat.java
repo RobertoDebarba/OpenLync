@@ -33,8 +33,6 @@ import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class FormChat extends JFrame {
 
@@ -157,17 +155,6 @@ public class FormChat extends JFrame {
 		scrollPane = new JScrollPane(textPane);
 		scrollPane.setBounds(8, 70, 348, 248);
 		contentPane.add(scrollPane);
-		
-		JLabel labelAnexo = new JLabel("");
-		labelAnexo.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {		// Botão anexo
-				conexaoSaida.enviarArquivo();
-			}
-		});
-		labelAnexo.setIcon(new ImageIcon(FormChat.class.getResource("/Imagens/anexo_icon.png")));
-		labelAnexo.setBounds(326, 43, 37, 28);
-		contentPane.add(labelAnexo);
 	
 		//Timer para verificar se contato continua online
 		final Timer t = new Timer();
@@ -203,6 +190,7 @@ public class FormChat extends JFrame {
 			}
 		});
 		
+		setResizable(false);
 	}
 	
 	/*
