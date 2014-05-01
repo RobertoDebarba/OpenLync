@@ -1,13 +1,17 @@
 
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+
 import java.awt.Font;
 import java.sql.SQLException;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import javax.swing.ImageIcon;
+
 import java.awt.image.BufferedImage;
 import java.awt.Color;
+
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 
@@ -46,7 +50,7 @@ public class FormIncial extends JInternalFrame {
 		getContentPane().add(labelFoto);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(17, 81, 324, 420);
+		scrollPane.setBounds(17, 81, 324, 455);
 		getContentPane().add(scrollPane);
 		
 		jdpUsuarios = new MDIDesktopPane();
