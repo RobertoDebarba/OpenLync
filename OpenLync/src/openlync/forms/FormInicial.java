@@ -1,4 +1,5 @@
 package openlync.forms;
+
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -6,6 +7,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 import openlync.principal.OpenLync;
+import openlync.principal.UsuariosDAO;
 import openlync.utilidades.MySQLConection;
 
 public class FormInicial extends javax.swing.JInternalFrame {
@@ -97,7 +99,7 @@ public class FormInicial extends javax.swing.JInternalFrame {
 		}
 	}
 
-	// GEN-BEGIN:initComponents
+	//GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc="Generated Code">
 	private void initComponents() {
 
@@ -116,6 +118,7 @@ public class FormInicial extends javax.swing.JInternalFrame {
 		menuServidor = new javax.swing.JMenu();
 		menuItemONOFF = new javax.swing.JMenuItem();
 		menuItemVerifDB = new javax.swing.JMenuItem();
+		menuItemRestaurarIp = new javax.swing.JMenuItem();
 		menuGerencia = new javax.swing.JMenu();
 		menuItemUsuarios = new javax.swing.JMenuItem();
 		menuItemCargos = new javax.swing.JMenuItem();
@@ -124,11 +127,8 @@ public class FormInicial extends javax.swing.JInternalFrame {
 		menuSair = new javax.swing.JMenu();
 
 		jPanel1.setLayout(null);
-
-		jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource(
-				"/openlync/imagens/OpenLync_logo_menor.png"))); // NOI18N
 		jPanel1.add(jLabel1);
-		jLabel1.setBounds(10, 10, 80, 80);
+		jLabel1.setBounds(10, 10, 80, 0);
 
 		jLabel2.setFont(new java.awt.Font("Ubuntu", 1, 18));
 		jLabel2.setText("OpenLync");
@@ -209,6 +209,16 @@ public class FormInicial extends javax.swing.JInternalFrame {
 			}
 		});
 		menuServidor.add(menuItemVerifDB);
+
+		menuItemRestaurarIp.setText("Restaurar Status dos Usu\u00e1rios");
+		menuItemRestaurarIp
+				.addActionListener(new java.awt.event.ActionListener() {
+					public void actionPerformed(java.awt.event.ActionEvent evt) {
+						menuItemRestaurarIpActionPerformed(evt);
+					}
+				});
+
+		menuServidor.add(menuItemRestaurarIp);
 
 		jMenuBar1.add(menuServidor);
 
@@ -294,7 +304,17 @@ public class FormInicial extends javax.swing.JInternalFrame {
 
 		pack();
 	}// </editor-fold>
-		// GEN-END:initComponents
+	//GEN-END:initComponents
+
+	private void menuItemRestaurarIpActionPerformed(
+			java.awt.event.ActionEvent evt) {
+		if (JOptionPane.showConfirmDialog(null,
+				"Restaurar o Status de todos os Usuários para Offline?",
+				"Confirmação", 0, 2) == 0) {
+			UsuariosDAO dao = new UsuariosDAO(false);
+			dao.restaurarStatusUsuarios();
+		}
+	}
 
 	private void menuSobreMouseClicked(java.awt.event.MouseEvent evt) {
 		FormSobre frmSobre = new FormSobre();
@@ -402,10 +422,10 @@ public class FormInicial extends javax.swing.JInternalFrame {
 	private void menuSairActionPerformed(java.awt.event.ActionEvent evt) {
 	}
 
-	// GEN-BEGIN:variables
+	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
 	private javax.swing.JCheckBox checkDB;
-	public javax.swing.JCheckBox checkServ;
+	private javax.swing.JCheckBox checkServ;
 	private javax.swing.JTextField editIP;
 	private javax.swing.JLabel jLabel1;
 	private javax.swing.JLabel jLabel2;
@@ -419,6 +439,7 @@ public class FormInicial extends javax.swing.JInternalFrame {
 	private javax.swing.JMenu menuGerencia;
 	private javax.swing.JMenuItem menuItemCargos;
 	private javax.swing.JMenuItem menuItemONOFF;
+	private javax.swing.JMenuItem menuItemRestaurarIp;
 	private javax.swing.JMenuItem menuItemUsuarios;
 	private javax.swing.JMenuItem menuItemVerifDB;
 	private javax.swing.JMenu menuSair;

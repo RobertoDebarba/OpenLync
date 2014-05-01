@@ -70,6 +70,23 @@ public class UsuariosDAO {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Restaura o IP(status) de todos os usuarios para 'null'(offline)
+	 */
+	public void restaurarStatusUsuarios() {
+		
+		try {
+			String SQL = "UPDATE tb_usuarios "
+						+ "SET ip_usuario = 'null' "
+						+ "WHERE codigo_usuario > 0";
+			
+			Statement st = MySQLConection.getStatementMySQL();
+			st.execute(SQL);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * Verificar se nome de usuario(login) ja está cadastrado
