@@ -46,7 +46,7 @@ public class FormIncial extends JInternalFrame {
 		getContentPane().add(labelFoto);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(17, 81, 322, 420);
+		scrollPane.setBounds(17, 81, 324, 420);
 		getContentPane().add(scrollPane);
 		
 		jdpUsuarios = new MDIDesktopPane();
@@ -54,11 +54,6 @@ public class FormIncial extends JInternalFrame {
 		jdpUsuarios.setBackground(UIManager.getColor("Button.background"));
 		scrollPane.setViewportView(jdpUsuarios);
 		
-//		jdpUsuarios = new JDesktopPane();
-//		jdpUsuarios.setBorder(null);
-//		jdpUsuarios.setBackground(UIManager.getColor("Button.background"));
-//		scrollPane.setViewportView(jdpUsuarios);
-
 		//Timer para atualizar lista de contatos online
 		Timer t = new Timer();
 		t.schedule(new TimerTask() {

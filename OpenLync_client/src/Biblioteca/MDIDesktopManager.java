@@ -10,6 +10,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 
 /**
+ * http://www.java2s.com/Code/Java/Swing-JFC/DynamicmenuitemforMDIchildrenwindowandscrollbar.htm
+ */
+
+/**
  * Private class used to replace the standard DesktopManager for JDesktopPane.
  * Used to provide scrollbar functionality.
  */

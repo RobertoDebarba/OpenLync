@@ -2,11 +2,14 @@ package Biblioteca;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Point;
 import java.beans.PropertyVetoException;
 
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
+
+/**
+ * http://www.java2s.com/Code/Java/Swing-JFC/DynamicmenuitemforMDIchildrenwindowandscrollbar.htm
+ */
 
 /**
  * An extension of WDesktopPane that supports often used MDI functionality. This
@@ -32,22 +35,26 @@ public class MDIDesktopPane extends JDesktopPane {
 	    checkDesktopSize();
 	}
 	
+	/*
+	 * As linhas removidas do metodo original definiam
+	 * a posição do novo frame conforme aprensentado no site
+	 */
 	public Component add(JInternalFrame frame) {
-	    JInternalFrame[] array = getAllFrames();
-	    Point p;
+//	    JInternalFrame[] array = getAllFrames();
+//	    Point p;
 	    int w;
 	    int h;
 	
 	    Component retval = super.add(frame);
 	    checkDesktopSize();
-	    if (array.length > 0) {
-		    p = array[0].getLocation();
-		    p.x = p.x + FRAME_OFFSET;
-		    p.y = p.y + FRAME_OFFSET;
-	    } else {
-	    	p = new Point(0, 0);
-	    }
-	    frame.setLocation(p.x, p.y);
+//	    if (array.length > 0) {
+//		    p = array[0].getLocation();
+//		    p.x = p.x + FRAME_OFFSET;
+//		    p.y = p.y + FRAME_OFFSET;
+//	    } else {
+//	    	p = new Point(0, 0);
+//	    }
+//	    frame.setLocation(p.x, p.y);
 	    if (frame.isResizable()) {
 	    	w = getWidth() - (getWidth() / 3);
 	    	h = getHeight() - (getHeight() / 3);
