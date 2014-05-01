@@ -1,6 +1,5 @@
 
 import javax.swing.JInternalFrame;
-import javax.swing.JDesktopPane;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.sql.SQLException;
@@ -9,14 +8,18 @@ import java.util.TimerTask;
 import javax.swing.ImageIcon;
 import java.awt.image.BufferedImage;
 import java.awt.Color;
+import javax.swing.JScrollPane;
+import javax.swing.UIManager;
+
+import Biblioteca.MDIDesktopPane;
 
 public class FormIncial extends JInternalFrame {
 
 	private static final long serialVersionUID = 1L;
-	public static JDesktopPane jdpUsuarios;
 	
 	private static JLabel labelNome;
 	private static JLabel labelCargo;
+	public static MDIDesktopPane jdpUsuarios;
 	private JLabel labelFoto;
 	
 	public FormIncial(String nome, String cargo, BufferedImage foto) {
@@ -24,13 +27,7 @@ public class FormIncial extends JInternalFrame {
 		
 		setBorder(null);
 		setBounds(100, 100, 370, 570);
-		
-		jdpUsuarios = new JDesktopPane();
-		jdpUsuarios.setBackground(new Color(238, 238, 238));
-		jdpUsuarios.setBounds(22, 85, 321, 438);
-		jdpUsuarios.setBorder(null);
 		getContentPane().setLayout(null);
-		getContentPane().add(jdpUsuarios);
 		
 		labelNome = new JLabel(nome);
 		labelNome.setFont(new Font("Dialog", Font.BOLD, 17));
@@ -47,6 +44,20 @@ public class FormIncial extends JInternalFrame {
 		labelFoto.setIcon(new ImageIcon(foto));
 		labelFoto.setBounds(22, 12, 57, 57);
 		getContentPane().add(labelFoto);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(17, 81, 322, 420);
+		getContentPane().add(scrollPane);
+		
+		jdpUsuarios = new MDIDesktopPane();
+		jdpUsuarios.setBorder(null);
+		jdpUsuarios.setBackground(UIManager.getColor("Button.background"));
+		scrollPane.setViewportView(jdpUsuarios);
+		
+//		jdpUsuarios = new JDesktopPane();
+//		jdpUsuarios.setBorder(null);
+//		jdpUsuarios.setBackground(UIManager.getColor("Button.background"));
+//		scrollPane.setViewportView(jdpUsuarios);
 
 		//Timer para atualizar lista de contatos online
 		Timer t = new Timer();
@@ -60,6 +71,5 @@ public class FormIncial extends JInternalFrame {
 				}
             }
         }, 1000, 7000);
-
 	}
 }
