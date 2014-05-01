@@ -35,6 +35,33 @@ public class FormInicial extends javax.swing.JInternalFrame {
 		// Manda scroll para o final
 		textPane.setCaretPosition(textPane.getDocument().getLength());
 	}
+	
+	public void verificarStatusDB() {
+		if (!editIP.getText().equals("")) {
+
+			MySQLConection.setIpServidor(editIP.getText());
+			Connection conexao = MySQLConection.getMySQLConnection();
+
+			if (conexao == null) {
+				checkDB.setSelected(false);
+				adicionarLog("Status do Banco de Dados: OFFLINE!");
+			} else {
+				checkDB.setSelected(true);
+				adicionarLog("Status do Banco de Dados: ONLINE!");
+			}
+
+			MySQLConection.fecharConexaoMySQL();
+			try {
+				conexao.close();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		} else {
+			JOptionPane.showMessageDialog(null,
+					"O campo 'IP' deve estar preenchido corretamente!",
+					"Aviso", 1);
+		}
+	}
 
 	//GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc="Generated Code">
@@ -285,31 +312,7 @@ public class FormInicial extends javax.swing.JInternalFrame {
 	}
 
 	private void menuItemVerifDBActionPerformed(java.awt.event.ActionEvent evt) {
-
-		if (!editIP.getText().equals("")) {
-
-			MySQLConection.setIpServidor(editIP.getText());
-			Connection conexao = MySQLConection.getMySQLConnection();
-
-			if (conexao == null) {
-				checkDB.setSelected(false);
-				adicionarLog("Status do Banco de Dados: OFFLINE!");
-			} else {
-				checkDB.setSelected(true);
-				adicionarLog("Status do Banco de Dados: ONLINE!");
-			}
-
-			MySQLConection.fecharConexaoMySQL();
-			try {
-				conexao.close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-		} else {
-			JOptionPane.showMessageDialog(null,
-					"O campo 'IP' deve estar preenchido corretamente!",
-					"Aviso", 1);
-		}
+		verificarStatusDB();		
 	}
 
 	private void menuServidorActionPerformed(java.awt.event.ActionEvent evt) {
@@ -361,7 +364,7 @@ public class FormInicial extends javax.swing.JInternalFrame {
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
 	private javax.swing.JCheckBox checkDB;
-	private javax.swing.JCheckBox checkServ;
+	public javax.swing.JCheckBox checkServ;
 	private javax.swing.JTextField editIP;
 	private javax.swing.JLabel jLabel1;
 	private javax.swing.JLabel jLabel2;

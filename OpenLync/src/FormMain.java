@@ -48,6 +48,10 @@ public class FormMain extends javax.swing.JFrame {
 		// Mostra
 		desktopPane.add(frmInicial);
 		frmInicial.setVisible(true);
+		
+		frmInicial.verificarStatusDB();
+		OpenLync.iniciarServidor();
+		frmInicial.checkServ.setSelected(true);
 	}
 
 	private void abrirFrmLogin() {
