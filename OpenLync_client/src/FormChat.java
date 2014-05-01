@@ -9,6 +9,7 @@ import javax.swing.JTextArea;
 
 import java.awt.AWTException;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Robot;
 
 import javax.swing.JButton;
@@ -61,10 +62,18 @@ public class FormChat extends JFrame {
 		
 		String linhas = "";
 		if (remetente == "local") {
-			linhas = textPane.getText() + "\n" + this.nome + "  " + dateFormat.format(date);
+			if (textPane.getText().equals("")) {
+				linhas = this.nome + "  " + dateFormat.format(date);
+			} else {
+				linhas = textPane.getText() + "\n" + this.nome + "  " + dateFormat.format(date);
+			}
 		} else {
 			Usuarios userLogin = FormLogin.getUsuarioLogin();
-			linhas = textPane.getText() + "\n" + userLogin.getNome() + "  " + dateFormat.format(date);
+			if (textPane.getText().equals("")) {
+				linhas = userLogin.getNome() + "  " + dateFormat.format(date);
+			} else {
+				linhas = textPane.getText() + "\n" + userLogin.getNome() + "  " + dateFormat.format(date);
+			}
 		}
 		
 		linhas = linhas + "\n   " + mensagem + "\n";
@@ -87,7 +96,7 @@ public class FormChat extends JFrame {
 		threadSaida.start();
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 366, 418);
+		setSize(new Dimension(366, 420));
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(220, 220, 220));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -130,10 +139,13 @@ public class FormChat extends JFrame {
 					robot.keyPress(KeyEvent.VK_BACK_SPACE);
 					robot.keyRelease(KeyEvent.VK_BACK_SPACE);
 					
-					adicionarMensagem(textArea.getText(), "local");
-					conexaoSaida.enviarMensagem(textArea.getText());
-					textArea.setText(null);
-					textArea.grabFocus();
+					//Se campo não estiver vazio
+					if (!textArea.getText().equals("")) {
+						adicionarMensagem(textArea.getText(), "local");
+						conexaoSaida.enviarMensagem(textArea.getText());
+						textArea.setText(null);
+						textArea.grabFocus();
+					}
 				}
 			}
 		});
@@ -143,10 +155,13 @@ public class FormChat extends JFrame {
 		JButton BtnEnviar = new JButton("Enviar");		
 		BtnEnviar.addActionListener(new ActionListener() {		// Ao clicar botão ENVIAR
 			public void actionPerformed(ActionEvent arg0) {
-				adicionarMensagem(textArea.getText(), "local");
-				conexaoSaida.enviarMensagem(textArea.getText());
-				textArea.setText(null);
-				textArea.grabFocus();
+				//Se campo não estiver vazio
+				if (!textArea.getText().equals("")) {
+					adicionarMensagem(textArea.getText(), "local");
+					conexaoSaida.enviarMensagem(textArea.getText());
+					textArea.setText(null);
+					textArea.grabFocus();
+				}
 			}
 		});
 		BtnEnviar.setBounds(293, 322, 63, 59);
