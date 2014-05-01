@@ -2,10 +2,49 @@
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CargosDAO {
 
 	private Connection conexao = MySQLConection.getMySQLConnection();
+	public List<Cargos> listaCargos = new ArrayList<Cargos>();
+	
+	public List<Cargos> getListaCargos() {
+		return listaCargos;
+	}
+	
+	public CargosDAO() {
+		carregarListaCargos();
+	}
+	
+	/*
+	 * Carrega objetos com todos os registros de tb_cargos
+	 */
+	public void carregarListaCargos() {
+
+		listaCargos.removeAll(listaCargos);
+
+		try {
+			java.sql.Statement st = conexao.createStatement();
+
+			String SQL = "SELECT codigo_cargo, desc_cargo" + " FROM tb_cargos;";
+
+			ResultSet rs = st.executeQuery(SQL);
+
+			while (rs.next()) {
+				Cargos cargo = new Cargos();
+
+				cargo.setCodigo(rs.getInt("codigo_cargo"));
+				cargo.setDesc(rs.getString("desc_cargo"));
+
+				listaCargos.add(cargo);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	/*
 	 * Verificar se nome do cargo (desc) ja está cadastrado

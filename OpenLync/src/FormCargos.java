@@ -1,10 +1,6 @@
 import java.awt.Color;
 import java.awt.event.KeyEvent;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
@@ -15,10 +11,9 @@ public class FormCargos extends javax.swing.JFrame {
 	private static final long serialVersionUID = 1L;
 
 	//Editavel
-	private Connection conexao = MySQLConection.getMySQLConnection();
-	private List<Cargos> listaCargos = new ArrayList<Cargos>();
 	private int estado = 0; //Define modo da tela / 0 = neutro / 1 = Novo / 2 = Editando
-
+	private CargosDAO dao;
+	
 	/** Creates new form FormCargos */
 	public FormCargos() {
 		initComponents();
@@ -27,7 +22,7 @@ public class FormCargos extends javax.swing.JFrame {
 		setResizable(false);
 
 		//Carregar informações iniciais
-		carregarListaCargos();
+		dao = new CargosDAO();
 		carregarGridCargos();
 		carregarCampos(0);
 
@@ -74,34 +69,6 @@ public class FormCargos extends javax.swing.JFrame {
 	}
 
 	/*
-	 * Carrega objetos com todos os registros de tb_cargos
-	 */
-	private void carregarListaCargos() {
-
-		listaCargos.removeAll(listaCargos);
-
-		try {
-			java.sql.Statement st = conexao.createStatement();
-
-			String SQL = "SELECT codigo_cargo, desc_cargo" + " FROM tb_cargos;";
-
-			ResultSet rs = st.executeQuery(SQL);
-
-			while (rs.next()) {
-				Cargos cargo = new Cargos();
-
-				cargo.setCodigo(rs.getInt("codigo_cargo"));
-				cargo.setDesc(rs.getString("desc_cargo"));
-
-				listaCargos.add(cargo);
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/*
 	 * Select todos registros do tb_usuario e carrega para grid
 	 */
 	private void carregarGridCargos() {
@@ -112,11 +79,10 @@ public class FormCargos extends javax.swing.JFrame {
 
 		//Carrega lista para Array -------------------------------------
 		int i = 0;
-
-		String[][] listaGridCargos = new String[listaCargos.size()][2];
-		while (i < listaCargos.size()) {
-			listaGridCargos[i][0] = listaCargos.get(i).getCodigo() + "";
-			listaGridCargos[i][1] = listaCargos.get(i).getDesc();
+		String[][] listaGridCargos = new String[dao.listaCargos.size()][2];
+		while (i < dao.listaCargos.size()) {
+			listaGridCargos[i][0] = dao.listaCargos.get(i).getCodigo() + "";
+			listaGridCargos[i][1] = dao.listaCargos.get(i).getDesc();
 			i++;
 		}
 
@@ -140,8 +106,8 @@ public class FormCargos extends javax.swing.JFrame {
 	 */
 	private void carregarCampos(int numeroRegistro) {
 
-		editCodigo.setText(listaCargos.get(numeroRegistro).getCodigo() + "");
-		editDesc.setText(listaCargos.get(numeroRegistro).getDesc());
+		editCodigo.setText(dao.listaCargos.get(numeroRegistro).getCodigo() + "");
+		editDesc.setText(dao.listaCargos.get(numeroRegistro).getDesc());
 
 	}
 
@@ -464,8 +430,6 @@ public class FormCargos extends javax.swing.JFrame {
 	}
 
 	private void editDescFocusLost(java.awt.event.FocusEvent evt) {
-		CargosDAO dao = new CargosDAO();
-
 		//Se estiver inserindo um novo registro
 		if (estado == 1) {
 
@@ -487,7 +451,7 @@ public class FormCargos extends javax.swing.JFrame {
 		} else if (estado == 2) { //Editar
 			//Se o codigo digitado for diferente do original -> executar verificação
 			if (!editDesc.getText().equals(
-					listaCargos.get(tableCargos.getSelectedRow()).getDesc())) {
+					dao.listaCargos.get(tableCargos.getSelectedRow()).getDesc())) {
 				try {
 					if (dao.verificarDispDesc(editDesc.getText())) { //Se estiver disponivel 
 						editDesc.setForeground(new Color(0, 0, 0));
@@ -533,8 +497,6 @@ public class FormCargos extends javax.swing.JFrame {
 	}
 
 	private void BtnSalvarActionPerformed(java.awt.event.ActionEvent evt) {
-		CargosDAO dao = new CargosDAO();
-
 		if (estado == 1) { //Novo
 			//Adquire novo codigo e coloca no edit
 			int codigo = dao.getNovoCodigo();
@@ -547,7 +509,7 @@ public class FormCargos extends javax.swing.JFrame {
 			cargo.setDesc(editDesc.getText());
 
 			//Adiciona usuario à lista
-			listaCargos.add(cargo);
+			dao.listaCargos.add(cargo);
 
 			//Chama comando SQL
 			dao.adicionar(cargo);
@@ -568,10 +530,10 @@ public class FormCargos extends javax.swing.JFrame {
 
 			int registroSelecionado = tableCargos.getSelectedRow();
 
-			listaCargos.get(tableCargos.getSelectedRow()).setDesc(
+			dao.listaCargos.get(tableCargos.getSelectedRow()).setDesc(
 					editDesc.getText());
 
-			dao.editar(listaCargos.get(tableCargos.getSelectedRow()));
+			dao.editar(dao.listaCargos.get(tableCargos.getSelectedRow()));
 
 			carregarGridCargos();
 
@@ -593,10 +555,9 @@ public class FormCargos extends javax.swing.JFrame {
 	private void BtnApagarActionPerformed(java.awt.event.ActionEvent evt) {
 		if (JOptionPane.showConfirmDialog(null, "Apagar resgitro?",
 				"Apagar registro", 2) == 0) {//0 = OK
-			CargosDAO dao = new CargosDAO();
 
-			dao.apagar(listaCargos.get(tableCargos.getSelectedRow()));
-			listaCargos.remove(tableCargos.getSelectedRow());
+			dao.apagar(dao.listaCargos.get(tableCargos.getSelectedRow()));
+			dao.listaCargos.remove(tableCargos.getSelectedRow());
 			carregarGridCargos();
 			tableCargos.addRowSelectionInterval(0, 0);
 			carregarCampos(0);

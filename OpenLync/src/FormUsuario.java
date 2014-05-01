@@ -3,13 +3,10 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -27,9 +24,9 @@ public class FormUsuario extends javax.swing.JFrame {
 
 	// Editavel
 	private Connection conexao = MySQLConection.getMySQLConnection();
-	private List<Usuarios> listaUsuarios = new ArrayList<Usuarios>();
 	private int estado = 0; //Define modo da tela / 0 = neutro / 1 = Novo / 2 = Editando
-	BufferedImage fotoPerfil = null;
+	private BufferedImage fotoPerfil = null;
+	private UsuariosDAO dao;
 
 	/** Creates new form FormUsuario */
 	public FormUsuario() {
@@ -40,7 +37,7 @@ public class FormUsuario extends javax.swing.JFrame {
 		setResizable(false);
 
 		//Carregar informações iniciais
-		carregarListaUsuario();
+		dao = new UsuariosDAO();
 		carregarGridUsuarios();
 		atualizarComboCargos();
 		carregarCampos(0);
@@ -128,51 +125,6 @@ public class FormUsuario extends javax.swing.JFrame {
 	}
 
 	/*
-	 * Carrega objetos com todos os registros de tb_usuarios
-	 */
-	private void carregarListaUsuario() {
-		Criptografia cript = new Criptografia();
-
-		listaUsuarios.removeAll(listaUsuarios);
-		try {
-			java.sql.Statement st = conexao.createStatement();
-
-			String SQL = "SELECT codigo_usuario, nome_usuario, login_usuario, senha_usuario, foto_usuario, admin_usuario, tb_cargos.desc_cargo"
-					+ " FROM tb_usuarios, tb_cargos"
-					+ " WHERE tb_cargos.codigo_cargo = tb_usuarios.codigo_cargo;";
-
-			ResultSet rs = st.executeQuery(SQL);
-
-			while (rs.next()) {
-				Usuarios usuario = new Usuarios();
-
-				usuario.setCodigo(rs.getInt("codigo_usuario"));
-				usuario.setNome(rs.getString("nome_usuario"));
-				usuario.setCargo(rs.getString("tb_cargos.desc_cargo"));
-				usuario.setLogin(cript.descriptografarMensagem(rs
-						.getString("login_usuario")));
-				usuario.setSenha(cript.descriptografarMensagem(rs
-						.getString("senha_usuario")));
-				usuario.setAdmin(rs.getBoolean("admin_usuario"));
-				Blob blobImage = rs.getBlob("foto_usuario");
-				try {
-					if (blobImage != null) {
-						usuario.setFoto(ImageIO.read(blobImage
-								.getBinaryStream()));
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-
-				listaUsuarios.add(usuario);
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/*
 	 * Select todos registros do tb_usuario e carrega para grid
 	 */
 	private void carregarGridUsuarios() {
@@ -185,13 +137,13 @@ public class FormUsuario extends javax.swing.JFrame {
 		//Carrega lista para Array -------------------------------------
 		int i = 0;
 
-		String[][] listaGridusuarios = new String[listaUsuarios.size()][5];
-		while (i < listaUsuarios.size()) {
-			listaGridusuarios[i][0] = listaUsuarios.get(i).getCodigo() + "";
-			listaGridusuarios[i][1] = listaUsuarios.get(i).getNome();
-			listaGridusuarios[i][2] = listaUsuarios.get(i).getCargo();
-			listaGridusuarios[i][3] = listaUsuarios.get(i).getLogin();
-			listaGridusuarios[i][4] = listaUsuarios.get(i).getSenha();
+		String[][] listaGridusuarios = new String[dao.listaUsuarios.size()][5];
+		while (i < dao.listaUsuarios.size()) {
+			listaGridusuarios[i][0] = dao.listaUsuarios.get(i).getCodigo() + "";
+			listaGridusuarios[i][1] = dao.listaUsuarios.get(i).getNome();
+			listaGridusuarios[i][2] = dao.listaUsuarios.get(i).getCargo();
+			listaGridusuarios[i][3] = dao.listaUsuarios.get(i).getLogin();
+			listaGridusuarios[i][4] = dao.listaUsuarios.get(i).getSenha();
 			i++;
 		}
 
@@ -216,21 +168,21 @@ public class FormUsuario extends javax.swing.JFrame {
 	 */
 	private void carregarCampos(int numeroRegistro) {
 
-		editCodigo.setText(listaUsuarios.get(numeroRegistro).getCodigo() + "");
-		editNome.setText(listaUsuarios.get(numeroRegistro).getNome());
-		EditLogin.setText(listaUsuarios.get(numeroRegistro).getLogin());
-		editSenha.setText(listaUsuarios.get(numeroRegistro).getSenha());
+		editCodigo.setText(dao.listaUsuarios.get(numeroRegistro).getCodigo() + "");
+		editNome.setText(dao.listaUsuarios.get(numeroRegistro).getNome());
+		EditLogin.setText(dao.listaUsuarios.get(numeroRegistro).getLogin());
+		editSenha.setText(dao.listaUsuarios.get(numeroRegistro).getSenha());
 
-		checkAdmin.setSelected(listaUsuarios.get(numeroRegistro).isAdmin());
+		checkAdmin.setSelected(dao.listaUsuarios.get(numeroRegistro).isAdmin());
 
 		comboCargo
-				.setSelectedItem(listaUsuarios.get(numeroRegistro).getCargo());
+				.setSelectedItem(dao.listaUsuarios.get(numeroRegistro).getCargo());
 
 		//Seta foto
 		//Se houver foto -> seta Icon do label
-		if (listaUsuarios.get(numeroRegistro).getFoto() != null) {
+		if (dao.listaUsuarios.get(numeroRegistro).getFoto() != null) {
 			BufferedImage imgMaior = Scalr.resize(
-					listaUsuarios.get(numeroRegistro).getFoto(), 70, 70);
+					dao.listaUsuarios.get(numeroRegistro).getFoto(), 70, 70);
 			labelFoto.setIcon(new ImageIcon(imgMaior));
 			//Se não houver foto -> limpa Icon do label
 		} else {
@@ -614,8 +566,7 @@ public class FormUsuario extends javax.swing.JFrame {
 	}
 	
 	private void BtnNovoCargoActionPerformed(java.awt.event.ActionEvent evt) {
-		FormCargos frmCargos = new FormCargos();
-		frmCargos.setVisible(true);
+		FormInicial.frmCargos.setVisible(true);
 	}
 
 	private void tableUsuariosKeyReleased(java.awt.event.KeyEvent evt) {
@@ -628,7 +579,6 @@ public class FormUsuario extends javax.swing.JFrame {
 	}
 
 	private void EditLoginFocusLost(java.awt.event.FocusEvent evt) { //Sair do campo Login
-		UsuariosDAO dao = new UsuariosDAO();
 
 		//Se estiver inserindo um novo registro
 		if (estado == 1) {
@@ -651,7 +601,7 @@ public class FormUsuario extends javax.swing.JFrame {
 		} else if (estado == 2) { //Editar
 			//Se o codigo digitado for diferente do original -> executar verificação
 			if (!EditLogin.getText().equals(
-					listaUsuarios.get(tableUsuarios.getSelectedRow())
+					dao.listaUsuarios.get(tableUsuarios.getSelectedRow())
 							.getLogin())) {
 				try {
 					if (dao.verificarDispLogin(EditLogin.getText())) { //Se estiver disponivel 
@@ -691,10 +641,9 @@ public class FormUsuario extends javax.swing.JFrame {
 	private void BtnApagarActionPerformed(java.awt.event.ActionEvent evt) { //Btn Apagar
 		if (JOptionPane.showConfirmDialog(null, "Apagar resgitro?",
 				"Apagar registro", 2) == 0) {//0 = OK
-			UsuariosDAO dao = new UsuariosDAO();
 
-			dao.apagar(listaUsuarios.get(tableUsuarios.getSelectedRow()));
-			listaUsuarios.remove(tableUsuarios.getSelectedRow());
+			dao.apagar(dao.listaUsuarios.get(tableUsuarios.getSelectedRow()));
+			dao.listaUsuarios.remove(tableUsuarios.getSelectedRow());
 			carregarGridUsuarios();
 			tableUsuarios.addRowSelectionInterval(0, 0);
 			carregarCampos(0);
@@ -703,7 +652,6 @@ public class FormUsuario extends javax.swing.JFrame {
 	}
 
 	private void BtnSalvarActionPerformed(java.awt.event.ActionEvent evt) { //Btn Salvar
-		UsuariosDAO dao = new UsuariosDAO();
 
 		if (estado == 1) { //Novo
 			//Adquire novo codigo e coloca no edit
@@ -722,7 +670,7 @@ public class FormUsuario extends javax.swing.JFrame {
 			usuario.setFoto(fotoPerfil);
 
 			//Adiciona usuario à lista
-			listaUsuarios.add(usuario);
+			dao.listaUsuarios.add(usuario);
 
 			//Chama comando SQL
 			dao.adicionar(usuario);
@@ -743,20 +691,20 @@ public class FormUsuario extends javax.swing.JFrame {
 
 			int registroSelecionado = tableUsuarios.getSelectedRow();
 
-			listaUsuarios.get(tableUsuarios.getSelectedRow()).setNome(
+			dao.listaUsuarios.get(tableUsuarios.getSelectedRow()).setNome(
 					editNome.getText());
-			listaUsuarios.get(tableUsuarios.getSelectedRow()).setCargo(
+			dao.listaUsuarios.get(tableUsuarios.getSelectedRow()).setCargo(
 					comboCargo.getSelectedItem() + "");
-			listaUsuarios.get(tableUsuarios.getSelectedRow()).setLogin(
+			dao.listaUsuarios.get(tableUsuarios.getSelectedRow()).setLogin(
 					EditLogin.getText());
-			listaUsuarios.get(tableUsuarios.getSelectedRow()).setSenha(
+			dao.listaUsuarios.get(tableUsuarios.getSelectedRow()).setSenha(
 					editSenha.getText());
-			listaUsuarios.get(tableUsuarios.getSelectedRow()).setAdmin(
+			dao.listaUsuarios.get(tableUsuarios.getSelectedRow()).setAdmin(
 					checkAdmin.isSelected());
-			listaUsuarios.get(tableUsuarios.getSelectedRow()).setFoto(
+			dao.listaUsuarios.get(tableUsuarios.getSelectedRow()).setFoto(
 					fotoPerfil);
 
-			dao.editar(listaUsuarios.get(tableUsuarios.getSelectedRow()));
+			dao.editar(dao.listaUsuarios.get(tableUsuarios.getSelectedRow()));
 
 			carregarGridUsuarios();
 

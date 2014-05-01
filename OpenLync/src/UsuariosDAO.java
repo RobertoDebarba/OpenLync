@@ -1,9 +1,12 @@
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -12,7 +15,56 @@ public class UsuariosDAO {
 	
 	private Criptografia cript = new Criptografia();
 	private Connection conexao = MySQLConection.getMySQLConnection();
+	public List<Usuarios> listaUsuarios = new ArrayList<Usuarios>();
+	
+	public UsuariosDAO() {
+		carregarListaUsuario();
+	}
+	
+	/*
+	 * Carrega objetos com todos os registros de tb_usuarios
+	 */
+	private void carregarListaUsuario() {
+		Criptografia cript = new Criptografia();
 
+		listaUsuarios.removeAll(listaUsuarios);
+		try {
+			java.sql.Statement st = conexao.createStatement();
+
+			String SQL = "SELECT codigo_usuario, nome_usuario, login_usuario, senha_usuario, foto_usuario, admin_usuario, tb_cargos.desc_cargo"
+					+ " FROM tb_usuarios, tb_cargos"
+					+ " WHERE tb_cargos.codigo_cargo = tb_usuarios.codigo_cargo;";
+
+			ResultSet rs = st.executeQuery(SQL);
+
+			while (rs.next()) {
+				Usuarios usuario = new Usuarios();
+
+				usuario.setCodigo(rs.getInt("codigo_usuario"));
+				usuario.setNome(rs.getString("nome_usuario"));
+				usuario.setCargo(rs.getString("tb_cargos.desc_cargo"));
+				usuario.setLogin(cript.descriptografarMensagem(rs
+						.getString("login_usuario")));
+				usuario.setSenha(cript.descriptografarMensagem(rs
+						.getString("senha_usuario")));
+				usuario.setAdmin(rs.getBoolean("admin_usuario"));
+				Blob blobImage = rs.getBlob("foto_usuario");
+				try {
+					if (blobImage != null) {
+						usuario.setFoto(ImageIO.read(blobImage
+								.getBinaryStream()));
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+				listaUsuarios.add(usuario);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	/*
 	 * Verificar se nome de usuario(login) ja está cadastrado
