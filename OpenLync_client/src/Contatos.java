@@ -169,13 +169,14 @@ public class Contatos {
 		}
 	}
 	
-	public static void modificarAmigo(int codigoAmigo, boolean adicionar) {
+	public static boolean modificarAmigo(int codigoAmigo, boolean adicionar) {
 		
 		Usuarios userLogin = FormLogin.getUsuarioLogin();
 		Connection conexao = MySQLConection.getMySQLConnection();
 		
 		Statement st;
 		String SQL;	
+		boolean resultado = false;
 		
 		try {
 			st = conexao.createStatement();
@@ -187,6 +188,9 @@ public class Contatos {
 						  " AND codigo_amigo_amigo = "+codigoAmigo+
 						  ";";
 					st.execute(SQL);
+					resultado = true;
+				} else {
+					resultado = false;
 				}
 			} else {
 				if (JOptionPane.showConfirmDialog(null, "Adicionar usuários à sua lista de amigos?", "Adicionar amigo", 2) == 0) {//0 = OK
@@ -194,12 +198,18 @@ public class Contatos {
 						  " VALUES ("+userLogin.getCodigo()+", "+codigoAmigo+
 						  ");";
 					st.execute(SQL);
+					resultado = true;
+				} else {
+					resultado = false;
 				}
 			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Erro inesperado ao adicionar aos amigos!", "Erro", 1);
+			resultado = false;
 		}
 		
+		return resultado;
 	}
 }

@@ -185,11 +185,13 @@ public class FormChat extends JFrame {
 			public void mouseClicked(MouseEvent e) {	//Adicionar ou remover amigos
 				Usuarios user = new Usuarios();
 				if (user.verificarAmizade(codigo)) {
-					Contatos.modificarAmigo(codigo, false);
-					lblAmigo.setIcon(new ImageIcon(FormChat.class.getResource("/Imagens/amigo+.png")));
+					if (Contatos.modificarAmigo(codigo, false)) {
+						lblAmigo.setIcon(new ImageIcon(FormChat.class.getResource("/Imagens/amigo+.png")));
+					}
 				} else {
-					Contatos.modificarAmigo(codigo, true);
-					lblAmigo.setIcon(new ImageIcon(FormChat.class.getResource("/Imagens/amigo-.png")));
+					if (Contatos.modificarAmigo(codigo, true)) {
+						lblAmigo.setIcon(new ImageIcon(FormChat.class.getResource("/Imagens/amigo-.png")));
+					}
 				}
 			}
 		});
