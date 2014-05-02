@@ -9,9 +9,10 @@ public class Contatos {
 	
 	public static FormChat[] listaChat = new FormChat[100]; //FIXME tornar tamanho dinamico
 	private static int contadorChat = 0;
-	
-	private static int i = 0;
-	
+		
+	public static void setContadorChat(int contadorChat) {
+		Contatos.contadorChat = contadorChat;
+	}
 	
 	public static int getContadorChat() {
 		return contadorChat;
@@ -32,16 +33,45 @@ public class Contatos {
 		Statement st = conexao.createStatement();
 		
 		Usuarios usuarioLogin = FormLogin.getUsuarioLogin();
-		// SELECT codigo_usuario - todos logados exeto o usuario que realizou o login no programa
-		String SQL = "SELECT (codigo_usuario) FROM tb_usuarios WHERE ip_usuario <> 'null' AND"+
-					 " codigo_usuario <> " + usuarioLogin.getCodigo() + ";";
 		
+		String SQL;
+		String campoRetornado = "";
+		//Seleciona apenas Amigos
+		if (FormIncial.indexBtn == 1) {
+			//Se opção para exibir apenas online estiver marcada
+			if (FormIncial.checkOnline.isSelected()) {
+				SQL = "SELECT codigo_amigo_amigo"+
+					  " FROM tb_amigos, tb_usuarios"+
+					  " WHERE codigo_usuario_amigo = 1"+
+					  " AND tb_usuarios.codigo_usuario = tb_amigos.codigo_amigo_amigo"+
+					  " AND tb_usuarios.ip_usuario <> 'null';";
+			} else {
+				SQL = "SELECT (codigo_amigo_amigo)"+
+					  " FROM tb_amigos"+
+					  " WHERE codigo_usuario_amigo = "+usuarioLogin.getCodigo()+";";	
+			}
+			campoRetornado = "codigo_amigo_amigo";
+		//Seleciona todos usuarios
+		} else {
+			//Se opção para exibir apenas online estiver marcada
+			if (FormIncial.checkOnline.isSelected()) {
+				// SELECT codigo_usuario - todos logados exeto o usuario que realizou o login no programa
+				SQL = "SELECT (codigo_usuario)"+
+					  " FROM tb_usuarios WHERE ip_usuario <> 'null'"+
+					  " AND codigo_usuario <> " + usuarioLogin.getCodigo() + ";";
+			} else {
+				// SELECT codigo_usuario - todos exeto o usuario que realizou o login no programa
+				SQL = "SELECT (codigo_usuario)"+
+					  " FROM tb_usuarios"+
+					  " WHERE codigo_usuario <> "+usuarioLogin.getCodigo()+";";
+			}
+			campoRetornado = "codigo_usuario";
+		}
+			
 		ResultSet rs = st.executeQuery(SQL);
 		
 		//Limpa a lista - retira apenas os usuarios que estao offline
-		limparListaUsuarios(i);
-		
-		i = 0;
+		limparListaUsuarios();
 		
 		while(rs.next()) {
 			
@@ -52,7 +82,7 @@ public class Contatos {
 				
 				//Verifica se usuario atual do rs ja está na lista(JDesktopPane)
 				if (listaInternalFrames[a] != null) {
-					if (listaInternalFrames[a].getCodigoUsuario() == rs.getInt("codigo_usuario")) {
+					if (listaInternalFrames[a].getCodigoUsuario() == rs.getInt(campoRetornado)) {
 						//Variavel de controle para parar loop e definir proximo passo
 						usuarioEstaNaLista = true;
 					}
@@ -71,9 +101,9 @@ public class Contatos {
 					
 					if (listaInternalFrames[b] == null) {
 						//Adiciona usuario ao local null encontrado
-						listaInternalFrames[b] = FormUsuarioLista.getNovoFormUsuarioLista(rs.getInt("codigo_usuario"));
+						listaInternalFrames[b] = FormUsuarioLista.getNovoFormUsuarioLista(rs.getInt(campoRetornado));
 						//Adiciona o usuario ao JDesktopPane
-						setUsuarioNaLista(listaInternalFrames[b]);
+						setUsuarioNoJDP(listaInternalFrames[b]);
 						//Variavel de controle para parar loop
 						jaPreencheu = true;
 					}
@@ -81,18 +111,16 @@ public class Contatos {
 					b++;
 				}
 			}
-			
-			i++;
 		}
 	}
 	
-	public static void setUsuarioNaLista(FormUsuarioLista frmUsuarioLista) {
+	public static void setUsuarioNoJDP(FormUsuarioLista frmUsuarioLista) {
 		
 		FormIncial.jdpUsuarios.add(frmUsuarioLista);
 		frmUsuarioLista.setVisible(true);
 	}
 	
-	public static void limparListaUsuarios(int quantidade) {
+	public static void limparListaUsuarios() {
 		
 		int i = 0;
 		// Varre lista  para verificar posicoes NÂO NULAS
@@ -106,16 +134,26 @@ public class Contatos {
 					//Instancia novo usuario com codigo da posicao atual da grid para verificar o status do usuario
 					userTeste.carregarInformacoes(listaInternalFrames[i].getCodigoUsuario());
 					//Se usuario está offline(ip_usuario <> 'null') remove da JDesktopPane e seta NULL NA LISTA
-					if (!userTeste.getStatus()) {
-						FormIncial.jdpUsuarios.remove(listaInternalFrames[i]);
-						//FormIncial.jdpUsuarios.repaint();
-						listaInternalFrames[i] = null;
-						
-						FormUsuarioLista.decContadorPosicaoUsuario();
+					
+					//Se opção para exibir apenas online estiver marcada
+					if (FormIncial.checkOnline.isSelected()) {
+						if (!userTeste.getStatus()) {
+							FormIncial.jdpUsuarios.remove(listaInternalFrames[i]);
+							//FormIncial.jdpUsuarios.repaint();
+							listaInternalFrames[i] = null;
+							
+							FormUsuarioLista.decContadorPosicaoUsuario();
+						} else {
+							//Reorganiza posições dos forms na lista de contatos
+							listaInternalFrames[i].setLocation(0, y);
+							y = y + 60;
+						}
 					} else {
-						//Reorganiza posições dos forms na lista de contatos
-						listaInternalFrames[i].setLocation(0, y);
-						y = y + 60;
+						if (!userTeste.getStatus()) {
+							listaInternalFrames[i].setStatusUsuario(false);
+						} else {
+							listaInternalFrames[i].setStatusUsuario(true);
+						}
 					}
 					
 					FormIncial.jdpUsuarios.repaint();
