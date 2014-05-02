@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 public class CargosDAO {
 
 	private Connection conexao = MySQLConection.getMySQLConnection();
@@ -135,18 +137,39 @@ public class CargosDAO {
 		}
 	}
 
-	public void apagar(Cargos cargo) {
+	public boolean apagar(Cargos cargo) {
 		
+		boolean resultado = false;
 		try {
 			java.sql.Statement st = conexao.createStatement();
+			ResultSet rs;
+			String SQL;
 			
-			String SQL = "DELETE FROM tb_cargos WHERE codigo_cargo = "+cargo.getCodigo()+";";
-			st.execute(SQL);
+			//Procura por usuarios cadastrados com esse cargo
+			SQL = "SELECT 1 FROM tb_usuarios WHERE codigo_cargo = "+cargo.getCodigo()+";";
+			rs = st.executeQuery(SQL);
 			
-			st.close();
+			//Se encontrou nenhum usuario com esse cargo
+			if (rs.next()) {
+				JOptionPane.showMessageDialog(null, "Você não pode apagar esse cargo. Existem usuários cadastrados nesse registro.", "Erro ao apagar", 1);
+				resultado = false;
+				
+			//Se não encontrou --> apaga registro
+			} else {
+				
+				SQL = "DELETE FROM tb_cargos WHERE codigo_cargo = "+cargo.getCodigo()+";";
+				st.execute(SQL);
+				resultado = true;
+				
+				st.close();
+			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Erro inesperado ao apagar Cargo!", "Erro", 1);
+			resultado = false;
 		}	
+		
+		return resultado;
 	}
 }

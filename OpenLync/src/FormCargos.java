@@ -556,12 +556,13 @@ public class FormCargos extends javax.swing.JFrame {
 		if (JOptionPane.showConfirmDialog(null, "Apagar resgitro?",
 				"Apagar registro", 2) == 0) {//0 = OK
 
-			dao.apagar(dao.listaCargos.get(tableCargos.getSelectedRow()));
-			dao.listaCargos.remove(tableCargos.getSelectedRow());
-			carregarGridCargos();
-			tableCargos.addRowSelectionInterval(0, 0);
-			carregarCampos(0);
-
+			// Se apagar() retornar bem sucedido conclui alterações
+			if (dao.apagar(dao.listaCargos.get(tableCargos.getSelectedRow()))) {
+				dao.listaCargos.remove(tableCargos.getSelectedRow());
+				carregarGridCargos();
+				tableCargos.addRowSelectionInterval(0, 0);
+				carregarCampos(0);
+			}
 		}
 	}
 
