@@ -33,6 +33,7 @@ public class FormIncial extends JInternalFrame {
 	private JLabel labelFoto;
 	private static JLabel lblContatos;
 	private static JLabel lblTodos;
+	private JLabel lblSobre;
 	
 	public FormIncial(String nome, String cargo, BufferedImage foto) {
 		getContentPane().setBackground(new Color(238, 238, 238));
@@ -101,6 +102,18 @@ public class FormIncial extends JInternalFrame {
 		lblContatos.setBounds(114, 80, 97, 18);
 		getContentPane().add(lblContatos);
 		
+		lblSobre = new JLabel("");
+		lblSobre.setIcon(new ImageIcon(FormIncial.class.getResource("/Imagens/sobreIcon.png")));
+		lblSobre.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {	//Btn Sobre
+				FormSobre frmSobre = new FormSobre();
+				frmSobre.setVisible(true);
+			}
+		});
+		lblSobre.setBounds(336, 4, 20, 18);
+		getContentPane().add(lblSobre);
+		
 		//Timer para atualizar lista de contatos online
 		Timer t = new Timer();
 		t.schedule(new TimerTask() {
@@ -129,6 +142,7 @@ public class FormIncial extends JInternalFrame {
 			
 			//Limpa jdp e listas
 			jdpUsuarios.removeAll();
+			jdpUsuarios.repaint();
 			Contatos.setContadorChat(0);
 			FormUsuarioLista.setContadorPosicaousuario(0);
 			int i = 0;

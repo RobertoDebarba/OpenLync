@@ -2,9 +2,11 @@
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.sql.Blob;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
 import javax.imageio.ImageIO;
 
 public class Usuarios {
@@ -219,5 +221,33 @@ public class Usuarios {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public boolean verificarAmizade(int codigoAmigo) {
+		Connection conexao = MySQLConection.getMySQLConnection();
+		Usuarios userLogin = FormLogin.getUsuarioLogin();
+		
+		Statement st;
+		boolean retorno = false;
+		try {
+			st = conexao.createStatement();
+			
+			String SQL = "SELECT * FROM tb_amigos"+
+					 " WHERE codigo_usuario_amigo = "+userLogin.getCodigo()+
+					 " AND codigo_amigo_amigo = "+codigoAmigo+
+					 ";";
+		
+			ResultSet rs = st.executeQuery(SQL);
+			
+			if (rs.next()) {
+				retorno = true;
+			} else {
+				retorno = false;
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return retorno;
 	}
 }

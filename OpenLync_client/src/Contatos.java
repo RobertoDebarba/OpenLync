@@ -3,6 +3,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Connection;
 
+import javax.swing.JOptionPane;
+
 public class Contatos {
 
 	public static FormUsuarioLista listaInternalFrames[] = new FormUsuarioLista[100]; //FIXME
@@ -165,5 +167,39 @@ public class Contatos {
 			
 			i++;
 		}
+	}
+	
+	public static void modificarAmigo(int codigoAmigo, boolean adicionar) {
+		
+		Usuarios userLogin = FormLogin.getUsuarioLogin();
+		Connection conexao = MySQLConection.getMySQLConnection();
+		
+		Statement st;
+		String SQL;	
+		
+		try {
+			st = conexao.createStatement();
+			
+			if (!adicionar) {
+				if (JOptionPane.showConfirmDialog(null, "Remover usuário da sua lista de amigos?", "Remover amigo", 2) == 0) {//0 = OK
+					SQL = "DELETE FROM tb_amigos"+
+						  " WHERE codigo_usuario_amigo = "+userLogin.getCodigo()+
+						  " AND codigo_amigo_amigo = "+codigoAmigo+
+						  ";";
+					st.execute(SQL);
+				}
+			} else {
+				if (JOptionPane.showConfirmDialog(null, "Adicionar usuários à sua lista de amigos?", "Adicionar amigo", 2) == 0) {//0 = OK
+					SQL = "INSERT INTO tb_amigos (codigo_usuario_amigo, codigo_amigo_amigo)"+
+						  " VALUES ("+userLogin.getCodigo()+", "+codigoAmigo+
+						  ");";
+					st.execute(SQL);
+				}
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 }

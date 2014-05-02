@@ -33,6 +33,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 public class FormChat extends JFrame {
@@ -170,6 +172,29 @@ public class FormChat extends JFrame {
 		scrollPane = new JScrollPane(textPane);
 		scrollPane.setBounds(8, 70, 348, 248);
 		contentPane.add(scrollPane);
+		
+		final JLabel lblAmigo = new JLabel("Amigo");
+		Usuarios user = new Usuarios();
+		if (user.verificarAmizade(codigo)) {
+			lblAmigo.setIcon(new ImageIcon(FormChat.class.getResource("/Imagens/amigo-.png")));
+		} else {
+			lblAmigo.setIcon(new ImageIcon(FormChat.class.getResource("/Imagens/amigo+.png")));
+		}
+		lblAmigo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {	//Adicionar ou remover amigos
+				Usuarios user = new Usuarios();
+				if (user.verificarAmizade(codigo)) {
+					Contatos.modificarAmigo(codigo, false);
+					lblAmigo.setIcon(new ImageIcon(FormChat.class.getResource("/Imagens/amigo+.png")));
+				} else {
+					Contatos.modificarAmigo(codigo, true);
+					lblAmigo.setIcon(new ImageIcon(FormChat.class.getResource("/Imagens/amigo-.png")));
+				}
+			}
+		});
+		lblAmigo.setBounds(335, 47, 22, 22);
+		contentPane.add(lblAmigo);
 	
 		//Timer para verificar se contato continua online
 		final Timer t = new Timer();
