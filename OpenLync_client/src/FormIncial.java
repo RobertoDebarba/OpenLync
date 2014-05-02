@@ -86,7 +86,7 @@ public class FormIncial extends JInternalFrame {
 		lblTodos.setBackground(new Color(210, 210, 210));
 		getContentPane().add(lblTodos);
 		
-		lblContatos = new JLabel("Contatos");
+		lblContatos = new JLabel("Amigos");
 		lblContatos.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
