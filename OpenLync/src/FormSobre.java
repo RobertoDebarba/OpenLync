@@ -13,7 +13,7 @@ public class FormSobre extends javax.swing.JFrame {
 	/** Creates new form FormSobre */
 	public FormSobre() {
 		initComponents();
-		
+
 		setLocationRelativeTo(null);
 		setResizable(false);
 
@@ -57,9 +57,9 @@ public class FormSobre extends javax.swing.JFrame {
 		jPanel1.add(jLabel3);
 		jLabel3.setBounds(175, 160, 65, 18);
 
-		jLabel4.setText("Comunicador Int\u00e2ntaneo Empresarial");
+		jLabel4.setText("Comunicador Instant\u00e2neo Empresarial");
 		jPanel1.add(jLabel4);
-		jLabel4.setBounds(90, 190, 270, 18);
+		jLabel4.setBounds(87, 190, 270, 18);
 
 		jLabel5.setText("Copyright 2014 Roberto Luiz Debarba");
 		jPanel1.add(jLabel5);
