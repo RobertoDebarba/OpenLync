@@ -22,7 +22,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -36,7 +35,6 @@ import javax.swing.ImageIcon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-
 public class FormChat extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -44,56 +42,21 @@ public class FormChat extends JFrame {
 	private JTextPane textPane;
 	private JScrollPane scrollPane;
 	
-	private int codigo;
-	private String nome;
-	private String ip;	
-	
-	
-	public int getCodigo() {
-		return codigo;
-	}
+	private Usuarios usuario;
 
-	public String getIp() {
-		return ip;
+	public Usuarios getUsuario() {
+		
+		return usuario;
 	}
 	
-	public void adicionarMensagem(String mensagem, String remetente) {
+	public FormChat(final Usuarios usuario) {
 		
-		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-		Date date = new Date();
+		this.usuario = usuario;
 		
-		String linhas = "";
-		if (remetente == "local") {
-			if (textPane.getText().equals("")) {
-				linhas = this.nome + "  " + dateFormat.format(date);
-			} else {
-				linhas = textPane.getText() + "\n" + this.nome + "  " + dateFormat.format(date);
-			}
-		} else {
-			Usuarios userLogin = FormLogin.getUsuarioLogin();
-			if (textPane.getText().equals("")) {
-				linhas = userLogin.getNome() + "  " + dateFormat.format(date);
-			} else {
-				linhas = textPane.getText() + "\n" + userLogin.getNome() + "  " + dateFormat.format(date);
-			}
-		}
-		
-		linhas = linhas + "\n   " + mensagem + "\n";
-		textPane.setText(linhas);
-		
-		// Manda scroll para o final
-		textPane.setCaretPosition(textPane.getDocument().getLength());
-	}
-
-	public FormChat(final int codigo, String nome, String cargo, String ip, BufferedImage foto) {
-		
-		setTitle(nome);
-		this.codigo = codigo;
-		this.nome = nome;
-		this.ip = ip;
+		setTitle(usuario.getNome());
 		
 		//Abre Conexão de Saida
-		final SaidaDados conexaoSaida = new SaidaDados(this.ip);
+		final SaidaDados conexaoSaida = new SaidaDados(usuario.getIp());
 		Thread threadSaida = new Thread(conexaoSaida);
 		threadSaida.start();
 		
@@ -113,16 +76,16 @@ public class FormChat extends JFrame {
 		contentPane.add(textPane);
 		
 		JLabel labelFoto = new JLabel("");
-		labelFoto.setIcon(new ImageIcon(foto));
+		labelFoto.setIcon(new ImageIcon(usuario.getFoto()));
 		labelFoto.setBounds(10, 8, 57, 57);
 		contentPane.add(labelFoto);
 		
-		JLabel labelNome = new JLabel(nome);
+		JLabel labelNome = new JLabel(usuario.getNome());
 		labelNome.setFont(new Font("Dialog", Font.BOLD, 16));
 		labelNome.setBounds(75, 16, 285, 15);
 		contentPane.add(labelNome);
 		
-		JLabel labelCargo = new JLabel(cargo);
+		JLabel labelCargo = new JLabel(usuario.getCargo());
 		labelCargo.setFont(new Font("Dialog", Font.PLAIN, 14));
 		labelCargo.setBounds(75, 42, 285, 15);
 		contentPane.add(labelCargo);
@@ -173,9 +136,10 @@ public class FormChat extends JFrame {
 		scrollPane.setBounds(8, 70, 348, 248);
 		contentPane.add(scrollPane);
 		
+		final UsuariosDAO dao = new UsuariosDAO();
+		
 		final JLabel lblAmigo = new JLabel("Amigo");
-		Usuarios user = new Usuarios();
-		if (user.verificarAmizade(codigo)) {
+		if (dao.verificarAmizade(FormLogin.getUsuarioLogin(), usuario)) {
 			lblAmigo.setIcon(new ImageIcon(FormChat.class.getResource("/Imagens/amigo-.png")));
 		} else {
 			lblAmigo.setIcon(new ImageIcon(FormChat.class.getResource("/Imagens/amigo+.png")));
@@ -183,13 +147,12 @@ public class FormChat extends JFrame {
 		lblAmigo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {	//Adicionar ou remover amigos
-				Usuarios user = new Usuarios();
-				if (user.verificarAmizade(codigo)) {
-					if (Contatos.modificarAmigo(codigo, false)) {
+				if (dao.verificarAmizade(FormLogin.getUsuarioLogin(), usuario)) {
+					if (dao.removerAmizade(FormLogin.getUsuarioLogin(), usuario)) {
 						lblAmigo.setIcon(new ImageIcon(FormChat.class.getResource("/Imagens/amigo+.png")));
 					}
 				} else {
-					if (Contatos.modificarAmigo(codigo, true)) {
+					if (dao.adicionarAmizade(FormLogin.getUsuarioLogin(), usuario)) {
 						lblAmigo.setIcon(new ImageIcon(FormChat.class.getResource("/Imagens/amigo-.png")));
 					}
 				}
@@ -197,7 +160,8 @@ public class FormChat extends JFrame {
 		});
 		lblAmigo.setBounds(335, 47, 22, 22);
 		contentPane.add(lblAmigo);
-	
+		
+		
 		//Timer para verificar se contato continua online
 		final Timer t = new Timer();
 		t.schedule(new TimerTask() {
@@ -206,26 +170,20 @@ public class FormChat extends JFrame {
 				verificarStatusContato();
             }
         }, 1000, 4000);
-		
+				
+				
 		addWindowListener(new WindowAdapter() {
 			@Override
-			public void windowClosed(WindowEvent e) {		// Ao fechar janela
-				//Ao fechar
-				int a = 0;
-				while (a < 100) { //FIXME
-					
-					if (Contatos.listaChat[a] != null) {
-						if (Contatos.listaChat[a].getCodigo() == codigo) {
-							Contatos.listaChat[a] = null;
-							Contatos.decContadorChat();
-						}
-					}	
-					a++;
-				}
-				//Encerra thread de saida de dados
+			public void windowClosed(WindowEvent e) {	// Ao fechar janela
+				//Remove chat da listaChat
+				Contatos contatos = new Contatos();
+				contatos.removerFormChat(usuario);
+				
+				//Encerra timer e thread de saida de dados
 				t.cancel();
 				conexaoSaida.encerrarThread();
 			}
+			
 			@Override
 			public void windowActivated(WindowEvent e) {
 				textArea.grabFocus();
@@ -235,12 +193,10 @@ public class FormChat extends JFrame {
 		setResizable(false);
 	}
 	
-	/*
-	 * Verifica status atual do usuario do chat no DB
-	 * 
+	/**
+	 * Verifica status atual do usuario do chat no DB;
 	 * Se usuário se desconectou fecha a janela de chat //TODO implementar comportamento melhor
 	 */
-	
 	private void verificarStatusContato() {
 		
 		String statusAtual = "";
@@ -248,11 +204,10 @@ public class FormChat extends JFrame {
 			java.sql.Connection conexao = MySQLConection.getMySQLConnection();
 			Statement st = conexao.createStatement();
 		
-			String SQL = "SELECT ip_usuario FROM tb_usuarios WHERE codigo_usuario = "+ this.codigo +";";
+			String SQL = "SELECT ip_usuario FROM tb_usuarios WHERE codigo_usuario = "+ usuario.getCodigo() +";";
 	
 			ResultSet rs = st.executeQuery(SQL);
 
-			rs.beforeFirst();
 			if (rs.next()) {
 				statusAtual = rs.getString("ip_usuario");
 			}
@@ -265,7 +220,40 @@ public class FormChat extends JFrame {
 		if (statusAtual.equals("null")) {
 			
 			dispose();
-			JOptionPane.showMessageDialog(null, this.nome +" ficou offline!", "Usuário desconectado", 1);
+			JOptionPane.showMessageDialog(null, usuario.getNome() +" ficou offline!", "Usuário desconectado", 1);
 		}
+	}
+	
+	/**
+	 * Adiciona mensagem ao textPanel
+	 * @param mensagem
+	 * @param remetente
+	 */
+	public void adicionarMensagem(String mensagem, String remetente) {
+		
+		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+		Date date = new Date();
+		
+		String linhas = "";
+		if (remetente == "local") {
+			if (textPane.getText().equals("")) {
+				linhas = usuario.getNome() + "  " + dateFormat.format(date);
+			} else {
+				linhas = textPane.getText() + "\n" + usuario.getNome() + "  " + dateFormat.format(date);
+			}
+		} else {
+			Usuarios userLogin = FormLogin.getUsuarioLogin();
+			if (textPane.getText().equals("")) {
+				linhas = userLogin.getNome() + "  " + dateFormat.format(date);
+			} else {
+				linhas = textPane.getText() + "\n" + userLogin.getNome() + "  " + dateFormat.format(date);
+			}
+		}
+		
+		linhas = linhas + "\n   " + mensagem + "\n";
+		textPane.setText(linhas);
+		
+		// Manda scroll para o final
+		textPane.setCaretPosition(textPane.getDocument().getLength());
 	}
 }

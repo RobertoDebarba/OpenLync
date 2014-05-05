@@ -1,20 +1,13 @@
 
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
-
 import java.awt.Font;
-import java.sql.SQLException;
 import java.util.Timer;
 import java.util.TimerTask;
-
 import javax.swing.ImageIcon;
-
 import java.awt.image.BufferedImage;
 import java.awt.Color;
-
 import javax.swing.JScrollPane;
-import javax.swing.UIManager;
-
 import Biblioteca.MDIDesktopPane;
 import javax.swing.JCheckBox;
 import javax.swing.SwingConstants;
@@ -27,15 +20,19 @@ public class FormIncial extends JInternalFrame {
 	
 	private static JLabel labelNome;
 	private static JLabel labelCargo;
-	public static MDIDesktopPane jdpUsuarios;
-	public static JCheckBox checkOnline;
-	public static int indexBtn;
-	private JLabel labelFoto;
 	private static JLabel lblContatos;
 	private static JLabel lblTodos;
 	private JLabel lblSobre;
+	private JLabel labelFoto;
 	
-	public FormIncial(String nome, String cargo, BufferedImage foto) {
+	public static int indiceAba = 0;
+	public static JCheckBox checkOnline;
+	public static MDIDesktopPane jdpUsuarios;
+	
+	private static Contatos contatos = new Contatos();
+	
+	
+	public FormIncial(String nome, String cargo, BufferedImage foto) {		
 		getContentPane().setBackground(new Color(238, 238, 238));
 		
 		setBorder(null);
@@ -59,16 +56,26 @@ public class FormIncial extends JInternalFrame {
 		getContentPane().add(labelFoto);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(17, 98, 324, 445);
+		scrollPane.setBounds(17, 98, 324, 430);
 		getContentPane().add(scrollPane);
 		
 		jdpUsuarios = new MDIDesktopPane();
 		jdpUsuarios.setBorder(null);
-		jdpUsuarios.setBackground(UIManager.getColor("Button.background"));
+		jdpUsuarios.setBackground(new Color(238, 238, 238));
 		scrollPane.setViewportView(jdpUsuarios);
 		
 		checkOnline = new JCheckBox("Online");
-		checkOnline.setBounds(270, 75, 83, 26);
+		checkOnline.setBackground(new Color(238, 238, 238));
+		checkOnline.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				//Limpa jdp e listas
+				contatos.removerTodosFormUsuarioLista();
+				//Atualiza lista
+				contatos.atualizarContatos();
+			}
+		});
+		checkOnline.setBounds(270, 73, 75, 23);
 		getContentPane().add(checkOnline);
 		
 		lblTodos = new JLabel("Todos");
@@ -76,7 +83,7 @@ public class FormIncial extends JInternalFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// Se a aba selecionada atualmente não for a clicada
-				if (indexBtn != 0) {
+				if (indiceAba != 0) {
 					setBtnAba(0);
 				}
 			}
@@ -92,13 +99,14 @@ public class FormIncial extends JInternalFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// Se a aba selecionada atualmente não for a clicada
-				if (indexBtn != 1) {
+				if (indiceAba != 1) {
 					setBtnAba(1);
 				}
 			}
 		});
 		lblContatos.setHorizontalAlignment(SwingConstants.CENTER);
 		lblContatos.setOpaque(true);
+		lblContatos.setBackground(new Color(238, 238, 238));
 		lblContatos.setBounds(114, 80, 97, 18);
 		getContentPane().add(lblContatos);
 		
@@ -114,51 +122,40 @@ public class FormIncial extends JInternalFrame {
 		lblSobre.setBounds(336, 4, 20, 18);
 		getContentPane().add(lblSobre);
 		
-		//Timer para atualizar lista de contatos online
+		/*
+		 * Timer para atualizar lista de contatos online		
+		 */
 		Timer t = new Timer();
 		t.schedule(new TimerTask() {
             @Override
             public void run() {
-                try {
-					Contatos.atualizarListaPrincipal();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+				contatos.atualizarContatos();
             }
         }, 1000, 5000);
 	}
 	
-	public static void setBtnAba(int indexBtn) {
-		if (indexBtn == 0) { //Todos
+	/**
+	 * Seta aba ativa e chama metodo para atualizar lista
+	 * @param indiceAba
+	 */
+	public static void setBtnAba(int indiceAba) {
+		if (indiceAba == 0) { // Todos
+			//Atualiza aba
 			lblContatos.setBackground(new Color(238, 238, 238));
 			lblTodos.setBackground(new Color(210, 210, 210));
-			FormIncial.indexBtn = indexBtn;
-			try {
-				Contatos.atualizarListaPrincipal();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		} else if (indexBtn == 1) { //Contatos
 			
-			//Limpa jdp e listas
-			jdpUsuarios.removeAll();
-			jdpUsuarios.repaint();
-			Contatos.setContadorChat(0);
-			FormUsuarioLista.setContadorPosicaousuario(0);
-			int i = 0;
-			while (i < 100) {
-				Contatos.listaInternalFrames[i] = null;
-				i++;
-			}
-			
+			FormIncial.indiceAba = indiceAba;
+		} else if (indiceAba == 1) { //Contatos
+			//Atualiza aba
 			lblTodos.setBackground(new Color(238, 238, 238));
 			lblContatos.setBackground(new Color(210, 210, 210));
-			FormIncial.indexBtn = indexBtn;
-			try {
-				Contatos.atualizarListaPrincipal();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			
+			FormIncial.indiceAba = indiceAba;
 		}
+		
+		//Limpa jdp e listas
+		contatos.removerTodosFormUsuarioLista();
+		//Atualiza lista
+		contatos.atualizarContatos();
 	}
 }

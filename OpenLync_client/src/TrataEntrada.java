@@ -1,7 +1,6 @@
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.sql.SQLException;
 import java.util.Scanner;
 
 public class TrataEntrada implements Runnable {
@@ -13,7 +12,7 @@ public class TrataEntrada implements Runnable {
 		this.SS = SS;
 	}
 
-	/*
+	/**
 	 * Loop infinito que verifica entrada de novas mensagens.
 	 * Se recebeu nova mensagem: 
 	 * 		1 - Descriptografa
@@ -58,10 +57,10 @@ public class TrataEntrada implements Runnable {
 				//mandar para tela de chat
 				int i = 0;
 				boolean encontrouChat = false;
-				while (i < Contatos.getContadorChat()) {
+				while ((i < Contatos.getSizeListaFormChat()) && (!encontrouChat)) {
 					
-					if (TratadorMensagens.getIpRemetente().equals(Contatos.listaChat[i].getIp())) {
-						Contatos.listaChat[i].adicionarMensagem(TratadorMensagens.getMensagemTratada(), "out"); //Significa que mensegem não é do proprio usuario
+					if (TratadorMensagens.getIpRemetente().equals(Contatos.listaFormChat.get(i).getUsuario().getIp())) {
+						Contatos.listaFormChat.get(i).adicionarMensagem(TratadorMensagens.getMensagemTratada(), "out"); //Significa que mensegem não é do proprio usuario
 						encontrouChat = true;
 					}
 					i++;
@@ -70,24 +69,26 @@ public class TrataEntrada implements Runnable {
 				//Se não encontrou tela de chat do usuario correto
 				if (!encontrouChat) {
 					
-					//Cria janela de chat
-					Usuarios usuarioPesquisa = new Usuarios();
-					try {
-						usuarioPesquisa.carregarInformacoesPorIP(TratadorMensagens.getIpRemetente());
-					} catch (SQLException e) {
-						e.printStackTrace();
+					UsuariosDAO dao = new UsuariosDAO();
+					Contatos contatos = new Contatos();
+					
+					//Cria janela de Chat
+					contatos.adicionarFormChat(dao.procurarUsuarioIP(TratadorMensagens.getIpRemetente()));
+					
+					//Procura chat criado e manda mensagem
+					i = 0;
+					encontrouChat = false;
+					while ((i < Contatos.getSizeListaFormChat()) && (!encontrouChat)) {
+						
+						if (TratadorMensagens.getIpRemetente().equals(Contatos.listaFormChat.get(i).getUsuario().getIp())) {
+							Contatos.listaFormChat.get(i).adicionarMensagem(TratadorMensagens.getMensagemTratada(), "out"); //Significa que mensegem não é do proprio usuario
+							encontrouChat = true;
+						}
+						i++;
 					}
 					
-					Contatos.listaChat[Contatos.getContadorChat()] = new FormChat(usuarioPesquisa.getCodigo(), usuarioPesquisa.getNome(), usuarioPesquisa.getCargo(), usuarioPesquisa.getIp(), usuarioPesquisa.getFoto());
-					Contatos.listaChat[Contatos.getContadorChat()].setVisible(true);
-					Contatos.listaChat[Contatos.getContadorChat()].adicionarMensagem(TratadorMensagens.getMensagemTratada(), "out");
-					Contatos.incContadorChat();
-				}
-				
+				}	
 			}
-			
 		}
-
 	}
-	
 }

@@ -10,7 +10,6 @@ import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import java.sql.SQLException;
 
 public class FormMain {
 
@@ -62,9 +61,10 @@ public class FormMain {
 		jdpMain.remove(frmLogin);
 	}
 	
-	public static void abrirFrmInicial(String nome, String cargo, BufferedImage foto) { //FIXME foto 
+	public static void abrirFrmInicial(String nome, String cargo, BufferedImage foto) {
 		
 		frmInicial = new FormIncial(nome, cargo, foto);
+		
 		// Seta tema
 		try {
 	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -127,14 +127,15 @@ public class FormMain {
 				Usuarios usuarioLogin = FormLogin.getUsuarioLogin();
 				//Se o banco estiver conectado
 				if ((usuarioLogin != null) && (MySQLConection.getStatusMySQL())) {
-					try {
-						//Seta status usuarioLogin para status_usuario = false
-						usuarioLogin.setIpOnDB(usuarioLogin.getCodigo(), "null");
-						//Fecha conexão com banco
-						MySQLConection.fecharConexaoMySQL();
-					} catch (SQLException e1) {
-						e1.printStackTrace();
-					}
+					
+					//Seta status usuarioLogin para status_usuario = false
+					UsuariosDAO dao = new UsuariosDAO();
+					
+					usuarioLogin.setIp("null");
+					dao.setIPDB(usuarioLogin);
+					
+					//Fecha conexão com banco
+					MySQLConection.fecharConexaoMySQL();
 				}
 			}
 		});

@@ -1,215 +1,220 @@
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Connection;
 
-import javax.swing.JOptionPane;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Contatos {
 
-	public static FormUsuarioLista listaInternalFrames[] = new FormUsuarioLista[100]; //FIXME
+	public static List<FormChat> listaFormChat = new ArrayList<FormChat>();
+	public static List<FormUsuarioLista> listaFormUsuarioLista = new ArrayList<FormUsuarioLista>();
 	
-	public static FormChat[] listaChat = new FormChat[100]; //FIXME tornar tamanho dinamico
-	private static int contadorChat = 0;
-		
-	public static void setContadorChat(int contadorChat) {
-		Contatos.contadorChat = contadorChat;
-	}
-	
-	public static int getContadorChat() {
-		return contadorChat;
-	}
-	
-	public static void incContadorChat() {
-		contadorChat++;
-	}
-	
-	public static void decContadorChat() {
-		contadorChat--;
-	}
-	
-	
-	public static void atualizarListaPrincipal() throws SQLException {
-		
-		Connection conexao = MySQLConection.getMySQLConnection();
-		Statement st = conexao.createStatement();
-		
-		Usuarios usuarioLogin = FormLogin.getUsuarioLogin();
-		
-		String SQL;
-		String campoRetornado = "";
-		//Seleciona apenas Amigos
-		if (FormIncial.indexBtn == 1) {
-			//Se opção para exibir apenas online estiver marcada
-			if (FormIncial.checkOnline.isSelected()) {
-				SQL = "SELECT codigo_amigo_amigo"+
-					  " FROM tb_amigos, tb_usuarios"+
-					  " WHERE codigo_usuario_amigo = 1"+
-					  " AND tb_usuarios.codigo_usuario = tb_amigos.codigo_amigo_amigo"+
-					  " AND tb_usuarios.ip_usuario <> 'null';";
-			} else {
-				SQL = "SELECT (codigo_amigo_amigo)"+
-					  " FROM tb_amigos"+
-					  " WHERE codigo_usuario_amigo = "+usuarioLogin.getCodigo()+";";	
-			}
-			campoRetornado = "codigo_amigo_amigo";
-		//Seleciona todos usuarios
-		} else {
-			//Se opção para exibir apenas online estiver marcada
-			if (FormIncial.checkOnline.isSelected()) {
-				// SELECT codigo_usuario - todos logados exeto o usuario que realizou o login no programa
-				SQL = "SELECT (codigo_usuario)"+
-					  " FROM tb_usuarios WHERE ip_usuario <> 'null'"+
-					  " AND codigo_usuario <> " + usuarioLogin.getCodigo() + ";";
-			} else {
-				// SELECT codigo_usuario - todos exeto o usuario que realizou o login no programa
-				SQL = "SELECT (codigo_usuario)"+
-					  " FROM tb_usuarios"+
-					  " WHERE codigo_usuario <> "+usuarioLogin.getCodigo()+";";
-			}
-			campoRetornado = "codigo_usuario";
-		}
-			
-		ResultSet rs = st.executeQuery(SQL);
-		
-		//Limpa a lista - retira apenas os usuarios que estao offline
-		limparListaUsuarios();
-		
-		while(rs.next()) {
-			
-			boolean usuarioEstaNaLista = false;
-			int a = 0;
-			// Varre lista de usuarios(a lista possui todos usuarios que estão no JDesktopPane)
-			while ((a < 100) && (!usuarioEstaNaLista)) {//FIXME tamanho grid
+	/**
+	 * Atualiza contatos (listaFormChat) com base em UsuariosDAO.listaUsuarios
+	 * Antes de iniciar atualiza lista de Usuarios
+	 */
+	public void atualizarContatos() {
 				
-				//Verifica se usuario atual do rs ja está na lista(JDesktopPane)
-				if (listaInternalFrames[a] != null) {
-					if (listaInternalFrames[a].getCodigoUsuario() == rs.getInt(campoRetornado)) {
-						//Variavel de controle para parar loop e definir proximo passo
-						usuarioEstaNaLista = true;
-					}
-				}
-				
-				a++;
-			}
-			
-			//Se usuario NÃO está na lista
-			if (!usuarioEstaNaLista) {
-				
-				boolean jaPreencheu = false;
-				int b = 0;
-				//Varre lista ate encontrar uma posicao vazia para adicionar novo usuario
-				while ((b < 100) && (!jaPreencheu)) {//FIXME tamanho grid
-					
-					if (listaInternalFrames[b] == null) {
-						//Adiciona usuario ao local null encontrado
-						listaInternalFrames[b] = FormUsuarioLista.getNovoFormUsuarioLista(rs.getInt(campoRetornado));
-						//Adiciona o usuario ao JDesktopPane
-						setUsuarioNoJDP(listaInternalFrames[b]);
-						//Variavel de controle para parar loop
-						jaPreencheu = true;
-					}
-					
-					b++;
-				}
-			}
-		}
-	}
-	
-	public static void setUsuarioNoJDP(FormUsuarioLista frmUsuarioLista) {
-		
-		FormIncial.jdpUsuarios.add(frmUsuarioLista);
-		frmUsuarioLista.setVisible(true);
-	}
-	
-	public static void limparListaUsuarios() {
-		
-		int i = 0;
-		// Varre lista  para verificar posicoes NÂO NULAS
-		int y = 0;
-		while (i < 100) { //FIXME tamanho grid
+		UsuariosDAO dao = new UsuariosDAO();
 
-			Usuarios userTeste = new Usuarios();
-			try {
+		//Remove usuarios que não presentes em listaUsuarios
+//		//Varre todos InternalFrames para comparar com Usuarios
+//		int a = 0;
+//		while (a < listaFormUsuarioLista.size()) {
+//			
+//			int b = 0;
+//			boolean achou = false;
+//			while ((b < dao.listaUsuarios.size()) && (!achou)) {
+//				
+//				//Se InternalFrame corresponde à algum usuário
+//				if (listaFormUsuarioLista.get(a).getUsuario().getCodigo() == dao.listaUsuarios.get(b).getCodigo()) {
+//					achou = true;
+//				}
+//				b++;
+//			}
+//			
+//			//Se não achou nenhum usuario correspondente = remove
+//			if (!achou) {
+//				
+//				removerFormUsuarioLista(listaFormUsuarioLista.get(a).getUsuario());
+//			}	
+//			a++;
+//		}
+		
+		/*
+		 * Varre listaFormUsuarioLista e dao.ListaUsuarios comparando os valores
+		 * Se encontrou atualiza o status
+		 * Se nao encontrou cria novo FormUsuarioLista 
+		 */
+		
+		//Varre todos Usuarios para comparar com InternalFrames
+		int i = 0;
+		while (i < dao.listaUsuarios.size()) {
+		
+			//Se usuario for o que efetuou login = ignora
+			if (!dao.listaUsuarios.get(i).getLogin().equals(FormLogin.getLoginUsuarioLogin())) {
 				
-				if (listaInternalFrames[i] != null) {
-					//Instancia novo usuario com codigo da posicao atual da grid para verificar o status do usuario
-					userTeste.carregarInformacoes(listaInternalFrames[i].getCodigoUsuario());
-					//Se usuario está offline(ip_usuario <> 'null') remove da JDesktopPane e seta NULL NA LISTA
+				//Varre InternalFrames ate achar o que corresponde ao usuario
+				boolean achou = false;
+				int z = 0;
+				while ((z < listaFormUsuarioLista.size()) && (!achou)) {
 					
-					//Se opção para exibir apenas online estiver marcada
-					if (FormIncial.checkOnline.isSelected()) {
-						if (!userTeste.getStatus()) {
-							FormIncial.jdpUsuarios.remove(listaInternalFrames[i]);
-							//FormIncial.jdpUsuarios.repaint();
-							listaInternalFrames[i] = null;
+					if (listaFormUsuarioLista.get(z).getUsuario().getCodigo() == dao.listaUsuarios.get(i).getCodigo()) {
+						achou = true;
+					}
+					
+					z++;
+				}
+				
+				//Se achou
+				if (achou) {
+					//Atualiza status
+					listaFormUsuarioLista.get(z-1).setStatus(dao.listaUsuarios.get(i).getStatus(), dao.listaUsuarios.get(i).getIp());
+				//Se não achou
+				} else {
+					
+					// Verificação de Abas e opção Online -------------------------------------------
+					boolean adicionarIF = false;
+					
+					//Aba "Todos"
+					if (FormIncial.indiceAba == 0) {
+					
+						// Considera opção "Apenas Online" do FormIncial
+						if (FormIncial.checkOnline.isSelected()) {
 							
-							FormUsuarioLista.decContadorPosicaoUsuario();
+							//Se estiver online = adiciona
+							if (dao.listaUsuarios.get(i).getStatus()) {
+								adicionarIF = true;
+							}
 						} else {
-							//Reorganiza posições dos forms na lista de contatos
-							listaInternalFrames[i].setLocation(0, y);
-							y = y + 60;
+							adicionarIF = true;
 						}
-					} else {
-						if (!userTeste.getStatus()) {
-							listaInternalFrames[i].setStatusUsuario(false);
+						
+					//Aba "Amigos"
+					} else if (FormIncial.indiceAba == 1) {
+						
+						// Considera opção "Apenas Online" do FormIncial
+						if (FormIncial.checkOnline.isSelected()) {
+							
+							//Se estiver online = adiciona
+							if (dao.listaUsuarios.get(i).getStatus()) {
+								
+								//Se for amigo
+								if (dao.verificarAmizade(FormLogin.getUsuarioLogin(), dao.listaUsuarios.get(i))) {
+									adicionarIF = true;
+								}
+							}
 						} else {
-							listaInternalFrames[i].setStatusUsuario(true);
+							//Se for amigo
+							if (dao.verificarAmizade(FormLogin.getUsuarioLogin(), dao.listaUsuarios.get(i))) {
+								adicionarIF = true;
+							}
 						}
 					}
 					
-					FormIncial.jdpUsuarios.repaint();
+					if (adicionarIF) {
+						adicionarFormUsuarioLista(dao.listaUsuarios.get(i));
+					}
+					//-------------------------------------------------------------------------------
 				}
-				
-			} catch (SQLException e) {
-				e.printStackTrace();
 			}
-			
 			i++;
 		}
 	}
 	
-	public static boolean modificarAmigo(int codigoAmigo, boolean adicionar) {
+	/**
+	 * Abre novo FormChat e adiciona na listaFormChat
+	 */
+	public void adicionarFormChat(Usuarios usuario) {
 		
-		Usuarios userLogin = FormLogin.getUsuarioLogin();
-		Connection conexao = MySQLConection.getMySQLConnection();
+		FormChat frmChat = new FormChat(usuario);
+		frmChat.setVisible(true);
 		
-		Statement st;
-		String SQL;	
-		boolean resultado = false;
+		listaFormChat.add(frmChat);
+	}
+	
+	/**
+	 * Fecha FormChat e remove da listaFormChat
+	 */
+	public void removerFormChat(Usuarios usuario) {
 		
-		try {
-			st = conexao.createStatement();
+		boolean achou = false;
+		int i = 0;
+		while ((i < listaFormChat.size()) && (!achou)) {
 			
-			if (!adicionar) {
-				if (JOptionPane.showConfirmDialog(null, "Remover usuário da sua lista de amigos?", "Remover amigo", 2) == 0) {//0 = OK
-					SQL = "DELETE FROM tb_amigos"+
-						  " WHERE codigo_usuario_amigo = "+userLogin.getCodigo()+
-						  " AND codigo_amigo_amigo = "+codigoAmigo+
-						  ";";
-					st.execute(SQL);
-					resultado = true;
-				} else {
-					resultado = false;
-				}
-			} else {
-				if (JOptionPane.showConfirmDialog(null, "Adicionar usuários à sua lista de amigos?", "Adicionar amigo", 2) == 0) {//0 = OK
-					SQL = "INSERT INTO tb_amigos (codigo_usuario_amigo, codigo_amigo_amigo)"+
-						  " VALUES ("+userLogin.getCodigo()+", "+codigoAmigo+
-						  ");";
-					st.execute(SQL);
-					resultado = true;
-				} else {
-					resultado = false;
-				}
+			//Varre lista ate achar usuario correto
+			if (listaFormChat.get(i).getUsuario().getCodigo() == usuario.getCodigo()) {
+				achou = true;
+				listaFormChat.get(i).setVisible(false);
+				listaFormChat.remove(i);
 			}
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Erro inesperado ao adicionar aos amigos!", "Erro", 1);
-			resultado = false;
+			i++;
 		}
+	}
+	
+	/**
+	 * Abre novo FormUsuarioLista, adiciona na listaFormUsuarioLista e no JDP
+	 */
+	public void adicionarFormUsuarioLista(Usuarios usuario) {
 		
-		return resultado;
+		FormUsuarioLista frmUsuarioLista = new FormUsuarioLista(usuario);
+		frmUsuarioLista.setLocation(0, listaFormUsuarioLista.size() * 60);
+		frmUsuarioLista.setStatus(usuario.getStatus(), usuario.getIp());
+		frmUsuarioLista.setVisible(true);
+		
+		FormIncial.jdpUsuarios.add(frmUsuarioLista);
+		listaFormUsuarioLista.add(frmUsuarioLista);
+	}
+	
+	/**
+	 * Remove FormUsuarioLista da listaFormUsuarioLista e do JDP
+	 */
+	public void removerFormUsuarioLista(Usuarios usuario) {
+		
+		boolean achou = false;
+		int i = 0;
+		while ((i < listaFormUsuarioLista.size()) && (!achou)) {
+			
+			//Varre lista ate achar usuario correto
+			if (listaFormUsuarioLista.get(i).getUsuario().getCodigo() == usuario.getCodigo()) {
+				achou = true;
+				FormIncial.jdpUsuarios.remove(listaFormUsuarioLista.get(i));
+				int z = i;
+				
+				//Volta uma posição todos os InternalFrames posteriores
+				while (z < listaFormUsuarioLista.size()) {
+					listaFormUsuarioLista.get(i).setLocation(0, (z - 1) * 60);
+					z++;
+				}
+				
+				listaFormUsuarioLista.remove(i);
+			}
+			i++;
+		}
+	}
+	
+	/**
+	 * Remove todos FormUsuarioLista
+	 * Limpa listaFormUsuariosLista
+	 * Limpa JDP
+	 */
+	public void removerTodosFormUsuarioLista() {
+		listaFormUsuarioLista.removeAll(listaFormUsuarioLista);
+		FormIncial.jdpUsuarios.removeAll();
+		FormIncial.jdpUsuarios.repaint();
+	}
+	
+	/**
+	 * Retorna quantidade de objetos na listaFormChat
+	 * @return
+	 */
+	public static int getSizeListaFormChat() {
+		return listaFormChat.size();
+	}
+	
+	/**
+	 * Retorna quantidade de onjetos na listaFormUsuariosChat
+	 * @return
+	 */
+	public static int getSizeListaFormUsuariosLista() {
+		return listaFormUsuarioLista.size();
 	}
 }
