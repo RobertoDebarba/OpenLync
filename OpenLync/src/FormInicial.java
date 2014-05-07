@@ -31,9 +31,10 @@ public class FormInicial extends javax.swing.JInternalFrame {
 			textPane.setText(textPane.getText() + "\n" + mensagem);
 		}
 		
-		textPane.repaint();
 		// Manda scroll para o final
 		textPane.setCaretPosition(textPane.getDocument().getLength());
+		textPane.repaint();
+		jScrollPane1.repaint();
 	}
 	
 	public void verificarStatusDB() {

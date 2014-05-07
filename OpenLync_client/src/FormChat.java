@@ -235,7 +235,7 @@ public class FormChat extends JFrame {
 		Date date = new Date();
 		
 		String linhas = "";
-		if (remetente == "local") {
+		if (remetente != "local") {
 			if (textPane.getText().equals("")) {
 				linhas = usuario.getNome() + "  " + dateFormat.format(date);
 			} else {

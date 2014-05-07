@@ -184,7 +184,10 @@ public class FormUsuario extends javax.swing.JFrame {
 			BufferedImage imgMaior = Scalr.resize(
 					dao.listaUsuarios.get(numeroRegistro).getFoto(), 70, 70);
 			labelFoto.setIcon(new ImageIcon(imgMaior));
-			//Se não houver foto -> limpa Icon do label
+			
+			fotoPerfil = dao.listaUsuarios.get(numeroRegistro).getFoto();
+			
+		//Se não houver foto -> limpa Icon do label
 		} else {
 			labelFoto.setIcon(null);
 		}

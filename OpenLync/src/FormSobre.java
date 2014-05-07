@@ -46,27 +46,28 @@ public class FormSobre extends javax.swing.JFrame {
 		jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource(
 				"/Imagens/OpenLync_logo_menor.png"))); // NOI18N
 		jPanel1.add(jLabel1);
-		jLabel1.setBounds(180, 20, 80, 80);
+		jLabel1.setBounds(182, 20, 80, 80);
 
-		jLabel2.setFont(new java.awt.Font("Arial", 1, 15));
+		jLabel2.setHorizontalAlignment(0);
+		jLabel2.setFont(new java.awt.Font("Ubuntu", 1, 16));
 		jLabel2.setText("OpenLync");
 		jPanel1.add(jLabel2);
-		jLabel2.setBounds(183, 120, 80, 19);
+		jLabel2.setBounds(3, 120, 440, 19);
 
-		jLabel3.setFont(new java.awt.Font("Arial", 0, 15));
+		jLabel3.setHorizontalAlignment(0);
 		jLabel3.setText("1.0 (beta)");
 		jPanel1.add(jLabel3);
-		jLabel3.setBounds(187, 160, 62, 18);
+		jLabel3.setBounds(-1, 160, 440, 18);
 
-		jLabel4.setFont(new java.awt.Font("Arial", 0, 15));
+		jLabel4.setHorizontalAlignment(0);
 		jLabel4.setText("Comunicador Instant\u00e2neo Empresarial");
 		jPanel1.add(jLabel4);
-		jLabel4.setBounds(100, 190, 270, 18);
+		jLabel4.setBounds(0, 190, 440, 18);
 
-		jLabel5.setFont(new java.awt.Font("Arial", 0, 15));
+		jLabel5.setHorizontalAlignment(0);
 		jLabel5.setText("Copyright 2014 Roberto Luiz Debarba");
 		jPanel1.add(jLabel5);
-		jLabel5.setBounds(103, 220, 260, 18);
+		jLabel5.setBounds(3, 220, 440, 18);
 
 		BtnFechar.setText("Fechar");
 		BtnFechar.addActionListener(new java.awt.event.ActionListener() {
@@ -87,7 +88,7 @@ public class FormSobre extends javax.swing.JFrame {
 		jPanel1.add(BtnLicenca);
 		BtnLicenca.setBounds(10, 280, 87, 28);
 
-		jLabel6.setFont(new java.awt.Font("Arial", 0, 15));
+		jLabel6.setHorizontalAlignment(0);
 		jLabel6.setText("OpenLync no GitHub");
 		jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -95,7 +96,7 @@ public class FormSobre extends javax.swing.JFrame {
 			}
 		});
 		jPanel1.add(jLabel6);
-		jLabel6.setBounds(153, 250, 150, 18);
+		jLabel6.setBounds(3, 250, 440, 18);
 
 		org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(
 				getContentPane());

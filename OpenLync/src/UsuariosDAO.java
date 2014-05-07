@@ -158,8 +158,8 @@ public class UsuariosDAO {
 						 			", '"+usuario.getNome()+
 						 			"', (SELECT codigo_cargo FROM tb_cargos WHERE desc_cargo = '"+usuario.getCargo()+"')"+
 						 			", '"+cript.criptografarMensagem(usuario.getLogin())+
-						 			"' , '"+cript.criptografarMensagem(usuario.getSenha())+"',"+
-						 			" 'null'"+
+						 			"' , '"+cript.criptografarMensagem(usuario.getSenha())+
+						 			"', 'null'"+
 						 			", ?"+
 						 			", "+usuario.isAdmin()+
 						 			");";
@@ -210,7 +210,7 @@ public class UsuariosDAO {
 			
 			} else {	//Se houver alguma foto
 				SQL = "UPDATE tb_usuarios SET" +
-						 ", nome_usuario = '"+usuario.getNome()+
+						 " nome_usuario = '"+usuario.getNome()+
 						 "', codigo_cargo = (SELECT codigo_cargo FROM tb_cargos WHERE desc_cargo = '"+usuario.getCargo()+"')"+
 						 ", login_usuario = '"+cript.criptografarMensagem(usuario.getLogin())+
 						 "', senha_usuario = '"+cript.criptografarMensagem(usuario.getSenha())+
