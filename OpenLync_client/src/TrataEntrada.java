@@ -10,6 +10,7 @@ public class TrataEntrada implements Runnable {
 	
 	public TrataEntrada(ServerSocket SS) { 
 		this.SS = SS;
+		
 	}
 
 	/**
@@ -71,9 +72,10 @@ public class TrataEntrada implements Runnable {
 					
 					UsuariosDAO dao = new UsuariosDAO();
 					Contatos contatos = new Contatos();
+					Usuarios user = dao.procurarUsuarioIP(TratadorMensagens.getIpRemetente());
 					
 					//Cria janela de Chat
-					contatos.adicionarFormChat(dao.procurarUsuarioIP(TratadorMensagens.getIpRemetente()));
+					contatos.adicionarFormChat(user, 1);
 					
 					//Procura chat criado e manda mensagem
 					i = 0;
@@ -86,6 +88,13 @@ public class TrataEntrada implements Runnable {
 						}
 						i++;
 					}
+					
+					//Exibir Notificação
+					FormNotificação frmNotificacao = new FormNotificação();
+					frmNotificacao.setNomeUsuario(user.getNome());
+					frmNotificacao.setFotoUsuarios(user.getFoto());
+					frmNotificacao.setIndexFrameUsuario((i-1));
+					frmNotificacao.setVisible(true);
 					
 				}	
 			}

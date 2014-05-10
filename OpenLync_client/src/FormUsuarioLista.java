@@ -78,7 +78,7 @@ public class FormUsuarioLista extends JInternalFrame {
 					if (!usuario.getIp().equals("null")) {
 						Contatos contatos = new Contatos();
 						
-						contatos.adicionarFormChat(usuario);
+						contatos.adicionarFormChat(usuario, 0);
 					} else {
 						JOptionPane.showMessageDialog(null, "Usuário está offline!", "Aviso", 1);
 					}

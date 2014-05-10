@@ -2,6 +2,8 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JFrame;
+
 public class Contatos {
 
 	public static List<FormChat> listaFormChat = new ArrayList<FormChat>();
@@ -122,11 +124,18 @@ public class Contatos {
 	
 	/**
 	 * Abre novo FormChat e adiciona na listaFormChat
+	 * @param estado - 0 = normal / 1 - minimizado
 	 */
-	public void adicionarFormChat(Usuarios usuario) {
+	public void adicionarFormChat(Usuarios usuario, int estado) {
 		
 		FormChat frmChat = new FormChat(usuario);
+		
 		frmChat.setVisible(true);
+		
+		if (estado == 1) {
+			frmChat.setState(JFrame.ICONIFIED);
+			frmChat.toFront();
+		}
 		
 		listaFormChat.add(frmChat);
 	}
