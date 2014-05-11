@@ -25,7 +25,6 @@ import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
@@ -231,22 +230,22 @@ public class FormChat extends JFrame {
 	 */
 	public void adicionarMensagem(String mensagem, String remetente) {
 		
-		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		
 		String linhas = "";
 		if (remetente != "local") {
 			if (textPane.getText().equals("")) {
-				linhas = usuario.getNome() + "  " + dateFormat.format(date);
+				linhas = usuario.getNome() + "  " + sdf.format(date);
 			} else {
-				linhas = textPane.getText() + "\n" + usuario.getNome() + "  " + dateFormat.format(date);
+				linhas = textPane.getText() + "\n" + usuario.getNome() + "  " + sdf.format(date);
 			}
 		} else {
 			Usuarios userLogin = FormLogin.getUsuarioLogin();
 			if (textPane.getText().equals("")) {
-				linhas = userLogin.getNome() + "  " + dateFormat.format(date);
+				linhas = userLogin.getNome() + "  " + sdf.format(date);
 			} else {
-				linhas = textPane.getText() + "\n" + userLogin.getNome() + "  " + dateFormat.format(date);
+				linhas = textPane.getText() + "\n" + userLogin.getNome() + "  " + sdf.format(date);
 			}
 		}
 		
