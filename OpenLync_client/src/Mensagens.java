@@ -1,3 +1,8 @@
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Mensagens {
 
@@ -31,11 +36,41 @@ public class Mensagens {
 			   pParte = false;
 		   }
 		   else if (pParte) {
-			   ipRemetente = ipRemetente + c;
+			   ipRemetente += c;
 		   }
 		   else if (!pParte) {
-			   mensagemTratada = mensagemTratada + c;
+			   mensagemTratada += c;
 		   }
 		} 
+	}
+	
+	public void adicionarMensagem(String mensagem, int codigoRemetente, int codigoDestinatario, Date data, boolean lida) {
+		
+		Connection conexao = MySQLConection.getMySQLConnection();
+		Criptografia cript = new Criptografia();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		try {
+			Statement st = conexao.createStatement();
+			
+			String SQL = "INSERT INTO tb_mensagens("+
+						 "conteudo_mensagem,"+
+						 " data_mensagem,"+
+						 " lido_mensagem,"+
+						 " codigo_remet_mensagem,"+
+						 " codigo_dest_mensagem)"+
+						 " VALUES ("+
+						 "'"+ cript.criptografarMensagem(mensagem) +"',"+
+						 " '"+ sdf.format(data) +"',"+
+						 " "+ lida +","+
+						 " "+ codigoRemetente +","+
+						 " "+ codigoDestinatario +""+
+						 ");";
+			
+			st.execute(SQL);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
 	}
 }

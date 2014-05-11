@@ -1,6 +1,5 @@
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
@@ -40,6 +39,9 @@ public class FormChat extends JFrame {
 	private JPanel contentPane;
 	private JTextPane textPane;
 	private JScrollPane scrollPane;
+	private JTextArea textArea;
+	private SaidaDados conexaoSaida;
+	private JPanel panelStatus;
 	
 	private Usuarios usuario;
 
@@ -55,7 +57,7 @@ public class FormChat extends JFrame {
 		setTitle(usuario.getNome());
 		
 		//Abre Conexão de Saida
-		final SaidaDados conexaoSaida = new SaidaDados(usuario.getIp());
+		conexaoSaida = new SaidaDados(usuario.getIp());
 		Thread threadSaida = new Thread(conexaoSaida);
 		threadSaida.start();
 		
@@ -74,22 +76,31 @@ public class FormChat extends JFrame {
 		textPane.setFont(Font.getFont("Dialog"));
 		contentPane.add(textPane);
 		
+		panelStatus = new JPanel();
+		panelStatus.setBounds(10, 8, 7, 57);
+		if (usuario.getStatus()) {
+			panelStatus.setBackground(new Color(0, 200, 0));
+		} else {
+			panelStatus.setBackground(new Color(200, 0, 0));
+		}
+		getContentPane().add(panelStatus);
+		
 		JLabel labelFoto = new JLabel("");
 		labelFoto.setIcon(new ImageIcon(usuario.getFoto()));
-		labelFoto.setBounds(10, 8, 57, 57);
+		labelFoto.setBounds(18, 7, 57, 57);
 		contentPane.add(labelFoto);
 		
 		JLabel labelNome = new JLabel(usuario.getNome());
 		labelNome.setFont(new Font("Dialog", Font.BOLD, 16));
-		labelNome.setBounds(75, 16, 285, 15);
+		labelNome.setBounds(82, 16, 285, 15);
 		contentPane.add(labelNome);
 		
 		JLabel labelCargo = new JLabel(usuario.getCargo());
 		labelCargo.setFont(new Font("Dialog", Font.PLAIN, 14));
-		labelCargo.setBounds(75, 42, 285, 15);
+		labelCargo.setBounds(82, 42, 285, 15);
 		contentPane.add(labelCargo);
 		
-		final JTextArea textArea = new JTextArea();
+		textArea = new JTextArea();
 		textArea.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {		// Ao pressionar ENTER
@@ -103,13 +114,7 @@ public class FormChat extends JFrame {
 					robot.keyPress(KeyEvent.VK_BACK_SPACE);
 					robot.keyRelease(KeyEvent.VK_BACK_SPACE);
 					
-					//Se campo não estiver vazio
-					if (!textArea.getText().equals("")) {
-						adicionarMensagem(textArea.getText(), "local");
-						conexaoSaida.enviarMensagem(textArea.getText());
-						textArea.setText(null);
-						textArea.grabFocus();
-					}
+					enviarMensagem();
 				}
 			}
 		});
@@ -119,13 +124,7 @@ public class FormChat extends JFrame {
 		JButton BtnEnviar = new JButton("Enviar");		
 		BtnEnviar.addActionListener(new ActionListener() {		// Ao clicar botão ENVIAR
 			public void actionPerformed(ActionEvent arg0) {
-				//Se campo não estiver vazio
-				if (!textArea.getText().equals("")) {
-					adicionarMensagem(textArea.getText(), "local");
-					conexaoSaida.enviarMensagem(textArea.getText());
-					textArea.setText(null);
-					textArea.grabFocus();
-				}
+				enviarMensagem();
 			}
 		});
 		BtnEnviar.setBounds(293, 322, 63, 59);
@@ -134,6 +133,7 @@ public class FormChat extends JFrame {
 		scrollPane = new JScrollPane(textPane);
 		scrollPane.setBounds(8, 70, 348, 248);
 		contentPane.add(scrollPane);
+		
 		
 		final UsuariosDAO dao = new UsuariosDAO();
 		
@@ -198,7 +198,7 @@ public class FormChat extends JFrame {
 	 */
 	private void verificarStatusContato() {
 		
-		String statusAtual = "";
+		String ipAtual= "";
 		try {
 			java.sql.Connection conexao = MySQLConection.getMySQLConnection();
 			Statement st = conexao.createStatement();
@@ -208,7 +208,7 @@ public class FormChat extends JFrame {
 			ResultSet rs = st.executeQuery(SQL);
 
 			if (rs.next()) {
-				statusAtual = rs.getString("ip_usuario");
+				ipAtual = rs.getString("ip_usuario");
 			}
 			
 		} catch (SQLException e) {
@@ -216,10 +216,14 @@ public class FormChat extends JFrame {
 		}
 		
 		//Se o usuario ficou offline
-		if (statusAtual.equals("null")) {
+		if (ipAtual.equals("null")) {
 			
-			dispose();
-			JOptionPane.showMessageDialog(null, usuario.getNome() +" ficou offline!", "Usuário desconectado", 1);
+			usuario.setIp("null");	
+			panelStatus.setBackground(new Color(200, 0, 0));
+		} else {
+			
+			usuario.setIp(ipAtual);
+			panelStatus.setBackground(new Color(0, 200, 0));
 		}
 	}
 	
@@ -254,5 +258,33 @@ public class FormChat extends JFrame {
 		
 		// Manda scroll para o final
 		textPane.setCaretPosition(textPane.getDocument().getLength());
+	}
+	
+	/**
+	 * Envia a mensagem.
+	 * Evento usado pelo btnEnviar e Enter
+	 */
+	private void enviarMensagem() {
+		
+		//Se campo não estiver vazio
+		if (!textArea.getText().equals("")) {
+			adicionarMensagem(textArea.getText(), "local");
+			
+			//Se usuario estiver online -> manda mensagem via Socket
+			if (usuario.getStatus()) {
+				conexaoSaida.enviarMensagem(textArea.getText());
+			}
+			
+			/* --- Adiciona mensagem ao Historico no Banco de Dados (tb_mensagens) --- */
+			Mensagens mensagens = new Mensagens();
+			//Se usuario estiver Online a mensagem é considerada lida
+			boolean mensagemLida = (usuario.getStatus()) ? true : false;
+			
+			mensagens.adicionarMensagem(textArea.getText(), FormLogin.getUsuarioLogin().getCodigo(), usuario.getCodigo(), new Date(), mensagemLida);
+			
+			// Limpa campos
+			textArea.setText(null);
+			textArea.grabFocus();
+		}
 	}
 }

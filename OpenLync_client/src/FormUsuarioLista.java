@@ -74,13 +74,13 @@ public class FormUsuarioLista extends JInternalFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-					// Abre tela do chat se usuario estiver online
-					if (!usuario.getIp().equals("null")) {
-						Contatos contatos = new Contatos();
-						
-						contatos.adicionarFormChat(usuario, 0);
-					} else {
-						JOptionPane.showMessageDialog(null, "Usuário está offline!", "Aviso", 1);
+					// Abre tela do chat
+					Contatos contatos = new Contatos();
+					contatos.adicionarFormChat(usuario, 0);
+					
+					//Se usuario estiver offline -> exibe um aviso
+					if (usuario.getIp().equals("null")) {
+						JOptionPane.showMessageDialog(null, usuario.getNome() + " está offline!", "Aviso", 1);
 					}
 				}
 			}
