@@ -39,8 +39,19 @@ public class FormUsuario extends javax.swing.JFrame {
 		setLocationRelativeTo(null);
 		setResizable(false);
 
-		// Carregar informações iniciais
 		dao = new UsuariosDAO(true);
+	}
+
+	// -----------------------------------------------------------------------------------------------------
+	
+	/**
+	 * Atualiza dados da Grid e Combo
+	 */
+	@Override
+	public void setVisible(boolean b) {
+		super.setVisible(b);
+		
+		dao.carregarListaUsuario();
 		carregarGridUsuarios();
 		atualizarComboCargos();
 		carregarCampos(0);
@@ -52,9 +63,7 @@ public class FormUsuario extends javax.swing.JFrame {
 		tableUsuarios.addRowSelectionInterval(0, 0);
 		tableUsuarios.setRowHeight(25);
 	}
-
-	// -----------------------------------------------------------------------------------------------------
-
+	
 	/**
 	 * Desabilitar Edição
 	 */

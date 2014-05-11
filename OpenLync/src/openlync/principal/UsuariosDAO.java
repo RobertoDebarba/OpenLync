@@ -30,7 +30,7 @@ public class UsuariosDAO {
 	/**
 	 * Carrega listaUsuarios com todos os registros de tb_usuarios
 	 */
-	private void carregarListaUsuario() {
+	public void carregarListaUsuario() {
 		
 		Criptografia cript = new Criptografia();
 

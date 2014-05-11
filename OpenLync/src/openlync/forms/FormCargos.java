@@ -411,9 +411,7 @@ public class FormCargos extends javax.swing.JFrame {
 	//GEN-END:initComponents
 
 	private void formWindowClosed(java.awt.event.WindowEvent evt) {
-		if (FormInicial.frmUsuarios.isVisible()) {
-			FormInicial.frmUsuarios.atualizarComboCargos();
-		}
+		FormInicial.frmUsuarios.atualizarComboCargos();
 	}
 
 	private void tableCargosKeyReleased(java.awt.event.KeyEvent evt) {
