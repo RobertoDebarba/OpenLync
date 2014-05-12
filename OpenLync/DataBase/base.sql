@@ -13,6 +13,7 @@ CREATE TABLE tb_usuarios (
 	senha_usuario VARCHAR(50) NOT NULL,
 	ip_usuario VARCHAR(15) NOT NULL,
 	codigo_cargo INT(3) NOT NULL,
+	admin_usuario boolean NOT NULL,
 	foto_usuario BLOB,
 
 	CONSTRAINT codigo_cargo_fk FOREIGN KEY (codigo_cargo)
@@ -62,14 +63,14 @@ VALUES ('Diretor de Desenvolvimento');
 
 /* Usuarios */
 
-INSERT INTO tb_usuarios(nome_usuario, login_usuario, senha_usuario, ip_usuario, codigo_cargo, foto_usuario)
-VALUES ('Roberto Luiz Debarba', '35685347493069331629356853630934749'/*roberto*/, '154051571716029'/*123*/, 'null', 1, LOAD_FILE('/home/roberto/roberto.jpg'));
+INSERT INTO tb_usuarios(nome_usuario, login_usuario, senha_usuario, ip_usuario, codigo_cargo, admin_usuario, foto_usuario)
+VALUES ('Roberto Luiz Debarba', '35685347493069331629356853630934749'/*roberto*/, '154051571716029'/*123*/, 'null', 1, true, LOAD_FILE('/home/roberto/roberto.jpg'));
 
-INSERT INTO tb_usuarios(nome_usuario, login_usuario, senha_usuario, ip_usuario, codigo_cargo, foto_usuario)
-VALUES ('Maria da Silva', '3412530381356853287730381'/*maria*/, '154051571716029'/*123*/, 'null', 2, LOAD_FILE('/home/roberto/maria.jpg'));
+INSERT INTO tb_usuarios(nome_usuario, login_usuario, senha_usuario, ip_usuario, codigo_cargo, admin_usuario, foto_usuario)
+VALUES ('Maria da Silva', '3412530381356853287730381'/*maria*/, '154051571716029'/*123*/, 'null', 2, false, LOAD_FILE('/home/roberto/maria.jpg'));
 
-INSERT INTO tb_usuarios(nome_usuario, login_usuario, senha_usuario, ip_usuario, codigo_cargo, foto_usuario)
-VALUES ('João Felipe Figueiro', '33189347493038134749'/*joao*/, '154051571716029'/*123*/, 'null', 3, LOAD_FILE('/home/roberto/joao.jpg'));
+INSERT INTO tb_usuarios(nome_usuario, login_usuario, senha_usuario, ip_usuario, codigo_cargo, admin_usuario, foto_usuario)
+VALUES ('João Felipe Figueiro', '33189347493038134749'/*joao*/, '154051571716029'/*123*/, 'null', 3, false, LOAD_FILE('/home/roberto/joao.jpg'));
 
 /* Amigos */
 
