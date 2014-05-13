@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 public class MySQLConection {
 	
 	private static boolean status = false;
-	private static String ipServidor = "192.168.229.1";
+	private static String ipServidor = "172.16.122.1";
 
 	public static String getIpServidor() {
 		return ipServidor;
