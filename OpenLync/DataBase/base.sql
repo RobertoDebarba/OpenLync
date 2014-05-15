@@ -89,13 +89,13 @@ VALUES (3, 1);
 /* Mensagens */
 
 INSERT INTO tb_mensagens(conteudo_mensagem, data_mensagem, lido_mensagem, codigo_remet_mensagem, codigo_dest_mensagem)
-VALUES ('Mensagem de teste0001. Hello World!', '2014-04-08 12:24:36', true, 1, 2);
+VALUES ('3630931629359973630931629', '2014-04-08 12:24:36', true, 1, 2);
 
 INSERT INTO tb_mensagens(conteudo_mensagem, data_mensagem, lido_mensagem, codigo_remet_mensagem, codigo_dest_mensagem)
-VALUES ('Mensagem de teste0002. Hello World!', '2014-04-08 12:24:36', true, 1, 2);
+VALUES ('3630931629359973630931629', '2014-04-08 12:24:36', false, 1, 2);
 
 INSERT INTO tb_mensagens(conteudo_mensagem, data_mensagem, lido_mensagem, codigo_remet_mensagem, codigo_dest_mensagem)
-VALUES ('Mensagem de teste0003. Hello World!', '2014-04-08 12:24:36', true, 1, 3);
+VALUES ('3630931629359973630931629', '2014-04-08 12:24:36', true, 1, 3);
 
 INSERT INTO tb_mensagens(conteudo_mensagem, data_mensagem, lido_mensagem, codigo_remet_mensagem, codigo_dest_mensagem)
-VALUES ('Mensagem de teste0004. Hello World!', '2014-04-08 12:24:36', true, 2, 1);
+VALUES ('3630931629359973630931629', '2014-04-08 12:24:36', false, 2, 1);
