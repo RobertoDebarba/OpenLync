@@ -124,11 +124,13 @@ public class Contatos {
 	
 	/**
 	 * Abre novo FormChat e adiciona na listaFormChat
-	 * @param estado - 0 = normal / 1 - minimizado
+	 * @param usuario: Usuario do chat
+	 * @param estado: 0 - normal / 1 - minimizado
+	 * @param modo: 0 - normal / 1 - mensagens não lidas / 2 - historico de mensagens 
 	 */
-	public void adicionarFormChat(Usuarios usuario, int estado) {
+	public void adicionarFormChat(Usuarios usuario, int estado, int modo) {
 		
-		FormChat frmChat = new FormChat(usuario);
+		FormChat frmChat = new FormChat(usuario, modo);
 		
 		frmChat.setVisible(true);
 		

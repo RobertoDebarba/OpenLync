@@ -1,7 +1,6 @@
 
 import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
-import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -76,12 +75,7 @@ public class FormUsuarioLista extends JInternalFrame {
 				if (e.getClickCount() == 2) {
 					// Abre tela do chat
 					Contatos contatos = new Contatos();
-					contatos.adicionarFormChat(usuario, 0);
-					
-					//Se usuario estiver offline -> exibe um aviso
-					if (usuario.getIp().equals("null")) {
-						JOptionPane.showMessageDialog(null, usuario.getNome() + " está offline!", "Aviso", 1);
-					}
+					contatos.adicionarFormChat(usuario, 0, 0);
 				}
 			}
 		});

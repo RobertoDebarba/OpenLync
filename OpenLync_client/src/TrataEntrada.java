@@ -75,7 +75,7 @@ public class TrataEntrada implements Runnable {
 					Usuarios user = dao.procurarUsuarioIP(TratadorMensagens.getIpRemetente());
 					
 					//Cria janela de Chat
-					contatos.adicionarFormChat(user, 1);
+					contatos.adicionarFormChat(user, 1, 0);
 					
 					//Procura chat criado e manda mensagem
 					i = 0;
