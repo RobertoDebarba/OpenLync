@@ -22,7 +22,7 @@ public class FormLogin extends javax.swing.JInternalFrame {
 			e.printStackTrace();
 		}
 		SwingUtilities.updateComponentTreeUI(this);
-		
+
 		// Retira bordas
 		((BasicInternalFrameUI) this.getUI()).setNorthPane(null); // retirar
 																	// o
@@ -33,18 +33,20 @@ public class FormLogin extends javax.swing.JInternalFrame {
 																	// painel
 																	// inferior
 		this.setBorder(null);// retirar bordas
-		
+
 		// Seta centro
 		setLocation(0, 0);
 	}
-	
+
 	/**
 	 * Efetua operações de login
+	 * 
 	 * @param evt
 	 */
 	private void efetuarLogin(KeyEvent evt) {
-		
+
 		if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+
 			UsuariosDAO dao = new UsuariosDAO(false);
 			if (dao.verifLogin(editLogin.getText(),
 					new String(editSenha.getPassword()))) {
@@ -153,12 +155,12 @@ public class FormLogin extends javax.swing.JInternalFrame {
 	}
 
 	private void editSenhaKeyPressed(java.awt.event.KeyEvent evt) {
-		
+
 		efetuarLogin(evt);
 	}
 
 	private void editLoginKeyPressed(java.awt.event.KeyEvent evt) {
-		
+
 		efetuarLogin(evt);
 	}
 

@@ -31,6 +31,9 @@ public class TrataCliente implements Runnable {
 																		// mensagem
 	}
 
+	/**
+	 * Para thread do cliente atual
+	 */
 	public void encerrarThread() {
 		OpenLync.frmMain.frmInicial.adicionarLog("Encerrada a Thread "
 				+ Thread.currentThread().getId());
