@@ -37,6 +37,29 @@ public class FormLogin extends javax.swing.JInternalFrame {
 		// Seta centro
 		setLocation(0, 0);
 	}
+	
+	/**
+	 * Efetua operações de login
+	 * @param evt
+	 */
+	private void efetuarLogin(KeyEvent evt) {
+		
+		if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+			UsuariosDAO dao = new UsuariosDAO(false);
+			if (dao.verifLogin(editLogin.getText(),
+					new String(editSenha.getPassword()))) {
+				OpenLync.frmMain.frmLogin.setVisible(false);
+				if (OpenLync.frmMain.frmInicial == null) {
+					OpenLync.frmMain.abrirFrmInicial();
+				}
+				editLogin.setText("");
+				editSenha.setText("");
+			} else {
+				JOptionPane.showMessageDialog(null,
+						"Usuário ou Senha incorretos!", "Erro de Login", 1);
+			}
+		}
+	}
 
 	// GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc="Generated Code">
@@ -130,39 +153,13 @@ public class FormLogin extends javax.swing.JInternalFrame {
 	}
 
 	private void editSenhaKeyPressed(java.awt.event.KeyEvent evt) {
-		if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-			UsuariosDAO dao = new UsuariosDAO(false);
-			if (dao.verifLogin(editLogin.getText(),
-					new String(editSenha.getPassword()))) {
-				OpenLync.frmMain.frmLogin.setVisible(false);
-				if (OpenLync.frmMain.frmInicial == null) {
-					OpenLync.frmMain.abrirFrmInicial();
-				}
-				editLogin.setText("");
-				editSenha.setText("");
-			} else {
-				JOptionPane.showMessageDialog(null,
-						"Usuário ou Senha incorretos!", "Erro de Login", 1);
-			}
-		}
+		
+		efetuarLogin(evt);
 	}
 
 	private void editLoginKeyPressed(java.awt.event.KeyEvent evt) {
-		if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-			UsuariosDAO dao = new UsuariosDAO(false);
-			if (dao.verifLogin(editLogin.getText(),
-					new String(editSenha.getPassword()))) {
-				OpenLync.frmMain.frmLogin.setVisible(false);
-				if (OpenLync.frmMain.frmInicial == null) {
-					OpenLync.frmMain.abrirFrmInicial();
-				}
-				editLogin.setText("");
-				editSenha.setText("");
-			} else {
-				JOptionPane.showMessageDialog(null,
-						"Usuário ou Senha incorretos!", "Erro de Login", 1);
-			}
-		}
+		
+		efetuarLogin(evt);
 	}
 
 	private void editSenhaActionPerformed(java.awt.event.ActionEvent evt) {
