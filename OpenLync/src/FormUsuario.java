@@ -22,9 +22,9 @@ public class FormUsuario extends javax.swing.JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	// Editavel
 	private Connection conexao = MySQLConection.getMySQLConnection();
-	private int estado = 0; //Define modo da tela / 0 = neutro / 1 = Novo / 2 = Editando
+	private int estado = 0; // Define modo da tela / 0 = neutro / 1 = Novo / 2 =
+							// Editando
 	private BufferedImage fotoPerfil = null;
 	private UsuariosDAO dao;
 
@@ -32,27 +32,27 @@ public class FormUsuario extends javax.swing.JFrame {
 	public FormUsuario() {
 
 		initComponents();
-		
+
 		setLocationRelativeTo(null);
 		setResizable(false);
 
-		//Carregar informações iniciais
-		dao = new UsuariosDAO();
+		// Carregar informações iniciais
+		dao = new UsuariosDAO(true);
 		carregarGridUsuarios();
 		atualizarComboCargos();
 		carregarCampos(0);
 
 		editOFF();
 
-		//Personaliza Grid
+		// Personaliza Grid
 		tableUsuarios.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tableUsuarios.addRowSelectionInterval(0, 0);
 		tableUsuarios.setRowHeight(25);
 	}
 
-	//-----------------------------------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------------------------------
 
-	/*
+	/**
 	 * Desabilitar Edição
 	 */
 	private void editOFF() {
@@ -75,7 +75,7 @@ public class FormUsuario extends javax.swing.JFrame {
 		BtnVoltar.setEnabled(true);
 	}
 
-	/*
+	/**
 	 * Habilita edição
 	 */
 	private void editON() {
@@ -98,7 +98,7 @@ public class FormUsuario extends javax.swing.JFrame {
 		BtnVoltar.setEnabled(false);
 	}
 
-	/*
+	/**
 	 * Abre tela de seleção de arquivo (para seleção de Foto de perfil)
 	 */
 	private File escolherArquivo() {
@@ -108,7 +108,7 @@ public class FormUsuario extends javax.swing.JFrame {
 		fc.setDialogType(JFileChooser.OPEN_DIALOG);
 		fc.setApproveButtonText("OK");
 		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-		//Adiciona filtro para apenas selecionar imagens
+		// Adiciona filtro para apenas selecionar imagens
 		fc.setAcceptAllFileFilterUsed(false);
 		fc.setFileFilter(new FileNameExtensionFilter("Image files", ImageIO
 				.getReaderFileSuffixes()));
@@ -124,17 +124,17 @@ public class FormUsuario extends javax.swing.JFrame {
 		return arquivo;
 	}
 
-	/*
+	/**
 	 * Select todos registros do tb_usuario e carrega para grid
 	 */
 	private void carregarGridUsuarios() {
 
-		//DEfine colunas da GRID ---------------------------------------
+		// DEfine colunas da GRID ---------------------------------------
 
 		String[] colunasGridUsuarios = new String[] { "Código", "Nome",
 				"Cargo", "Login", "Senha" };
 
-		//Carrega lista para Array -------------------------------------
+		// Carrega lista para Array -------------------------------------
 		int i = 0;
 
 		String[][] listaGridusuarios = new String[dao.listaUsuarios.size()][5];
@@ -147,8 +147,10 @@ public class FormUsuario extends javax.swing.JFrame {
 			i++;
 		}
 
-		//Cria grig preenchendo os campos e colunas com listaGrigUsuarios e colunasGridUsuarios
-		//Cria novo modelo defaul sobreescrevendo o modo isCellEditable para desabilitar a edição
+		// Cria grig preenchendo os campos e colunas com listaGrigUsuarios e
+		// colunasGridUsuarios
+		// Cria novo modelo defaul sobreescrevendo o modo isCellEditable para
+		// desabilitar a edição
 		tableUsuarios.setModel(new DefaultTableModel(listaGridusuarios,
 				colunasGridUsuarios) {
 			private static final long serialVersionUID = 1L;
@@ -163,37 +165,38 @@ public class FormUsuario extends javax.swing.JFrame {
 		tableUsuarios.getColumn("Cargo").setPreferredWidth(110);
 	}
 
-	/*
+	/**
 	 * Carrega campos com base na listaUsuarios
 	 */
 	private void carregarCampos(int numeroRegistro) {
 
-		editCodigo.setText(dao.listaUsuarios.get(numeroRegistro).getCodigo() + "");
+		editCodigo.setText(dao.listaUsuarios.get(numeroRegistro).getCodigo()
+				+ "");
 		editNome.setText(dao.listaUsuarios.get(numeroRegistro).getNome());
 		EditLogin.setText(dao.listaUsuarios.get(numeroRegistro).getLogin());
 		editSenha.setText(dao.listaUsuarios.get(numeroRegistro).getSenha());
 
 		checkAdmin.setSelected(dao.listaUsuarios.get(numeroRegistro).isAdmin());
 
-		comboCargo
-				.setSelectedItem(dao.listaUsuarios.get(numeroRegistro).getCargo());
+		comboCargo.setSelectedItem(dao.listaUsuarios.get(numeroRegistro)
+				.getCargo());
 
-		//Seta foto
-		//Se houver foto -> seta Icon do label
+		// Seta foto
+		// Se houver foto -> seta Icon do label
 		if (dao.listaUsuarios.get(numeroRegistro).getFoto() != null) {
 			BufferedImage imgMaior = Scalr.resize(
 					dao.listaUsuarios.get(numeroRegistro).getFoto(), 70, 70);
 			labelFoto.setIcon(new ImageIcon(imgMaior));
-			
+
 			fotoPerfil = dao.listaUsuarios.get(numeroRegistro).getFoto();
-			
-		//Se não houver foto -> limpa Icon do label
+
+			// Se não houver foto -> limpa Icon do label
 		} else {
 			labelFoto.setIcon(null);
 		}
 	}
 
-	/*
+	/**
 	 * Atualiza itens do comboBox Cargos
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -207,7 +210,7 @@ public class FormUsuario extends javax.swing.JFrame {
 
 			ResultSet rs = st.executeQuery(SQL);
 
-			//Conta o numero de registros retornados
+			// Conta o numero de registros retornados
 			rs.last();
 			int quantidadeRegistros = rs.getRow();
 			rs.beforeFirst();
@@ -227,14 +230,14 @@ public class FormUsuario extends javax.swing.JFrame {
 		comboCargo.setModel(new javax.swing.DefaultComboBoxModel(listaCargos));
 	}
 
-	//-------------------------------------------------------------------------------------------------
+	// -------------------------------------------------------------------------------------------------
 
-	/** This method is called from within the constructor to
-	 * initialize the form.
-	 * WARNING: Do NOT modify this code. The content of this method is
-	 * always regenerated by the Form Editor.
+	/**
+	 * This method is called from within the constructor to initialize the form.
+	 * WARNING: Do NOT modify this code. The content of this method is always
+	 * regenerated by the Form Editor.
 	 */
-	//GEN-BEGIN:initComponents
+	// GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc="Generated Code">
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void initComponents() {
@@ -540,15 +543,16 @@ public class FormUsuario extends javax.swing.JFrame {
 
 		pack();
 	}// </editor-fold>
-		//GEN-END:initComponents
+		// GEN-END:initComponents
 
 	private void BtnFotoActionPerformed(java.awt.event.ActionEvent evt) {
 		File foto = escolherArquivo();
 
-		//Se o arquivo não for null (se usuario não cancelou a escolha)
+		// Se o arquivo não for null (se usuario não cancelou a escolha)
 		if (foto != null) {
 			try {
-				fotoPerfil = ImageIO.read(foto); //Carrega foto para BufferedImage
+				fotoPerfil = ImageIO.read(foto); // Carrega foto para
+													// BufferedImage
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -567,7 +571,7 @@ public class FormUsuario extends javax.swing.JFrame {
 			;
 		}
 	}
-	
+
 	private void BtnNovoCargoActionPerformed(java.awt.event.ActionEvent evt) {
 		FormInicial.frmCargos.setVisible(true);
 	}
@@ -581,13 +585,16 @@ public class FormUsuario extends javax.swing.JFrame {
 		}
 	}
 
-	private void EditLoginFocusLost(java.awt.event.FocusEvent evt) { //Sair do campo Login
+	private void EditLoginFocusLost(java.awt.event.FocusEvent evt) { // Sair do
+																		// campo
+																		// Login
 
-		//Se estiver inserindo um novo registro
+		// Se estiver inserindo um novo registro
 		if (estado == 1) {
 
 			try {
-				if (dao.verificarDispLogin(EditLogin.getText())) { //Se estiver disponivel 
+				if (dao.verificarDispLogin(EditLogin.getText())) { // Se estiver
+																	// disponivel
 					EditLogin.setForeground(new Color(0, 0, 0));
 				} else {
 					JOptionPane.showMessageDialog(null,
@@ -600,14 +607,17 @@ public class FormUsuario extends javax.swing.JFrame {
 				e.printStackTrace();
 			}
 			;
-			//Se estiver editando um registro existente
-		} else if (estado == 2) { //Editar
-			//Se o codigo digitado for diferente do original -> executar verificação
+			// Se estiver editando um registro existente
+		} else if (estado == 2) { // Editar
+			// Se o codigo digitado for diferente do original -> executar
+			// verificação
 			if (!EditLogin.getText().equals(
 					dao.listaUsuarios.get(tableUsuarios.getSelectedRow())
 							.getLogin())) {
 				try {
-					if (dao.verificarDispLogin(EditLogin.getText())) { //Se estiver disponivel 
+					if (dao.verificarDispLogin(EditLogin.getText())) { // Se
+																		// estiver
+																		// disponivel
 						EditLogin.setForeground(new Color(0, 0, 0));
 					} else {
 						JOptionPane
@@ -623,27 +633,30 @@ public class FormUsuario extends javax.swing.JFrame {
 				}
 				;
 			} else {
-				//Se não verificou reseta cor para garantir ações anteriores
+				// Se não verificou reseta cor para garantir ações anteriores
 				EditLogin.setForeground(new Color(0, 0, 0));
 			}
 		}
 	}
 
-	private void BtnEditarActionPerformed(java.awt.event.ActionEvent evt) { //Btn Editar
+	private void BtnEditarActionPerformed(java.awt.event.ActionEvent evt) { // Btn
+																			// Editar
 		editON();
-		estado = 2; //editando
+		estado = 2; // editando
 	}
 
-	private void BtnCancelarActionPerformed(java.awt.event.ActionEvent evt) { //Btn Cancelar
+	private void BtnCancelarActionPerformed(java.awt.event.ActionEvent evt) { // Btn
+																				// Cancelar
 
 		carregarCampos(tableUsuarios.getSelectedRow());
 		editOFF();
-		estado = 0; //neutro
+		estado = 0; // neutro
 	}
 
-	private void BtnApagarActionPerformed(java.awt.event.ActionEvent evt) { //Btn Apagar
+	private void BtnApagarActionPerformed(java.awt.event.ActionEvent evt) { // Btn
+																			// Apagar
 		if (JOptionPane.showConfirmDialog(null, "Apagar resgitro?",
-				"Apagar registro", 2) == 0) {//0 = OK
+				"Apagar registro", 2) == 0) {// 0 = OK
 
 			dao.apagar(dao.listaUsuarios.get(tableUsuarios.getSelectedRow()));
 			dao.listaUsuarios.remove(tableUsuarios.getSelectedRow());
@@ -654,14 +667,15 @@ public class FormUsuario extends javax.swing.JFrame {
 		}
 	}
 
-	private void BtnSalvarActionPerformed(java.awt.event.ActionEvent evt) { //Btn Salvar
+	private void BtnSalvarActionPerformed(java.awt.event.ActionEvent evt) { // Btn
+																			// Salvar
 
-		if (estado == 1) { //Novo
-			//Adquire novo codigo e coloca no edit
+		if (estado == 1) { // Novo
+			// Adquire novo codigo e coloca no edit
 			int codigo = dao.getNovoCodigo();
 			editCodigo.setText(codigo + "");
 
-			//Cria novo usuario e preenche seus atributos
+			// Cria novo usuario e preenche seus atributos
 			Usuarios usuario = new Usuarios();
 
 			usuario.setCodigo(codigo);
@@ -672,25 +686,25 @@ public class FormUsuario extends javax.swing.JFrame {
 			usuario.setAdmin(checkAdmin.isSelected());
 			usuario.setFoto(fotoPerfil);
 
-			//Adiciona usuario à lista
+			// Adiciona usuario à lista
 			dao.listaUsuarios.add(usuario);
 
-			//Chama comando SQL
+			// Chama comando SQL
 			dao.adicionar(usuario);
 
-			//Desabilita Edição
+			// Desabilita Edição
 			editOFF();
 
-			//Atualiza Grid
+			// Atualiza Grid
 			carregarGridUsuarios();
 
-			//Seta posição da seleção para incio
+			// Seta posição da seleção para incio
 			tableUsuarios.addRowSelectionInterval(0, 0);
 			carregarCampos(0);
 
-			estado = 0; //neutro
+			estado = 0; // neutro
 
-		} else if (estado == 2) { //Editar
+		} else if (estado == 2) { // Editar
 
 			int registroSelecionado = tableUsuarios.getSelectedRow();
 
@@ -713,16 +727,17 @@ public class FormUsuario extends javax.swing.JFrame {
 
 			editOFF();
 
-			//Seta posição da seleção para incio
+			// Seta posição da seleção para incio
 			tableUsuarios.addRowSelectionInterval(registroSelecionado,
 					registroSelecionado);
 			carregarCampos(registroSelecionado);
 
-			estado = 0; //neutro
+			estado = 0; // neutro
 		}
 	}
 
-	private void BtnNovoActionPerformed(java.awt.event.ActionEvent evt) { //Btn Novo
+	private void BtnNovoActionPerformed(java.awt.event.ActionEvent evt) { // Btn
+																			// Novo
 		editON();
 		editCodigo.setText("");
 		editNome.setText("");
@@ -735,17 +750,19 @@ public class FormUsuario extends javax.swing.JFrame {
 		editNome.requestFocus();
 	}
 
-	private void tableUsuariosMouseClicked(java.awt.event.MouseEvent evt) { //Click GRID
+	private void tableUsuariosMouseClicked(java.awt.event.MouseEvent evt) { // Click
+																			// GRID
 		if (estado == 0) {
 			carregarCampos(tableUsuarios.getSelectedRow());
 		}
 	}
 
-	private void BtnVoltarActionPerformed(java.awt.event.ActionEvent evt) { //Btn Voltar
+	private void BtnVoltarActionPerformed(java.awt.event.ActionEvent evt) { // Btn
+																			// Voltar
 		dispose();
 	}
 
-	//GEN-BEGIN:variables
+	// GEN-BEGIN:variables
 	// Variables declaration - do not modify
 	private javax.swing.JButton BtnApagar;
 	private javax.swing.JButton BtnCancelar;

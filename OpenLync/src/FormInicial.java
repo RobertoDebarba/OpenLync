@@ -5,12 +5,10 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 public class FormInicial extends javax.swing.JInternalFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public static FormCargos frmCargos = new FormCargos();
@@ -20,23 +18,64 @@ public class FormInicial extends javax.swing.JInternalFrame {
 	public FormInicial() {
 		initComponents();
 
+		// Seta tema
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException
+				| IllegalAccessException | UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		}
+		SwingUtilities.updateComponentTreeUI(this);
+
+		// Retira bordas
+		((BasicInternalFrameUI) this.getUI()).setNorthPane(null); // retirar
+																	// o
+																	// painel
+																	// superior
+		((BasicInternalFrameUI) this.getUI()).setSouthPane(null); // retirar
+																	// o
+																	// painel
+																	// inferior
+		this.setBorder(null);// retirar bordas
+
+		// Seta centro
+		setLocation(0, 0);
+
 		editIP.setText(MySQLConection.getIpServidor());
+
+		verificarStatusDB();
+		if (OpenLync.iniciarServidor()) {
+			adicionarLog("Servidor iniciado na porta "
+					+ OpenLync.getPortaEntrada() + "!");
+			checkServ.setSelected(true);
+		} else {
+			adicionarLog("Erro ao criar servidor na porta "
+					+ OpenLync.getPortaEntrada());
+		}
 	}
-	
+
+	/**
+	 * Adiciona mensagem a tela de principal de log
+	 * 
+	 * @param mensagem
+	 */
 	public void adicionarLog(String mensagem) {
-		
+
 		if (textPane.getText().equals("")) {
 			textPane.setText(mensagem);
 		} else {
 			textPane.setText(textPane.getText() + "\n" + mensagem);
 		}
-		
+
 		// Manda scroll para o final
 		textPane.setCaretPosition(textPane.getDocument().getLength());
 		textPane.repaint();
 		jScrollPane1.repaint();
 	}
-	
+
+	/**
+	 * Verifica o status do banco de dados
+	 */
 	public void verificarStatusDB() {
 		if (!editIP.getText().equals("")) {
 
@@ -64,7 +103,7 @@ public class FormInicial extends javax.swing.JInternalFrame {
 		}
 	}
 
-	//GEN-BEGIN:initComponents
+	// GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc="Generated Code">
 	private void initComponents() {
 
@@ -261,21 +300,20 @@ public class FormInicial extends javax.swing.JInternalFrame {
 
 		pack();
 	}// </editor-fold>
-	//GEN-END:initComponents
+		// GEN-END:initComponents
 
 	private void menuSobreMouseClicked(java.awt.event.MouseEvent evt) {
 		FormSobre frmSobre = new FormSobre();
-		
+
 		// Seta tema
 		try {
-			UIManager.setLookAndFeel(UIManager
-					.getSystemLookAndFeelClassName());
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException | InstantiationException
 				| IllegalAccessException | UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
 		}
 		SwingUtilities.updateComponentTreeUI(frmSobre);
-		
+
 		frmSobre.setVisible(true);
 	}
 
@@ -304,7 +342,15 @@ public class FormInicial extends javax.swing.JInternalFrame {
 
 	private void menuItemONOFFActionPerformed(java.awt.event.ActionEvent evt) {
 		if (!checkServ.isSelected()) {
-			OpenLync.iniciarServidor();
+
+			if (OpenLync.iniciarServidor()) {
+				adicionarLog("Servidor iniciado na porta "
+						+ OpenLync.getPortaEntrada() + "!");
+			} else {
+				adicionarLog("Erro ao criar servidor na porta "
+						+ OpenLync.getPortaEntrada());
+			}
+
 			checkServ.setSelected(true);
 		} else {
 			OpenLync.pararServidor();
@@ -313,7 +359,7 @@ public class FormInicial extends javax.swing.JInternalFrame {
 	}
 
 	private void menuItemVerifDBActionPerformed(java.awt.event.ActionEvent evt) {
-		verificarStatusDB();		
+		verificarStatusDB();
 	}
 
 	private void menuServidorActionPerformed(java.awt.event.ActionEvent evt) {
@@ -362,7 +408,7 @@ public class FormInicial extends javax.swing.JInternalFrame {
 	private void menuSairActionPerformed(java.awt.event.ActionEvent evt) {
 	}
 
-	//GEN-BEGIN:variables
+	// GEN-BEGIN:variables
 	// Variables declaration - do not modify
 	private javax.swing.JCheckBox checkDB;
 	public javax.swing.JCheckBox checkServ;

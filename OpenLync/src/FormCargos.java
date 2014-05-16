@@ -34,7 +34,7 @@ public class FormCargos extends javax.swing.JFrame {
 		tableCargos.setRowHeight(25);
 	}
 
-	/*
+	/**
 	 * Desabilitar Edição
 	 */
 	private void editOFF() {
@@ -51,7 +51,7 @@ public class FormCargos extends javax.swing.JFrame {
 		BtnVoltar.setEnabled(true);
 	}
 
-	/*
+	/**
 	 * Habilita edição
 	 */
 	private void editON() {
@@ -68,8 +68,8 @@ public class FormCargos extends javax.swing.JFrame {
 		BtnVoltar.setEnabled(false);
 	}
 
-	/*
-	 * Select todos registros do tb_usuario e carrega para grid
+	/**
+	 * Cria Array<String> da listaCargos e carrega para grid
 	 */
 	private void carregarGridCargos() {
 
@@ -101,7 +101,7 @@ public class FormCargos extends javax.swing.JFrame {
 		tableCargos.getColumn("Descrição").setPreferredWidth(200);
 	}
 
-	/*
+	/**
 	 * Carrega campos com base na listaUsuarios
 	 */
 	private void carregarCampos(int numeroRegistro) {

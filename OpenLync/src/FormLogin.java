@@ -1,30 +1,44 @@
 import java.awt.event.KeyEvent;
 
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
 
-/*
- * FormLogin.java
- *
- * Created on __DATE__, __TIME__
- */
-
-/**
- *
- * @author  __USER__
- */
 public class FormLogin extends javax.swing.JInternalFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	/** Creates new form FormLogin */
 	public FormLogin() {
 		initComponents();
+
+		// Seta tema
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException
+				| IllegalAccessException | UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		}
+		SwingUtilities.updateComponentTreeUI(this);
+		
+		// Retira bordas
+		((BasicInternalFrameUI) this.getUI()).setNorthPane(null); // retirar
+																	// o
+																	// painel
+																	// superior
+		((BasicInternalFrameUI) this.getUI()).setSouthPane(null); // retirar
+																	// o
+																	// painel
+																	// inferior
+		this.setBorder(null);// retirar bordas
+		
+		// Seta centro
+		setLocation(0, 0);
 	}
 
-	//GEN-BEGIN:initComponents
+	// GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc="Generated Code">
 	private void initComponents() {
 
@@ -107,17 +121,18 @@ public class FormLogin extends javax.swing.JInternalFrame {
 
 		pack();
 	}// </editor-fold>
-	//GEN-END:initComponents
+		// GEN-END:initComponents
 
-	private void labelConfigMouseClicked(java.awt.event.MouseEvent evt) { //Botão Config
+	private void labelConfigMouseClicked(java.awt.event.MouseEvent evt) { // Botão
+																			// Config
 		MySQLConection.setIpServidor(JOptionPane.showInputDialog(null,
 				"IP do Servidor", "Configurações", 1));
 	}
 
 	private void editSenhaKeyPressed(java.awt.event.KeyEvent evt) {
 		if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-			Usuarios usuario = new Usuarios();
-			if (usuario.verifLogin(editLogin.getText(),
+			UsuariosDAO dao = new UsuariosDAO(false);
+			if (dao.verifLogin(editLogin.getText(),
 					new String(editSenha.getPassword()))) {
 				OpenLync.frmMain.frmLogin.setVisible(false);
 				if (OpenLync.frmMain.frmInicial == null) {
@@ -134,8 +149,8 @@ public class FormLogin extends javax.swing.JInternalFrame {
 
 	private void editLoginKeyPressed(java.awt.event.KeyEvent evt) {
 		if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-			Usuarios usuario = new Usuarios();
-			if (usuario.verifLogin(editLogin.getText(),
+			UsuariosDAO dao = new UsuariosDAO(false);
+			if (dao.verifLogin(editLogin.getText(),
 					new String(editSenha.getPassword()))) {
 				OpenLync.frmMain.frmLogin.setVisible(false);
 				if (OpenLync.frmMain.frmInicial == null) {
@@ -158,7 +173,7 @@ public class FormLogin extends javax.swing.JInternalFrame {
 		// TODO add your handling code here:
 	}
 
-	//GEN-BEGIN:variables
+	// GEN-BEGIN:variables
 	// Variables declaration - do not modify
 	private javax.swing.JTextField editLogin;
 	private javax.swing.JPasswordField editSenha;
