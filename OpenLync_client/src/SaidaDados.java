@@ -25,6 +25,9 @@ public class SaidaDados implements Runnable {
 		this.ipDestino = ipDestino;
 	}
 	
+	/**
+	 * Encerra Thread de saida
+	 */
 	public void encerrarThread() {
 		
 		PSsaida.println("SYSTEM|KILL CLIENT");
@@ -49,7 +52,7 @@ public class SaidaDados implements Runnable {
 		} 
 	}
 	
-	/*
+	/**
 	 * Criptografa e manda mensagem
 	 */
 	public void enviarMensagem(String msg) {

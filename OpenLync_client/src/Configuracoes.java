@@ -22,8 +22,8 @@ public class Configuracoes {
 		return ipServidor;
 	}
 
-	/*
-	 * Seta e escreve no arquivo CFG o ip do servidor
+	/**
+	 * Seta variavel e escreve no arquivo CFG o ip do servidor
 	 */
 	public static void setIpServidor(String ipServidor) {
 		
@@ -73,6 +73,9 @@ public class Configuracoes {
 		lerCfgGetIP();
 	}
 	
+	/**
+	 * Le arquivo CPG e resgata IP do servidor salvo
+	 */
 	private static void lerCfgGetIP() {
 		
 		String userHome = System.getProperty("user.home");
@@ -97,11 +100,11 @@ public class Configuracoes {
 		}
 	}
 	
-	/*
+	/**
 	 * Acessa o servidor (aplicativo) e solicita IP local
 	 * 
 	 * Se o servidor não responder o Sistema irá travar;
-	 * Importante!!: o metodo verificar verificarConexaoBanco deve ser chamado antes desse
+	 * Importante!!: o metodo verificarConexaoBanco deve ser chamado antes desse
 	 */
 	@SuppressWarnings("resource")
 	public static boolean verificarIPlocal() {

@@ -2,6 +2,9 @@ import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import java.awt.Font;
 import java.util.List;
@@ -10,7 +13,6 @@ import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 
-import java.awt.image.BufferedImage;
 import java.awt.Color;
 
 import javax.swing.JScrollPane;
@@ -19,6 +21,7 @@ import Biblioteca.MDIDesktopPane;
 
 import javax.swing.JCheckBox;
 import javax.swing.SwingConstants;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -44,26 +47,26 @@ public class FormIncial extends JInternalFrame {
 
 	private static Contatos contatos = new Contatos();
 
-	public FormIncial(String nome, String cargo, BufferedImage foto) {
+	public FormIncial(Usuarios usuario) {
 		getContentPane().setBackground(new Color(238, 238, 238));
 
 		setBorder(null);
 		setBounds(100, 100, 370, 570);
 		getContentPane().setLayout(null);
 
-		labelNome = new JLabel(nome);
+		labelNome = new JLabel(usuario.getNome());
 		labelNome.setFont(new Font("Dialog", Font.BOLD, 17));
 		labelNome.setBounds(96, 18, 247, 15);
 		getContentPane().add(labelNome);
 
-		labelCargo = new JLabel(cargo);
+		labelCargo = new JLabel(usuario.getCargo());
 		labelCargo.setFont(new Font("Dialog", Font.PLAIN, 14));
 		labelCargo.setBounds(96, 48, 247, 15);
 		getContentPane().add(labelCargo);
 
 		labelFoto = new JLabel("");
 		labelFoto.setBackground(new Color(255, 255, 255));
-		labelFoto.setIcon(new ImageIcon(foto));
+		labelFoto.setIcon(new ImageIcon(usuario.getFoto()));
 		labelFoto.setBounds(22, 12, 57, 57);
 		getContentPane().add(labelFoto);
 
@@ -147,6 +150,24 @@ public class FormIncial extends JInternalFrame {
 		});
 		labelMensagens.setBounds(317, 79, 20, 15);
 		getContentPane().add(labelMensagens);
+		
+		// Seta tema
+		try {
+	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	        UIManager.put("DesktopPaneUI","javax.swing.plaf.basic.BasicDesktopPaneUI"); // Remove barra inferior
+	    } catch (ClassNotFoundException | InstantiationException
+	            | IllegalAccessException | UnsupportedLookAndFeelException e) {
+	        e.printStackTrace();
+	    }
+	    SwingUtilities.updateComponentTreeUI(this);
+	    
+	    // Retira bordas
+ 		((BasicInternalFrameUI)this.getUI()).setNorthPane(null); //retirar o painel superior  
+ 		setBorder(null);//retirar bordas 
+	    
+	    //Seta centro
+	    setLocation(0, 0);
+	    
 
 		/*
 		 * Timer para atualizar lista de contatos online
@@ -225,7 +246,7 @@ public class FormIncial extends JInternalFrame {
 
 			popMenu.removeAll();
 
-			UsuariosDAO dao = new UsuariosDAO();
+			UsuariosDAO dao = new UsuariosDAO(true);
 			final Contatos contatos = new Contatos();
 
 			for (int i = 0; i < listUsuariosMensagens.size(); i++) {
@@ -233,7 +254,8 @@ public class FormIncial extends JInternalFrame {
 				final Usuarios user = dao
 						.procurarUsuarioCodigo(listUsuariosMensagens.get(i));
 
-				final JMenuItem menuItem = new JMenuItem("Mensagem não lida de " + user.getNome());
+				final JMenuItem menuItem = new JMenuItem(
+						"Mensagem não lida de " + user.getNome());
 				menuItem.addActionListener(new ActionListener() {
 
 					@Override

@@ -2,7 +2,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -28,6 +27,10 @@ public class Mensagens {
 		return mensagemTratada;
 	}
 
+	/**
+	 * Trata mensagem recebida pelo servidor separando os campos
+	 * @param mensagemNaoTratada
+	 */
 	public void tratarMensagem(String mensagemNaoTratada) {
 
 		boolean pParte = true;
@@ -45,15 +48,22 @@ public class Mensagens {
 		}
 	}
 
-	public void adicionarMensagem(String mensagem, int codigoRemetente,
+	/**
+	 * Adiciona mensagem ao Banco de Dados
+	 * @param mensagem
+	 * @param codigoRemetente
+	 * @param codigoDestinatario
+	 * @param data
+	 * @param lida
+	 */
+	public void adicionarMensagemDB(String mensagem, int codigoRemetente,
 			int codigoDestinatario, Date data, boolean lida) {
 
-		Connection conexao = MySQLConection.getMySQLConnection();
 		Criptografia cript = new Criptografia();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		try {
-			Statement st = conexao.createStatement();
+			Statement st = MySQLConection.getStatementMySQL();
 
 			String SQL = "INSERT INTO tb_mensagens(" + "conteudo_mensagem,"
 					+ " data_mensagem," + " lido_mensagem,"
@@ -77,11 +87,9 @@ public class Mensagens {
 	 */
 	public List<Integer> verificarMensagensNaoLidas(Usuarios usuario) {
 
-		Connection conexao = MySQLConection.getMySQLConnection();
-
 		List<Integer> arrayResult = new ArrayList<Integer>();
 		try {
-			Statement st = conexao.createStatement();
+			Statement st = MySQLConection.getStatementMySQL();
 
 			String SQL = "SELECT codigo_remet_mensagem FROM tb_mensagens "
 					+ "WHERE codigo_dest_mensagem = "

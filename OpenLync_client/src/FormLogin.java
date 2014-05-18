@@ -5,6 +5,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -12,7 +15,10 @@ import java.awt.Color;
 import java.awt.HeadlessException;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import javax.swing.JPasswordField;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
+
 import java.awt.Font;
 
 
@@ -22,14 +28,7 @@ public class FormLogin extends JInternalFrame {
 	private static JTextField editUsuario;
 	private static JPasswordField editSenha;
 	private static Usuarios usuarioLogin = null;
-	
-	private static String loginUsuarioLogin;
-	
-	
-	public static String getLoginUsuarioLogin() {
-		return loginUsuarioLogin;
-	}
-	
+		
 	public static Usuarios getUsuarioLogin() {
 		return usuarioLogin;
 	}
@@ -61,26 +60,27 @@ public class FormLogin extends JInternalFrame {
 				
 				String login = editUsuario.getText();
 				String senha = (new String(editSenha.getPassword()));
-				loginUsuarioLogin = login;
 				
 				if (!login.equals("") && !senha.equals("")) {
 					
-					if (MySQLConection.verificarConexaoBanco()) {
+					if (MySQLConection.verificarConexaoMySQL()) {
 						//Se o banco conectou já é seguro solicitar o IP local ao servidor
-						//Se o servidor não responder o sistema irá travar
+						
+						//Abre conexão definitiva com o banco de dados
+						MySQLConection.abrirConexaoMySQL();
 						if (Configuracoes.verificarIPlocal()) {
 							
-							UsuariosDAO dao = new UsuariosDAO();
+							UsuariosDAO dao = new UsuariosDAO(true);
 							try {
 								if (dao.verificarLogin(login, senha)) {
 									//Cria e alimenta usuario Principal (usuarioLogin)
-									OpenLync_client.iniciarEntrada();
+									EntradaDados.iniciarEntrada();
 									usuarioLogin = dao.procurarUsuarioLogin(login);
 									usuarioLogin.setIp(Configuracoes.getIpLocal());
 									dao.setIPDB(usuarioLogin);
 									
 									FormMain.fecharFrmLogin();
-									FormMain.abrirFrmInicial(usuarioLogin.getNome(), usuarioLogin.getCargo(), usuarioLogin.getFoto());
+									FormMain.abrirFrmInicial(usuarioLogin);
 								} else {
 									JOptionPane.showMessageDialog(null, "Usuário ou senha incorretos! / Usuário já logado!", "Login Inválido", 1);
 								}
@@ -132,5 +132,21 @@ public class FormLogin extends JInternalFrame {
 		lblOpenlync.setBounds(113, 106, 153, 45);
 		getContentPane().add(lblOpenlync);
 		
+		// Seta tema
+		try {
+	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	    } catch (ClassNotFoundException | InstantiationException
+	            | IllegalAccessException | UnsupportedLookAndFeelException e) {
+	        e.printStackTrace();
+	    }
+	    SwingUtilities.updateComponentTreeUI(this);
+	    
+	    // Retira bordas
+ 		((BasicInternalFrameUI)this.getUI()).setNorthPane(null); //retirar o painel superior  
+ 		((BasicInternalFrameUI)this.getUI()).setSouthPane(null); //retirar o painel inferior
+  		setBorder(null);//retirar bordas  
+  		
+  		// Seta centro
+  		this.setLocation(0, 0);
 	}	
 }

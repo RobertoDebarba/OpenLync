@@ -20,7 +20,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -143,7 +142,7 @@ public class FormChat extends JFrame {
 		scrollPane.setBounds(8, 70, 348, 248);
 		contentPane.add(scrollPane);
 
-		final UsuariosDAO dao = new UsuariosDAO();
+		final UsuariosDAO dao = new UsuariosDAO(true);
 
 		final JLabel lblAmigo = new JLabel("Amigo");
 		if (dao.verificarAmizade(FormLogin.getUsuarioLogin(), usuario)) {
@@ -173,7 +172,7 @@ public class FormChat extends JFrame {
 		});
 		lblAmigo.setBounds(335, 47, 22, 22);
 		contentPane.add(lblAmigo);
-		
+
 		final JLabel lblHistorico = new JLabel("Historico");
 		lblHistorico.setIcon(new ImageIcon(FormChat.class
 				.getResource("/Imagens/historico_icon.png")));
@@ -195,7 +194,7 @@ public class FormChat extends JFrame {
 				verificarStatusContato();
 			}
 		}, 1000, 4000);
-		
+
 		// Define comportamente conforme modo de construção
 		if (modo == 1) {
 			carregarMensagensNaoLidas();
@@ -225,15 +224,13 @@ public class FormChat extends JFrame {
 	}
 
 	/**
-	 * Verifica status atual do usuario do chat no DB; Se usuário se desconectou
-	 * fecha a janela de chat //TODO implementar comportamento melhor
+	 * Verifica status atual do usuario do chat no DB
 	 */
 	private void verificarStatusContato() {
 
 		String ipAtual = "";
 		try {
-			java.sql.Connection conexao = MySQLConection.getMySQLConnection();
-			Statement st = conexao.createStatement();
+			Statement st = MySQLConection.getStatementMySQL();
 
 			String SQL = "SELECT ip_usuario FROM tb_usuarios WHERE codigo_usuario = "
 					+ usuario.getCodigo() + ";";
@@ -259,16 +256,17 @@ public class FormChat extends JFrame {
 			panelStatus.setBackground(new Color(0, 200, 0));
 		}
 	}
-	
+
 	/**
-	 * Adiciona mensagem ao textPane
+	 * Adiciona mensagem ao textPanel
+	 * 
 	 * @param mensagem
 	 */
 	public void adicionarMensagem(String mensagem) {
-		
+
 		String linhas = "";
 		if (!textPane.getText().equals("")) {
-			
+
 			linhas = textPane.getText();
 		}
 
@@ -377,7 +375,7 @@ public class FormChat extends JFrame {
 			// Se usuario estiver Online a mensagem é considerada lida
 			boolean mensagemLida = (usuario.getStatus()) ? true : false;
 
-			mensagens.adicionarMensagem(textArea.getText(), FormLogin
+			mensagens.adicionarMensagemDB(textArea.getText(), FormLogin
 					.getUsuarioLogin().getCodigo(), usuario.getCodigo(),
 					new Date(), mensagemLida);
 
@@ -392,10 +390,10 @@ public class FormChat extends JFrame {
 	 */
 	private void carregarMensagensNaoLidas() {
 
-		Connection conexao = MySQLConection.getMySQLConnection();
+		Criptografia cript = new Criptografia();
 
 		try {
-			Statement st = conexao.createStatement();
+			Statement st = MySQLConection.getStatementMySQL();
 
 			// Carrega todas mensagens
 			String SQL = "SELECT conteudo_mensagem, data_mensagem FROM tb_mensagens "
@@ -409,16 +407,17 @@ public class FormChat extends JFrame {
 
 			while (rs.next()) {
 
-				adicionarMensagem(rs.getString("conteudo_mensagem"), "out", rs.getDate("data_mensagem"));
+				adicionarMensagem(cript.descriptografarMensagem(rs
+						.getString("conteudo_mensagem")), "out",
+						rs.getDate("data_mensagem"));
 			}
-			
-			//Define todas mensagens como lidas
+
+			// Define todas mensagens como lidas
 			SQL = "UPDATE tb_mensagens SET lido_mensagem = TRUE "
-					+ "WHERE codigo_remet_mensagem = "
-					+ usuario.getCodigo()
+					+ "WHERE codigo_remet_mensagem = " + usuario.getCodigo()
 					+ " AND codigo_dest_mensagem = "
 					+ FormLogin.getUsuarioLogin().getCodigo() + ";";
-			
+
 			st.execute(SQL);
 
 		} catch (SQLException e) {
@@ -430,17 +429,16 @@ public class FormChat extends JFrame {
 	 * Carrega todas mensagens eenviadas e recebidas pela usuario
 	 */
 	private void carregarHistoricoMensagens() {
-		
-		//Limpa TextPane
+
+		// Limpa TextPane
 		textPane.setText("");
-		
-		Connection conexao = MySQLConection.getMySQLConnection();
+
 		Criptografia cript = new Criptografia();
 
 		try {
-			Statement st = conexao.createStatement();
+			Statement st = MySQLConection.getStatementMySQL();
 
-			//Carrega mensagens
+			// Carrega mensagens
 			String SQL = "SELECT conteudo_mensagem, data_mensagem, codigo_remet_mensagem FROM tb_mensagens"
 					+ " WHERE codigo_remet_mensagem = "
 					+ usuario.getCodigo()
@@ -448,37 +446,38 @@ public class FormChat extends JFrame {
 					+ FormLogin.getUsuarioLogin().getCodigo()
 					+ " AND codigo_dest_mensagem = "
 					+ FormLogin.getUsuarioLogin().getCodigo()
-					+ " OR codigo_dest_mensagem = "
-					+ usuario.getCodigo() + ";";
+					+ " OR codigo_dest_mensagem = " + usuario.getCodigo() + ";";
 
 			ResultSet rs = st.executeQuery(SQL);
-			
+
 			while (rs.next()) {
-				
-				//Se mensagem veio do contato
+
+				// Se mensagem veio do contato
 				if (rs.getInt("codigo_remet_mensagem") == usuario.getCodigo()) {
-					adicionarMensagem(cript.descriptografarMensagem(rs.getString("conteudo_mensagem")), "out", rs.getTimestamp("data_mensagem"));
-				//Se veio do usuario
+					adicionarMensagem(cript.descriptografarMensagem(rs
+							.getString("conteudo_mensagem")), "out",
+							rs.getTimestamp("data_mensagem"));
+					// Se veio do usuario
 				} else {
-					adicionarMensagem(cript.descriptografarMensagem(rs.getString("conteudo_mensagem")), "local", rs.getTimestamp("data_mensagem"));
+					adicionarMensagem(cript.descriptografarMensagem(rs
+							.getString("conteudo_mensagem")), "local",
+							rs.getTimestamp("data_mensagem"));
 				}
 			}
-			
+
 			adicionarMensagem("  --- Fim do Historico ---");
-			
-			//Define todas mensagens como lidas
+
+			// Define todas mensagens como lidas
 			SQL = "UPDATE tb_mensagens SET lido_mensagem = TRUE "
-					+ "WHERE codigo_remet_mensagem = "
-					+ usuario.getCodigo()
+					+ "WHERE codigo_remet_mensagem = " + usuario.getCodigo()
 					+ " OR codigo_remet_mensagem = "
 					+ FormLogin.getUsuarioLogin().getCodigo()
 					+ " AND codigo_dest_mensagem = "
 					+ FormLogin.getUsuarioLogin().getCodigo()
-					+ " OR codigo_dest_mensagem = "
-					+ usuario.getCodigo() + ";";
-			
+					+ " OR codigo_dest_mensagem = " + usuario.getCodigo() + ";";
+
 			st.execute(SQL);
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

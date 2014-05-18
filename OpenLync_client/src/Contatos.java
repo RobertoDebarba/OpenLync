@@ -15,9 +15,9 @@ public class Contatos {
 	 */
 	public void atualizarContatos() {
 				
-		UsuariosDAO dao = new UsuariosDAO();
+		UsuariosDAO dao = new UsuariosDAO(true);
 
-		//Remove usuarios que não presentes em listaUsuarios
+		//Remove usuarios não presentes em listaUsuarios
 //		//Varre todos InternalFrames para comparar com Usuarios
 //		int a = 0;
 //		while (a < listaFormUsuarioLista.size()) {
@@ -48,19 +48,19 @@ public class Contatos {
 		 */
 		
 		//Varre todos Usuarios para comparar com InternalFrames
-		int i = 0;
-		while (i < dao.listaUsuarios.size()) {
+		for (int i = 0; i < dao.listaUsuarios.size(); i++) {
 		
 			//Se usuario for o que efetuou login = ignora
-			if (!dao.listaUsuarios.get(i).getLogin().equals(FormLogin.getLoginUsuarioLogin())) {
+			if (!dao.listaUsuarios.get(i).getLogin().equals(FormLogin.getUsuarioLogin().getLogin())) {
 				
 				//Varre InternalFrames ate achar o que corresponde ao usuario
 				boolean achou = false;
 				int z = 0;
-				while ((z < listaFormUsuarioLista.size()) && (!achou)) {
+				while (z < listaFormUsuarioLista.size()) {
 					
 					if (listaFormUsuarioLista.get(z).getUsuario().getCodigo() == dao.listaUsuarios.get(i).getCodigo()) {
 						achou = true;
+						break;
 					}
 					
 					z++;
@@ -69,7 +69,7 @@ public class Contatos {
 				//Se achou
 				if (achou) {
 					//Atualiza status
-					listaFormUsuarioLista.get(z-1).setStatus(dao.listaUsuarios.get(i).getStatus(), dao.listaUsuarios.get(i).getIp());
+					listaFormUsuarioLista.get(z).setStatus(dao.listaUsuarios.get(i).getStatus(), dao.listaUsuarios.get(i).getIp());
 				//Se não achou
 				} else {
 					
@@ -118,7 +118,6 @@ public class Contatos {
 					//-------------------------------------------------------------------------------
 				}
 			}
-			i++;
 		}
 	}
 	
@@ -147,17 +146,14 @@ public class Contatos {
 	 */
 	public void removerFormChat(Usuarios usuario) {
 		
-		boolean achou = false;
-		int i = 0;
-		while ((i < listaFormChat.size()) && (!achou)) {
+		for (int i = 0; i < listaFormChat.size(); i++) {
 			
 			//Varre lista ate achar usuario correto
 			if (listaFormChat.get(i).getUsuario().getCodigo() == usuario.getCodigo()) {
-				achou = true;
 				listaFormChat.get(i).setVisible(false);
 				listaFormChat.remove(i);
+				break;
 			}
-			i++;
 		}
 	}
 	
@@ -180,25 +176,20 @@ public class Contatos {
 	 */
 	public void removerFormUsuarioLista(Usuarios usuario) {
 		
-		boolean achou = false;
-		int i = 0;
-		while ((i < listaFormUsuarioLista.size()) && (!achou)) {
+		for (int i = 0; i < listaFormUsuarioLista.size(); i++) {
 			
 			//Varre lista ate achar usuario correto
 			if (listaFormUsuarioLista.get(i).getUsuario().getCodigo() == usuario.getCodigo()) {
-				achou = true;
 				FormIncial.jdpUsuarios.remove(listaFormUsuarioLista.get(i));
-				int z = i;
-				
-				//Volta uma posição todos os InternalFrames posteriores
-				while (z < listaFormUsuarioLista.size()) {
+
+				for (int z = i; z < listaFormUsuarioLista.size(); z++) {
+					
 					listaFormUsuarioLista.get(i).setLocation(0, (z - 1) * 60);
-					z++;
 				}
 				
 				listaFormUsuarioLista.remove(i);
+				break;
 			}
-			i++;
 		}
 	}
 	
@@ -222,7 +213,7 @@ public class Contatos {
 	}
 	
 	/**
-	 * Retorna quantidade de onjetos na listaFormUsuariosChat
+	 * Retorna quantidade de objetos na listaFormUsuariosChat
 	 * @return
 	 */
 	public static int getSizeListaFormUsuariosLista() {

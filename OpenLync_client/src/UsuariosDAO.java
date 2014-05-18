@@ -1,6 +1,5 @@
 import java.io.IOException;
 import java.sql.Blob;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -16,9 +15,11 @@ public class UsuariosDAO {
 	public List<Usuarios> listaUsuarios = new ArrayList<Usuarios>();
 	
 	
-	public UsuariosDAO() {
+	public UsuariosDAO(boolean atualizarLista) {
 
-		atualizarListaUsuarios();
+		if (atualizarLista) {
+			atualizarListaUsuarios();
+		}
 	}
 	
 	/**
@@ -32,8 +33,7 @@ public class UsuariosDAO {
 		try {
 			Criptografia cript = new Criptografia();
 			
-			java.sql.Connection conexao = MySQLConection.getMySQLConnection();
-			Statement st = conexao.createStatement();
+			Statement st = MySQLConection.getStatementMySQL();
 			
 			//SELECT todas informações do usuario (com lookup no cargo)
 			String SQL = "SELECT codigo_usuario, nome_usuario, login_usuario, senha_usuario, ip_usuario, foto_usuario, tb_cargos.desc_cargo"+
@@ -145,8 +145,7 @@ public class UsuariosDAO {
 	public void setIPDB(Usuarios usuario) {
 			
 		try {
-			java.sql.Connection conexao = MySQLConection.getMySQLConnection();
-			Statement st = conexao.createStatement();
+			Statement st = MySQLConection.getStatementMySQL();
 			
 			String SQL = "UPDATE tb_usuarios SET ip_usuario = '"+usuario.getIp()+
 						 "' WHERE codigo_usuario = "+usuario.getCodigo()+";";
@@ -166,8 +165,7 @@ public class UsuariosDAO {
 		
 		String resultado = null;
 		try {
-			java.sql.Connection conexao = MySQLConection.getMySQLConnection();
-			Statement st = conexao.createStatement();
+			Statement st = MySQLConection.getStatementMySQL();
 			
 			String SQL = "SELECT ip_usuario"+
 						 " FROM tb_usuarios"+
@@ -199,10 +197,7 @@ public class UsuariosDAO {
 		try {
 			Criptografia cript = new Criptografia();
 			
-			java.sql.Connection conexao = MySQLConection.getMySQLConnection();
-			Statement st;
-			
-			st = conexao.createStatement();
+			Statement st = MySQLConection.getStatementMySQL();
 			
 			String SQL = "SELECT 1 FROM tb_usuarios WHERE login_usuario = '"+ cript.criptografarMensagem(login) +"'" +
 					 " AND senha_usuario = '"+ cript.criptografarMensagem(senha) +"'" +
@@ -231,12 +226,9 @@ public class UsuariosDAO {
 	 */
 	public boolean verificarAmizade(Usuarios usuario, Usuarios amigo) {
 		
-		Connection conexao = MySQLConection.getMySQLConnection();
-		
-		Statement st;
 		boolean retorno = false;
 		try {
-			st = conexao.createStatement();
+			Statement st = MySQLConection.getStatementMySQL();
 			
 			String SQL = "SELECT * FROM tb_amigos"+
 					 " WHERE codigo_usuario_amigo = "+usuario.getCodigo()+
@@ -266,12 +258,11 @@ public class UsuariosDAO {
 	 */
 	public boolean adicionarAmizade(Usuarios usuario, Usuarios amigo) {
 		
-		Connection conexao = MySQLConection.getMySQLConnection();
 		boolean resultado = false;
 		
 		try {
 			if (JOptionPane.showConfirmDialog(null, "Adicionar usuário à sua lista de amigos?", "Adicionar amigo", 2) == 0) {//0 = OK
-				Statement st = conexao.createStatement();
+				Statement st = MySQLConection.getStatementMySQL();
 				
 				String SQL = "INSERT INTO tb_amigos (codigo_usuario_amigo, codigo_amigo_amigo)"+
 						  	 " VALUES ("+usuario.getCodigo()+", "+amigo.getCodigo()+
@@ -300,12 +291,11 @@ public class UsuariosDAO {
 	 */
 	public boolean removerAmizade(Usuarios usuario, Usuarios amigo) {
 		
-		Connection conexao = MySQLConection.getMySQLConnection();
 		boolean resultado = false;
 		
 		try {
 			if (JOptionPane.showConfirmDialog(null, "Remover usuário de sua lista de amigos?", "Remover amigo", 2) == 0) {//0 = OK
-				Statement st = conexao.createStatement();
+				Statement st = MySQLConection.getStatementMySQL();
 				
 				String SQL = "DELETE FROM tb_amigos"+
 					  " WHERE codigo_usuario_amigo = "+usuario.getCodigo()+

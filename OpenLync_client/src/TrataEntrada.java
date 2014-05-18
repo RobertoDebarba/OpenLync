@@ -56,21 +56,19 @@ public class TrataEntrada implements Runnable {
 				System.out.println(cript.descriptografarMensagem(msg));
 				
 				//mandar para tela de chat
-				int i = 0;
 				boolean encontrouChat = false;
-				while ((i < Contatos.getSizeListaFormChat()) && (!encontrouChat)) {
-					
+				for (int i = 0; i < Contatos.getSizeListaFormChat(); i++) {
 					if (TratadorMensagens.getIpRemetente().equals(Contatos.listaFormChat.get(i).getUsuario().getIp())) {
 						Contatos.listaFormChat.get(i).adicionarMensagem(TratadorMensagens.getMensagemTratada(), "out"); //Significa que mensegem não é do proprio usuario
 						encontrouChat = true;
+						break;
 					}
-					i++;
 				}
 				
 				//Se não encontrou tela de chat do usuario correto
 				if (!encontrouChat) {
 					
-					UsuariosDAO dao = new UsuariosDAO();
+					UsuariosDAO dao = new UsuariosDAO(true);
 					Contatos contatos = new Contatos();
 					Usuarios user = dao.procurarUsuarioIP(TratadorMensagens.getIpRemetente());
 					
@@ -78,22 +76,17 @@ public class TrataEntrada implements Runnable {
 					contatos.adicionarFormChat(user, 1, 0);
 					
 					//Procura chat criado e manda mensagem
-					i = 0;
-					encontrouChat = false;
-					while ((i < Contatos.getSizeListaFormChat()) && (!encontrouChat)) {
-						
+					int posicaoChat = 0;;
+					for (int i = 0; i < Contatos.getSizeListaFormChat(); i++) {
 						if (TratadorMensagens.getIpRemetente().equals(Contatos.listaFormChat.get(i).getUsuario().getIp())) {
 							Contatos.listaFormChat.get(i).adicionarMensagem(TratadorMensagens.getMensagemTratada(), "out"); //Significa que mensegem não é do proprio usuario
-							encontrouChat = true;
+							posicaoChat = i;
+							break;
 						}
-						i++;
 					}
 					
 					//Exibir Notificação
-					FormNotificação frmNotificacao = new FormNotificação();
-					frmNotificacao.setNomeUsuario(user.getNome());
-					frmNotificacao.setFotoUsuarios(user.getFoto());
-					frmNotificacao.setIndexFrameUsuario((i-1));
+					FormNotificação frmNotificacao = new FormNotificação("Nova mensagem de "+user.getNome()+"...", user.getFoto(), posicaoChat);
 					frmNotificacao.setVisible(true);
 					
 				}	
