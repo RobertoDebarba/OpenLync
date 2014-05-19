@@ -1,6 +1,7 @@
-import java.sql.Connection;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,6 @@ import javax.swing.JOptionPane;
 
 public class CargosDAO {
 
-	private Connection conexao = MySQLConection.getMySQLConnection();
 	public List<Cargos> listaCargos = new ArrayList<Cargos>();
 
 	public List<Cargos> getListaCargos() {
@@ -30,7 +30,7 @@ public class CargosDAO {
 		listaCargos.removeAll(listaCargos);
 
 		try {
-			java.sql.Statement st = conexao.createStatement();
+			Statement st = MySQLConection.getStatementMySQL();
 
 			String SQL = "SELECT codigo_cargo, desc_cargo" + " FROM tb_cargos;";
 
@@ -58,7 +58,7 @@ public class CargosDAO {
 		if (!cargo.equals("")) { // Se login não estiver vazio
 			ResultSet rs;
 
-			java.sql.Statement st = conexao.createStatement();
+			Statement st = MySQLConection.getStatementMySQL();
 
 			String SQL = "SELECT 1 FROM tb_cargos" + " WHERE desc_cargo = '"
 					+ cargo + "';";
@@ -83,7 +83,7 @@ public class CargosDAO {
 
 		int ultimoCodigo = 0;
 		try {
-			java.sql.Statement st = conexao.createStatement();
+			Statement st = MySQLConection.getStatementMySQL();
 
 			String SQL = "SELECT codigo_cargo FROM tb_cargos;";
 
@@ -112,7 +112,7 @@ public class CargosDAO {
 	public void adicionar(Cargos cargo) {
 
 		try {
-			java.sql.Statement st = conexao.createStatement();
+			Statement st = MySQLConection.getStatementMySQL();
 
 			String SQL = "INSERT INTO tb_cargos (codigo_cargo,"
 					+ " desc_cargo)" + " VALUES (" + cargo.getCodigo() + ", '"
@@ -134,7 +134,7 @@ public class CargosDAO {
 	public void editar(Cargos cargo) {
 
 		try {
-			java.sql.Statement st = conexao.createStatement();
+			Statement st = MySQLConection.getStatementMySQL();
 
 			String SQL = "UPDATE tb_cargos SET" + " desc_cargo = '"
 					+ cargo.getDesc() + "' WHERE codigo_cargo = "
@@ -158,7 +158,7 @@ public class CargosDAO {
 
 		boolean resultado = false;
 		try {
-			java.sql.Statement st = conexao.createStatement();
+			Statement st = MySQLConection.getStatementMySQL();
 			ResultSet rs;
 			String SQL;
 

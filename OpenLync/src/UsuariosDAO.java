@@ -2,12 +2,12 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.Blob;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.PreparedStatement;
 
 import javax.imageio.ImageIO;
 
@@ -29,11 +29,10 @@ public class UsuariosDAO {
 	private void carregarListaUsuario() {
 		
 		Criptografia cript = new Criptografia();
-		Connection conexao = MySQLConection.getMySQLConnection();
 
 		listaUsuarios.removeAll(listaUsuarios);
 		try {
-			java.sql.Statement st = conexao.createStatement();
+			Statement st = MySQLConection.getStatementMySQL();
 
 			String SQL = "SELECT codigo_usuario, nome_usuario, login_usuario, senha_usuario, foto_usuario, admin_usuario, tb_cargos.desc_cargo"
 					+ " FROM tb_usuarios, tb_cargos"
@@ -76,12 +75,11 @@ public class UsuariosDAO {
 	public boolean verificarDispLogin(String login) throws SQLException {
 
 		Criptografia cript = new Criptografia();
-		Connection conexao = MySQLConection.getMySQLConnection();
 		
 		if (!login.equals("")) { // Se login não estiver vazio
 			ResultSet rs;
 
-			java.sql.Statement st = conexao.createStatement();
+			Statement st = MySQLConection.getStatementMySQL();
 
 			String SQL = "SELECT 1 FROM tb_usuarios"
 					+ " WHERE login_usuario = '"
@@ -109,12 +107,11 @@ public class UsuariosDAO {
 	 */
 	public boolean verifLogin(String login, String senha) {
 
-		Connection conexao = MySQLConection.getMySQLConnection();
 		Criptografia cript = new Criptografia();
 
 		boolean result = false;
 		try {
-			Statement st = conexao.createStatement();
+			Statement st = MySQLConection.getStatementMySQL();
 
 			String SQL = "SELECT 1 FROM tb_usuarios"
 					+ " WHERE login_usuario = '"
@@ -142,12 +139,10 @@ public class UsuariosDAO {
 	 * @return proximo codigo utilizavel;
 	 */
 	public int getNovoCodigo() {
-
-		Connection conexao = MySQLConection.getMySQLConnection();
 		
 		int ultimoCodigo = 0;
 		try {
-			java.sql.Statement st = conexao.createStatement();
+			Statement st = MySQLConection.getStatementMySQL();
 
 			String SQL = "SELECT codigo_usuario FROM tb_usuarios;";
 
@@ -176,10 +171,9 @@ public class UsuariosDAO {
 	public void adicionar(Usuarios usuario) {
 
 		Criptografia cript = new Criptografia();
-		Connection conexao = MySQLConection.getMySQLConnection();
 		
 		try {
-			java.sql.Statement st = conexao.createStatement();
+			Statement st = MySQLConection.getStatementMySQL();
 
 			String SQL;
 			if (usuario.getFoto() == null) { // Se foto estiver vazia
@@ -226,7 +220,7 @@ public class UsuariosDAO {
 
 				// Prepara imagem para INSERT
 				// ---------------------------------------------------------
-				java.sql.PreparedStatement pst = conexao.prepareStatement(SQL);
+				PreparedStatement pst = MySQLConection.getPreparedStatementMySQL(SQL);
 
 				ByteArrayOutputStream out = new ByteArrayOutputStream();
 				try {
@@ -261,10 +255,9 @@ public class UsuariosDAO {
 	public void editar(Usuarios usuario) {
 
 		Criptografia cript = new Criptografia();
-		Connection conexao = MySQLConection.getMySQLConnection();
 		
 		try {
-			java.sql.Statement st = conexao.createStatement();
+			Statement st = MySQLConection.getStatementMySQL();
 
 			String SQL;
 			if (usuario.getFoto() == null) { // Se usuario nao possuir foto
@@ -296,7 +289,7 @@ public class UsuariosDAO {
 
 				// Prepara imagem para INSERT
 				// ---------------------------------------------------------
-				java.sql.PreparedStatement pst = conexao.prepareStatement(SQL);
+				PreparedStatement pst = MySQLConection.getPreparedStatementMySQL(SQL);
 
 				ByteArrayOutputStream out = new ByteArrayOutputStream();
 				try {
@@ -329,11 +322,9 @@ public class UsuariosDAO {
 	 * @param usuario
 	 */
 	public void apagar(Usuarios usuario) {
-
-		Connection conexao = MySQLConection.getMySQLConnection();
 		
 		try {
-			java.sql.Statement st = conexao.createStatement();
+			Statement st = MySQLConection.getStatementMySQL();
 
 			String SQL = "DELETE FROM tb_usuarios WHERE codigo_usuario = "
 					+ usuario.getCodigo() + ";";

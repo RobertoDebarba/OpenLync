@@ -1,6 +1,8 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.PreparedStatement;
 
 import javax.swing.JOptionPane;
 
@@ -13,25 +15,105 @@ public class MySQLConection {
 
 	private static boolean status = false;
 	private static String ipServidor = "172.16.122.1";
+	private static Connection conexao = null;
 
+	/**
+	 * Retorna o IP do servidor de Banco de Dados
+	 * @return
+	 */
 	public static String getIpServidor() {
 		return ipServidor;
 	}
 
+	/**
+	 * Seta o IP do servidor de Banco de Dados
+	 * @param ipServidor
+	 */
 	public static void setIpServidor(String ipServidor) {
 		MySQLConection.ipServidor = ipServidor;
 	}
-
+	
+	/**
+	 * Retorna o status da conexão com o MySQL
+	 * @return
+	 */
 	public static boolean getStatusMySQL() {
 		return status;
 	}
 
 	/**
-	 * Obtem conexão com Banco de Dados
-	 * 
+	 * Retorna novo Statement para execução de comandos SQL
+	 * @return
+	 * @throws SQLException
+	 */
+	public static Statement getStatementMySQL() throws SQLException {
+		return conexao.createStatement();
+	}
+	
+	/**
+	 * Retorna novo PreparedStatement do SQL informado
+	 * @param SQL
+	 * @return
+	 * @throws SQLException
+	 */
+	public static PreparedStatement getPreparedStatementMySQL(String SQL) throws SQLException {
+		return conexao.prepareStatement(SQL);
+	}
+
+	/**
+	 * Abre a conexão unica com o Banco de Dados
+	 */
+	public static void abrirConexaoMySQL() {
+
+		conexao = getMySQLConnection();
+		
+		if (conexao == null) {
+			JOptionPane.showMessageDialog(null, "Falha ao conectar ao Banco de Dados!", "Erro", 1);
+		}
+	}
+
+	/**
+	 * Fecha a conexão unica com o Banco de Dados
 	 * @return
 	 */
-	public static java.sql.Connection getMySQLConnection() {
+	public static boolean fecharConexaoMySQL() {
+
+		status = false;
+		try {
+			getMySQLConnection().close();
+			return true;
+		} catch (SQLException e) {
+			return false;
+		}
+	}
+
+	/**
+	 * Reinicia a conexao com o Banco de Dados
+	 */
+	public static void reiniciarConexaoMySQL() {
+
+		fecharConexaoMySQL();
+		conexao = getMySQLConnection();
+	}
+
+	/**
+	 * Verifica se conexão com Banco de Dados é possivel
+	 */
+	public static boolean verificarConexaoMySQL() {
+		Connection conexao = MySQLConection.getMySQLConnection();
+
+		if (conexao != null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Conecta ao Banco de Dados e retorna uma conexão
+	 * @return
+	 */
+	private static java.sql.Connection getMySQLConnection() {
 
 		Connection connection = null;
 		try {
@@ -52,41 +134,11 @@ public class MySQLConection {
 			return connection;
 
 		} catch (ClassNotFoundException e) {
-			JOptionPane.showMessageDialog(null,
-					"O driver expecificado nao foi encontrado.",
-					"Erro de conexão com Banco de Dados", 1);
+			System.out.println("O driver expecificado nao foi encontrado.");
 			return null;
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null,
-					"Nao foi possivel conectar ao Banco de Dados.",
-					"Erro de conexão com Banco de Dados", 1);
+			System.out.println("Nao foi possivel conectar ao Banco de Dados.");
 			return null;
 		}
-	}
-
-	/**
-	 * Encerra conexaõ com banco de dados
-	 * 
-	 * @return
-	 */
-	public static boolean fecharConexaoMySQL() {
-
-		try {
-			getMySQLConnection().close();
-			return true;
-		} catch (SQLException e) {
-			return false;
-		}
-	}
-
-	/**
-	 * Reinicia conexão com banco de dados
-	 * 
-	 * @return
-	 */
-	public static java.sql.Connection getReiniciarMySQLConnection() {
-
-		fecharConexaoMySQL();
-		return getMySQLConnection();
 	}
 }

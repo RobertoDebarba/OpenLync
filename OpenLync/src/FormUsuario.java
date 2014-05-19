@@ -3,7 +3,6 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -22,7 +21,6 @@ public class FormUsuario extends javax.swing.JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	private Connection conexao = MySQLConection.getMySQLConnection();
 	private int estado = 0; // Define modo da tela / 0 = neutro / 1 = Novo / 2 =
 							// Editando
 	private BufferedImage fotoPerfil = null;
@@ -204,7 +202,7 @@ public class FormUsuario extends javax.swing.JFrame {
 
 		String[] listaCargos = null;
 		try {
-			Statement st = conexao.createStatement();
+			Statement st = MySQLConection.getStatementMySQL();
 
 			String SQL = "SELECT desc_cargo FROM tb_cargos;";
 

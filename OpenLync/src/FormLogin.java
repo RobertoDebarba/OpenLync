@@ -47,6 +47,7 @@ public class FormLogin extends javax.swing.JInternalFrame {
 
 		if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
 
+			MySQLConection.abrirConexaoMySQL();
 			UsuariosDAO dao = new UsuariosDAO(false);
 			if (dao.verifLogin(editLogin.getText(),
 					new String(editSenha.getPassword()))) {

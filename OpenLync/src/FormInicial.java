@@ -1,11 +1,10 @@
-import java.sql.Connection;
-import java.sql.SQLException;
-
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+
+import openlync.forms.FormSobre;
 
 public class FormInicial extends javax.swing.JInternalFrame {
 
@@ -80,9 +79,8 @@ public class FormInicial extends javax.swing.JInternalFrame {
 		if (!editIP.getText().equals("")) {
 
 			MySQLConection.setIpServidor(editIP.getText());
-			Connection conexao = MySQLConection.getMySQLConnection();
 
-			if (conexao == null) {
+			if (MySQLConection.getStatusMySQL()) {
 				checkDB.setSelected(false);
 				adicionarLog("Status do Banco de Dados: OFFLINE!");
 			} else {
@@ -90,12 +88,6 @@ public class FormInicial extends javax.swing.JInternalFrame {
 				adicionarLog("Status do Banco de Dados: ONLINE!");
 			}
 
-			MySQLConection.fecharConexaoMySQL();
-			try {
-				conexao.close();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
 		} else {
 			JOptionPane.showMessageDialog(null,
 					"O campo 'IP' deve estar preenchido corretamente!",
