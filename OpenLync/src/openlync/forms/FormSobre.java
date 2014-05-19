@@ -1,3 +1,5 @@
+package openlync.forms;
+
 import java.awt.Color;
 import java.awt.Desktop;
 import java.io.IOException;
