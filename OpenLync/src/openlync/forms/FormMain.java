@@ -1,3 +1,7 @@
+package openlync.forms;
+import FormInicial;
+import FormLogin;
+
 public class FormMain extends javax.swing.JFrame {
 
 	public FormInicial frmInicial;
