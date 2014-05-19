@@ -137,13 +137,19 @@ public class Configuracoes {
 				//Seta o ip local
 				Configuracoes.setIpLocal(TratadorMensagens.getMensagemTratada());
 			
+				//Encerra a Thread no servidor
+				PSsaida.println(cript.criptografarMensagem("SYSTEM|KILL CLIENT"));
+				
 				SSentrada.close();
 				socketSaida.close();
 				PSsaida.close();
 				s.close();
-				
+
 				return true;
 			} else {
+				//Encera a Thread no servidor
+				PSsaida.println(cript.criptografarMensagem("SYSTEM|KILL CLIENT"));
+				
 				return false;
 			}
 			

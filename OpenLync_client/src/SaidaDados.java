@@ -30,7 +30,9 @@ public class SaidaDados implements Runnable {
 	 */
 	public void encerrarThread() {
 		
-		PSsaida.println("SYSTEM|KILL CLIENT");
+		Criptografia cript = new Criptografia();
+		
+		PSsaida.println(cript.criptografarMensagem("SYSTEM|KILL CLIENT"));
 		Thread.currentThread().interrupt();
 	}
 	
