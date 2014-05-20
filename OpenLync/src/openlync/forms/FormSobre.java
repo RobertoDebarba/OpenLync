@@ -43,7 +43,7 @@ public class FormSobre extends javax.swing.JFrame {
 		jPanel1.setLayout(null);
 
 		jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource(
-				"/Imagens/OpenLync_logo_menor.png"))); // NOI18N
+				"/openlync/imagens/OpenLync_logo_menor.png"))); // NOI18N
 		jPanel1.add(jLabel1);
 		jLabel1.setBounds(182, 20, 80, 80);
 

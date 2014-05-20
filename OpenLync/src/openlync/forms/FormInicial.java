@@ -126,7 +126,7 @@ public class FormInicial extends javax.swing.JInternalFrame {
 		jPanel1.setLayout(null);
 
 		jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource(
-				"/Imagens/OpenLync_logo_menor.png"))); // NOI18N
+				"/openlync/imagens/OpenLync_logo_menor.png"))); // NOI18N
 		jPanel1.add(jLabel1);
 		jLabel1.setBounds(10, 10, 80, 80);
 

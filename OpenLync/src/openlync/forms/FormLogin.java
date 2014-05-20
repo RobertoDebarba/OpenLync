@@ -129,7 +129,7 @@ public class FormLogin extends javax.swing.JInternalFrame {
 		editSenha.setBounds(210, 270, 150, 25);
 
 		labelConfig.setIcon(new javax.swing.ImageIcon(getClass().getResource(
-				"/Imagens/gear_icon.png"))); // NOI18N
+				"/openlync/imagens/gear_icon.png"))); // NOI18N
 		labelConfig.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
 				labelConfigMouseClicked(evt);
