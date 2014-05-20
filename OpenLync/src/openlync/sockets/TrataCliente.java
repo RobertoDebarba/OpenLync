@@ -8,9 +8,9 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.Scanner;
 
+import openlync.principal.Mensagens;
 import openlync.principal.OpenLync;
 import openlync.utilidades.Criptografia;
-import openlync.utilidades.Mensagens;
 
 /**
  * Quando um novo cliente se conecta, uma nova Thread é criada com essa classe,
