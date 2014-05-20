@@ -1,3 +1,4 @@
+package openlync.principal;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -9,6 +10,8 @@ import java.net.Socket;
 import java.util.Scanner;
 
 import javax.swing.JOptionPane;
+
+import openlync.utilidades.Criptografia;
 
 
 public class Configuracoes {

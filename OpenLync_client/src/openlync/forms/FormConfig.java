@@ -1,3 +1,4 @@
+package openlync.forms;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -13,6 +14,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+
+import openlync.principal.Configuracoes;
 
 public class FormConfig extends JInternalFrame {
 

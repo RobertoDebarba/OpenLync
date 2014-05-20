@@ -1,3 +1,4 @@
+package openlync.forms;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -29,6 +30,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
+
+import openlync.principal.Contatos;
+import openlync.principal.Mensagens;
+import openlync.principal.Usuarios;
+import openlync.principal.UsuariosDAO;
+import openlync.sockets.SaidaDados;
+import openlync.utilidades.Criptografia;
+import openlync.utilidades.MySQLConection;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

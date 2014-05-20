@@ -1,3 +1,4 @@
+package openlync.utilidades;
 public class Criptografia {
 
 	/**

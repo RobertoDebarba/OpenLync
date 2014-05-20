@@ -1,5 +1,10 @@
+package openlync.forms;
 import javax.swing.JFrame;
 import javax.swing.JDesktopPane;
+
+import openlync.principal.Usuarios;
+import openlync.principal.UsuariosDAO;
+import openlync.utilidades.MySQLConection;
 
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;

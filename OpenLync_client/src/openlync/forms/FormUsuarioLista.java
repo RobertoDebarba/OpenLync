@@ -1,3 +1,4 @@
+package openlync.forms;
 
 import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
@@ -9,6 +10,9 @@ import java.awt.Color;
 import java.awt.Image;
 
 import javax.swing.JLabel;
+
+import openlync.principal.Contatos;
+import openlync.principal.Usuarios;
 
 import org.imgscalr.Scalr;
 

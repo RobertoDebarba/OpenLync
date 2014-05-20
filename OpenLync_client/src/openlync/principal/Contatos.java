@@ -1,8 +1,14 @@
+package openlync.principal;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
+
+import openlync.forms.FormChat;
+import openlync.forms.FormIncial;
+import openlync.forms.FormLogin;
+import openlync.forms.FormUsuarioLista;
 
 public class Contatos {
 

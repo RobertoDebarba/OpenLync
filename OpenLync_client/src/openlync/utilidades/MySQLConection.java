@@ -1,7 +1,10 @@
+package openlync.utilidades;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import openlync.principal.Configuracoes;
 
 /*
  * http://www.devmedia.com.br/criando-uma-conexao-java-mysql-server/16753	

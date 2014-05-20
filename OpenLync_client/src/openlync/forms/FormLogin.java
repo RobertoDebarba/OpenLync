@@ -1,3 +1,4 @@
+package openlync.forms;
 
 import javax.swing.ImageIcon;
 import javax.swing.JInternalFrame;
@@ -18,6 +19,12 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JPasswordField;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+
+import openlync.principal.Configuracoes;
+import openlync.principal.Usuarios;
+import openlync.principal.UsuariosDAO;
+import openlync.sockets.EntradaDados;
+import openlync.utilidades.MySQLConection;
 
 import java.awt.Font;
 

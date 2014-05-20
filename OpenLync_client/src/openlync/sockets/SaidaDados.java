@@ -1,7 +1,11 @@
+package openlync.sockets;
 
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
+
+import openlync.principal.Configuracoes;
+import openlync.utilidades.Criptografia;
 
 /*
  * Esta thread está ligada à Thread TrataCliente no servidor.

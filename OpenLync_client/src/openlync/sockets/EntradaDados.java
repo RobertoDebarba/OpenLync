@@ -1,5 +1,8 @@
+package openlync.sockets;
 import java.io.IOException;
 import java.net.ServerSocket;
+
+import openlync.principal.Configuracoes;
 
 public class EntradaDados implements Runnable {
 

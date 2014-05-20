@@ -1,4 +1,4 @@
-package Biblioteca;
+package openlync.utilidades;
 
 import java.awt.Component;
 import java.awt.Dimension;

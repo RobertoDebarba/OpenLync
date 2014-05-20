@@ -1,3 +1,4 @@
+package openlync.forms;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
@@ -16,12 +17,15 @@ import javax.swing.ImageIcon;
 import java.awt.Color;
 
 import javax.swing.JScrollPane;
-
-import Biblioteca.MDIDesktopPane;
-
 import javax.swing.JCheckBox;
 import javax.swing.SwingConstants;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+
+import openlync.principal.Contatos;
+import openlync.principal.Mensagens;
+import openlync.principal.Usuarios;
+import openlync.principal.UsuariosDAO;
+import openlync.utilidades.MDIDesktopPane;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

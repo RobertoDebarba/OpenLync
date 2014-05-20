@@ -1,3 +1,4 @@
+package openlync.forms;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
@@ -7,6 +8,8 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+
+import openlync.principal.Contatos;
 
 public class FormNotificação extends JFrame {
 

@@ -1,7 +1,15 @@
+package openlync.sockets;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
+
+import openlync.forms.FormNotificação;
+import openlync.principal.Contatos;
+import openlync.principal.Mensagens;
+import openlync.principal.Usuarios;
+import openlync.principal.UsuariosDAO;
+import openlync.utilidades.Criptografia;
 
 public class TrataEntrada implements Runnable {
 	

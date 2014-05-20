@@ -1,3 +1,4 @@
+package openlync.principal;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.ResultSet;
@@ -8,6 +9,9 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
+
+import openlync.utilidades.Criptografia;
+import openlync.utilidades.MySQLConection;
 
 
 public class UsuariosDAO {

@@ -1,3 +1,6 @@
+package openlync.principal;
+import openlync.forms.FormMain;
+
 //Referencias:
 //	
 //	http://www.guj.com.br/articles/126
