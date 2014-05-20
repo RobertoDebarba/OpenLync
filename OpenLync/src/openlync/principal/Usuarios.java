@@ -1,3 +1,4 @@
+package openlync.principal;
 import java.awt.image.BufferedImage;
 
 public class Usuarios {

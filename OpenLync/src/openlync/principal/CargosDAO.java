@@ -1,3 +1,4 @@
+package openlync.principal;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -6,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
+
+import openlync.utilidades.MySQLConection;
 
 public class CargosDAO {
 

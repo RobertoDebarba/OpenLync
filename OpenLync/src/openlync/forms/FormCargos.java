@@ -1,3 +1,4 @@
+package openlync.forms;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
@@ -5,6 +6,9 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
+
+import openlync.principal.Cargos;
+import openlync.principal.CargosDAO;
 
 public class FormCargos extends javax.swing.JFrame {
 

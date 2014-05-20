@@ -1,3 +1,4 @@
+package openlync.principal;
 public class Cargos {
 
 	private int codigo;

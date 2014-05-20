@@ -1,6 +1,9 @@
+package openlync.utilidades;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
+
+import openlync.principal.OpenLync;
 
 public class Mensagens {
 

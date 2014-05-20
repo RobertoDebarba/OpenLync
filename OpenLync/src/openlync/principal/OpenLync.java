@@ -1,9 +1,13 @@
+package openlync.principal;
 //Referencias
 //http://www.caelum.com.br/apostila-java-orientacao-objetos/apendice-sockets/#19-5-servidor
 //http://pt.slideshare.net/akhilgouthamkotini/multi-user-chat-system-using-java1
 
 import java.io.IOException;
 import java.net.ServerSocket;
+
+import openlync.forms.FormMain;
+import openlync.sockets.NovosClientes;
 
 public class OpenLync {
 

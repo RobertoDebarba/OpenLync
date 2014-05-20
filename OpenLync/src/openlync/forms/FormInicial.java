@@ -1,10 +1,12 @@
+package openlync.forms;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
-import openlync.forms.FormSobre;
+import openlync.principal.OpenLync;
+import openlync.utilidades.MySQLConection;
 
 public class FormInicial extends javax.swing.JInternalFrame {
 

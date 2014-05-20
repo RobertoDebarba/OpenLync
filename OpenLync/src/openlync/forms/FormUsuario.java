@@ -1,3 +1,4 @@
+package openlync.forms;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -14,6 +15,10 @@ import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+
+import openlync.principal.Usuarios;
+import openlync.principal.UsuariosDAO;
+import openlync.utilidades.MySQLConection;
 
 import org.imgscalr.Scalr;
 

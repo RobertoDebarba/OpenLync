@@ -1,6 +1,9 @@
+package openlync.sockets;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+
+import openlync.principal.OpenLync;
 
 /**
  * Esta classe é uma implementação para um Thread que fica infinitamente
