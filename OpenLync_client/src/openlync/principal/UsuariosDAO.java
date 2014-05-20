@@ -61,7 +61,7 @@ public class UsuariosDAO {
 				Blob blobImage = rs.getBlob("foto_usuario");
 				try {
 					if (blobImage == null) {
-						java.io.InputStream fis = getClass().getResourceAsStream("/Imagens/imgPerfilGenerica.jpg");				
+						java.io.InputStream fis = getClass().getResourceAsStream("/openlync/imagens/imgPerfilGenerica.jpg");				
 						usuario.setFoto(ImageIO.read(fis));
 					} else {
 						usuario.setFoto(ImageIO.read(blobImage.getBinaryStream()));

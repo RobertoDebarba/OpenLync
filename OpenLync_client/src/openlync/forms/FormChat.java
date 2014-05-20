@@ -156,10 +156,10 @@ public class FormChat extends JFrame {
 		final JLabel lblAmigo = new JLabel("Amigo");
 		if (dao.verificarAmizade(FormLogin.getUsuarioLogin(), usuario)) {
 			lblAmigo.setIcon(new ImageIcon(FormChat.class
-					.getResource("/Imagens/amigo-.png")));
+					.getResource("/openlync/imagens/amigo-.png")));
 		} else {
 			lblAmigo.setIcon(new ImageIcon(FormChat.class
-					.getResource("/Imagens/amigo+.png")));
+					.getResource("/openlync/imagens/amigo+.png")));
 		}
 		lblAmigo.addMouseListener(new MouseAdapter() {
 			@Override
@@ -168,13 +168,13 @@ public class FormChat extends JFrame {
 				if (dao.verificarAmizade(FormLogin.getUsuarioLogin(), usuario)) {
 					if (dao.removerAmizade(FormLogin.getUsuarioLogin(), usuario)) {
 						lblAmigo.setIcon(new ImageIcon(FormChat.class
-								.getResource("/Imagens/amigo+.png")));
+								.getResource("/openlync/imagens/amigo+.png")));
 					}
 				} else {
 					if (dao.adicionarAmizade(FormLogin.getUsuarioLogin(),
 							usuario)) {
 						lblAmigo.setIcon(new ImageIcon(FormChat.class
-								.getResource("/Imagens/amigo-.png")));
+								.getResource("/openlync/imagens/amigo-.png")));
 					}
 				}
 			}
@@ -184,7 +184,7 @@ public class FormChat extends JFrame {
 
 		final JLabel lblHistorico = new JLabel("Historico");
 		lblHistorico.setIcon(new ImageIcon(FormChat.class
-				.getResource("/Imagens/historico_icon.png")));
+				.getResource("/openlync/imagens/historico_icon.png")));
 		lblHistorico.setText("");
 		lblHistorico.addMouseListener(new MouseAdapter() {
 			@Override

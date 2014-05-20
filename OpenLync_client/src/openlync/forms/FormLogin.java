@@ -130,7 +130,7 @@ public class FormLogin extends JInternalFrame {
 				FormMain.abrirFrmConfig();
 			}
 		});
-		ImgGear.setIcon(new ImageIcon(FormLogin.class.getResource("/Imagens/gear_icon.png")));
+		ImgGear.setIcon(new ImageIcon(FormLogin.class.getResource("/openlync/imagens/gear_icon.png")));
 		ImgGear.setBounds(333, 0, 25, 23);
 		getContentPane().add(ImgGear);
 		

@@ -131,7 +131,7 @@ public class FormIncial extends JInternalFrame {
 
 		lblSobre = new JLabel("");
 		lblSobre.setIcon(new ImageIcon(FormIncial.class
-				.getResource("/Imagens/sobreIcon.png")));
+				.getResource("/openlync/imagens/sobreIcon.png")));
 		lblSobre.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) { // Btn Sobre
@@ -236,7 +236,7 @@ public class FormIncial extends JInternalFrame {
 
 		if (listUsuariosMensagens.size() == 0) {
 			labelMensagens.setIcon(new ImageIcon(FormIncial.class
-					.getResource("/Imagens/novaMensagem_OFF.png")));
+					.getResource("/openlync/imagens/novaMensagem_OFF.png")));
 
 			popMenu.removeAll();
 
@@ -246,7 +246,7 @@ public class FormIncial extends JInternalFrame {
 		} else {
 
 			labelMensagens.setIcon(new ImageIcon(FormIncial.class
-					.getResource("/Imagens/novaMensagem_ON.png")));
+					.getResource("/openlync/imagens/novaMensagem_ON.png")));
 
 			popMenu.removeAll();
 
