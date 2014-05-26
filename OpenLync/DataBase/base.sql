@@ -163,18 +163,18 @@ END $$
 
 CREATE PROCEDURE sp_getQuantidadeMensagensNaoLidas(IN codigo_usuario_login INT)
 BEGIN
-	SELECT codigo_remet_mensagem
+	SELECT DISTINCT codigo_remet_mensagem
 	FROM tb_mensagens
 	WHERE codigo_dest_mensagem = codigo_usuario_login
 		AND lido_mensagem = FALSE;
 END $$
 
 
-CREATE PROCEDURE sp_setIpUsuario(IN codigo_usuario INT, IN ip VARCHAR(15))
+CREATE PROCEDURE sp_setIpUsuario(IN codigo INT, IN ip VARCHAR(15))
 BEGIN
 	UPDATE tb_usuarios
-	SET ip_usuario = ip_usuario
-	WHERE codigo_usuario = codigo_usuario;
+	SET ip_usuario = ip
+	WHERE codigo_usuario = codigo;
 END $$
 
 
@@ -208,23 +208,12 @@ BEGIN
 END $$
 
 
-CREATE FUNCTION fc_getStatusUsuario(codigo_usuario INT) RETURNS BOOLEAN
-BEGIN
-	IF (SELECT 1 FROM tb_usuarios
-		WHERE codigo_usuario = codigo_usuario) THEN
-		RETURN TRUE;
-	ELSE
-		RETURN FALSE;
-	END IF;
-END $$
-
-
-CREATE FUNCTION fc_getIpUsuario(codigo_usuario INT) RETURNS VARCHAR(15)
+CREATE FUNCTION fc_getIpUsuario(codigo INT) RETURNS VARCHAR(15)
 BEGIN
 	RETURN (
 		SELECT ip_usuario
 		FROM tb_usuarios
-		WHERE codigo_usuario = codigo_usuario
+		WHERE codigo_usuario = codigo
 	);
 END $$
 
