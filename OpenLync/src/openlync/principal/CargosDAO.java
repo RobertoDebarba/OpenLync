@@ -1,5 +1,6 @@
 package openlync.principal;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -35,7 +36,7 @@ public class CargosDAO {
 		try {
 			Statement st = MySQLConection.getStatementMySQL();
 
-			String SQL = "SELECT codigo_cargo, desc_cargo" + " FROM tb_cargos;";
+			String SQL = "CALL sp_getCargos()";
 
 			ResultSet rs = st.executeQuery(SQL);
 
@@ -58,25 +59,18 @@ public class CargosDAO {
 	 */
 	public boolean verificarDispDesc(String cargo) throws SQLException {
 
-		if (!cargo.equals("")) { // Se login não estiver vazio
-			ResultSet rs;
-
+		boolean resultado = false;
+		if (!cargo.equals("")) { //Se cargo não estiver vazio
 			Statement st = MySQLConection.getStatementMySQL();
 
-			String SQL = "SELECT 1 FROM tb_cargos" + " WHERE desc_cargo = '"
-					+ cargo + "';";
+			String SQL = "SELECT fc_verificarDispDesc('"+cargo+"');";
 
-			rs = st.executeQuery(SQL);
-
-			if (rs.next()) {
-				return false;
-			} else {
-				return true;
-			}
+			ResultSet rs = st.executeQuery(SQL);
+			rs.next();
+			resultado = rs.getBoolean(1);
 		}
-		;
-
-		return true;
+		
+		return resultado;
 	}
 
 	/**
@@ -84,27 +78,21 @@ public class CargosDAO {
 	 */
 	public int getNovoCodigo() {
 
-		int ultimoCodigo = 0;
+		int resultado = 0;
 		try {
 			Statement st = MySQLConection.getStatementMySQL();
 
-			String SQL = "SELECT codigo_cargo FROM tb_cargos;";
+			String SQL = "SELECT fc_getNovoCodigoCargo()";
 
 			ResultSet rs = st.executeQuery(SQL);
-
-			while (rs.next()) {
-				if (ultimoCodigo < rs.getInt("codigo_cargo")) {
-					ultimoCodigo = rs.getInt("codigo_cargo");
-				}
-			}
-			st.close();
-			rs.close();
+			rs.next();
+			resultado = rs.getInt(1);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		return ultimoCodigo + 1;
+		return resultado;
 	}
 
 	/**
@@ -115,14 +103,14 @@ public class CargosDAO {
 	public void adicionar(Cargos cargo) {
 
 		try {
-			Statement st = MySQLConection.getStatementMySQL();
+			String SQL = "CALL sp_adicionarCargo(?, ?)";
 
-			String SQL = "INSERT INTO tb_cargos (codigo_cargo,"
-					+ " desc_cargo)" + " VALUES (" + cargo.getCodigo() + ", '"
-					+ cargo.getDesc() + "');";
-
-			st.execute(SQL);
-			st.close();
+			PreparedStatement pst = MySQLConection.getPreparedStatementMySQL(SQL);
+			
+			pst.setInt(1, cargo.getCodigo());
+			pst.setString(2, cargo.getDesc());
+			
+			pst.execute();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -137,14 +125,14 @@ public class CargosDAO {
 	public void editar(Cargos cargo) {
 
 		try {
-			Statement st = MySQLConection.getStatementMySQL();
+			String SQL = "CALL sp_editarCargo(?, ?)";
 
-			String SQL = "UPDATE tb_cargos SET" + " desc_cargo = '"
-					+ cargo.getDesc() + "' WHERE codigo_cargo = "
-					+ cargo.getCodigo() + ";";
-			st.execute(SQL);
-
-			st.close();
+			PreparedStatement pst = MySQLConection.getPreparedStatementMySQL(SQL);
+			
+			pst.setInt(1, cargo.getCodigo());
+			pst.setString(2, cargo.getDesc());
+			
+			pst.execute();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -157,7 +145,7 @@ public class CargosDAO {
 	 * @param cargo
 	 * @return boolean com resultado da operação
 	 */
-	public boolean apagar(Cargos cargo) {
+	public boolean apagar(Cargos cargo) { //TODO
 
 		boolean resultado = false;
 		try {
@@ -165,29 +153,24 @@ public class CargosDAO {
 			ResultSet rs;
 			String SQL;
 
+			//Usar try
 			// Procura por usuarios cadastrados com esse cargo
-			SQL = "SELECT 1 FROM tb_usuarios WHERE codigo_cargo = "
+			SQL = "SELECT count(codigo_cargo) FROM tb_usuarios WHERE codigo_cargo = "
 					+ cargo.getCodigo() + ";";
 			rs = st.executeQuery(SQL);
 
-			// Se encontrou nenhum usuario com esse cargo
-			if (rs.next()) {
-				JOptionPane
-						.showMessageDialog(
-								null,
-								"Você não pode apagar esse cargo. Existem usuários cadastrados nesse registro.",
-								"Erro ao apagar", 1);
-				resultado = false;
-
-				// Se não encontrou --> apaga registro
-			} else {
-
-				SQL = "DELETE FROM tb_cargos WHERE codigo_cargo = "
-						+ cargo.getCodigo() + ";";
+			rs.next();
+			
+			//0 - Sim / 1 - Não
+			if (JOptionPane.showConfirmDialog(null, "Há "+rs.getInt(1)+
+						" usuário(s) cadastrado(s) com esse cargo."+
+						" Deseja continuar a exclusão e alterar seus cargos para 'Nulo'?",
+						"Alerta de exclusão", 0, 1) == 0) {
+				
+				SQL = "CALL sp_apagarCargo("+cargo.getCodigo()+")";
 				st.execute(SQL);
+				
 				resultado = true;
-
-				st.close();
 			}
 
 		} catch (SQLException e) {

@@ -38,9 +38,7 @@ public class UsuariosDAO {
 		try {
 			Statement st = MySQLConection.getStatementMySQL();
 
-			String SQL = "SELECT codigo_usuario, nome_usuario, login_usuario, senha_usuario, foto_usuario, admin_usuario, tb_cargos.desc_cargo"
-					+ " FROM tb_usuarios, tb_cargos"
-					+ " WHERE tb_cargos.codigo_cargo = tb_usuarios.codigo_cargo;";
+			String SQL = "CALL sp_getUsuarios";
 
 			ResultSet rs = st.executeQuery(SQL);
 
@@ -49,7 +47,7 @@ public class UsuariosDAO {
 
 				usuario.setCodigo(rs.getInt("codigo_usuario"));
 				usuario.setNome(rs.getString("nome_usuario"));
-				usuario.setCargo(rs.getString("tb_cargos.desc_cargo"));
+				usuario.setCargo(rs.getString("desc_cargo"));
 				usuario.setLogin(cript.descriptografarMensagem(rs
 						.getString("login_usuario")));
 				usuario.setSenha(cript.descriptografarMensagem(rs
@@ -85,17 +83,11 @@ public class UsuariosDAO {
 
 			Statement st = MySQLConection.getStatementMySQL();
 
-			String SQL = "SELECT 1 FROM tb_usuarios"
-					+ " WHERE login_usuario = '"
-					+ cript.criptografarMensagem(login) + "';";
+			String SQL = "SELECT fc_verificarDispLogin('"+cript.criptografarMensagem(login)+"')";
 
 			rs = st.executeQuery(SQL);
-
-			if (rs.next()) {
-				return false;
-			} else {
-				return true;
-			}
+			rs.next();
+			return rs.getBoolean(1);
 		}
 		;
 
@@ -115,22 +107,17 @@ public class UsuariosDAO {
 
 		boolean result = false;
 		try {
-			Statement st = MySQLConection.getStatementMySQL();
 
-			String SQL = "SELECT 1 FROM tb_usuarios"
-					+ " WHERE login_usuario = '"
-					+ cript.criptografarMensagem(login)
-					+ "' AND senha_usuario = '"
-					+ cript.criptografarMensagem(senha)
-					+ "' AND admin_usuario = true;";
-
-			ResultSet rs = st.executeQuery(SQL);
-
-			if (rs.next()) {
-				result = true;
-			} else {
-				result = false;
-			}
+			String SQL = "SELECT fc_verificarLogin(?, ?, TRUE, FALSE, TRUE)";
+			
+			PreparedStatement pst = MySQLConection.getPreparedStatementMySQL(SQL);
+			
+			pst.setString(1, cript.criptografarMensagem(login));
+			pst.setString(2, cript.criptografarMensagem(senha));
+			
+			ResultSet rs = pst.executeQuery();
+			rs.next();
+			result = rs.getBoolean(1);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -144,27 +131,21 @@ public class UsuariosDAO {
 	 */
 	public int getNovoCodigo() {
 		
-		int ultimoCodigo = 0;
+		int resultado = 0;
 		try {
 			Statement st = MySQLConection.getStatementMySQL();
 
-			String SQL = "SELECT codigo_usuario FROM tb_usuarios;";
+			String SQL = "SELECT fc_getNovoCodigoUsuario()";
 
 			ResultSet rs = st.executeQuery(SQL);
-
-			while (rs.next()) {
-				if (ultimoCodigo < rs.getInt("codigo_usuario")) {
-					ultimoCodigo = rs.getInt("codigo_usuario");
-				}
-			}
-			st.close();
-			rs.close();
+			rs.next();
+			resultado = rs.getInt(1);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		return ultimoCodigo + 1;
+		return resultado;
 	}
 
 	/**
@@ -177,75 +158,37 @@ public class UsuariosDAO {
 		Criptografia cript = new Criptografia();
 		
 		try {
-			Statement st = MySQLConection.getStatementMySQL();
+			
+			String SQL = "CALL sp_adicionarUsuario(?, ?, ?, ?, ?, ?, ?, ?)";
+			
+			PreparedStatement pst = MySQLConection.getPreparedStatementMySQL(SQL);
 
-			String SQL;
-			if (usuario.getFoto() == null) { // Se foto estiver vazia
-
-				SQL = "INSERT INTO tb_usuarios (codigo_usuario,"
-						+ " nome_usuario,"
-						+ " codigo_cargo,"
-						+ " login_usuario,"
-						+ " senha_usuario,"
-						+ " ip_usuario,"
-						+ " admin_usuario)"
-						+ " VALUES ("
-						+ usuario.getCodigo()
-						+ ", '"
-						+ usuario.getNome()
-						+ "', (SELECT codigo_cargo FROM tb_cargos WHERE desc_cargo = '"
-						+ usuario.getCargo() + "')" + ", '"
-						+ cript.criptografarMensagem(usuario.getLogin())
-						+ "' , '"
-						+ cript.criptografarMensagem(usuario.getSenha()) + "',"
-						+ " 'null'" + ", " + usuario.isAdmin() + ");";
-
-				st.execute(SQL);
-			} else { // Se houver alguma foto
-
-				SQL = "INSERT INTO tb_usuarios (codigo_usuario,"
-						+ " nome_usuario,"
-						+ " codigo_cargo,"
-						+ " login_usuario,"
-						+ " senha_usuario,"
-						+ " ip_usuario,"
-						+ " foto_usuario"
-						+ " admin_usuario)"
-						+ " VALUES ("
-						+ usuario.getCodigo()
-						+ ", '"
-						+ usuario.getNome()
-						+ "', (SELECT codigo_cargo FROM tb_cargos WHERE desc_cargo = '"
-						+ usuario.getCargo() + "')" + ", '"
-						+ cript.criptografarMensagem(usuario.getLogin())
-						+ "' , '"
-						+ cript.criptografarMensagem(usuario.getSenha())
-						+ "', 'null'" + ", ?" + ", " + usuario.isAdmin() + ");";
-
-				// Prepara imagem para INSERT
-				// ---------------------------------------------------------
-				PreparedStatement pst = MySQLConection.getPreparedStatementMySQL(SQL);
-
+			pst.setInt(1, usuario.getCodigo());
+			pst.setString(2, usuario.getNome());
+			pst.setString(3, usuario.getCargo());
+			pst.setString(4, cript.criptografarMensagem(usuario.getLogin()));
+			pst.setString(5, cript.criptografarMensagem(usuario.getSenha()));
+			pst.setString(6, "null");
+			pst.setBoolean(7, usuario.isAdmin());
+			
+			// Prepara imagem para INSERT
+			if (usuario.getFoto() != null) {
 				ByteArrayOutputStream out = new ByteArrayOutputStream();
 				try {
 					ImageIO.write(usuario.getFoto(), "jpeg", out);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-
+	
 				byte[] buf = out.toByteArray();
 				ByteArrayInputStream inStream = new ByteArrayInputStream(buf);
-
-				// ------------------------------------------------------------------------------------
-				pst.setBinaryStream(1, inStream, inStream.available());
-				;
-				pst.executeUpdate();
-
-				pst.close();
+				
+				pst.setBinaryStream(8, inStream, inStream.available());
+			} else {
+				pst.setBinaryStream(8, null);
 			}
-
-			st.close();
-
+			
+			pst.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -261,59 +204,37 @@ public class UsuariosDAO {
 		Criptografia cript = new Criptografia();
 		
 		try {
-			Statement st = MySQLConection.getStatementMySQL();
+			
+			String SQL = "CALL sp_editarUsuario(?, ?, ?, ?, ?, ?, ?, ?)";
+			
+			PreparedStatement pst = MySQLConection.getPreparedStatementMySQL(SQL);
+			
+			pst.setInt(1, usuario.getCodigo());
+			pst.setString(2, usuario.getNome());
+			pst.setString(3, usuario.getCargo());
+			pst.setString(4, cript.criptografarMensagem(usuario.getLogin()));
+			pst.setString(5, cript.criptografarMensagem(usuario.getSenha()));
+			pst.setString(6, "null");
+			pst.setBoolean(7, usuario.isAdmin());
 
-			String SQL;
-			if (usuario.getFoto() == null) { // Se usuario nao possuir foto
-				SQL = "UPDATE tb_usuarios SET"
-						+ " nome_usuario = '"
-						+ usuario.getNome()
-						+ "', codigo_cargo = (SELECT codigo_cargo FROM tb_cargos WHERE desc_cargo = '"
-						+ usuario.getCargo() + "')" + ", login_usuario = '"
-						+ cript.criptografarMensagem(usuario.getLogin())
-						+ "', senha_usuario = '"
-						+ cript.criptografarMensagem(usuario.getSenha())
-						+ "', foto_usuario = null" + ", admin_usuario = "
-						+ usuario.isAdmin() + " WHERE codigo_usuario ="
-						+ usuario.getCodigo() + ";";
-				st.execute(SQL);
-
-			} else { // Se houver alguma foto
-				SQL = "UPDATE tb_usuarios SET"
-						+ " nome_usuario = '"
-						+ usuario.getNome()
-						+ "', codigo_cargo = (SELECT codigo_cargo FROM tb_cargos WHERE desc_cargo = '"
-						+ usuario.getCargo() + "')" + ", login_usuario = '"
-						+ cript.criptografarMensagem(usuario.getLogin())
-						+ "', senha_usuario = '"
-						+ cript.criptografarMensagem(usuario.getSenha())
-						+ "', foto_usuario = ?" + ", admin_usuario = "
-						+ usuario.isAdmin() + " WHERE codigo_usuario ="
-						+ usuario.getCodigo() + ";";
-
-				// Prepara imagem para INSERT
-				// ---------------------------------------------------------
-				PreparedStatement pst = MySQLConection.getPreparedStatementMySQL(SQL);
-
+			// Prepara imagem para INSERT
+			if (usuario.getFoto() != null) {
 				ByteArrayOutputStream out = new ByteArrayOutputStream();
 				try {
 					ImageIO.write(usuario.getFoto(), "jpeg", out);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-
+	
 				byte[] buf = out.toByteArray();
 				ByteArrayInputStream inStream = new ByteArrayInputStream(buf);
-
-				// ------------------------------------------------------------------------------------
-				pst.setBinaryStream(1, inStream, inStream.available());
-				;
-				pst.executeUpdate();
-
-				pst.close();
+				
+				pst.setBinaryStream(8, inStream, inStream.available());
+			} else {
+				pst.setBinaryStream(8, null);
 			}
-
-			st.close();
+			
+			pst.executeUpdate();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -328,13 +249,14 @@ public class UsuariosDAO {
 	public void apagar(Usuarios usuario) {
 		
 		try {
-			Statement st = MySQLConection.getStatementMySQL();
-
-			String SQL = "DELETE FROM tb_usuarios WHERE codigo_usuario = "
-					+ usuario.getCodigo() + ";";
-			st.execute(SQL);
-
-			st.close();
+			
+			String SQL = "CALL sp_apagarUsuario(?)";
+			
+			PreparedStatement pst = MySQLConection.getPreparedStatementMySQL(SQL);
+			
+			pst.setInt(1, usuario.getCodigo());
+			
+			pst.execute();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
