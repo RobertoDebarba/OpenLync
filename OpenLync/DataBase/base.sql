@@ -145,8 +145,18 @@ END $$
 
 
 CREATE PROCEDURE sp_adicionarMensagem(IN codigo_remetente INT, IN codigo_destinatario INT, IN mensagem VARCHAR(150),
-									IN data DATETIME, IN estado BOOLEAN)
+									IN data DATETIME)
 BEGIN
+	SELECT ip_usuario INTO @ipDest
+	FROM tb_usuarios
+	WHERE codigo_usuario = codigo_destinatario;
+
+	IF (@ipDest = 'null') THEN
+		SET @lidoMensagem = FALSE;
+	ELSE
+		SET @lidoMensagem = TRUE;
+	END IF;
+
 	INSERT INTO tb_mensagens(
 		conteudo_mensagem,
 		data_mensagem,
@@ -155,7 +165,7 @@ BEGIN
 		codigo_dest_mensagem)
 	VALUES (mensagem,
 			data,
-			estado,
+			@lidoMensagem,
 			codigo_remetente,
 			codigo_destinatario);
 END $$

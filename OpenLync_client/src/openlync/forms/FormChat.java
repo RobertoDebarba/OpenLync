@@ -381,12 +381,10 @@ public class FormChat extends JFrame {
 			 * (tb_mensagens) ---
 			 */
 			Mensagens mensagens = new Mensagens();
-			// Se usuario estiver Online a mensagem é considerada lida
-			boolean mensagemLida = (usuario.getStatus()) ? true : false;
 
 			mensagens.adicionarMensagemDB(textArea.getText(), FormLogin
 					.getUsuarioLogin().getCodigo(), usuario.getCodigo(),
-					new Date(), mensagemLida);
+					new Date());
 
 			// Limpa campos
 			textArea.setText(null);

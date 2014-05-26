@@ -61,20 +61,19 @@ public class Mensagens {
 	 * @param lida
 	 */
 	public void adicionarMensagemDB(String mensagem, int codigoRemetente,
-			int codigoDestinatario, Date data, boolean lida) {
+			int codigoDestinatario, Date data) {
 
 		Criptografia cript = new Criptografia();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		try {
-			String SQL = "CALL sp_adicionarMensagem(?, ?, ?, ?, ?)";
+			String SQL = "CALL sp_adicionarMensagem(?, ?, ?, ?)";
 			
 			PreparedStatement pst = MySQLConection.getPreparedStatementMySQL(SQL);
 			pst.setInt(1, codigoRemetente);
 			pst.setInt(2, codigoDestinatario);
 			pst.setString(3, cript.criptografarMensagem(mensagem));
 			pst.setString(4, sdf.format(data));
-			pst.setBoolean(5, lida);
 			
 			pst.execute();
 
