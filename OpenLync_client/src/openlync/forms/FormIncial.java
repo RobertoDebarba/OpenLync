@@ -232,7 +232,7 @@ public class FormIncial extends JInternalFrame {
 		Mensagens mens = new Mensagens();
 
 		final List<Integer> listUsuariosMensagens = mens
-				.verificarMensagensNaoLidas(FormLogin.getUsuarioLogin());
+				.getListMensagensNaoLidas(FormLogin.getUsuarioLogin());
 
 		if (listUsuariosMensagens.size() == 0) {
 			labelMensagens.setIcon(new ImageIcon(FormIncial.class

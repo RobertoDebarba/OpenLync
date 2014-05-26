@@ -3,11 +3,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
-import openlync.forms.FormLogin;
 import openlync.utilidades.Criptografia;
 import openlync.utilidades.MySQLConection;
 
@@ -68,17 +67,16 @@ public class Mensagens {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		try {
-			Statement st = MySQLConection.getStatementMySQL();
-
-			String SQL = "INSERT INTO tb_mensagens(" + "conteudo_mensagem,"
-					+ " data_mensagem," + " lido_mensagem,"
-					+ " codigo_remet_mensagem," + " codigo_dest_mensagem)"
-					+ " VALUES (" + "'" + cript.criptografarMensagem(mensagem)
-					+ "'," + " '" + sdf.format(data) + "'," + " " + lida + ","
-					+ " " + codigoRemetente + "," + " " + codigoDestinatario
-					+ "" + ");";
-
-			st.execute(SQL);
+			String SQL = "CALL sp_adicionarMensagem(?, ?, ?, ?, ?)";
+			
+			PreparedStatement pst = MySQLConection.getPreparedStatementMySQL(SQL);
+			pst.setInt(1, codigoRemetente);
+			pst.setInt(2, codigoDestinatario);
+			pst.setString(3, cript.criptografarMensagem(mensagem));
+			pst.setString(4, sdf.format(data));
+			pst.setBoolean(5, lida);
+			
+			pst.execute();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -90,33 +88,19 @@ public class Mensagens {
 	 * 
 	 * @return List com codigos não repitidos dos usuarios que mandaram mensagens não lidas
 	 */
-	public List<Integer> verificarMensagensNaoLidas(Usuarios usuario) {
+	public List<Integer> getListMensagensNaoLidas(Usuarios usuario) {
 
 		List<Integer> arrayResult = new ArrayList<Integer>();
 		try {
-			Statement st = MySQLConection.getStatementMySQL();
+			String SQL = "CALL sp_getQuantidadeMensagensNaoLidas(?)";
 
-			String SQL = "SELECT codigo_remet_mensagem FROM tb_mensagens "
-					+ "WHERE codigo_dest_mensagem = "
-					+ FormLogin.getUsuarioLogin().getCodigo()
-					+ " AND lido_mensagem = FALSE;";
+			PreparedStatement pst = MySQLConection.getPreparedStatementMySQL(SQL);
+			pst.setInt(1, usuario.getCodigo());
+			
+			ResultSet rs = pst.executeQuery();
 
-			ResultSet rs = st.executeQuery(SQL);
-
-			// Varre todas mensagens não lidas, capturando o codigo do remetente
 			while (rs.next()) {
-
-				// Verifica se o remetente ja esta na lista
-				boolean achou = false;
-				for (int i = 0; i < arrayResult.size(); i++) {
-					achou = (arrayResult.get(i) == rs
-							.getInt("codigo_remet_mensagem")) ? true : false;
-				}
-
-				// Se não estiver, adiciona
-				if (!achou) {
-					arrayResult.add(rs.getInt("codigo_remet_mensagem"));
-				}
+				arrayResult.add(rs.getInt("codigo_remet_mensagem"));
 			}
 
 		} catch (SQLException e) {

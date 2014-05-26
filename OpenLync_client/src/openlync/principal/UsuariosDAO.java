@@ -1,6 +1,7 @@
 package openlync.principal;
 import java.io.IOException;
 import java.sql.Blob;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,7 +13,6 @@ import javax.swing.JOptionPane;
 
 import openlync.utilidades.Criptografia;
 import openlync.utilidades.MySQLConection;
-
 
 public class UsuariosDAO {
 
@@ -40,10 +40,7 @@ public class UsuariosDAO {
 			Statement st = MySQLConection.getStatementMySQL();
 			
 			//SELECT todas informações do usuario (com lookup no cargo)
-			String SQL = "SELECT codigo_usuario, nome_usuario, login_usuario, senha_usuario, ip_usuario, foto_usuario, tb_cargos.desc_cargo"+
-						 " FROM tb_usuarios, tb_cargos" +
-						 " WHERE tb_cargos.codigo_cargo = tb_usuarios.codigo_cargo"+
-						 ";";
+			String SQL = "CALL sp_getUsuarios()";
 	
 			ResultSet rs = st.executeQuery(SQL);
 			
@@ -54,7 +51,11 @@ public class UsuariosDAO {
 				//Carrega informações
 				usuario.setCodigo(rs.getInt("codigo_usuario"));
 				usuario.setNome(rs.getString("nome_usuario"));
-				usuario.setCargo(rs.getString("desc_cargo"));
+				if (rs.getString("desc_cargo") == null) {
+					usuario.setCargo("Indefinido");
+				} else {
+					usuario.setCargo(rs.getString("desc_cargo"));
+				}
 				usuario.setLogin(cript.descriptografarMensagem(rs.getString("login_usuario")));
 				usuario.setSenha(cript.descriptografarMensagem(rs.getString("senha_usuario")));
 				usuario.setIp(rs.getString("ip_usuario"));
@@ -149,13 +150,13 @@ public class UsuariosDAO {
 	public void setIPDB(Usuarios usuario) {
 			
 		try {
-			Statement st = MySQLConection.getStatementMySQL();
+			String SQL = "CALL sp_setIpUsuario(?, ?)";
 			
-			String SQL = "UPDATE tb_usuarios SET ip_usuario = '"+usuario.getIp()+
-						 "' WHERE codigo_usuario = "+usuario.getCodigo()+";";
+			PreparedStatement pst = MySQLConection.getPreparedStatementMySQL(SQL);
+			pst.setInt(1, usuario.getCodigo());
+			pst.setString(2, usuario.getIp());
 			
-			st.executeUpdate(SQL);
-		
+			pst.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -171,10 +172,7 @@ public class UsuariosDAO {
 		try {
 			Statement st = MySQLConection.getStatementMySQL();
 			
-			String SQL = "SELECT ip_usuario"+
-						 " FROM tb_usuarios"+
-						 " WHERE codigo_usuario = "+usuario.getCodigo()+
-						 ";";
+			String SQL = "SELECT fc_getIpUsuario("+usuario.getCodigo()+")";
 			
 			ResultSet rs = st.executeQuery(SQL);
 		
@@ -201,19 +199,16 @@ public class UsuariosDAO {
 		try {
 			Criptografia cript = new Criptografia();
 			
-			Statement st = MySQLConection.getStatementMySQL();
+			String SQL = "SELECT fc_verificarLogin(?, ?, FALSE, TRUE, FALSE)";
 			
-			String SQL = "SELECT 1 FROM tb_usuarios WHERE login_usuario = '"+ cript.criptografarMensagem(login) +"'" +
-					 " AND senha_usuario = '"+ cript.criptografarMensagem(senha) +"'" +
-					 " AND ip_usuario = 'null';";
-
-			ResultSet rs = st.executeQuery(SQL);
-	
-			if (rs.next()) {
-				resultado = true;
-			} else {
-				resultado = false;
-			}
+			PreparedStatement pst = MySQLConection.getPreparedStatementMySQL(SQL);
+			
+			pst.setString(1, cript.criptografarMensagem(login));
+			pst.setString(2, cript.criptografarMensagem(senha));
+			
+			ResultSet rs = pst.executeQuery();
+			rs.next();
+			resultado = rs.getBoolean(1);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -232,20 +227,15 @@ public class UsuariosDAO {
 		
 		boolean retorno = false;
 		try {
-			Statement st = MySQLConection.getStatementMySQL();
+			String SQL = "SELECT fc_verificarAmizade(?, ?)";
 			
-			String SQL = "SELECT * FROM tb_amigos"+
-					 " WHERE codigo_usuario_amigo = "+usuario.getCodigo()+
-					 " AND codigo_amigo_amigo = "+amigo.getCodigo()+
-					 ";";
-		
-			ResultSet rs = st.executeQuery(SQL);
+			PreparedStatement pst = MySQLConection.getPreparedStatementMySQL(SQL);
+			pst.setInt(1, usuario.getCodigo());
+			pst.setInt(2, amigo.getCodigo());
 			
-			if (rs.next()) {
-				retorno = true;
-			} else {
-				retorno = false;
-			}
+			ResultSet rs = pst.executeQuery();
+			rs.next();
+			retorno = rs.getBoolean(1);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -266,13 +256,16 @@ public class UsuariosDAO {
 		
 		try {
 			if (JOptionPane.showConfirmDialog(null, "Adicionar usuário à sua lista de amigos?", "Adicionar amigo", 2) == 0) {//0 = OK
-				Statement st = MySQLConection.getStatementMySQL();
 				
-				String SQL = "INSERT INTO tb_amigos (codigo_usuario_amigo, codigo_amigo_amigo)"+
-						  	 " VALUES ("+usuario.getCodigo()+", "+amigo.getCodigo()+
-						  	 ");";
-				st.execute(SQL);
+				String SQL = "CALL sp_adicionarAmizade(?, ?)";
+				
+				PreparedStatement pst = MySQLConection.getPreparedStatementMySQL(SQL);
+				pst.setInt(1, usuario.getCodigo());
+				pst.setInt(2, amigo.getCodigo());
+				
+				pst.execute();
 				resultado = true;
+				
 			} else {
 				resultado = false;
 			}
@@ -299,13 +292,14 @@ public class UsuariosDAO {
 		
 		try {
 			if (JOptionPane.showConfirmDialog(null, "Remover usuário de sua lista de amigos?", "Remover amigo", 2) == 0) {//0 = OK
-				Statement st = MySQLConection.getStatementMySQL();
 				
-				String SQL = "DELETE FROM tb_amigos"+
-					  " WHERE codigo_usuario_amigo = "+usuario.getCodigo()+
-					  " AND codigo_amigo_amigo = "+amigo.getCodigo()+
-					  ";";
-				st.execute(SQL);
+				String SQL = "CALL sp_removerAmizade(?, ?)";
+				
+				PreparedStatement pst = MySQLConection.getPreparedStatementMySQL(SQL);
+				pst.setInt(1, usuario.getCodigo());
+				pst.setInt(2, amigo.getCodigo());
+				
+				pst.execute();
 				resultado = true;
 			} else {
 				resultado = false;

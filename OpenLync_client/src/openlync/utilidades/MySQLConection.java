@@ -1,6 +1,7 @@
 package openlync.utilidades;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -31,6 +32,16 @@ public class MySQLConection {
 	 */
 	public static Statement getStatementMySQL() throws SQLException {
 		return conexao.createStatement();
+	}
+	
+	/**
+	 * Retorna novo PreparedStatement do SQL informado
+	 * @param SQL
+	 * @return
+	 * @throws SQLException
+	 */
+	public static PreparedStatement getPreparedStatementMySQL(String SQL) throws SQLException {
+		return conexao.prepareStatement(SQL);
 	}
 
 	/**

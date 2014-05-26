@@ -241,13 +241,13 @@ public class FormChat extends JFrame {
 		try {
 			Statement st = MySQLConection.getStatementMySQL();
 
-			String SQL = "SELECT ip_usuario FROM tb_usuarios WHERE codigo_usuario = "
-					+ usuario.getCodigo() + ";";
+			//fc_getStatusUsuario
+			String SQL = "SELECT fc_getIpUsuario("+usuario.getCodigo()+")";
 
 			ResultSet rs = st.executeQuery(SQL);
 
 			if (rs.next()) {
-				ipAtual = rs.getString("ip_usuario");
+				ipAtual = rs.getString(1);
 			}
 
 		} catch (SQLException e) {
@@ -399,18 +399,14 @@ public class FormChat extends JFrame {
 	 */
 	private void carregarMensagensNaoLidas() {
 
+		//sp_getMensagensNaoLidas
 		Criptografia cript = new Criptografia();
 
 		try {
 			Statement st = MySQLConection.getStatementMySQL();
-
-			// Carrega todas mensagens
-			String SQL = "SELECT conteudo_mensagem, data_mensagem FROM tb_mensagens "
-					+ "WHERE lido_mensagem = FALSE"
-					+ " AND codigo_remet_mensagem = "
-					+ usuario.getCodigo()
-					+ " AND codigo_dest_mensagem = "
-					+ FormLogin.getUsuarioLogin().getCodigo() + ";";
+			
+			String SQL = "CALL sp_getMensagensNaoLidas("+FormLogin.getUsuarioLogin().getCodigo()+
+						", "+usuario.getCodigo()+");";
 
 			ResultSet rs = st.executeQuery(SQL);
 
@@ -420,14 +416,6 @@ public class FormChat extends JFrame {
 						.getString("conteudo_mensagem")), "out",
 						rs.getDate("data_mensagem"));
 			}
-
-			// Define todas mensagens como lidas
-			SQL = "UPDATE tb_mensagens SET lido_mensagem = TRUE "
-					+ "WHERE codigo_remet_mensagem = " + usuario.getCodigo()
-					+ " AND codigo_dest_mensagem = "
-					+ FormLogin.getUsuarioLogin().getCodigo() + ";";
-
-			st.execute(SQL);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -442,20 +430,14 @@ public class FormChat extends JFrame {
 		// Limpa TextPane
 		textPane.setText("");
 
+		//sp_gethistoricoMensagens
 		Criptografia cript = new Criptografia();
 
 		try {
 			Statement st = MySQLConection.getStatementMySQL();
-
-			// Carrega mensagens
-			String SQL = "SELECT conteudo_mensagem, data_mensagem, codigo_remet_mensagem FROM tb_mensagens"
-					+ " WHERE codigo_remet_mensagem = "
-					+ usuario.getCodigo()
-					+ " OR codigo_remet_mensagem = "
-					+ FormLogin.getUsuarioLogin().getCodigo()
-					+ " AND codigo_dest_mensagem = "
-					+ FormLogin.getUsuarioLogin().getCodigo()
-					+ " OR codigo_dest_mensagem = " + usuario.getCodigo() + ";";
+			
+			String SQL = "CALL sp_getHistoricoMensagens("+FormLogin.getUsuarioLogin().getCodigo()+
+						", "+usuario.getCodigo()+")";
 
 			ResultSet rs = st.executeQuery(SQL);
 
@@ -475,17 +457,6 @@ public class FormChat extends JFrame {
 			}
 
 			adicionarMensagem("  --- Fim do Historico ---");
-
-			// Define todas mensagens como lidas
-			SQL = "UPDATE tb_mensagens SET lido_mensagem = TRUE "
-					+ "WHERE codigo_remet_mensagem = " + usuario.getCodigo()
-					+ " OR codigo_remet_mensagem = "
-					+ FormLogin.getUsuarioLogin().getCodigo()
-					+ " AND codigo_dest_mensagem = "
-					+ FormLogin.getUsuarioLogin().getCodigo()
-					+ " OR codigo_dest_mensagem = " + usuario.getCodigo() + ";";
-
-			st.execute(SQL);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
