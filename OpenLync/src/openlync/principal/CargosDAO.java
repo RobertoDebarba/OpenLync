@@ -164,7 +164,7 @@ public class CargosDAO {
 			//0 - Sim / 1 - Não
 			if (JOptionPane.showConfirmDialog(null, "Há "+rs.getInt(1)+
 						" usuário(s) cadastrado(s) com esse cargo."+
-						" Deseja continuar a exclusão e alterar seus cargos para 'Nulo'?",
+						" Deseja continuar a exclusão e alterar seus cargo para 'Nulo'?",
 						"Alerta de exclusão", 0, 1) == 0) {
 				
 				SQL = "CALL sp_apagarCargo("+cargo.getCodigo()+")";
