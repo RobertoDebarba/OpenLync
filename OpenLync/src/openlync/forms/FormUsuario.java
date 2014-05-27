@@ -757,6 +757,7 @@ public class FormUsuario extends javax.swing.JFrame {
 		editSenha.setText("");
 		checkAdmin.setSelected(false);
 		labelFoto.setIcon(null);
+		fotoPerfil = null;
 		estado = 1;
 
 		editNome.requestFocus();
