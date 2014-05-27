@@ -54,7 +54,7 @@ public class FormSobre extends javax.swing.JFrame {
 		jLabel2.setBounds(3, 120, 440, 19);
 
 		jLabel3.setHorizontalAlignment(0);
-		jLabel3.setText("1.0 (beta)");
+		jLabel3.setText("1.0 (final)");
 		jPanel1.add(jLabel3);
 		jLabel3.setBounds(-1, 160, 440, 18);
 
@@ -88,7 +88,7 @@ public class FormSobre extends javax.swing.JFrame {
 		BtnLicenca.setBounds(10, 280, 87, 28);
 
 		jLabel6.setHorizontalAlignment(0);
-		jLabel6.setText("OpenLync no GitHub");
+		jLabel6.setText("github.com/RobertoDebarba/OpenLync");
 		jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
 				jLabel6MouseClicked(evt);
