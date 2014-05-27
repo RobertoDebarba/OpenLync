@@ -83,11 +83,11 @@ public class FormInicial extends javax.swing.JInternalFrame {
 			MySQLConection.setIpServidor(editIP.getText());
 
 			if (MySQLConection.getStatusMySQL()) {
-				checkDB.setSelected(false);
-				adicionarLog("Status do Banco de Dados: OFFLINE!");
-			} else {
 				checkDB.setSelected(true);
 				adicionarLog("Status do Banco de Dados: ONLINE!");
+			} else {
+				checkDB.setSelected(false);
+				adicionarLog("Status do Banco de Dados: OFFLINE!");
 			}
 
 		} else {
