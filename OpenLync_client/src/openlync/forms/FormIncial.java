@@ -42,7 +42,7 @@ public class FormIncial extends JInternalFrame {
 	private static JLabel lblTodos;
 	private JLabel lblSobre;
 	private JLabel labelFoto;
-	private JLabel labelMensagens;
+	private JLabel lblMensagens;
 	private JPopupMenu popMenu;
 
 	public static int indiceAba = 0;
@@ -84,6 +84,7 @@ public class FormIncial extends JInternalFrame {
 		scrollPane.setViewportView(jdpUsuarios);
 
 		checkOnline = new JCheckBox("Online");
+		checkOnline.setToolTipText("Exibir apenas contatos online");
 		checkOnline.setBackground(new Color(238, 238, 238));
 		checkOnline.addMouseListener(new MouseAdapter() {
 			@Override
@@ -130,6 +131,7 @@ public class FormIncial extends JInternalFrame {
 		getContentPane().add(lblContatos);
 
 		lblSobre = new JLabel("");
+		lblSobre.setToolTipText("Sobre o programa");
 		lblSobre.setIcon(new ImageIcon(FormIncial.class
 				.getResource("/openlync/imagens/sobreIcon.png")));
 		lblSobre.addMouseListener(new MouseAdapter() {
@@ -144,16 +146,17 @@ public class FormIncial extends JInternalFrame {
 
 		popMenu = new JPopupMenu();
 
-		labelMensagens = new JLabel("");
-		labelMensagens.addMouseListener(new MouseAdapter() {
+		lblMensagens = new JLabel("");
+		lblMensagens.setToolTipText("Mensagens não lidas");
+		lblMensagens.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 
-				popMenu.show(labelMensagens, 25, 18);
+				popMenu.show(lblMensagens, 25, 18);
 			}
 		});
-		labelMensagens.setBounds(317, 79, 20, 15);
-		getContentPane().add(labelMensagens);
+		lblMensagens.setBounds(317, 79, 20, 15);
+		getContentPane().add(lblMensagens);
 		
 		// Seta tema
 		try {
@@ -235,7 +238,7 @@ public class FormIncial extends JInternalFrame {
 				.getListMensagensNaoLidas(FormLogin.getUsuarioLogin());
 
 		if (listUsuariosMensagens.size() == 0) {
-			labelMensagens.setIcon(new ImageIcon(FormIncial.class
+			lblMensagens.setIcon(new ImageIcon(FormIncial.class
 					.getResource("/openlync/imagens/novaMensagem_OFF.png")));
 
 			popMenu.removeAll();
@@ -245,7 +248,7 @@ public class FormIncial extends JInternalFrame {
 
 		} else {
 
-			labelMensagens.setIcon(new ImageIcon(FormIncial.class
+			lblMensagens.setIcon(new ImageIcon(FormIncial.class
 					.getResource("/openlync/imagens/novaMensagem_ON.png")));
 
 			popMenu.removeAll();

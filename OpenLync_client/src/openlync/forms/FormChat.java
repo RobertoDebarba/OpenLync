@@ -1,4 +1,5 @@
 package openlync.forms;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -6,10 +7,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTextPane;
 import javax.swing.JTextArea;
 
-import java.awt.AWTException;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Robot;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -41,6 +39,7 @@ import openlync.utilidades.MySQLConection;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.ScrollPaneConstants;
 
 public class FormChat extends JFrame {
 
@@ -78,7 +77,7 @@ public class FormChat extends JFrame {
 		threadSaida.start();
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setSize(new Dimension(366, 420));
+		setBounds(250, 120, 366, 420);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(220, 220, 220));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -115,22 +114,33 @@ public class FormChat extends JFrame {
 		labelCargo.setFont(new Font("Dialog", Font.PLAIN, 14));
 		labelCargo.setBounds(82, 42, 285, 15);
 		contentPane.add(labelCargo);
-
+		
 		textArea = new JTextArea();
+		textArea.setLineWrap(true);
+		textArea.setFont(new Font("Dialog", Font.PLAIN, 14));
 		textArea.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) { // Ao pressionar ENTER
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					Robot robot = null;
-					try {
-						robot = new Robot();
-					} catch (AWTException e1) {
-					}
-					// Apaga o ENTER
-					robot.keyPress(KeyEvent.VK_BACK_SPACE);
-					robot.keyRelease(KeyEvent.VK_BACK_SPACE);
-
 					enviarMensagem();
+					e.consume();
+				}
+				if (textArea.getText().length() >= 100) {
+					e.consume();
+				}
+			}
+			
+			@Override
+	        public void keyTyped(KeyEvent e) {
+				if (textArea.getText().length() >= 100) {
+					e.consume();
+				}
+			}
+			
+			@Override
+            public void keyReleased(KeyEvent e) {
+				if (textArea.getText().length() >= 100) {
+					e.consume();
 				}
 			}
 		});
@@ -148,8 +158,14 @@ public class FormChat extends JFrame {
 		contentPane.add(BtnEnviar);
 
 		scrollPane = new JScrollPane(textPane);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBounds(8, 70, 348, 248);
 		contentPane.add(scrollPane);
+		
+		JScrollPane scrollTextArea = new JScrollPane(textArea);
+		scrollTextArea.setBounds(8, 322, 280, 59);
+		scrollTextArea.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		contentPane.add(scrollTextArea);
 
 		final UsuariosDAO dao = new UsuariosDAO(true);
 
@@ -157,9 +173,11 @@ public class FormChat extends JFrame {
 		if (dao.verificarAmizade(FormLogin.getUsuarioLogin(), usuario)) {
 			lblAmigo.setIcon(new ImageIcon(FormChat.class
 					.getResource("/openlync/imagens/amigo-.png")));
+			lblAmigo.setToolTipText("Remover da lista de amigos");
 		} else {
 			lblAmigo.setIcon(new ImageIcon(FormChat.class
 					.getResource("/openlync/imagens/amigo+.png")));
+			lblAmigo.setToolTipText("Adicionar à lista de amigos");
 		}
 		lblAmigo.addMouseListener(new MouseAdapter() {
 			@Override
@@ -169,12 +187,14 @@ public class FormChat extends JFrame {
 					if (dao.removerAmizade(FormLogin.getUsuarioLogin(), usuario)) {
 						lblAmigo.setIcon(new ImageIcon(FormChat.class
 								.getResource("/openlync/imagens/amigo+.png")));
+						lblAmigo.setToolTipText("Adicionar à lista de amigos");
 					}
 				} else {
 					if (dao.adicionarAmizade(FormLogin.getUsuarioLogin(),
 							usuario)) {
 						lblAmigo.setIcon(new ImageIcon(FormChat.class
 								.getResource("/openlync/imagens/amigo-.png")));
+						lblAmigo.setToolTipText("Remover da lista de amigos");
 					}
 				}
 			}
@@ -183,6 +203,7 @@ public class FormChat extends JFrame {
 		contentPane.add(lblAmigo);
 
 		final JLabel lblHistorico = new JLabel("Historico");
+		lblHistorico.setToolTipText("Exibir hitorico de conversas");
 		lblHistorico.setIcon(new ImageIcon(FormChat.class
 				.getResource("/openlync/imagens/historico_icon.png")));
 		lblHistorico.setText("");
@@ -273,13 +294,25 @@ public class FormChat extends JFrame {
 	 */
 	public void adicionarMensagem(String mensagem) {
 
+		//Trata mensagem adicionando quebra de linhas
+		int z = 0;
+		String mensagemQuebrada = "";
+		for (int i = 0; i < mensagem.length(); i++) {
+			mensagemQuebrada += mensagem.charAt(i)+"";
+			z++;
+			if (z == 43) {
+				z = 0;
+				mensagemQuebrada += "\n   ";
+			}
+		}
+		
 		String linhas = "";
 		if (!textPane.getText().equals("")) {
 
 			linhas = textPane.getText();
 		}
 
-		linhas = linhas + "\n   " + mensagem + "\n";
+		linhas = linhas + "\n   " + mensagemQuebrada + "\n";
 		textPane.setText(linhas);
 
 		// Manda scroll para o final
@@ -296,6 +329,18 @@ public class FormChat extends JFrame {
 	 */
 	public void adicionarMensagem(String mensagem, String fonte) {
 
+		//Trata mensagem adicionando quebra de linhas
+		int z = 0;
+		String mensagemQuebrada = "";
+		for (int i = 0; i < mensagem.length(); i++) {
+			mensagemQuebrada += mensagem.charAt(i)+"";
+			z++;
+			if (z == 43) {
+				z = 0;
+				mensagemQuebrada += "\n   ";
+			}
+		}
+		
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -317,7 +362,7 @@ public class FormChat extends JFrame {
 			}
 		}
 
-		linhas = linhas + "\n   " + mensagem + "\n";
+		linhas = linhas + "\n   " + mensagemQuebrada + "\n";
 		textPane.setText(linhas);
 
 		// Manda scroll para o final
@@ -335,6 +380,18 @@ public class FormChat extends JFrame {
 	 */
 	public void adicionarMensagem(String mensagem, String fonte, Date dataHora) {
 
+		//Trata mensagem adicionando quebra de linhas
+		int z = 0;
+		String mensagemQuebrada = "";
+		for (int i = 0; i < mensagem.length(); i++) {
+			mensagemQuebrada += mensagem.charAt(i)+"";
+			z++;
+			if (z == 43) {
+				z = 0;
+				mensagemQuebrada += "\n   ";
+			}
+		}
+		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		String linhas = "";
@@ -355,7 +412,7 @@ public class FormChat extends JFrame {
 			}
 		}
 
-		linhas = linhas + "\n   " + mensagem + "\n";
+		linhas = linhas + "\n   " + mensagemQuebrada + "\n";
 		textPane.setText(linhas);
 
 		// Manda scroll para o final

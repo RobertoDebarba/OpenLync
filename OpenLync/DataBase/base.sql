@@ -36,7 +36,7 @@ CREATE TABLE tb_amigos (
 
 CREATE TABLE tb_mensagens (
 	codigo_mensagem INT(3) AUTO_INCREMENT,
-	conteudo_mensagem VARCHAR(150) NOT NULL,
+	conteudo_mensagem VARCHAR(500) NOT NULL,
 	data_mensagem DATETIME,
 	lido_mensagem boolean NOT NULL,
 	codigo_remet_mensagem INT(3),
@@ -144,7 +144,7 @@ BEGIN
 END $$
 
 
-CREATE PROCEDURE sp_adicionarMensagem(IN codigo_remetente INT, IN codigo_destinatario INT, IN mensagem VARCHAR(150),
+CREATE PROCEDURE sp_adicionarMensagem(IN codigo_remetente INT, IN codigo_destinatario INT, IN mensagem VARCHAR(500),
 									IN data DATETIME)
 BEGIN
 	SELECT ip_usuario INTO @ipDest
