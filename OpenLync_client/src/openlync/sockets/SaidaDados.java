@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
 
+import javax.swing.JOptionPane;
+
 import openlync.principal.Configuracoes;
 import openlync.utilidades.Criptografia;
 
-/*
+/**
  * Esta thread está ligada à Thread TrataCliente no servidor.
  * Cada vez que esta é criada, uma nova trata cliente surge.
  * 
@@ -34,40 +36,50 @@ public class SaidaDados implements Runnable {
 	 */
 	public void encerrarThread() {
 		
-		Criptografia cript = new Criptografia();
-		
-		PSsaida.println(cript.criptografarMensagem("SYSTEM|KILL CLIENT"));
-		Thread.currentThread().interrupt();
+		try {
+			Criptografia cript = new Criptografia();
+			
+			PSsaida.println(cript.criptografarMensagem("SYSTEM|KILL CLIENT"));
+			Thread.currentThread().interrupt();
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Erro ao conectar com o Servidor de Mensagens. Contate o administrador do sistema.", "Erro", 0);
+			System.exit(0);
+		}
 	}
 	
 	public void run() {
 		// Conecta ao socket
 		try {
-    	socketSaida = new Socket(this.ipServidor, this.portaSaida);  
-    	System.out.println("Criada conexão com o servidor "+this.ipServidor+" pela porta "+this.portaSaida);
+			socketSaida = new Socket(this.ipServidor, this.portaSaida);  
+    		System.out.println("Criada conexão com o servidor "+this.ipServidor+" pela porta "+this.portaSaida);
+    	
+    		// Cria printStream
+    		PSsaida = new PrintStream(this.socketSaida.getOutputStream());
 		} catch(IOException e) {
 			System.out.println("Erro ao conectar com o servidor "+this.ipServidor+" pela porta "+this.portaSaida);
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Erro ao conectar com o Servidor de Mensagens. Contate o administrador do sistema.", "Erro", 0);
+			System.exit(0);
 		}
-
-		// Cria printStream
-		PSsaida = null;  
-    	try {
-			PSsaida = new PrintStream(this.socketSaida.getOutputStream());
-		} catch (IOException e) {
-			System.out.println("Erro ao criar PrintStream de saída");
-		} 
 	}
 	
 	/**
 	 * Criptografa e manda mensagem
 	 */
 	public void enviarMensagem(String msg) {
-		String mensagem = this.ipDestino + "|" + msg; 
-		
-		Criptografia cript = new Criptografia();
-        
-		//Criptografa e manda mensagem
-        PSsaida.println(cript.criptografarMensagem(mensagem)); 
+		try {
+			String mensagem = this.ipDestino + "|" + msg; 
+			
+			Criptografia cript = new Criptografia();
+	        
+			//Criptografa e manda mensagem
+	        PSsaida.println(cript.criptografarMensagem(mensagem));
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Erro ao conectar com o Servidor de Mensagens. Contate o administrador do sistema.", "Erro", 0);
+			System.exit(0);
+		}
 	}
 	
 	//TODO arquivo

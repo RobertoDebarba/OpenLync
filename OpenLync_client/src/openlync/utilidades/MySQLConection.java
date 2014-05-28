@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.swing.JOptionPane;
+
 import openlync.principal.Configuracoes;
 
 /*
@@ -30,8 +32,17 @@ public class MySQLConection {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static Statement getStatementMySQL() throws SQLException {
-		return conexao.createStatement();
+	public static Statement getStatementMySQL() {
+		
+		Statement result = null;
+		try {
+			result = conexao.createStatement();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Não foi possivel conectar ao Banco de Dados. Contate o administrador do sistema.", "Erro", 0);
+			System.exit(0);
+		}
+		
+		return result;
 	}
 	
 	/**
@@ -40,8 +51,17 @@ public class MySQLConection {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static PreparedStatement getPreparedStatementMySQL(String SQL) throws SQLException {
-		return conexao.prepareStatement(SQL);
+	public static PreparedStatement getPreparedStatementMySQL(String SQL) {
+		
+		PreparedStatement result = null;
+		try {
+			result = conexao.prepareStatement(SQL);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Não foi possivel conectar ao Banco de Dados. Contate o administrador do sistema.", "Erro", 0);
+			System.exit(0);
+		}
+		
+		return result;
 	}
 
 	/**
