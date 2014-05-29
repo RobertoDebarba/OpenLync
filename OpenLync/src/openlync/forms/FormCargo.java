@@ -10,7 +10,7 @@ import javax.swing.table.DefaultTableModel;
 import openlync.principal.Cargos;
 import openlync.principal.CargosDAO;
 
-public class FormCargos extends javax.swing.JFrame {
+public class FormCargo extends javax.swing.JFrame {
 
 	private static final long serialVersionUID = 1L;
 
@@ -19,7 +19,7 @@ public class FormCargos extends javax.swing.JFrame {
 	private CargosDAO dao;
 	
 	/** Creates new form FormCargos */
-	public FormCargos() {
+	public FormCargo() {
 		initComponents();
 		
 		setLocationRelativeTo(null);

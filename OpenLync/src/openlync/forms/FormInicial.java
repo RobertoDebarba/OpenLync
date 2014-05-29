@@ -14,7 +14,7 @@ public class FormInicial extends javax.swing.JInternalFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	public static FormCargos frmCargos = new FormCargos();
+	public static FormCargo frmCargos = new FormCargo();
 	public static FormUsuario frmUsuarios = new FormUsuario();
 
 	/** Creates new form FormInicial */
