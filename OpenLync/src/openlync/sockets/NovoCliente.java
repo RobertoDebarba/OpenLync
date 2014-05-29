@@ -11,12 +11,12 @@ import openlync.principal.OpenLync;
  * TrataCliente em outra Thread que possui um loop infinito para ler os envios
  * do cliente. É criada uma nova Thread para cada novo cliente.
  */
-public class NovosClientes implements Runnable {
+public class NovoCliente implements Runnable {
 
 	private ServerSocket servidor;
 	private int portaSaida;
 
-	public NovosClientes(ServerSocket servidor, int portaSaida) {
+	public NovoCliente(ServerSocket servidor, int portaSaida) {
 		this.servidor = servidor;
 		this.portaSaida = portaSaida;
 	}

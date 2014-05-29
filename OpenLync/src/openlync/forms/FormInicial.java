@@ -7,7 +7,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 import openlync.principal.OpenLync;
-import openlync.principal.UsuariosDAO;
+import openlync.principal.UsuarioDAO;
 import openlync.utilidades.MySQLConection;
 
 public class FormInicial extends javax.swing.JInternalFrame {
@@ -311,7 +311,7 @@ public class FormInicial extends javax.swing.JInternalFrame {
 		if (JOptionPane.showConfirmDialog(null,
 				"Restaurar o Status de todos os Usuários para Offline?",
 				"Confirmação", 0, 2) == 0) {
-			UsuariosDAO dao = new UsuariosDAO(false);
+			UsuarioDAO dao = new UsuarioDAO(false);
 			dao.restaurarStatusUsuarios();
 		}
 	}

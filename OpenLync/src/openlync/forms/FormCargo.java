@@ -7,8 +7,8 @@ import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
-import openlync.principal.Cargos;
-import openlync.principal.CargosDAO;
+import openlync.principal.Cargo;
+import openlync.principal.CargoDAO;
 
 public class FormCargo extends javax.swing.JFrame {
 
@@ -16,7 +16,7 @@ public class FormCargo extends javax.swing.JFrame {
 
 	//Editavel
 	private int estado = 0; //Define modo da tela / 0 = neutro / 1 = Novo / 2 = Editando
-	private CargosDAO dao;
+	private CargoDAO dao;
 	
 	/** Creates new form FormCargos */
 	public FormCargo() {
@@ -26,7 +26,7 @@ public class FormCargo extends javax.swing.JFrame {
 		setResizable(false);
 
 		//Carregar informações iniciais
-		dao = new CargosDAO();
+		dao = new CargoDAO();
 		carregarGridCargos();
 		carregarCampos(0);
 
@@ -505,7 +505,7 @@ public class FormCargo extends javax.swing.JFrame {
 			editCodigo.setText(codigo + "");
 
 			//Cria novo usuario e preenche seus atributos
-			Cargos cargo = new Cargos();
+			Cargo cargo = new Cargo();
 
 			cargo.setCodigo(codigo);
 			cargo.setDesc(editDesc.getText());

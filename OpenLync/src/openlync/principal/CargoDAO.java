@@ -11,18 +11,18 @@ import javax.swing.JOptionPane;
 
 import openlync.utilidades.MySQLConection;
 
-public class CargosDAO {
+public class CargoDAO {
 
-	public List<Cargos> listaCargos = new ArrayList<Cargos>();
+	public List<Cargo> listaCargos = new ArrayList<Cargo>();
 
-	public List<Cargos> getListaCargos() {
+	public List<Cargo> getListaCargos() {
 		return listaCargos;
 	}
 
 	/**
 	 * Pré carrega listaCargos
 	 */
-	public CargosDAO() {
+	public CargoDAO() {
 		carregarListaCargos();
 	}
 
@@ -41,7 +41,7 @@ public class CargosDAO {
 			ResultSet rs = st.executeQuery(SQL);
 
 			while (rs.next()) {
-				Cargos cargo = new Cargos();
+				Cargo cargo = new Cargo();
 
 				cargo.setCodigo(rs.getInt("codigo_cargo"));
 				cargo.setDesc(rs.getString("desc_cargo"));
@@ -100,7 +100,7 @@ public class CargosDAO {
 	 * 
 	 * @param cargo
 	 */
-	public void adicionar(Cargos cargo) {
+	public void adicionar(Cargo cargo) {
 
 		try {
 			String SQL = "CALL sp_adicionarCargo(?, ?)";
@@ -122,7 +122,7 @@ public class CargosDAO {
 	 * 
 	 * @param cargo
 	 */
-	public void editar(Cargos cargo) {
+	public void editar(Cargo cargo) {
 
 		try {
 			String SQL = "CALL sp_editarCargo(?, ?)";
@@ -145,7 +145,7 @@ public class CargosDAO {
 	 * @param cargo
 	 * @return boolean com resultado da operação
 	 */
-	public boolean apagar(Cargos cargo) { //TODO
+	public boolean apagar(Cargo cargo) { //TODO
 
 		boolean resultado = false;
 		try {

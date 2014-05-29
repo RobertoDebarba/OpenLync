@@ -5,7 +5,7 @@ import java.net.Socket;
 
 import openlync.utilidades.Criptografia;
 
-public class Mensagens {
+public class Mensagem {
 
 	private String ipDestino = "";
 	private String mensagemTratada = "";

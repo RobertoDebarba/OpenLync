@@ -15,15 +15,15 @@ import javax.imageio.ImageIO;
 import openlync.utilidades.Criptografia;
 import openlync.utilidades.MySQLConection;
 
-public class UsuariosDAO {
+public class UsuarioDAO {
 
-	public List<Usuarios> listaUsuarios = new ArrayList<Usuarios>();
+	public List<Usuario> listaUsuarios = new ArrayList<Usuario>();
 
 	/**
 	 * 
 	 * @param carregarListaUsuarios
 	 */
-	public UsuariosDAO(boolean carregarListaUsuarios) {
+	public UsuarioDAO(boolean carregarListaUsuarios) {
 		carregarListaUsuario();
 	}
 
@@ -43,7 +43,7 @@ public class UsuariosDAO {
 			ResultSet rs = st.executeQuery(SQL);
 
 			while (rs.next()) {
-				Usuarios usuario = new Usuarios();
+				Usuario usuario = new Usuario();
 
 				usuario.setCodigo(rs.getInt("codigo_usuario"));
 				usuario.setNome(rs.getString("nome_usuario"));
@@ -170,7 +170,7 @@ public class UsuariosDAO {
 	 * 
 	 * @param usuario
 	 */
-	public void adicionar(Usuarios usuario) {
+	public void adicionar(Usuario usuario) {
 
 		Criptografia cript = new Criptografia();
 		
@@ -216,7 +216,7 @@ public class UsuariosDAO {
 	 * 
 	 * @param usuario
 	 */
-	public void editar(Usuarios usuario) {
+	public void editar(Usuario usuario) {
 
 		Criptografia cript = new Criptografia();
 		
@@ -263,7 +263,7 @@ public class UsuariosDAO {
 	 * 
 	 * @param usuario
 	 */
-	public void apagar(Usuarios usuario) {
+	public void apagar(Usuario usuario) {
 		
 		try {
 			

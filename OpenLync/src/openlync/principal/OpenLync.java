@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 
 import openlync.forms.FormMain;
-import openlync.sockets.NovosClientes;
+import openlync.sockets.NovoCliente;
 
 public class OpenLync {
 
@@ -48,7 +48,7 @@ public class OpenLync {
 			servidor = new ServerSocket(portaEntrada);
 
 			// Cria Thread para verificar entrada de novos clientes
-			NovosClientes verifNovosClientes = new NovosClientes(servidor,
+			NovoCliente verifNovosClientes = new NovoCliente(servidor,
 					portaSaida);
 			TClientes = new Thread(verifNovosClientes);
 			TClientes.start();

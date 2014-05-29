@@ -1,5 +1,5 @@
 package openlync.principal;
-public class Cargos {
+public class Cargo {
 
 	private int codigo;
 	private String desc;

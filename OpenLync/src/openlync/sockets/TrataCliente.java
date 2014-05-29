@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.Scanner;
 
-import openlync.principal.Mensagens;
+import openlync.principal.Mensagem;
 import openlync.principal.OpenLync;
 import openlync.utilidades.Criptografia;
 
@@ -20,7 +20,7 @@ public class TrataCliente implements Runnable {
 
 	private Socket Scliente;
 	private int portaSaida;
-	private Mensagens TratadorMensagens = new Mensagens();
+	private Mensagem TratadorMensagens = new Mensagem();
 	private String remetente;
 	private String msg;
 

@@ -16,8 +16,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
-import openlync.principal.Usuarios;
-import openlync.principal.UsuariosDAO;
+import openlync.principal.Usuario;
+import openlync.principal.UsuarioDAO;
 import openlync.utilidades.MySQLConection;
 
 import org.imgscalr.Scalr;
@@ -29,7 +29,7 @@ public class FormUsuario extends javax.swing.JFrame {
 	private int estado = 0; // Define modo da tela / 0 = neutro / 1 = Novo / 2 =
 							// Editando
 	private BufferedImage fotoPerfil = null;
-	private UsuariosDAO dao;
+	private UsuarioDAO dao;
 
 	/** Creates new form FormUsuario */
 	public FormUsuario() {
@@ -39,7 +39,7 @@ public class FormUsuario extends javax.swing.JFrame {
 		setLocationRelativeTo(null);
 		setResizable(false);
 
-		dao = new UsuariosDAO(true);
+		dao = new UsuarioDAO(true);
 	}
 
 	// -----------------------------------------------------------------------------------------------------
@@ -688,7 +688,7 @@ public class FormUsuario extends javax.swing.JFrame {
 			editCodigo.setText(codigo + "");
 
 			// Cria novo usuario e preenche seus atributos
-			Usuarios usuario = new Usuarios();
+			Usuario usuario = new Usuario();
 
 			usuario.setCodigo(codigo);
 			usuario.setNome(editNome.getText());

@@ -8,7 +8,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 import openlync.principal.OpenLync;
-import openlync.principal.UsuariosDAO;
+import openlync.principal.UsuarioDAO;
 import openlync.utilidades.MySQLConection;
 
 public class FormLogin extends javax.swing.JInternalFrame {
@@ -53,7 +53,7 @@ public class FormLogin extends javax.swing.JInternalFrame {
 		if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
 
 			MySQLConection.abrirConexaoMySQL();
-			UsuariosDAO dao = new UsuariosDAO(false);
+			UsuarioDAO dao = new UsuarioDAO(false);
 			if (dao.verifLogin(editLogin.getText(),
 					new String(editSenha.getPassword()))) {
 				OpenLync.frmMain.frmLogin.setVisible(false);
