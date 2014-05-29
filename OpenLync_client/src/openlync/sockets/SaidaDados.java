@@ -6,7 +6,7 @@ import java.net.Socket;
 
 import javax.swing.JOptionPane;
 
-import openlync.principal.Configuracoes;
+import openlync.principal.Configuracao;
 import openlync.utilidades.Criptografia;
 
 /**
@@ -26,8 +26,8 @@ public class SaidaDados implements Runnable {
 	private String ipDestino;
 	
 	public SaidaDados(String ipDestino) {
-		this.ipServidor = Configuracoes.getIpServidor();
-		this.portaSaida = Configuracoes.getPortaSaida();
+		this.ipServidor = Configuracao.getIpServidor();
+		this.portaSaida = Configuracao.getPortaSaida();
 		this.ipDestino = ipDestino;
 	}
 	

@@ -9,7 +9,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import openlync.principal.Contatos;
+import openlync.principal.Contato;
 
 public class FormNotificação extends JFrame {
 
@@ -184,8 +184,8 @@ public class FormNotificação extends JFrame {
 
 	private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {
 
-		Contatos.listaFormChat.get(indexFrameUsuario).setState(JFrame.NORMAL);
-		Contatos.listaFormChat.get(indexFrameUsuario).toFront();
+		Contato.listaFormChat.get(indexFrameUsuario).setState(JFrame.NORMAL);
+		Contato.listaFormChat.get(indexFrameUsuario).toFront();
 
 		dispose();
 	}

@@ -20,9 +20,9 @@ import java.awt.event.MouseEvent;
 import javax.swing.JPasswordField;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
-import openlync.principal.Configuracoes;
-import openlync.principal.Usuarios;
-import openlync.principal.UsuariosDAO;
+import openlync.principal.Configuracao;
+import openlync.principal.Usuario;
+import openlync.principal.UsuarioDAO;
 import openlync.sockets.EntradaDados;
 import openlync.utilidades.MySQLConection;
 
@@ -34,9 +34,9 @@ public class FormLogin extends JInternalFrame {
 	private static final long serialVersionUID = 1L;
 	private static JTextField editUsuario;
 	private static JPasswordField editSenha;
-	private static Usuarios usuarioLogin = null;
+	private static Usuario usuarioLogin = null;
 		
-	public static Usuarios getUsuarioLogin() {
+	public static Usuario getUsuarioLogin() {
 		return usuarioLogin;
 	}
 
@@ -75,15 +75,15 @@ public class FormLogin extends JInternalFrame {
 						
 						//Abre conexão definitiva com o banco de dados
 						MySQLConection.abrirConexaoMySQL();
-						if (Configuracoes.verificarIPlocal()) {
+						if (Configuracao.verificarIPlocal()) {
 							
-							UsuariosDAO dao = new UsuariosDAO(true);
+							UsuarioDAO dao = new UsuarioDAO(true);
 							try {
 								if (dao.verificarLogin(login, senha)) {
 									//Cria e alimenta usuario Principal (usuarioLogin)
 									EntradaDados.iniciarEntrada();
 									usuarioLogin = dao.procurarUsuarioLogin(login);
-									usuarioLogin.setIp(Configuracoes.getIpLocal());
+									usuarioLogin.setIp(Configuracao.getIpLocal());
 									dao.setIPDB(usuarioLogin);
 									
 									FormMain.fecharFrmLogin();

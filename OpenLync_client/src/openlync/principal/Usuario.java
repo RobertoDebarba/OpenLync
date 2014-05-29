@@ -2,7 +2,7 @@ package openlync.principal;
 
 import java.awt.image.BufferedImage;
 
-public class Usuarios {
+public class Usuario {
 	
 	private int codigo;
 	private String nome;

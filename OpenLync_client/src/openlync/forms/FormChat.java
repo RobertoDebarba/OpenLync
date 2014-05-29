@@ -29,10 +29,10 @@ import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 
-import openlync.principal.Contatos;
-import openlync.principal.Mensagens;
-import openlync.principal.Usuarios;
-import openlync.principal.UsuariosDAO;
+import openlync.principal.Contato;
+import openlync.principal.Mensagem;
+import openlync.principal.Usuario;
+import openlync.principal.UsuarioDAO;
 import openlync.sockets.SaidaDados;
 import openlync.utilidades.Criptografia;
 import openlync.utilidades.MySQLConection;
@@ -51,9 +51,9 @@ public class FormChat extends JFrame {
 	private SaidaDados conexaoSaida;
 	private JPanel panelStatus;
 
-	private Usuarios usuario;
+	private Usuario usuario;
 
-	public Usuarios getUsuario() {
+	public Usuario getUsuario() {
 
 		return usuario;
 	}
@@ -65,7 +65,7 @@ public class FormChat extends JFrame {
 	 *            : 0 - normal / 1 - mensagens não lidas / 2 - historico de
 	 *            mensagens
 	 */
-	public FormChat(final Usuarios usuario, int modo) {
+	public FormChat(final Usuario usuario, int modo) {
 
 		this.usuario = usuario;
 
@@ -167,7 +167,7 @@ public class FormChat extends JFrame {
 		scrollTextArea.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		contentPane.add(scrollTextArea);
 
-		final UsuariosDAO dao = new UsuariosDAO(true);
+		final UsuarioDAO dao = new UsuarioDAO(true);
 
 		final JLabel lblAmigo = new JLabel("Amigo");
 		if (dao.verificarAmizade(FormLogin.getUsuarioLogin(), usuario)) {
@@ -236,7 +236,7 @@ public class FormChat extends JFrame {
 			@Override
 			public void windowClosed(WindowEvent e) { // Ao fechar janela
 				// Remove chat da listaChat
-				Contatos contatos = new Contatos();
+				Contato contatos = new Contato();
 				contatos.removerFormChat(usuario);
 
 				// Encerra timer e thread de saida de dados
@@ -353,7 +353,7 @@ public class FormChat extends JFrame {
 						+ sdf.format(date);
 			}
 		} else if (fonte.equals("local")) {
-			Usuarios userLogin = FormLogin.getUsuarioLogin();
+			Usuario userLogin = FormLogin.getUsuarioLogin();
 			if (textPane.getText().equals("")) {
 				linhas = userLogin.getNome() + "  " + sdf.format(date);
 			} else {
@@ -403,7 +403,7 @@ public class FormChat extends JFrame {
 						+ sdf.format(dataHora);
 			}
 		} else if (fonte.equals("local")) {
-			Usuarios userLogin = FormLogin.getUsuarioLogin();
+			Usuario userLogin = FormLogin.getUsuarioLogin();
 			if (textPane.getText().equals("")) {
 				linhas = userLogin.getNome() + "  " + sdf.format(dataHora);
 			} else {
@@ -437,7 +437,7 @@ public class FormChat extends JFrame {
 			 * --- Adiciona mensagem ao Historico no Banco de Dados
 			 * (tb_mensagens) ---
 			 */
-			Mensagens mensagens = new Mensagens();
+			Mensagem mensagens = new Mensagem();
 
 			mensagens.adicionarMensagemDB(textArea.getText(), FormLogin
 					.getUsuarioLogin().getCodigo(), usuario.getCodigo(),

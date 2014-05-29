@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import openlync.utilidades.Criptografia;
 import openlync.utilidades.MySQLConection;
 
-public class Mensagens {
+public class Mensagem {
 
 	private String ipRemetente = "";
 	private String mensagemTratada = "";
@@ -87,7 +87,7 @@ public class Mensagens {
 	 * 
 	 * @return List com codigos não repitidos dos usuarios que mandaram mensagens não lidas
 	 */
-	public List<Integer> getListMensagensNaoLidas(Usuarios usuario) {
+	public List<Integer> getListMensagensNaoLidas(Usuario usuario) {
 
 		List<Integer> arrayResult = new ArrayList<Integer>();
 		try {

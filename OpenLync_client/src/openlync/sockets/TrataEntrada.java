@@ -5,10 +5,10 @@ import java.net.Socket;
 import java.util.Scanner;
 
 import openlync.forms.FormNotificação;
-import openlync.principal.Contatos;
-import openlync.principal.Mensagens;
-import openlync.principal.Usuarios;
-import openlync.principal.UsuariosDAO;
+import openlync.principal.Contato;
+import openlync.principal.Mensagem;
+import openlync.principal.Usuario;
+import openlync.principal.UsuarioDAO;
 import openlync.utilidades.Criptografia;
 
 public class TrataEntrada implements Runnable {
@@ -48,7 +48,7 @@ public class TrataEntrada implements Runnable {
 				System.out.println("Erro 'socketEntrada.getInputStream'");
 			}
 			
-			Mensagens TratadorMensagens = new Mensagens();
+			Mensagem TratadorMensagens = new Mensagem();
 			Criptografia cript = new Criptografia();
 			
 			while (s.hasNextLine()) {
@@ -65,9 +65,9 @@ public class TrataEntrada implements Runnable {
 				
 				//mandar para tela de chat
 				boolean encontrouChat = false;
-				for (int i = 0; i < Contatos.getSizeListaFormChat(); i++) {
-					if (TratadorMensagens.getIpRemetente().equals(Contatos.listaFormChat.get(i).getUsuario().getIp())) {
-						Contatos.listaFormChat.get(i).adicionarMensagem(TratadorMensagens.getMensagemTratada(), "out"); //Significa que mensegem não é do proprio usuario
+				for (int i = 0; i < Contato.getSizeListaFormChat(); i++) {
+					if (TratadorMensagens.getIpRemetente().equals(Contato.listaFormChat.get(i).getUsuario().getIp())) {
+						Contato.listaFormChat.get(i).adicionarMensagem(TratadorMensagens.getMensagemTratada(), "out"); //Significa que mensegem não é do proprio usuario
 						encontrouChat = true;
 						break;
 					}
@@ -76,18 +76,18 @@ public class TrataEntrada implements Runnable {
 				//Se não encontrou tela de chat do usuario correto
 				if (!encontrouChat) {
 					
-					UsuariosDAO dao = new UsuariosDAO(true);
-					Contatos contatos = new Contatos();
-					Usuarios user = dao.procurarUsuarioIP(TratadorMensagens.getIpRemetente());
+					UsuarioDAO dao = new UsuarioDAO(true);
+					Contato contatos = new Contato();
+					Usuario user = dao.procurarUsuarioIP(TratadorMensagens.getIpRemetente());
 					
 					//Cria janela de Chat
 					contatos.adicionarFormChat(user, 1, 0);
 					
 					//Procura chat criado e manda mensagem
 					int posicaoChat = 0;;
-					for (int i = 0; i < Contatos.getSizeListaFormChat(); i++) {
-						if (TratadorMensagens.getIpRemetente().equals(Contatos.listaFormChat.get(i).getUsuario().getIp())) {
-							Contatos.listaFormChat.get(i).adicionarMensagem(TratadorMensagens.getMensagemTratada(), "out"); //Significa que mensegem não é do proprio usuario
+					for (int i = 0; i < Contato.getSizeListaFormChat(); i++) {
+						if (TratadorMensagens.getIpRemetente().equals(Contato.listaFormChat.get(i).getUsuario().getIp())) {
+							Contato.listaFormChat.get(i).adicionarMensagem(TratadorMensagens.getMensagemTratada(), "out"); //Significa que mensegem não é do proprio usuario
 							posicaoChat = i;
 							break;
 						}

@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 import openlync.utilidades.Criptografia;
 
 
-public class Configuracoes {
+public class Configuracao {
 
 	private static String ipServidor;
 	private static String ipLocal;
@@ -38,7 +38,7 @@ public class Configuracoes {
 			PrintWriter gravarArq = new PrintWriter(arq);
 
 		    gravarArq.printf(ipServidor);
-		    Configuracoes.ipServidor = ipServidor;
+		    Configuracao.ipServidor = ipServidor;
 		    
 		    arq.close();
 		    
@@ -52,7 +52,7 @@ public class Configuracoes {
 	}
 
 	public static void setIpLocal(String ipLocal) {
-		Configuracoes.ipLocal = ipLocal;
+		Configuracao.ipLocal = ipLocal;
 	}
 
 	public static int getPortaEntrada() {
@@ -60,7 +60,7 @@ public class Configuracoes {
 	}
 
 	public static void setPortaEntrada(int portaEntrada) {
-		Configuracoes.portaEntrada = portaEntrada;
+		Configuracao.portaEntrada = portaEntrada;
 	}
 
 	public static int getPortaSaida() {
@@ -68,10 +68,10 @@ public class Configuracoes {
 	}
 
 	public static void setPortaSaida(int portaSaida) {
-		Configuracoes.portaSaida = portaSaida;
+		Configuracao.portaSaida = portaSaida;
 	}
 
-	public Configuracoes() {
+	public Configuracao() {
 		
 		lerCfgGetIP();
 	}
@@ -117,9 +117,9 @@ public class Configuracoes {
 	    try {
 	    	Criptografia cript = new Criptografia();
 	    	
-	    	ServerSocket SSentrada = new ServerSocket(Configuracoes.getPortaEntrada());
+	    	ServerSocket SSentrada = new ServerSocket(Configuracao.getPortaEntrada());
 	    	
-			socketSaida = new Socket(Configuracoes.getIpServidor(), Configuracoes.getPortaSaida());
+			socketSaida = new Socket(Configuracao.getIpServidor(), Configuracao.getPortaSaida());
 			
 			PrintStream PSsaida = new PrintStream(socketSaida.getOutputStream());
 			//Criptografa e manda solicitação
@@ -131,14 +131,14 @@ public class Configuracoes {
 			Scanner s = new Scanner(socketEntrada.getInputStream());
 			String msg = s.nextLine();
 			
-			Mensagens TratadorMensagens = new Mensagens();
+			Mensagem TratadorMensagens = new Mensagem();
 			//Descriptografa e trata mensagem
 			TratadorMensagens.tratarMensagem(cript.descriptografarMensagem(msg));
 			
 			//Se for mensagem de sistema
 			if (TratadorMensagens.getIpRemetente().equals("SYSTEM")) { //Aqui IP representa a mensagem de SISTEMA
 				//Seta o ip local
-				Configuracoes.setIpLocal(TratadorMensagens.getMensagemTratada());
+				Configuracao.setIpLocal(TratadorMensagens.getMensagemTratada());
 			
 				//Encerra a Thread no servidor
 				PSsaida.println(cript.criptografarMensagem("SYSTEM|KILL CLIENT"));

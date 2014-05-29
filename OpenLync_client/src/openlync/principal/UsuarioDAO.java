@@ -14,12 +14,12 @@ import javax.swing.JOptionPane;
 import openlync.utilidades.Criptografia;
 import openlync.utilidades.MySQLConection;
 
-public class UsuariosDAO {
+public class UsuarioDAO {
 
-	public List<Usuarios> listaUsuarios = new ArrayList<Usuarios>();
+	public List<Usuario> listaUsuarios = new ArrayList<Usuario>();
 	
 	
-	public UsuariosDAO(boolean atualizarLista) {
+	public UsuarioDAO(boolean atualizarLista) {
 
 		if (atualizarLista) {
 			atualizarListaUsuarios();
@@ -46,7 +46,7 @@ public class UsuariosDAO {
 			
 			while(rs.next()) {
 				//Cria novo usuario para gravar informações
-				Usuarios usuario = new Usuarios();
+				Usuario usuario = new Usuario();
 				
 				//Carrega informações
 				usuario.setCodigo(rs.getInt("codigo_usuario"));
@@ -85,11 +85,11 @@ public class UsuariosDAO {
 	 * @param codigo
 	 * @return
 	 */
-	public Usuarios procurarUsuarioCodigo(int codigo) {
+	public Usuario procurarUsuarioCodigo(int codigo) {
 		
 		boolean achou = false;
 		int i = 0;
-		Usuarios resultado = null;
+		Usuario resultado = null;
 		while ((i< listaUsuarios.size()) && (!achou)) {
 			if (listaUsuarios.get(i).getCodigo() == codigo) {
 				achou = true;
@@ -106,11 +106,11 @@ public class UsuariosDAO {
 	 * @param ip
 	 * @return
 	 */
-	public Usuarios procurarUsuarioIP(String ip) {
+	public Usuario procurarUsuarioIP(String ip) {
 		
 		boolean achou = false;
 		int i = 0;
-		Usuarios resultado = null;
+		Usuario resultado = null;
 		while ((i< listaUsuarios.size()) && (!achou)) {
 			if (listaUsuarios.get(i).getIp().equals(ip)) {
 				achou = true;
@@ -127,11 +127,11 @@ public class UsuariosDAO {
 	 * @param ip
 	 * @return
 	 */
-	public Usuarios procurarUsuarioLogin(String login) {
+	public Usuario procurarUsuarioLogin(String login) {
 		
 		boolean achou = false;
 		int i = 0;
-		Usuarios resultado = null;
+		Usuario resultado = null;
 		while ((i< listaUsuarios.size()) && (!achou)) {
 			if (listaUsuarios.get(i).getLogin().equals(login)) {
 				achou = true;
@@ -147,7 +147,7 @@ public class UsuariosDAO {
 	 * Atualiza IP do usuario no DB;
 	 * @param usuario
 	 */
-	public void setIPDB(Usuarios usuario) {
+	public void setIPDB(Usuario usuario) {
 			
 		try {
 			String SQL = "CALL sp_setIpUsuario(?, ?)";
@@ -166,7 +166,7 @@ public class UsuariosDAO {
 	 * Adquire IP atualizado do DB;
 	 * @param usuario
 	 */
-	public String getIPDB(Usuarios usuario) {
+	public String getIPDB(Usuario usuario) {
 		
 		String resultado = null;
 		try {
@@ -223,7 +223,7 @@ public class UsuariosDAO {
 	 * @param amigo
 	 * @return
 	 */
-	public boolean verificarAmizade(Usuarios usuario, Usuarios amigo) {
+	public boolean verificarAmizade(Usuario usuario, Usuario amigo) {
 		
 		boolean retorno = false;
 		try {
@@ -250,7 +250,7 @@ public class UsuariosDAO {
 	 * @param amigo
 	 * @return
 	 */
-	public boolean adicionarAmizade(Usuarios usuario, Usuarios amigo) {
+	public boolean adicionarAmizade(Usuario usuario, Usuario amigo) {
 		
 		boolean resultado = false;
 		
@@ -286,7 +286,7 @@ public class UsuariosDAO {
 	 * @param amigo
 	 * @return
 	 */
-	public boolean removerAmizade(Usuarios usuario, Usuarios amigo) {
+	public boolean removerAmizade(Usuario usuario, Usuario amigo) {
 		
 		boolean resultado = false;
 		

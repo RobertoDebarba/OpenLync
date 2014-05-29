@@ -15,7 +15,7 @@ import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
-import openlync.principal.Configuracoes;
+import openlync.principal.Configuracao;
 
 public class FormConfig extends JInternalFrame {
 
@@ -27,7 +27,7 @@ public class FormConfig extends JInternalFrame {
 		addInternalFrameListener(new InternalFrameAdapter() {
 			@Override
 			public void internalFrameActivated(InternalFrameEvent e) {
-				editIPdoServidor.setText(Configuracoes.getIpServidor());
+				editIPdoServidor.setText(Configuracao.getIpServidor());
 			}
 		});
 		setBounds(100, 100, 370, 570);
@@ -46,7 +46,7 @@ public class FormConfig extends JInternalFrame {
 		BtnOK.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { // Seta IP do
 															// SERVIDOR
-				Configuracoes.setIpServidor(editIPdoServidor.getText());
+				Configuracao.setIpServidor(editIPdoServidor.getText());
 				FormMain.fecharFrmConfig();
 			}
 		});

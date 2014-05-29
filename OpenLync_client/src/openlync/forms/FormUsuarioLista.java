@@ -11,8 +11,8 @@ import java.awt.Image;
 
 import javax.swing.JLabel;
 
-import openlync.principal.Contatos;
-import openlync.principal.Usuarios;
+import openlync.principal.Contato;
+import openlync.principal.Usuario;
 
 import org.imgscalr.Scalr;
 
@@ -33,9 +33,9 @@ public class FormUsuarioLista extends JInternalFrame {
 	private JLabel labelFoto;
 	private JPanel panelStatus;
 	
-	private Usuarios usuario;
+	private Usuario usuario;
 	
-	public Usuarios getUsuario() {
+	public Usuario getUsuario() {
 		return usuario;
 	}
 	
@@ -54,7 +54,7 @@ public class FormUsuarioLista extends JInternalFrame {
 		}
 	}
 
-	public FormUsuarioLista(final Usuarios usuario) {
+	public FormUsuarioLista(final Usuario usuario) {
 		
 		this.usuario = usuario;
 		
@@ -78,7 +78,7 @@ public class FormUsuarioLista extends JInternalFrame {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
 					// Abre tela do chat
-					Contatos contatos = new Contatos();
+					Contato contatos = new Contato();
 					contatos.adicionarFormChat(usuario, 0, 0);
 				}
 			}

@@ -7,7 +7,7 @@ import java.sql.Statement;
 
 import javax.swing.JOptionPane;
 
-import openlync.principal.Configuracoes;
+import openlync.principal.Configuracao;
 
 /*
  * http://www.devmedia.com.br/criando-uma-conexao-java-mysql-server/16753	
@@ -121,7 +121,7 @@ public class MySQLConection {
 			String driverName = "com.mysql.jdbc.Driver";
 			Class.forName(driverName);
 
-			String url = "jdbc:mysql://" + Configuracoes.getIpServidor()
+			String url = "jdbc:mysql://" + Configuracao.getIpServidor()
 					+ "/OpenLync";
 			connection = DriverManager.getConnection(url, "open@%", "123");
 

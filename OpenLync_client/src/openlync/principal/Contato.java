@@ -10,7 +10,7 @@ import openlync.forms.FormIncial;
 import openlync.forms.FormLogin;
 import openlync.forms.FormUsuarioLista;
 
-public class Contatos {
+public class Contato {
 
 	public static List<FormChat> listaFormChat = new ArrayList<FormChat>();
 	public static List<FormUsuarioLista> listaFormUsuarioLista = new ArrayList<FormUsuarioLista>();
@@ -21,7 +21,7 @@ public class Contatos {
 	 */
 	public void atualizarContatos() {
 				
-		UsuariosDAO dao = new UsuariosDAO(true);
+		UsuarioDAO dao = new UsuarioDAO(true);
 
 		//Remove usuarios não presentes em listaUsuarios
 //		//Varre todos InternalFrames para comparar com Usuarios
@@ -133,7 +133,7 @@ public class Contatos {
 	 * @param estado: 0 - normal / 1 - minimizado
 	 * @param modo: 0 - normal / 1 - mensagens não lidas / 2 - historico de mensagens 
 	 */
-	public void adicionarFormChat(Usuarios usuario, int estado, int modo) {
+	public void adicionarFormChat(Usuario usuario, int estado, int modo) {
 		
 		FormChat frmChat = new FormChat(usuario, modo);
 		
@@ -150,7 +150,7 @@ public class Contatos {
 	/**
 	 * Fecha FormChat e remove da listaFormChat
 	 */
-	public void removerFormChat(Usuarios usuario) {
+	public void removerFormChat(Usuario usuario) {
 		
 		for (int i = 0; i < listaFormChat.size(); i++) {
 			
@@ -166,7 +166,7 @@ public class Contatos {
 	/**
 	 * Abre novo FormUsuarioLista, adiciona na listaFormUsuarioLista e no JDP
 	 */
-	public void adicionarFormUsuarioLista(Usuarios usuario) {
+	public void adicionarFormUsuarioLista(Usuario usuario) {
 		
 		FormUsuarioLista frmUsuarioLista = new FormUsuarioLista(usuario);
 		frmUsuarioLista.setLocation(0, listaFormUsuarioLista.size() * 60);
@@ -180,7 +180,7 @@ public class Contatos {
 	/**
 	 * Remove FormUsuarioLista da listaFormUsuarioLista e do JDP
 	 */
-	public void removerFormUsuarioLista(Usuarios usuario) {
+	public void removerFormUsuarioLista(Usuario usuario) {
 		
 		for (int i = 0; i < listaFormUsuarioLista.size(); i++) {
 			

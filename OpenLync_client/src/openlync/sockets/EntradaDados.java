@@ -2,7 +2,7 @@ package openlync.sockets;
 import java.io.IOException;
 import java.net.ServerSocket;
 
-import openlync.principal.Configuracoes;
+import openlync.principal.Configuracao;
 
 public class EntradaDados implements Runnable {
 
@@ -18,7 +18,7 @@ public class EntradaDados implements Runnable {
 	public static void iniciarEntrada() {
 		
 		// Instancia objeto que cuidará da entrada de dados e manda para uma thread
-		EntradaDados ed = new EntradaDados(Configuracoes.getPortaEntrada());
+		EntradaDados ed = new EntradaDados(Configuracao.getPortaEntrada());
 		new Thread(ed).start();
 	}
 

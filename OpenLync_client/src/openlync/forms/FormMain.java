@@ -2,8 +2,8 @@ package openlync.forms;
 import javax.swing.JFrame;
 import javax.swing.JDesktopPane;
 
-import openlync.principal.Usuarios;
-import openlync.principal.UsuariosDAO;
+import openlync.principal.Usuario;
+import openlync.principal.UsuarioDAO;
 import openlync.utilidades.MySQLConection;
 
 import java.awt.BorderLayout;
@@ -44,7 +44,7 @@ public class FormMain extends JFrame {
 	/**
 	 * Instancia, seta visivel e adiciona FormInicial no jdp
 	 */
-	public static void abrirFrmInicial(Usuarios usuario) {
+	public static void abrirFrmInicial(Usuario usuario) {
 
 		frmInicial = new FormIncial(usuario);
 
@@ -83,11 +83,11 @@ public class FormMain extends JFrame {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				// Ao fechar programa
-				Usuarios usuarioLogin = FormLogin.getUsuarioLogin();
+				Usuario usuarioLogin = FormLogin.getUsuarioLogin();
 				// Se o banco estiver conectado
 				if ((usuarioLogin != null) && (MySQLConection.getStatusMySQL())) {
 
-					UsuariosDAO dao = new UsuariosDAO(false);
+					UsuarioDAO dao = new UsuarioDAO(false);
 					
 					usuarioLogin.setIp("null");
 					dao.setIPDB(usuarioLogin);

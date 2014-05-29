@@ -14,7 +14,7 @@ public class OpenLync_client {
 
 		FormMain.abrirFrmLogin();
 
-		new Configuracoes();
+		new Configuracao();
 	}
 
 	public static void main(String[] args) {

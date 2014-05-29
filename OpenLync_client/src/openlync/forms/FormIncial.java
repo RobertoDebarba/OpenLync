@@ -21,10 +21,10 @@ import javax.swing.JCheckBox;
 import javax.swing.SwingConstants;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
-import openlync.principal.Contatos;
-import openlync.principal.Mensagens;
-import openlync.principal.Usuarios;
-import openlync.principal.UsuariosDAO;
+import openlync.principal.Contato;
+import openlync.principal.Mensagem;
+import openlync.principal.Usuario;
+import openlync.principal.UsuarioDAO;
 import openlync.utilidades.MDIDesktopPane;
 
 import java.awt.event.ActionEvent;
@@ -49,9 +49,9 @@ public class FormIncial extends JInternalFrame {
 	public static JCheckBox checkOnline;
 	public static MDIDesktopPane jdpUsuarios;
 
-	private static Contatos contatos = new Contatos();
+	private static Contato contatos = new Contato();
 
-	public FormIncial(Usuarios usuario) {
+	public FormIncial(Usuario usuario) {
 		getContentPane().setBackground(new Color(238, 238, 238));
 
 		setBorder(null);
@@ -232,7 +232,7 @@ public class FormIncial extends JInternalFrame {
 	 */
 	private void carregarPopUpMenu() {
 
-		Mensagens mens = new Mensagens();
+		Mensagem mens = new Mensagem();
 
 		final List<Integer> listUsuariosMensagens = mens
 				.getListMensagensNaoLidas(FormLogin.getUsuarioLogin());
@@ -253,12 +253,12 @@ public class FormIncial extends JInternalFrame {
 
 			popMenu.removeAll();
 
-			UsuariosDAO dao = new UsuariosDAO(true);
-			final Contatos contatos = new Contatos();
+			UsuarioDAO dao = new UsuarioDAO(true);
+			final Contato contatos = new Contato();
 
 			for (int i = 0; i < listUsuariosMensagens.size(); i++) {
 
-				final Usuarios user = dao
+				final Usuario user = dao
 						.procurarUsuarioCodigo(listUsuariosMensagens.get(i));
 
 				final JMenuItem menuItem = new JMenuItem(
