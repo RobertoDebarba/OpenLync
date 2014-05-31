@@ -151,7 +151,6 @@ public class FormIncial extends JInternalFrame {
 		lblMensagens.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-
 				popMenu.show(lblMensagens, 25, 18);
 			}
 		});
@@ -270,7 +269,26 @@ public class FormIncial extends JInternalFrame {
 
 						listUsuariosMensagens.remove(user);
 						popMenu.remove(menuItem);
-						contatos.adicionarFormChat(user, 0, 1);
+						
+						
+						// Procura tela de chat ja aberta
+						int indexFormChat = 0;
+						boolean encontrouChat = false;
+						for (int i = 0; i < Contato.getSizeListaFormChat(); i++) {
+							if (user.getIp().equals(Contato.listaFormChat.get(i).getUsuario().getIp())) {
+								encontrouChat = true;
+								indexFormChat = 1;
+								break;
+							}
+						}
+						
+						if (!encontrouChat) {
+							contatos.adicionarFormChat(user, 0, 1);
+						} else {
+							//Fecha tela abreta e abre uma nova com as mensagens nao lidas
+							Contato.listaFormChat.get(indexFormChat).dispose();
+							contatos.adicionarFormChat(user, 0, 1);
+						}
 					}
 				});
 				popMenu.add(menuItem);

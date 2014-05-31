@@ -24,7 +24,6 @@ import java.awt.SystemColor;
 import javax.swing.JPanel;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
-
 public class FormUsuarioLista extends JInternalFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -77,9 +76,21 @@ public class FormUsuarioLista extends JInternalFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-					// Abre tela do chat
-					Contato contatos = new Contato();
-					contatos.adicionarFormChat(usuario, 0, 0);
+					
+					// Procura tela de chat ja aberta
+					boolean encontrouChat = false;
+					for (int i = 0; i < Contato.getSizeListaFormChat(); i++) {
+						if (usuario.getIp().equals(Contato.listaFormChat.get(i).getUsuario().getIp())) {
+							encontrouChat = true;
+							break;
+						}
+					}
+					
+					// Se não encontrou janela, abre tela do chat
+					if (!encontrouChat) {
+						Contato contatos = new Contato();
+						contatos.adicionarFormChat(usuario, 0, 0);
+					}
 				}
 			}
 		});

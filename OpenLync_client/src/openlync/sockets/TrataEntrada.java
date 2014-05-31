@@ -4,11 +4,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
+import openlync.forms.FormChat;
 import openlync.forms.FormNotificação;
 import openlync.principal.Contato;
 import openlync.principal.Mensagem;
 import openlync.principal.Usuario;
 import openlync.principal.UsuarioDAO;
+import openlync.utilidades.AudioPlayer;
 import openlync.utilidades.Criptografia;
 
 public class TrataEntrada implements Runnable {
@@ -67,6 +69,13 @@ public class TrataEntrada implements Runnable {
 				boolean encontrouChat = false;
 				for (int i = 0; i < Contato.getSizeListaFormChat(); i++) {
 					if (TratadorMensagens.getIpRemetente().equals(Contato.listaFormChat.get(i).getUsuario().getIp())) {
+						//Se janela estiver minizada tocar som de alerta
+						if (Contato.listaFormChat.get(i).getState() == FormChat.ICONIFIED) {
+							AudioPlayer player = new AudioPlayer();
+							player.setAudioFile("/home/roberto/git/OpenLync/OpenLync_client/src/openlync/musicas/newMessage.mp3");
+							Thread avisoSonoro = new Thread(player);
+							avisoSonoro.start();
+						}
 						Contato.listaFormChat.get(i).adicionarMensagem(TratadorMensagens.getMensagemTratada(), "out"); //Significa que mensegem não é do proprio usuario
 						encontrouChat = true;
 						break;
@@ -95,6 +104,13 @@ public class TrataEntrada implements Runnable {
 					
 					//Exibir Notificação
 					FormNotificação frmNotificacao = new FormNotificação("Nova mensagem de "+user.getNome()+"...", user.getFoto(), posicaoChat);
+					
+					//Toca som de notificação
+					AudioPlayer player = new AudioPlayer();
+					player.setAudioFile("/home/roberto/git/OpenLync/OpenLync_client/src/openlync/musicas/newMessage.mp3");
+					Thread avisoSonoro = new Thread(player);
+					avisoSonoro.start();
+					
 					frmNotificacao.setVisible(true);
 					
 				}	
