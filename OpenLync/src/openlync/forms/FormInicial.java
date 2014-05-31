@@ -127,8 +127,11 @@ public class FormInicial extends javax.swing.JInternalFrame {
 		menuSair = new javax.swing.JMenu();
 
 		jPanel1.setLayout(null);
+
+		jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource(
+				"/openlync/imagens/OpenLync_logo_menor.png"))); // NOI18N
 		jPanel1.add(jLabel1);
-		jLabel1.setBounds(10, 10, 80, 0);
+		jLabel1.setBounds(10, 10, 80, 70);
 
 		jLabel2.setFont(new java.awt.Font("Ubuntu", 1, 18));
 		jLabel2.setText("OpenLync");
@@ -217,7 +220,6 @@ public class FormInicial extends javax.swing.JInternalFrame {
 						menuItemRestaurarIpActionPerformed(evt);
 					}
 				});
-
 		menuServidor.add(menuItemRestaurarIp);
 
 		jMenuBar1.add(menuServidor);
