@@ -269,15 +269,14 @@ public class FormIncial extends JInternalFrame {
 
 						listUsuariosMensagens.remove(user);
 						popMenu.remove(menuItem);
-						
-						
+											
 						// Procura tela de chat ja aberta
 						int indexFormChat = 0;
 						boolean encontrouChat = false;
 						for (int i = 0; i < Contato.getSizeListaFormChat(); i++) {
-							if (user.getIp().equals(Contato.listaFormChat.get(i).getUsuario().getIp())) {
+							if (user.getCodigo() == Contato.listaFormChat.get(i).getUsuario().getCodigo()) {
 								encontrouChat = true;
-								indexFormChat = 1;
+								indexFormChat = i;
 								break;
 							}
 						}

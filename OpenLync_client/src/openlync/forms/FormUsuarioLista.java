@@ -32,7 +32,7 @@ public class FormUsuarioLista extends JInternalFrame {
 	private JLabel labelFoto;
 	private JPanel panelStatus;
 	
-	private Usuario usuario;
+	private final Usuario usuario;
 	
 	public Usuario getUsuario() {
 		return usuario;
@@ -80,7 +80,7 @@ public class FormUsuarioLista extends JInternalFrame {
 					// Procura tela de chat ja aberta
 					boolean encontrouChat = false;
 					for (int i = 0; i < Contato.getSizeListaFormChat(); i++) {
-						if (usuario.getIp().equals(Contato.listaFormChat.get(i).getUsuario().getIp())) {
+						if (usuario.getCodigo() == Contato.listaFormChat.get(i).getUsuario().getCodigo()) {
 							encontrouChat = true;
 							break;
 						}
