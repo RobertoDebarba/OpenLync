@@ -15,10 +15,6 @@ public class CargoDAO {
 
 	public List<Cargo> listaCargos = new ArrayList<Cargo>();
 
-	public List<Cargo> getListaCargos() {
-		return listaCargos;
-	}
-
 	/**
 	 * Pré carrega listaCargos
 	 */
@@ -57,13 +53,13 @@ public class CargoDAO {
 	/**
 	 * Verificar se nome do cargo (desc) ja está cadastrado
 	 */
-	public boolean verificarDispDesc(String cargo) throws SQLException {
+	public boolean verificarDispDesc(String desc) throws SQLException {
 
 		boolean resultado = false;
-		if (!cargo.equals("")) { //Se cargo não estiver vazio
+		if (!desc.equals("")) { //Se cargo não estiver vazio
 			Statement st = MySQLConection.getStatementMySQL();
 
-			String SQL = "SELECT fc_verificarDispDesc('"+cargo+"');";
+			String SQL = "SELECT fc_verificarDispDesc('"+desc+"');";
 
 			ResultSet rs = st.executeQuery(SQL);
 			rs.next();
