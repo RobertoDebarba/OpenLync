@@ -469,7 +469,7 @@ public class FormChat extends JFrame {
 
 				adicionarMensagem(cript.descriptografarMensagem(rs
 						.getString("conteudo_mensagem")), "out",
-						rs.getDate("data_mensagem"));
+						rs.getTimestamp("data_mensagem"));
 			}
 
 		} catch (SQLException e) {
