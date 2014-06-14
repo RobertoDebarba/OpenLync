@@ -72,7 +72,7 @@ public class TrataEntrada implements Runnable {
 						//Se janela estiver minizada tocar som de alerta
 						if (Contato.listaFormChat.get(i).getState() == FormChat.ICONIFIED) {
 							AudioPlayer player = new AudioPlayer();
-							player.setAudioFile("/home/roberto/git/OpenLync/OpenLync_client/src/openlync/musicas/newMessage.mp3");
+							player.setAudioFile(this.getClass().getResource("/openlync/musicas/newMessage.wav"));
 							Thread avisoSonoro = new Thread(player);
 							avisoSonoro.start();
 						}
@@ -107,7 +107,7 @@ public class TrataEntrada implements Runnable {
 					
 					//Toca som de notificação
 					AudioPlayer player = new AudioPlayer();
-					player.setAudioFile("/home/roberto/git/OpenLync/OpenLync_client/src/openlync/musicas/newMessage.mp3");
+					player.setAudioFile(this.getClass().getResource("/openlync/musicas/newMessage.wav"));
 					Thread avisoSonoro = new Thread(player);
 					avisoSonoro.start();
 					
