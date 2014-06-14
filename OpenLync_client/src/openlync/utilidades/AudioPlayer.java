@@ -4,28 +4,21 @@ import java.applet.Applet;
 import java.applet.AudioClip;
 import java.net.URL;
 
-import javazoom.jl.player.Player;
-
 public class AudioPlayer implements Runnable {
 
-	private URL audio;
-	private Player player;
+	private URL audioFile;
 
 	private void execute() {
 		try {
-			AudioClip ac = Applet.newAudioClip(audio);
+			AudioClip ac = Applet.newAudioClip(audioFile);
 			ac.play();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
-	public Player getPlayer() {
-		return player;
-	}
 	
 	public void setAudioFile(URL audio) {
-		this.audio = audio;
+		this.audioFile = audio;
 
 	}
 
