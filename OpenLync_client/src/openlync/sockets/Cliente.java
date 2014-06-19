@@ -4,6 +4,8 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+import javax.swing.JOptionPane;
+
 import openlync.forms.FormChat;
 import openlync.forms.FormNotificação;
 import openlync.principal.Configuracao;
@@ -87,7 +89,9 @@ public class Cliente implements Runnable {
 			}
 		} catch (IOException e) {
 			System.out.println("Erro na entrada de dados!");
+			JOptionPane.showMessageDialog(null, "Erro ao conectar ao servidor de mensagens! Contate o administrador do sistema.", "Erro", 0);
 			e.printStackTrace();
+			System.exit(0);
 		}
 	}
 }
