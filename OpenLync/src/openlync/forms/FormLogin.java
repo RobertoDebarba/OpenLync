@@ -1,4 +1,5 @@
 package openlync.forms;
+
 import java.awt.event.KeyEvent;
 
 import javax.swing.JOptionPane;
@@ -69,7 +70,7 @@ public class FormLogin extends javax.swing.JInternalFrame {
 		}
 	}
 
-	// GEN-BEGIN:initComponents
+	//GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc="Generated Code">
 	private void initComponents() {
 
@@ -84,23 +85,25 @@ public class FormLogin extends javax.swing.JInternalFrame {
 
 		jPanel1.setLayout(null);
 
+		jLabel1.setHorizontalAlignment(0);
 		jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 36));
 		jLabel1.setText("OpenLync");
 		jPanel1.add(jLabel1);
-		jLabel1.setBounds(130, 120, 170, 42);
+		jLabel1.setBounds(0, 120, 510, 42);
 
+		jLabel2.setHorizontalAlignment(0);
 		jLabel2.setFont(new java.awt.Font("Ubuntu", 2, 24));
 		jLabel2.setText("ServerManagement");
 		jPanel1.add(jLabel2);
-		jLabel2.setBounds(190, 160, 204, 29);
+		jLabel2.setBounds(0, 160, 510, 29);
 
 		jLabel3.setText("Login:");
 		jPanel1.add(jLabel3);
-		jLabel3.setBounds(150, 245, 42, 18);
+		jLabel3.setBounds(150, 245, 44, 18);
 
 		jLabel4.setText("Senha:");
 		jPanel1.add(jLabel4);
-		jLabel4.setBounds(150, 275, 47, 18);
+		jLabel4.setBounds(150, 275, 49, 18);
 
 		editLogin.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -143,21 +146,19 @@ public class FormLogin extends javax.swing.JInternalFrame {
 		getContentPane().setLayout(layout);
 		layout.setHorizontalGroup(layout.createParallelGroup(
 				javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-				jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 509,
-				Short.MAX_VALUE));
+				jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 513,
+				javax.swing.GroupLayout.PREFERRED_SIZE));
 		layout.setVerticalGroup(layout.createParallelGroup(
 				javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-				jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 514,
-				Short.MAX_VALUE));
+				jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 503,
+				javax.swing.GroupLayout.PREFERRED_SIZE));
 
 		pack();
 	}// </editor-fold>
-		// GEN-END:initComponents
+	//GEN-END:initComponents
 
-	private void labelConfigMouseClicked(java.awt.event.MouseEvent evt) { // Botão
-																			// Config
-		MySQLConection.setIpServidor(JOptionPane.showInputDialog(null,
-				"IP do Servidor", "Configurações", 1));
+	private void labelConfigMouseClicked(java.awt.event.MouseEvent evt) { // Botão Config
+		OpenLync.frmMain.abrirFrmConfig();
 	}
 
 	private void editSenhaKeyPressed(java.awt.event.KeyEvent evt) {
@@ -178,7 +179,7 @@ public class FormLogin extends javax.swing.JInternalFrame {
 		// TODO add your handling code here:
 	}
 
-	// GEN-BEGIN:variables
+	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
 	private javax.swing.JTextField editLogin;
 	private javax.swing.JPasswordField editSenha;

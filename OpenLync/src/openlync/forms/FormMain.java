@@ -4,6 +4,7 @@ public class FormMain extends javax.swing.JFrame {
 
 	public FormInicial frmInicial;
 	public FormLogin frmLogin;
+	private FormConfiguracao frmConfig;
 
 	private static final long serialVersionUID = 1L;
 
@@ -37,6 +38,17 @@ public class FormMain extends javax.swing.JFrame {
 
 		desktopPane.add(frmLogin);
 		frmLogin.setVisible(true);
+	}
+	
+	/**
+	 * Abre formConfiguracao
+	 */
+	public void abrirFrmConfig() {
+
+		frmConfig = new FormConfiguracao();
+
+		desktopPane.add(frmConfig);
+		frmConfig.setVisible(true);
 	}
 
 	// GEN-BEGIN:initComponents

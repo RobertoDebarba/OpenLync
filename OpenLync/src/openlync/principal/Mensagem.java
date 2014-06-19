@@ -1,30 +1,15 @@
 package openlync.principal;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.net.Socket;
 
+import openlync.sockets.Servidor;
 import openlync.utilidades.Criptografia;
 
 public class Mensagem {
-
-	private String ipDestino = "";
-	private String mensagemTratada = "";
-
-	public String getIpDestino() {
-		return ipDestino;
-	}
-
-	public String getMensagemTratada() {
-		return mensagemTratada;
-	}
-
-	public void setIpDestino(String ipDestino) {
-		this.ipDestino = ipDestino;
-	}
-
-	public void setMensagemTratada(String mensagemTratada) {
-		this.mensagemTratada = mensagemTratada;
-	}
+	
+	public static final int IP_DESTINO = 0;
+	public static final int MENSAGEM = 1;
 
 	/**
 	 * Trata mensagem recebida pelo cliente; Seta ipDestino e mensagemTratada no
@@ -32,8 +17,11 @@ public class Mensagem {
 	 * 
 	 * @param mensagemNaoTratada
 	 */
-	public void tratarMensagem(String mensagemNaoTratada) {
+	public String[] tratarMensagem(String mensagemNaoTratada) {
 
+		String[] retorno = new String[2];
+		retorno[0] = "";
+		retorno[1] = "";
 		boolean pParte = true;
 
 		for (int i = 0; i < mensagemNaoTratada.length(); i++) {
@@ -42,40 +30,37 @@ public class Mensagem {
 			if (c == '|') {
 				pParte = false;
 			} else if (pParte) {
-				ipDestino = ipDestino + c;
+				retorno[0] += c;
 			} else if (!pParte) {
-				mensagemTratada = mensagemTratada + c;
+				retorno[1] += c;
 			}
 		}
+		
+		return retorno;
 	}
 
 	/**
 	 * Criptografa e envia mensagem ao ipDestino
 	 */
-	public void enviarMensagem(String mensagem, int portaSaida) {
+	public void enviarMensagem(String mensagem, String ipDestino, String ipRemetente) {
 
 		Criptografia cript = new Criptografia();
 
-		Socket Sdestino = null;
-		PrintStream PSdestino = null;
-		try {
-			Sdestino = new Socket(ipDestino, portaSaida);
-			PSdestino = new PrintStream(Sdestino.getOutputStream());
-			// Criptografa e envia mensagem
-			PSdestino.println(cript.criptografarMensagem(mensagem));
-		} catch (IOException e) {
-			OpenLync.frmMain.frmInicial
-					.adicionarLog("Não foi possivel estabelecer conexão com destinatario!");
+		for (int i = 0; i < Servidor.listaClientes.size(); i++) {
+			if (Servidor.listaClientes.get(i).getIpCliente().equals(ipDestino)) {
+				Socket cliente = Servidor.listaClientes.get(i).getSocket();
+				
+				try {
+					DataOutputStream out = new DataOutputStream(cliente.getOutputStream());
+					out.writeUTF(cript.criptografarMensagem(ipRemetente+"|"+mensagem));
+				} catch (IOException e) {
+					OpenLync.adicionarLog("Falha ao enviar mensagem para "+ipDestino);
+					e.printStackTrace();
+				}
+				
+				OpenLync.adicionarLog("Mensagem de "+ipRemetente+" para "+ipDestino+
+						": "+mensagem);
+			}		
 		}
-
-		// É necessario fechar os objetos para não dar conflito quando chamar o
-		// metodo na segunda vez
-		try {
-			Sdestino.close();
-			PSdestino.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
 	}
 }

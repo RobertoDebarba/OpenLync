@@ -1,11 +1,15 @@
 package openlync.forms;
 
+import java.awt.Color;
+import java.awt.Font;
+
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
+import openlync.principal.Configuracao;
 import openlync.principal.OpenLync;
 import openlync.principal.UsuarioDAO;
 import openlync.utilidades.MySQLConection;
@@ -16,6 +20,71 @@ public class FormInicial extends javax.swing.JInternalFrame {
 
 	public static FormCargo frmCargos = new FormCargo();
 	public static FormUsuario frmUsuarios = new FormUsuario();
+
+	/**
+	 * Adiciona mensagem a tela de principal de log
+	 * 
+	 * @param mensagem
+	 */
+	public void adicionarLog(String mensagem) {
+
+		if (textPane.getText().equals("")) {
+			textPane.setText(mensagem);
+		} else {
+			textPane.setText(textPane.getText() + "\n" + mensagem);
+		}
+
+		// Manda scroll para o final
+		textPane.setCaretPosition(textPane.getDocument().getLength());
+		textPane.repaint();
+		jScrollPane1.repaint();
+	}
+
+	/**
+	 * Verifica o status do banco de dados
+	 */
+	public void verificarStatusDB() {
+		if (MySQLConection.getStatusMySQL()) {
+			adicionarLog("Status do Banco de Dados: ONLINE!");
+			setLblStatusDB(true);
+			setLblIP(Configuracao.getIpServidorDB());
+			;
+		} else {
+			adicionarLog("Status do Banco de Dados: OFFLINE!");
+			setLblStatusDB(false);
+			setLblIP(Configuracao.getIpServidorDB());
+		}
+	}
+
+	private void setLblIP(String ip) {
+		lblIP.setText(Configuracao.getIpServidorDB());
+	}
+
+	private void setLblPorta(String porta) {
+		lblPorta.setText(Configuracao.getPortaSocket() + "");
+	}
+
+	private void setLblStatusDB(boolean status) {
+		lblStatusDB.setFont(new Font("Arial", Font.BOLD, 15));
+		if (status) {
+			lblStatusDB.setText("ON");
+			lblStatusDB.setForeground(Color.GREEN);
+		} else {
+			lblStatusDB.setText("OFF");
+			lblStatusDB.setForeground(Color.RED);
+		}
+	}
+
+	private void setLblStatusMensg(boolean status) {
+		lblStatusMensg.setFont(new Font("Arial", Font.BOLD, 15));
+		if (status) {
+			lblStatusMensg.setText("ON");
+			lblStatusMensg.setForeground(Color.GREEN);
+		} else {
+			lblStatusMensg.setText("OFF");
+			lblStatusMensg.setForeground(Color.RED);
+		}
+	}
 
 	/** Creates new form FormInicial */
 	public FormInicial() {
@@ -41,79 +110,44 @@ public class FormInicial extends javax.swing.JInternalFrame {
 																	// inferior
 		this.setBorder(null);// retirar bordas
 
-		// Seta centro
-		setLocation(0, 0);
+		this.setBounds(0, 0, 515, 540);
 
-		editIP.setText(MySQLConection.getIpServidor());
+		//editIP.setText(MySQLConection.getIpServidor());
 
 		verificarStatusDB();
 		if (OpenLync.iniciarServidor()) {
 			adicionarLog("Servidor iniciado na porta "
-					+ OpenLync.getPortaEntrada() + "!");
-			checkServ.setSelected(true);
+					+ Configuracao.getPortaSocket() + "!");
+			setLblStatusMensg(true);
+			setLblPorta(Configuracao.getPortaSocket() + "");
 		} else {
 			adicionarLog("Erro ao criar servidor na porta "
-					+ OpenLync.getPortaEntrada());
-		}
-	}
-
-	/**
-	 * Adiciona mensagem a tela de principal de log
-	 * 
-	 * @param mensagem
-	 */
-	public void adicionarLog(String mensagem) {
-
-		if (textPane.getText().equals("")) {
-			textPane.setText(mensagem);
-		} else {
-			textPane.setText(textPane.getText() + "\n" + mensagem);
+					+ Configuracao.getPortaSocket());
+			setLblStatusMensg(false);
+			setLblPorta("NULL");
 		}
 
-		// Manda scroll para o final
-		textPane.setCaretPosition(textPane.getDocument().getLength());
-		textPane.repaint();
-		jScrollPane1.repaint();
-	}
-
-	/**
-	 * Verifica o status do banco de dados
-	 */
-	public void verificarStatusDB() {
-		if (!editIP.getText().equals("")) {
-
-			MySQLConection.setIpServidor(editIP.getText());
-
-			if (MySQLConection.getStatusMySQL()) {
-				checkDB.setSelected(true);
-				adicionarLog("Status do Banco de Dados: ONLINE!");
-			} else {
-				checkDB.setSelected(false);
-				adicionarLog("Status do Banco de Dados: OFFLINE!");
-			}
-
-		} else {
-			JOptionPane.showMessageDialog(null,
-					"O campo 'IP' deve estar preenchido corretamente!",
-					"Aviso", 1);
-		}
 	}
 
 	//GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc="Generated Code">
 	private void initComponents() {
 
+		jPanel2 = new javax.swing.JPanel();
+		jScrollPane1 = new javax.swing.JScrollPane();
+		textPane = new javax.swing.JTextPane();
 		jPanel1 = new javax.swing.JPanel();
 		jLabel1 = new javax.swing.JLabel();
 		jLabel2 = new javax.swing.JLabel();
 		jLabel3 = new javax.swing.JLabel();
-		checkServ = new javax.swing.JCheckBox();
-		checkDB = new javax.swing.JCheckBox();
 		jLabel4 = new javax.swing.JLabel();
-		editIP = new javax.swing.JTextField();
-		jPanel2 = new javax.swing.JPanel();
-		jScrollPane1 = new javax.swing.JScrollPane();
-		textPane = new javax.swing.JTextPane();
+		jLabel5 = new javax.swing.JLabel();
+		jLabel6 = new javax.swing.JLabel();
+		lblIP = new javax.swing.JLabel();
+		lblStatusDB = new javax.swing.JLabel();
+		lblPorta = new javax.swing.JLabel();
+		jLabel7 = new javax.swing.JLabel();
+		lblStatusMensg = new javax.swing.JLabel();
 		jMenuBar1 = new javax.swing.JMenuBar();
 		menuServidor = new javax.swing.JMenu();
 		menuItemONOFF = new javax.swing.JMenuItem();
@@ -125,46 +159,6 @@ public class FormInicial extends javax.swing.JInternalFrame {
 		menuBloaquear = new javax.swing.JMenu();
 		menuSobre = new javax.swing.JMenu();
 		menuSair = new javax.swing.JMenu();
-
-		jPanel1.setLayout(null);
-
-		jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource(
-				"/openlync/imagens/OpenLync_logo_menor.png"))); // NOI18N
-		jPanel1.add(jLabel1);
-		jLabel1.setBounds(10, 10, 80, 70);
-
-		jLabel2.setFont(new java.awt.Font("Ubuntu", 1, 18));
-		jLabel2.setText("OpenLync");
-		jPanel1.add(jLabel2);
-		jLabel2.setBounds(100, 28, 90, 21);
-
-		jLabel3.setText("Server Management");
-		jPanel1.add(jLabel3);
-		jLabel3.setBounds(100, 50, 150, 18);
-
-		checkServ.setEnabled(false);
-		checkServ.setFocusable(false);
-		checkServ.setText("Servidor de Mensagens");
-		jPanel1.add(checkServ);
-		checkServ.setBounds(300, 40, 190, 26);
-
-		checkDB.setEnabled(false);
-		checkDB.setFocusable(false);
-		checkDB.setText("Banco de Dados");
-		jPanel1.add(checkDB);
-		checkDB.setBounds(300, 70, 140, 26);
-
-		jLabel4.setText("IP:");
-		jPanel1.add(jLabel4);
-		jLabel4.setBounds(305, 15, 16, 18);
-
-		editIP.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				editIPActionPerformed(evt);
-			}
-		});
-		jPanel1.add(editIP);
-		editIP.setBounds(330, 10, 160, 25);
 
 		textPane.setEditable(false);
 		jScrollPane1.setViewportView(textPane);
@@ -186,8 +180,56 @@ public class FormInicial extends javax.swing.JInternalFrame {
 				jPanel2Layout
 						.createSequentialGroup()
 						.addComponent(jScrollPane1,
-								javax.swing.GroupLayout.DEFAULT_SIZE, 365,
+								javax.swing.GroupLayout.DEFAULT_SIZE, 371,
 								Short.MAX_VALUE).addContainerGap()));
+
+		jPanel1.setLayout(null);
+
+		jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource(
+				"/openlync/imagens/OpenLync_logo_menor.png"))); // NOI18N
+		jPanel1.add(jLabel1);
+		jLabel1.setBounds(10, 10, 80, 70);
+
+		jLabel2.setFont(new java.awt.Font("Ubuntu", 1, 18));
+		jLabel2.setText("OpenLync");
+		jPanel1.add(jLabel2);
+		jLabel2.setBounds(100, 28, 160, 21);
+
+		jLabel3.setText("Server Management");
+		jPanel1.add(jLabel3);
+		jLabel3.setBounds(100, 50, 160, 18);
+
+		jLabel4.setText("IP do DB:");
+		jPanel1.add(jLabel4);
+		jLabel4.setBounds(270, 10, 120, 18);
+
+		jLabel5.setText("Status do BD:");
+		jPanel1.add(jLabel5);
+		jLabel5.setBounds(270, 50, 120, 18);
+
+		jLabel6.setText("Porta Socket:");
+		jPanel1.add(jLabel6);
+		jLabel6.setBounds(270, 30, 120, 18);
+
+		lblIP.setText("lblIPDB");
+		jPanel1.add(lblIP);
+		lblIP.setBounds(391, 10, 100, 18);
+
+		lblStatusDB.setText("lblStatusDB");
+		jPanel1.add(lblStatusDB);
+		lblStatusDB.setBounds(390, 50, 100, 18);
+
+		lblPorta.setText("lblPorta");
+		jPanel1.add(lblPorta);
+		lblPorta.setBounds(390, 30, 100, 18);
+
+		jLabel7.setText("Status Mens.:");
+		jPanel1.add(jLabel7);
+		jLabel7.setBounds(270, 70, 120, 18);
+
+		lblStatusMensg.setText("lblStatusMensg");
+		jPanel1.add(lblStatusMensg);
+		lblStatusMensg.setBounds(390, 70, 100, 18);
 
 		menuServidor.setText("Servidor");
 		menuServidor.addActionListener(new java.awt.event.ActionListener() {
@@ -285,10 +327,10 @@ public class FormInicial extends javax.swing.JInternalFrame {
 		getContentPane().setLayout(layout);
 		layout.setHorizontalGroup(layout
 				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-				.addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE,
-						502, Short.MAX_VALUE)
 				.addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE,
-						javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
+						javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				.addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE,
+						502, Short.MAX_VALUE));
 		layout.setVerticalGroup(layout
 				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 				.addGroup(
@@ -296,7 +338,7 @@ public class FormInicial extends javax.swing.JInternalFrame {
 						layout.createSequentialGroup()
 								.addComponent(jPanel1,
 										javax.swing.GroupLayout.DEFAULT_SIZE,
-										95, Short.MAX_VALUE)
+										89, Short.MAX_VALUE)
 								.addPreferredGap(
 										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 								.addComponent(jPanel2,
@@ -334,43 +376,32 @@ public class FormInicial extends javax.swing.JInternalFrame {
 	}
 
 	private void menuItemCargosActionPerformed(java.awt.event.ActionEvent evt) {
-		if (!editIP.getText().equals("")) {
-
-			MySQLConection.setIpServidor(editIP.getText());
-
-			// Seta tema
-			try {
-				UIManager.setLookAndFeel(UIManager
-						.getSystemLookAndFeelClassName());
-			} catch (ClassNotFoundException | InstantiationException
-					| IllegalAccessException | UnsupportedLookAndFeelException e) {
-				e.printStackTrace();
-			}
-			SwingUtilities.updateComponentTreeUI(frmCargos);
-
-			frmCargos.setVisible(true);
-		} else {
-			JOptionPane.showMessageDialog(null,
-					"O campo 'IP' deve estar preenchido corretamente!",
-					"Aviso", 1);
+		// Seta tema
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException
+				| IllegalAccessException | UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
 		}
+		SwingUtilities.updateComponentTreeUI(frmCargos);
+
+		frmCargos.setVisible(true);
 	}
 
 	private void menuItemONOFFActionPerformed(java.awt.event.ActionEvent evt) {
-		if (!checkServ.isSelected()) {
-
+		if (lblStatusMensg.getText().equals("OFF")) {
 			if (OpenLync.iniciarServidor()) {
 				adicionarLog("Servidor iniciado na porta "
-						+ OpenLync.getPortaEntrada() + "!");
+						+ Configuracao.getPortaSocket() + "!");
+				setLblStatusMensg(true);
 			} else {
 				adicionarLog("Erro ao criar servidor na porta "
-						+ OpenLync.getPortaEntrada());
+						+ Configuracao.getPortaSocket());
+				setLblStatusMensg(false);
 			}
-
-			checkServ.setSelected(true);
 		} else {
 			OpenLync.pararServidor();
-			checkServ.setSelected(false);
+			setLblStatusMensg(false);
 		}
 	}
 
@@ -382,31 +413,17 @@ public class FormInicial extends javax.swing.JInternalFrame {
 
 	}
 
-	private void editIPActionPerformed(java.awt.event.ActionEvent evt) {
-		// TODO add your handling code here:
-	}
-
 	private void menuItemUsuariosActionPerformed(java.awt.event.ActionEvent evt) {
-		if (!editIP.getText().equals("")) {
-
-			MySQLConection.setIpServidor(editIP.getText());
-
-			// Seta tema
-			try {
-				UIManager.setLookAndFeel(UIManager
-						.getSystemLookAndFeelClassName());
-			} catch (ClassNotFoundException | InstantiationException
-					| IllegalAccessException | UnsupportedLookAndFeelException e) {
-				e.printStackTrace();
-			}
-			SwingUtilities.updateComponentTreeUI(frmUsuarios);
-
-			frmUsuarios.setVisible(true);
-		} else {
-			JOptionPane.showMessageDialog(null,
-					"O campo 'IP' deve estar preenchido corretamente!",
-					"Aviso", 1);
+		// Seta tema
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException
+				| IllegalAccessException | UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
 		}
+		SwingUtilities.updateComponentTreeUI(frmUsuarios);
+
+		frmUsuarios.setVisible(true);
 	}
 
 	private void menuItemUsuariosMouseClicked(java.awt.event.MouseEvent evt) {
@@ -426,17 +443,21 @@ public class FormInicial extends javax.swing.JInternalFrame {
 
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
-	private javax.swing.JCheckBox checkDB;
-	private javax.swing.JCheckBox checkServ;
-	private javax.swing.JTextField editIP;
 	private javax.swing.JLabel jLabel1;
 	private javax.swing.JLabel jLabel2;
 	private javax.swing.JLabel jLabel3;
 	private javax.swing.JLabel jLabel4;
+	private javax.swing.JLabel jLabel5;
+	private javax.swing.JLabel jLabel6;
+	private javax.swing.JLabel jLabel7;
 	private javax.swing.JMenuBar jMenuBar1;
 	private javax.swing.JPanel jPanel1;
 	private javax.swing.JPanel jPanel2;
 	private javax.swing.JScrollPane jScrollPane1;
+	private javax.swing.JLabel lblIP;
+	private javax.swing.JLabel lblPorta;
+	private javax.swing.JLabel lblStatusDB;
+	private javax.swing.JLabel lblStatusMensg;
 	private javax.swing.JMenu menuBloaquear;
 	private javax.swing.JMenu menuGerencia;
 	private javax.swing.JMenuItem menuItemCargos;

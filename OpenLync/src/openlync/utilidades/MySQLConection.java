@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 
 import javax.swing.JOptionPane;
 
+import openlync.principal.Configuracao;
+
 /*
  * http://www.devmedia.com.br/criando-uma-conexao-java-mysql-server/16753	
  * http://alvinalexander.com/java/java-mysql-select-query-example
@@ -15,24 +17,7 @@ import javax.swing.JOptionPane;
 public class MySQLConection {
 
 	private static boolean status = false;
-	private static String ipServidor = "172.16.122.1";
 	private static Connection conexao = null;
-
-	/**
-	 * Retorna o IP do servidor de Banco de Dados
-	 * @return
-	 */
-	public static String getIpServidor() {
-		return ipServidor;
-	}
-
-	/**
-	 * Seta o IP do servidor de Banco de Dados
-	 * @param ipServidor
-	 */
-	public static void setIpServidor(String ipServidor) {
-		MySQLConection.ipServidor = ipServidor;
-	}
 	
 	/**
 	 * Retorna o status da conexão com o MySQL
@@ -122,8 +107,8 @@ public class MySQLConection {
 			String driverName = "com.mysql.jdbc.Driver";
 			Class.forName(driverName);
 
-			String url = "jdbc:mysql://" + ipServidor + "/OpenLync";
-			connection = DriverManager.getConnection(url, "open@%", "123");
+			String url = "jdbc:mysql://" + Configuracao.getIpServidorDB() + "/OpenLync";
+			connection = DriverManager.getConnection(url, Configuracao.getUserDB(), Configuracao.getPassDB());
 
 			// Testar Conexão
 			if (connection != null) {

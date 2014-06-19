@@ -24,7 +24,9 @@ public class UsuarioDAO {
 	 * @param carregarListaUsuarios
 	 */
 	public UsuarioDAO(boolean carregarListaUsuarios) {
-		carregarListaUsuario();
+		if (carregarListaUsuarios) {
+			carregarListaUsuario();
+		}
 	}
 
 	/**
