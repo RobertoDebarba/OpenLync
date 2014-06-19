@@ -1,13 +1,12 @@
 package openlync.principal;
 import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.io.PrintWriter;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
@@ -16,70 +15,72 @@ import openlync.utilidades.Criptografia;
 
 public class Configuracao {
 
-	private static String ipServidor;
+	private static String ipServidorMensagens;
+	private static String ipServidorDB;
+	private static String userDB;
+	private static String passDB;
 	private static String ipLocal;
-	private static int portaEntrada = 7606;
-	private static int portaSaida = 7609;
+	private static int portaSocket;
 	
-	public static String getIpServidor() {
-		return ipServidor;
+	public static int getPortaSocket() {
+		return portaSocket;
 	}
 
-	/**
-	 * Seta variavel e escreve no arquivo CFG o ip do servidor
-	 */
-	public static void setIpServidor(String ipServidor) {
-		
-		String userHome = System.getProperty("user.home");
-		
-		FileWriter arq = null;
-		try {
-			arq = new FileWriter(userHome+"/.OpenLync.cfg");
-			PrintWriter gravarArq = new PrintWriter(arq);
-
-		    gravarArq.printf(ipServidor);
-		    Configuracao.ipServidor = ipServidor;
-		    
-		    arq.close();
-		    
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public static void setPortaSocket(int portaSocket) {
+		Configuracao.portaSocket = portaSocket;
 	}
-
+	
 	public static String getIpLocal() {
 		return ipLocal;
+	}
+
+	public static String getIpServidorMensagens() {
+		return ipServidorMensagens;
+	}
+
+	public static void setIpServidorMensagens(String ipServidorMensagens) {
+		Configuracao.ipServidorMensagens = ipServidorMensagens;
+	}
+
+	public static String getIpServidorDB() {
+		return ipServidorDB;
+	}
+
+	public static void setIpServidorDB(String ipServidorDB) {
+		Configuracao.ipServidorDB = ipServidorDB;
+	}
+
+	public static String getUserDB() {
+		return userDB;
+	}
+
+	public static void setUserDB(String userDB) {
+		Configuracao.userDB = userDB;
+	}
+
+	public static String getPassDB() {
+		return passDB;
+	}
+
+	public static void setPassDB(String passDB) {
+		Configuracao.passDB = passDB;
 	}
 
 	public static void setIpLocal(String ipLocal) {
 		Configuracao.ipLocal = ipLocal;
 	}
 
-	public static int getPortaEntrada() {
-		return portaEntrada;
-	}
-
-	public static void setPortaEntrada(int portaEntrada) {
-		Configuracao.portaEntrada = portaEntrada;
-	}
-
-	public static int getPortaSaida() {
-		return portaSaida;
-	}
-
-	public static void setPortaSaida(int portaSaida) {
-		Configuracao.portaSaida = portaSaida;
-	}
-
 	public Configuracao() {
 		
-		lerCfgGetIP();
+		lerCfg();
 	}
 	
 	/**
-	 * Le arquivo CPG e resgata IP do servidor salvo
+	 * Le arquivo CPG carregando todos atributos da classe
 	 */
-	private static void lerCfgGetIP() {
+	public static void lerCfg() {
+		
+		Criptografia cript = new Criptografia();
 		
 		String userHome = System.getProperty("user.home");
 		
@@ -88,18 +89,52 @@ public class Configuracao {
 			arq = new FileReader(userHome+"/.OpenLync.cfg");
 			BufferedReader lerArq = new BufferedReader(arq);
 			
-			ipServidor = lerArq.readLine(); // Define ip do servidor
-			
+			ipServidorMensagens = cript.descriptografarMensagem(lerArq.readLine());
+			ipServidorDB = cript.descriptografarMensagem(lerArq.readLine());
+			userDB = cript.descriptografarMensagem(lerArq.readLine());
+			passDB = cript.descriptografarMensagem(lerArq.readLine());
+			portaSocket = Integer.parseInt(cript.descriptografarMensagem(lerArq.readLine()));
+				
 			arq.close();
 			
 		} catch (IOException e) {
 			e.printStackTrace();
 			
 			JOptionPane.showMessageDialog(null, "Arquivo de configurações não encontrado! Um novo perfil será criado.", "Aviso", 1);
-			ipServidor = "";
+			ipServidorMensagens = "";
+			ipServidorDB = "";
+			userDB = "";
+			passDB = "";
+			portaSocket = 0;
 			
 			//Cria arquivo
-			setIpServidor("");
+			gravarCfg();
+		}
+	}
+	
+	/**
+	 * Grava arquivo CPG com todos atributos da classe
+	 */
+	public static void gravarCfg() {
+		Criptografia cript = new Criptografia();
+		
+		String userHome = System.getProperty("user.home");
+		
+		FileWriter arq = null;
+		try {
+			arq = new FileWriter(userHome+"/.OpenLync.cfg");
+			PrintWriter gravarArq = new PrintWriter(arq);
+
+		    gravarArq.println(cript.criptografarMensagem(ipServidorMensagens));
+		    gravarArq.println(cript.criptografarMensagem(ipServidorDB));
+		    gravarArq.println(cript.criptografarMensagem(userDB));
+		    gravarArq.println(cript.criptografarMensagem(passDB));
+		    gravarArq.println(cript.criptografarMensagem(portaSocket+""));
+		    
+		    arq.close();
+		    
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -110,55 +145,47 @@ public class Configuracao {
 	 * Importante!!: o metodo verificarConexaoBanco deve ser chamado antes desse
 	 */
 	@SuppressWarnings("resource")
-	public static boolean verificarIPlocal() {
+	public static boolean verificarIPlocal() { //TODO
 		
 		// Conecta ao socket
-		Socket socketSaida = null;
+		Criptografia cript = new Criptografia();
+		DataOutputStream out = null;
+		boolean result = false;
+		
 	    try {
-	    	Criptografia cript = new Criptografia();
 	    	
-	    	ServerSocket SSentrada = new ServerSocket(Configuracao.getPortaEntrada());
+	    	Socket servidor = new Socket(Configuracao.getIpServidorMensagens(), Configuracao.getPortaSocket());
 	    	
-			socketSaida = new Socket(Configuracao.getIpServidor(), Configuracao.getPortaSaida());
-			
-			PrintStream PSsaida = new PrintStream(socketSaida.getOutputStream());
-			//Criptografa e manda solicitação
-			PSsaida.println(cript.criptografarMensagem("SYSTEM|RETURN IP CLIENT")); 
-			
-			// Recebe mensagem de resposta
-			Socket socketEntrada = SSentrada.accept();
-			
-			Scanner s = new Scanner(socketEntrada.getInputStream());
-			String msg = s.nextLine();
-			
-			Mensagem TratadorMensagens = new Mensagem();
-			//Descriptografa e trata mensagem
-			TratadorMensagens.tratarMensagem(cript.descriptografarMensagem(msg));
-			
+	    	out = new DataOutputStream(servidor.getOutputStream());
+	    	
+	    	out.writeUTF(cript.criptografarMensagem("SYSTEM|RETURN IP CLIENT"));
+	    	
+	    	DataInputStream input = new DataInputStream(servidor.getInputStream());
+	    	
+	    	Mensagem tratadorMensagem = new Mensagem();
+	    	String[] retornoMensagem = tratadorMensagem.tratarMensagem(input.readUTF());
+	    	
 			//Se for mensagem de sistema
-			if (TratadorMensagens.getIpRemetente().equals("SYSTEM")) { //Aqui IP representa a mensagem de SISTEMA
+			if (retornoMensagem[Mensagem.IP_REMETENTE].equals("SYSTEM")) {
 				//Seta o ip local
-				Configuracao.setIpLocal(TratadorMensagens.getMensagemTratada());
-			
-				//Encerra a Thread no servidor
-				PSsaida.println(cript.criptografarMensagem("SYSTEM|KILL CLIENT"));
-				
-				SSentrada.close();
-				socketSaida.close();
-				PSsaida.close();
-				s.close();
+				Configuracao.setIpLocal(retornoMensagem[Mensagem.MENSAGEM]);
 
-				return true;
+				result = true;
 			} else {
-				//Encera a Thread no servidor
-				PSsaida.println(cript.criptografarMensagem("SYSTEM|KILL CLIENT"));
-				
-				return false;
+				result = false;
 			}
 			
 		} catch (IOException e1) {
-			return false;
+			
+			result = false;
+		}  finally {
+	    	//Encerra a Thread no servidor
+	    	try {
+				out.writeUTF(cript.criptografarMensagem("SYSTEM|KILL CLIENT"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}  
-	    
+	    return result;
 	}
 }

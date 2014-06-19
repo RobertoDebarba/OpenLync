@@ -23,7 +23,7 @@ import javax.swing.plaf.basic.BasicInternalFrameUI;
 import openlync.principal.Configuracao;
 import openlync.principal.Usuario;
 import openlync.principal.UsuarioDAO;
-import openlync.sockets.EntradaDados;
+import openlync.sockets.Cliente;
 import openlync.utilidades.MySQLConection;
 
 import java.awt.Font;
@@ -71,17 +71,19 @@ public class FormLogin extends JInternalFrame {
 				if (!login.equals("") && !senha.equals("")) {
 					
 					if (MySQLConection.verificarConexaoMySQL()) {
-						//Se o banco conectou já é seguro solicitar o IP local ao servidor
-						
 						//Abre conexão definitiva com o banco de dados
 						MySQLConection.abrirConexaoMySQL();
+						//Verifica IP local - Se não conectar ao serv de Mensagens retorna FALSE
 						if (Configuracao.verificarIPlocal()) {
 							
 							UsuarioDAO dao = new UsuarioDAO(true);
 							try {
 								if (dao.verificarLogin(login, senha)) {
+									//Cria entrada de dados
+									Cliente leitorCliente = new Cliente();
+									new Thread(leitorCliente).start();
+									
 									//Cria e alimenta usuario Principal (usuarioLogin)
-									EntradaDados.iniciarEntrada();
 									usuarioLogin = dao.procurarUsuarioLogin(login);
 									usuarioLogin.setIp(Configuracao.getIpLocal());
 									dao.setIPDB(usuarioLogin);

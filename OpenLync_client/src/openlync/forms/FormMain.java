@@ -2,6 +2,7 @@ package openlync.forms;
 import javax.swing.JFrame;
 import javax.swing.JDesktopPane;
 
+import openlync.principal.Mensagem;
 import openlync.principal.Usuario;
 import openlync.principal.UsuarioDAO;
 import openlync.utilidades.MySQLConection;
@@ -94,6 +95,10 @@ public class FormMain extends JFrame {
 
 					// Fecha conexão com banco
 					MySQLConection.fecharConexaoMySQL();
+					
+					// -------------------------------------------------
+					// Fecha conexão Socket
+					new Mensagem().enviarMensagem("KILL CLIENT", "SYSTEM");
 				}
 			}
 		});

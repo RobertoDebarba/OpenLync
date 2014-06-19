@@ -6,25 +6,25 @@ import java.net.URL;
 
 public class AudioPlayer implements Runnable {
 
-	private URL audioFile;
+	private AudioClip ac;
 
+	@SuppressWarnings("static-access")
 	private void execute() {
 		try {
-			AudioClip ac = Applet.newAudioClip(audioFile);
 			ac.play();
+			Thread.currentThread().sleep(1000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public void setAudioFile(URL audio) {
-		this.audioFile = audio;
-
 	}
 
 	@Override
 	public void run() {
 		execute();
+	}
+	
+	public AudioPlayer(URL audioFile) {
+		this.ac = Applet.newAudioClip(audioFile);
 	}
 
 }

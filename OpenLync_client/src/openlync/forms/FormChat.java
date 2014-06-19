@@ -33,7 +33,6 @@ import openlync.principal.Contato;
 import openlync.principal.Mensagem;
 import openlync.principal.Usuario;
 import openlync.principal.UsuarioDAO;
-import openlync.sockets.SaidaDados;
 import openlync.utilidades.Criptografia;
 import openlync.utilidades.MySQLConection;
 
@@ -48,9 +47,10 @@ public class FormChat extends JFrame {
 	private JTextPane textPane;
 	private JScrollPane scrollPane;
 	private JTextArea textArea;
-	private SaidaDados conexaoSaida;
 	private JPanel panelStatus;
 
+	private Mensagem tratadorMensagem = new Mensagem();
+	
 	private Usuario usuario;
 
 	public Usuario getUsuario() {
@@ -70,11 +70,6 @@ public class FormChat extends JFrame {
 		this.usuario = usuario;
 
 		setTitle(usuario.getNome());
-
-		// Abre Conexão de Saida
-		conexaoSaida = new SaidaDados(usuario.getIp());
-		Thread threadSaida = new Thread(conexaoSaida);
-		threadSaida.start();
 
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(250, 120, 366, 420);
@@ -241,7 +236,6 @@ public class FormChat extends JFrame {
 
 				// Encerra timer e thread de saida de dados
 				t.cancel();
-				conexaoSaida.encerrarThread();
 			}
 
 			@Override
@@ -327,7 +321,7 @@ public class FormChat extends JFrame {
 	 *            : local de origem. "local" = veio do proprio usuario / "out" =
 	 *            veio do contato
 	 */
-	public void adicionarMensagem(String mensagem, String fonte) {
+	public void adicionarMensagem(String mensagem, int fonte) {
 
 		//Trata mensagem adicionando quebra de linhas
 		int z = 0;
@@ -345,14 +339,14 @@ public class FormChat extends JFrame {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 		String linhas = "";
-		if (fonte.equals("out")) {
+		if (fonte == 0) {
 			if (textPane.getText().equals("")) {
 				linhas = usuario.getNome() + "  " + sdf.format(date);
 			} else {
 				linhas = textPane.getText() + "\n" + usuario.getNome() + "  "
 						+ sdf.format(date);
 			}
-		} else if (fonte.equals("local")) {
+		} else if (fonte == 1) {
 			Usuario userLogin = FormLogin.getUsuarioLogin();
 			if (textPane.getText().equals("")) {
 				linhas = userLogin.getNome() + "  " + sdf.format(date);
@@ -426,20 +420,18 @@ public class FormChat extends JFrame {
 
 		// Se campo não estiver vazio
 		if (!textArea.getText().equals("")) {
-			adicionarMensagem(textArea.getText(), "local");
+			adicionarMensagem(textArea.getText(), Mensagem.INTERNA);
 
 			// Se usuario estiver online -> manda mensagem via Socket
 			if (usuario.getStatus()) {
-				conexaoSaida.enviarMensagem(textArea.getText());
+				tratadorMensagem.enviarMensagem(textArea.getText(), usuario.getIp());
 			}
 
 			/*
 			 * --- Adiciona mensagem ao Historico no Banco de Dados
 			 * (tb_mensagens) ---
 			 */
-			Mensagem mensagens = new Mensagem();
-
-			mensagens.adicionarMensagemDB(textArea.getText(), FormLogin
+			tratadorMensagem.adicionarMensagemDB(textArea.getText(), FormLogin
 					.getUsuarioLogin().getCodigo(), usuario.getCodigo(),
 					new Date());
 

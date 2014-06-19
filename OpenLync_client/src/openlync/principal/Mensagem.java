@@ -1,55 +1,52 @@
 package openlync.principal;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
+import openlync.sockets.Cliente;
 import openlync.utilidades.Criptografia;
 import openlync.utilidades.MySQLConection;
 
 public class Mensagem {
-
-	private String ipRemetente = "";
-	private String mensagemTratada = "";
-
-	public String getIpRemetente() {
-		return ipRemetente;
-	}
-
-	public void setIpRemetente(String ipRemetente) {
-		this.ipRemetente = ipRemetente;
-	}
-
-	public void setMensagemTratada(String mensagemTratada) {
-		this.mensagemTratada = mensagemTratada;
-	}
-
-	public String getMensagemTratada() {
-		return mensagemTratada;
-	}
+	
+	public static final int IP_REMETENTE = 0;
+	public static final int MENSAGEM = 1;
+	
+	public static final int EXTERNA = 0;
+	public static final int INTERNA = 1;
 
 	/**
 	 * Trata mensagem recebida pelo servidor separando os campos
 	 * @param mensagemNaoTratada
 	 */
-	public void tratarMensagem(String mensagemNaoTratada) {
+	public String[] tratarMensagem(String mensagemNaoTratada) {
 
+		String mensagem = new Criptografia().descriptografarMensagem(mensagemNaoTratada);
+		String[] retorno = new String[2];
+		retorno[0] = "";
+		retorno[1] = "";
 		boolean pParte = true;
 
-		for (int i = 0; i < mensagemNaoTratada.length(); i++) {
-			char c = mensagemNaoTratada.charAt(i);
+		for (int i = 0; i < mensagem.length(); i++) {
+			char c = mensagem.charAt(i);
 
 			if (c == '|') {
 				pParte = false;
 			} else if (pParte) {
-				ipRemetente += c;
+				retorno[0] += c;
 			} else if (!pParte) {
-				mensagemTratada += c;
+				retorno[1] += c;
 			}
 		}
+		
+		return retorno;
 	}
 
 	/**
@@ -107,5 +104,21 @@ public class Mensagem {
 		}
 
 		return arrayResult;
+	}
+	
+	public void enviarMensagem(String mensagem, String ipDestino) {
+		
+		Socket servidor = Cliente.socketServidor;
+		DataOutputStream out;
+		
+		try {
+			out = new DataOutputStream(servidor.getOutputStream());
+			
+			out.writeUTF(new Criptografia().criptografarMensagem(ipDestino+"|"+mensagem));
+			
+			System.out.println("Enviada mensagem para "+ipDestino+": "+mensagem);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	
 	}
 }

@@ -121,9 +121,9 @@ public class MySQLConection {
 			String driverName = "com.mysql.jdbc.Driver";
 			Class.forName(driverName);
 
-			String url = "jdbc:mysql://" + Configuracao.getIpServidor()
+			String url = "jdbc:mysql://" + Configuracao.getIpServidorDB()
 					+ "/OpenLync";
-			connection = DriverManager.getConnection(url, "open@%", "123");
+			connection = DriverManager.getConnection(url, Configuracao.getUserDB(), Configuracao.getPassDB());
 
 			// Testar Conexão
 			if (connection != null) {
