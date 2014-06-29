@@ -142,7 +142,7 @@ public class FormInicial extends javax.swing.JInternalFrame {
 		jPanel1.add(lblNumUsuariosON);
 		lblNumUsuariosON.setBounds(240, 140, 230, 18);
 
-		btnCargos.setText("Ger\u00eanciamento de Cargos");
+		btnCargos.setText("Gerenciamento de Cargos");
 		btnCargos.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnCargosActionPerformed(evt);
@@ -151,7 +151,7 @@ public class FormInicial extends javax.swing.JInternalFrame {
 		jPanel1.add(btnCargos);
 		btnCargos.setBounds(120, 180, 280, 50);
 
-		btnUsuarios.setText("Ger\u00eanciamento de Usu\u00e1rios");
+		btnUsuarios.setText("Gerenciamento de Usu\u00e1rios");
 		btnUsuarios.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				btnUsuariosActionPerformed(evt);

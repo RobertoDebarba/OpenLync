@@ -176,7 +176,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnCargos">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Ger&#xea;nciamento de Cargos"/>
+            <Property name="text" type="java.lang.String" value="Gerenciamento de Cargos"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCargosActionPerformed"/>
@@ -189,7 +189,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnUsuarios">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Ger&#xea;nciamento de Usu&#xe1;rios"/>
+            <Property name="text" type="java.lang.String" value="Gerenciamento de Usu&#xe1;rios"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUsuariosActionPerformed"/>
