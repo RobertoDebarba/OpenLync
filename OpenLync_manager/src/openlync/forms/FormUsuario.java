@@ -205,6 +205,7 @@ public class FormUsuario extends javax.swing.JFrame {
 			// Se não houver foto -> limpa Icon do label
 		} else {
 			labelFoto.setIcon(null);
+			fotoPerfil = null;
 		}
 	}
 
