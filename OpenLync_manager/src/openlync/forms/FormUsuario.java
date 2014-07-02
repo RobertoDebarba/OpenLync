@@ -605,14 +605,15 @@ public class FormUsuario extends javax.swing.JFrame {
 		if (estado == 1) {
 
 			try {
-				if (dao.verificarDispLogin(EditLogin.getText())) { // Se estiver
-																	// disponivel
-					EditLogin.setForeground(new Color(0, 0, 0));
-				} else {
+				if (!dao.verificarDispLogin(EditLogin.getText())) { // Se estiver
+									
 					JOptionPane.showMessageDialog(null,
 							"Usuário já cadastrado!", "Usuário Inválido", 1);
 					EditLogin.setForeground(new Color(210, 0, 0));
-					EditLogin.requestFocus();
+					EditLogin.requestFocus();// disponivel
+					
+				} else {
+					EditLogin.setForeground(new Color(0, 0, 0));
 				}
 				;
 			} catch (SQLException e) {
@@ -627,17 +628,17 @@ public class FormUsuario extends javax.swing.JFrame {
 					dao.listaUsuarios.get(tableUsuarios.getSelectedRow())
 							.getLogin())) {
 				try {
-					if (dao.verificarDispLogin(EditLogin.getText())) { // Se
+					if (!dao.verificarDispLogin(EditLogin.getText())) { // Se
 																		// estiver
 																		// disponivel
-						EditLogin.setForeground(new Color(0, 0, 0));
-					} else {
 						JOptionPane
-								.showMessageDialog(null,
-										"Usuário já cadastrado!",
-										"Usuário Inválido", 1);
+						.showMessageDialog(null,
+								"Usuário já cadastrado!",
+								"Usuário Inválido", 1);
 						EditLogin.setForeground(new Color(210, 0, 0));
 						EditLogin.requestFocus();
+					} else {
+						EditLogin.setForeground(new Color(0, 0, 0));
 					}
 					;
 				} catch (SQLException e) {
