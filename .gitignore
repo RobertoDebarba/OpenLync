@@ -5,3 +5,7 @@
 *.war
 *.ear
 /OpenLync/build/
+/target/
+OpenLync_server/target/
+
+*.*~

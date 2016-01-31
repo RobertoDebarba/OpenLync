@@ -129,18 +129,18 @@ BEGIN
 	-- Carrega mensagens
 	SELECT conteudo_mensagem, data_mensagem, codigo_remet_mensagem
 	FROM tb_mensagens
-	WHERE (codigo_remet_mensagem = codigo_usuario_remetente
-		AND codigo_dest_mensagem = codigo_usuario_login)
-		OR (codigo_remet_mensagem = codigo_usuario_login
-		AND codigo_dest_mensagem = codigo_usuario_remetente);
+	WHERE codigo_remet_mensagem = codigo_usuario_remetente
+		OR codigo_remet_mensagem = codigo_usuario_login
+		AND codigo_dest_mensagem = codigo_usuario_login
+		OR codigo_dest_mensagem = codigo_usuario_remetente;
 
 	-- Define mensagens como lidas
 	UPDATE tb_mensagens
 	SET lido_mensagem = TRUE
-	WHERE (codigo_remet_mensagem = codigo_usuario_remetente
-		AND codigo_dest_mensagem = codigo_usuario_login)
-		OR (codigo_remet_mensagem = codigo_usuario_login
-		AND codigo_dest_mensagem = codigo_usuario_remetente);
+	WHERE codigo_remet_mensagem = codigo_usuario_remetente
+		OR codigo_remet_mensagem = codigo_usuario_login
+		AND codigo_dest_mensagem = codigo_usuario_login
+		OR codigo_dest_mensagem = codigo_usuario_remetente;
 END $$
 
 
