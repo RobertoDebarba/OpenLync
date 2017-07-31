@@ -5,7 +5,13 @@
 *.war
 *.ear
 /OpenLync/build/
-/target/
+*/target/
 OpenLync_server/target/
 
 *.*~
+
+.idea
+*.iml
+*.eml
+*.classpath
+*.project
